@@ -1,0 +1,128 @@
+{
+    "cluster_k": 4,
+    "setorizacao": 3,
+    "razao_reuso_q": 3.4641,
+    "exigencia_min_db": 12.0,
+    "resultados_simulacao": [
+        {
+            "Cenário": "Nominal (2 interferentes a D)",
+            "Expoente (γ)": 3.0,
+            "S/I Calculado (dB)": 13.18,
+            "S/I Exigido (dB)": 12.0,
+            "Margem (dB)": 1.18,
+            "Conformidade": "APROVADO"
+        },
+        {
+            "Cenário": "Nominal (2 interferentes a D)",
+            "Expoente (γ)": 3.3,
+            "S/I Calculado (dB)": 14.8,
+            "S/I Exigido (dB)": 12.0,
+            "Margem (dB)": 2.8,
+            "Conformidade": "APROVADO"
+        },
+        {
+            "Cenário": "Nominal (2 interferentes a D)",
+            "Expoente (γ)": 3.5,
+            "S/I Calculado (dB)": 15.88,
+            "S/I Exigido (dB)": 12.0,
+            "Margem (dB)": 3.88,
+            "Conformidade": "APROVADO"
+        },
+        {
+            "Cenário": "Nominal (2 interferentes a D)",
+            "Expoente (γ)": 3.8,
+            "S/I Calculado (dB)": 17.49,
+            "S/I Exigido (dB)": 12.0,
+            "Margem (dB)": 5.49,
+            "Conformidade": "APROVADO"
+        },
+        {
+            "Cenário": "Nominal (2 interferentes a D)",
+            "Expoente (γ)": 4.0,
+            "S/I Calculado (dB)": 18.57,
+            "S/I Exigido (dB)": 12.0,
+            "Margem (dB)": 6.57,
+            "Conformidade": "APROVADO"
+        },
+        {
+            "Cenário": "Rappaport Padrão (D e D+0.7R)",
+            "Expoente (γ)": 3.0,
+            "S/I Calculado (dB)": 14.21,
+            "S/I Exigido (dB)": 12.0,
+            "Margem (dB)": 2.21,
+            "Conformidade": "APROVADO"
+        },
+        {
+            "Cenário": "Rappaport Padrão (D e D+0.7R)",
+            "Expoente (γ)": 3.3,
+            "S/I Calculado (dB)": 15.92,
+            "S/I Exigido (dB)": 12.0,
+            "Margem (dB)": 3.92,
+            "Conformidade": "APROVADO"
+        },
+        {
+            "Cenário": "Rappaport Padrão (D e D+0.7R)",
+            "Expoente (γ)": 3.5,
+            "S/I Calculado (dB)": 17.05,
+            "S/I Exigido (dB)": 12.0,
+            "Margem (dB)": 5.05,
+            "Conformidade": "APROVADO"
+        },
+        {
+            "Cenário": "Rappaport Padrão (D e D+0.7R)",
+            "Expoente (γ)": 3.8,
+            "S/I Calculado (dB)": 18.75,
+            "S/I Exigido (dB)": 12.0,
+            "Margem (dB)": 6.75,
+            "Conformidade": "APROVADO"
+        },
+        {
+            "Cenário": "Rappaport Padrão (D e D+0.7R)",
+            "Expoente (γ)": 4.0,
+            "S/I Calculado (dB)": 19.88,
+            "S/I Exigido (dB)": 12.0,
+            "Margem (dB)": 7.88,
+            "Conformidade": "APROVADO"
+        },
+        {
+            "Cenário": "Pior Caso Extremo (D-R e D)",
+            "Expoente (γ)": 3.0,
+            "S/I Calculado (dB)": 10.41,
+            "S/I Exigido (dB)": 12.0,
+            "Margem (dB)": -1.59,
+            "Conformidade": "REPROVADO"
+        },
+        {
+            "Cenário": "Pior Caso Extremo (D-R e D)",
+            "Expoente (γ)": 3.3,
+            "S/I Calculado (dB)": 11.7,
+            "S/I Exigido (dB)": 12.0,
+            "Margem (dB)": -0.3,
+            "Conformidade": "REPROVADO"
+        },
+        {
+            "Cenário": "Pior Caso Extremo (D-R e D)",
+            "Expoente (γ)": 3.5,
+            "S/I Calculado (dB)": 12.56,
+            "S/I Exigido (dB)": 12.0,
+            "Margem (dB)": 0.56,
+            "Conformidade": "APROVADO"
+        },
+        {
+            "Cenário": "Pior Caso Extremo (D-R e D)",
+            "Expoente (γ)": 3.8,
+            "S/I Calculado (dB)": 13.83,
+            "S/I Exigido (dB)": 12.0,
+            "Margem (dB)": 1.83,
+            "Conformidade": "APROVADO"
+        },
+        {
+            "Cenário": "Pior Caso Extremo (D-R e D)",
+            "Expoente (γ)": 4.0,
+            "S/I Calculado (dB)": 14.68,
+            "S/I Exigido (dB)": 12.0,
+            "Margem (dB)": 2.68,
+            "Conformidade": "APROVADO"
+        }
+    ]
+}

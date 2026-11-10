@@ -1,0 +1,110 @@
+[
+    {
+        "id": "ERB_CAICO_01",
+        "nome": "ERB Caicó - Setor Leste",
+        "cidade": "Caicó",
+        "tipo": "ERB",
+        "latitude": -6.4586,
+        "longitude": -37.087158,
+        "altitude_terreno_m": 151.0,
+        "altura_torre_m": 45.0,
+        "setores": 3,
+        "raio_celula_km": 1.808
+    },
+    {
+        "id": "ERB_CAICO_02",
+        "nome": "ERB Caicó - Setor Sudoeste",
+        "cidade": "Caicó",
+        "tipo": "ERB",
+        "latitude": -6.4692,
+        "longitude": -37.1012,
+        "altitude_terreno_m": 151.0,
+        "altura_torre_m": 45.0,
+        "setores": 3,
+        "raio_celula_km": 1.808
+    },
+    {
+        "id": "ERB_CAICO_03",
+        "nome": "ERB Caicó - Setor Noroeste",
+        "cidade": "Caicó",
+        "tipo": "ERB",
+        "latitude": -6.4478,
+        "longitude": -37.0998,
+        "altitude_terreno_m": 151.0,
+        "altura_torre_m": 45.0,
+        "setores": 3,
+        "raio_celula_km": 1.808
+    },
+    {
+        "id": "ERB_CURRAIS_NOVOS_01",
+        "nome": "ERB Currais Novos - Centro (CCC - Núcleo da Rede)",
+        "cidade": "Currais Novos",
+        "tipo": "ERB_CCC",
+        "latitude": -6.2669,
+        "longitude": -36.50407,
+        "altitude_terreno_m": 341.0,
+        "altura_torre_m": 45.0,
+        "setores": 3,
+        "raio_celula_km": 1.808
+    },
+    {
+        "id": "ERB_CURRAIS_NOVOS_02",
+        "nome": "ERB Currais Novos - Sítio 02",
+        "cidade": "Currais Novos",
+        "tipo": "ERB",
+        "latitude": -6.2547,
+        "longitude": -36.52533,
+        "altitude_terreno_m": 341.0,
+        "altura_torre_m": 45.0,
+        "setores": 3,
+        "raio_celula_km": 1.808
+    },
+    {
+        "id": "ERB_SANTA_CRUZ_01",
+        "nome": "ERB Santa Cruz - Centro",
+        "cidade": "Santa Cruz",
+        "tipo": "ERB",
+        "latitude": -6.216699,
+        "longitude": -36.0225,
+        "altitude_terreno_m": 230.0,
+        "altura_torre_m": 45.0,
+        "setores": 3,
+        "raio_celula_km": 1.808
+    },
+    {
+        "id": "ERB_SANTA_CRUZ_02",
+        "nome": "ERB Santa Cruz - Sítio 02",
+        "cidade": "Santa Cruz",
+        "tipo": "ERB",
+        "latitude": -6.2403,
+        "longitude": -36.0217,
+        "altitude_terreno_m": 230.0,
+        "altura_torre_m": 45.0,
+        "setores": 3,
+        "raio_celula_km": 1.808
+    },
+    {
+        "id": "ERB_JARDIM_DO_SERIDO_01",
+        "nome": "ERB Jardim do Seridó - Centro",
+        "cidade": "Jardim do Seridó",
+        "tipo": "ERB",
+        "latitude": -6.5844,
+        "longitude": -36.7725,
+        "altitude_terreno_m": 218.0,
+        "altura_torre_m": 45.0,
+        "setores": 3,
+        "raio_celula_km": 1.808
+    },
+    {
+        "id": "ERB_CARNAUBA_DOS_DANTAS_01",
+        "nome": "ERB Carnaúba dos Dantas - Centro",
+        "cidade": "Carnaúba dos Dantas",
+        "tipo": "ERB",
+        "latitude": -6.5328,
+        "longitude": -36.5956,
+        "altitude_terreno_m": 325.0,
+        "altura_torre_m": 45.0,
+        "setores": 3,
+        "raio_celula_km": 1.808
+    }
+]

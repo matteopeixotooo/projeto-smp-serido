@@ -1,0 +1,57 @@
+[
+    {
+        "cidade": "Caicó",
+        "populacao_total": 61146,
+        "area_urbana_km2": 22.5,
+        "erbs_por_capacidade": 2,
+        "erbs_por_cobertura": 3,
+        "erbs_finais_adotadas": 3,
+        "criterio_dominante": "Cobertura (Área Urbana)",
+        "raio_cobertura_km": 1.808,
+        "area_erb_km2": 8.5
+    },
+    {
+        "cidade": "Currais Novos",
+        "populacao_total": 41311,
+        "area_urbana_km2": 14.8,
+        "erbs_por_capacidade": 2,
+        "erbs_por_cobertura": 2,
+        "erbs_finais_adotadas": 2,
+        "criterio_dominante": "Capacidade (Tráfego)",
+        "raio_cobertura_km": 1.808,
+        "area_erb_km2": 8.5
+    },
+    {
+        "cidade": "Santa Cruz",
+        "populacao_total": 37313,
+        "area_urbana_km2": 12.0,
+        "erbs_por_capacidade": 2,
+        "erbs_por_cobertura": 2,
+        "erbs_finais_adotadas": 2,
+        "criterio_dominante": "Capacidade (Tráfego)",
+        "raio_cobertura_km": 1.808,
+        "area_erb_km2": 8.5
+    },
+    {
+        "cidade": "Jardim do Seridó",
+        "populacao_total": 11655,
+        "area_urbana_km2": 5.2,
+        "erbs_por_capacidade": 1,
+        "erbs_por_cobertura": 1,
+        "erbs_finais_adotadas": 1,
+        "criterio_dominante": "Capacidade (Tráfego)",
+        "raio_cobertura_km": 1.808,
+        "area_erb_km2": 8.5
+    },
+    {
+        "cidade": "Carnaúba dos Dantas",
+        "populacao_total": 7992,
+        "area_urbana_km2": 3.8,
+        "erbs_por_capacidade": 1,
+        "erbs_por_cobertura": 1,
+        "erbs_finais_adotadas": 1,
+        "criterio_dominante": "Capacidade (Tráfego)",
+        "raio_cobertura_km": 1.808,
+        "area_erb_km2": 8.5
+    }
+]

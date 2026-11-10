@@ -1,0 +1,176 @@
+{
+    "type": "FeatureCollection",
+    "features": [
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -37.087158,
+                    -6.4586
+                ]
+            },
+            "properties": {
+                "id": "ERB_CAICO_01",
+                "nome": "ERB Caicó - Setor Leste",
+                "cidade": "Caicó",
+                "tipo": "ERB",
+                "altura_torre_m": 45.0,
+                "altitude_m": 151.0,
+                "raio_cobertura_km": 1.808
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -37.1012,
+                    -6.4692
+                ]
+            },
+            "properties": {
+                "id": "ERB_CAICO_02",
+                "nome": "ERB Caicó - Setor Sudoeste",
+                "cidade": "Caicó",
+                "tipo": "ERB",
+                "altura_torre_m": 45.0,
+                "altitude_m": 151.0,
+                "raio_cobertura_km": 1.808
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -37.0998,
+                    -6.4478
+                ]
+            },
+            "properties": {
+                "id": "ERB_CAICO_03",
+                "nome": "ERB Caicó - Setor Noroeste",
+                "cidade": "Caicó",
+                "tipo": "ERB",
+                "altura_torre_m": 45.0,
+                "altitude_m": 151.0,
+                "raio_cobertura_km": 1.808
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -36.50407,
+                    -6.2669
+                ]
+            },
+            "properties": {
+                "id": "ERB_CURRAIS_NOVOS_01",
+                "nome": "ERB Currais Novos - Centro (CCC - Núcleo da Rede)",
+                "cidade": "Currais Novos",
+                "tipo": "ERB_CCC",
+                "altura_torre_m": 45.0,
+                "altitude_m": 341.0,
+                "raio_cobertura_km": 1.808
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -36.52533,
+                    -6.2547
+                ]
+            },
+            "properties": {
+                "id": "ERB_CURRAIS_NOVOS_02",
+                "nome": "ERB Currais Novos - Sítio 02",
+                "cidade": "Currais Novos",
+                "tipo": "ERB",
+                "altura_torre_m": 45.0,
+                "altitude_m": 341.0,
+                "raio_cobertura_km": 1.808
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -36.0225,
+                    -6.216699
+                ]
+            },
+            "properties": {
+                "id": "ERB_SANTA_CRUZ_01",
+                "nome": "ERB Santa Cruz - Centro",
+                "cidade": "Santa Cruz",
+                "tipo": "ERB",
+                "altura_torre_m": 45.0,
+                "altitude_m": 230.0,
+                "raio_cobertura_km": 1.808
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -36.0217,
+                    -6.2403
+                ]
+            },
+            "properties": {
+                "id": "ERB_SANTA_CRUZ_02",
+                "nome": "ERB Santa Cruz - Sítio 02",
+                "cidade": "Santa Cruz",
+                "tipo": "ERB",
+                "altura_torre_m": 45.0,
+                "altitude_m": 230.0,
+                "raio_cobertura_km": 1.808
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -36.7725,
+                    -6.5844
+                ]
+            },
+            "properties": {
+                "id": "ERB_JARDIM_DO_SERIDO_01",
+                "nome": "ERB Jardim do Seridó - Centro",
+                "cidade": "Jardim do Seridó",
+                "tipo": "ERB",
+                "altura_torre_m": 45.0,
+                "altitude_m": 218.0,
+                "raio_cobertura_km": 1.808
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -36.5956,
+                    -6.5328
+                ]
+            },
+            "properties": {
+                "id": "ERB_CARNAUBA_DOS_DANTAS_01",
+                "nome": "ERB Carnaúba dos Dantas - Centro",
+                "cidade": "Carnaúba dos Dantas",
+                "tipo": "ERB",
+                "altura_torre_m": 45.0,
+                "altitude_m": 325.0,
+                "raio_cobertura_km": 1.808
+            }
+        }
+    ]
+}

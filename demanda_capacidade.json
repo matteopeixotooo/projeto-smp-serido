@@ -1,0 +1,57 @@
+[
+    {
+        "cidade": "Caicó",
+        "populacao_total": 61146,
+        "assinantes_operadora": 20382,
+        "trafego_total_erl": 305.73,
+        "erbs_capacidade": 2,
+        "setores_totais": 6,
+        "trafego_por_setor_erl": 50.95,
+        "portadoras_rf_por_setor": 8,
+        "capacidade_max_setor_erl": 52.48
+    },
+    {
+        "cidade": "Currais Novos",
+        "populacao_total": 41311,
+        "assinantes_operadora": 13770,
+        "trafego_total_erl": 206.55,
+        "erbs_capacidade": 2,
+        "setores_totais": 6,
+        "trafego_por_setor_erl": 34.43,
+        "portadoras_rf_por_setor": 6,
+        "capacidade_max_setor_erl": 52.48
+    },
+    {
+        "cidade": "Santa Cruz",
+        "populacao_total": 37313,
+        "assinantes_operadora": 12438,
+        "trafego_total_erl": 186.56,
+        "erbs_capacidade": 2,
+        "setores_totais": 6,
+        "trafego_por_setor_erl": 31.09,
+        "portadoras_rf_por_setor": 6,
+        "capacidade_max_setor_erl": 52.48
+    },
+    {
+        "cidade": "Jardim do Seridó",
+        "populacao_total": 11655,
+        "assinantes_operadora": 3885,
+        "trafego_total_erl": 58.27,
+        "erbs_capacidade": 1,
+        "setores_totais": 3,
+        "trafego_por_setor_erl": 19.43,
+        "portadoras_rf_por_setor": 4,
+        "capacidade_max_setor_erl": 52.48
+    },
+    {
+        "cidade": "Carnaúba dos Dantas",
+        "populacao_total": 7992,
+        "assinantes_operadora": 2664,
+        "trafego_total_erl": 39.96,
+        "erbs_capacidade": 1,
+        "setores_totais": 3,
+        "trafego_por_setor_erl": 13.32,
+        "portadoras_rf_por_setor": 3,
+        "capacidade_max_setor_erl": 52.48
+    }
+]
