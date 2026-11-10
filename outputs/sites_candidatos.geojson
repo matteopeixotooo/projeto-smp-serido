@@ -171,6 +171,25 @@
                 "altitude_m": 325.0,
                 "raio_cobertura_km": 1.808
             }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -35.2035,
+                    -5.8085
+                ]
+            },
+            "properties": {
+                "id": "CCC_NATAL_01",
+                "nome": "CCC Principal Natal - Tirol (Núcleo NTL)",
+                "cidade": "Natal",
+                "tipo": "CCC_NATAL",
+                "altura_torre_m": 55.0,
+                "altitude_m": 52.0,
+                "raio_cobertura_km": 0.0
+            }
         }
     ]
 }

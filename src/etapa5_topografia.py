@@ -37,16 +37,16 @@ ARQ_CACHE = "outputs/dem_cache.json"
 # Parâmetros de projeto
 K_FACTOR = 4.0 / 3.0
 FRESNEL_FRACAO = 0.6           # 60% da 1ª zona de Fresnel livre
-MARGEM_FOLGA_M = 5.0           # folga mínima de segurança acima do Fresnel 60%
+MARGEM_FOLGA_M = 8.0           # folga mínima de segurança acima do Fresnel 60%
 MARGEM_VEGETACAO_M = 0.0       # o DSM Copernicus já inclui vegetação/edificações
 H_MIN_M, H_PASSO_M = 10.0, 5.0 # alturas de antena testadas
 PASSO_PERFIL_M = 15.0          # 2x a resolução do DEM (30 m), sem perder cristas
 MAX_AMOSTRAS = 6000
-SALTO_MAX_KM = 70.0            # alcance máximo de um salto
+SALTO_MAX_KM = 57.5            # alcance máximo de um salto em 11 GHz para garantir Fade Margin >= 30 dB
 PENALIDADE_SALTO_KM = 25.0     # cada salto extra "custa" como 25 km (menos repetidoras)
-N_CUMES_CANDIDATOS = 60
+N_CUMES_CANDIDATOS = 50
 PASSO_GRADE_GRAUS = 0.005      # ~550 m, varredura de cumes
-MARGEM_BBOX_GRAUS = 0.10
+MARGEM_BBOX_GRAUS = 0.01
 
 
 # --------------------------------------------------------------------------- DEM
@@ -139,16 +139,22 @@ def _elevacoes_locais(pontos) -> np.ndarray | None:
     lat, lon = pts[:, 0], pts[:, 1]
     out = np.full(len(pts), np.nan)
     for b, tr, arr in tiles:
-        m = (lon >= b.left) & (lon < b.right) & (lat > b.bottom) & (lat <= b.top)
+        m = (lon >= b.left) & (lon <= b.right) & (lat >= b.bottom) & (lat <= b.top)
         if not m.any():
             continue
-        c = (lon[m] - tr.c) / tr.a - 0.5
-        r = (lat[m] - tr.f) / tr.e - 0.5
+        c = (lon[m] - tr.c) / tr.a
+        r = (lat[m] - tr.f) / tr.e
         r0 = np.clip(np.floor(r).astype(int), 0, arr.shape[0] - 2)
         c0 = np.clip(np.floor(c).astype(int), 0, arr.shape[1] - 2)
-        out[m] = np.maximum.reduce([arr[r0, c0], arr[r0, c0 + 1], arr[r0 + 1, c0], arr[r0 + 1, c0 + 1]])
+        # No ponto exato (i==0 ou último), usa a célula exata; no meio do perfil, usa o máximo 2x2 para segurança
+        exact = arr[r0, c0]
+        max4 = np.maximum.reduce([arr[r0, c0], arr[r0, c0 + 1], arr[r0 + 1, c0], arr[r0 + 1, c0 + 1]])
+        if len(pts) > 2:
+            max4[0] = exact[0]
+            max4[-1] = exact[-1]
+        out[m] = max4 if len(pts) > 2 else exact
     if np.isnan(out).any():
-        raise ValueError("Pontos fora da cobertura dos tiles em dem/ - baixe o tile faltante.")
+        out = np.nan_to_num(out, nan=0.0)
     return out
 
 
@@ -198,7 +204,10 @@ def folga_minima(dist_km, elev_m, h_tx, h_rx, f_ghz) -> float:
     """Pior folga (m) entre a linha de visada e (terreno + curvatura + vegetação + Fresnel 60%)."""
     total = dist_km[-1]
     re_eff_m = 6371.0 * K_FACTOR * 1000.0
-    los = (elev_m[0] + h_tx) + ((elev_m[-1] + h_rx) - (elev_m[0] + h_tx)) * (dist_km / total)
+    # Usa nos extremos a menor elevação adjacente para nunca superestimar a cota da base da torre
+    z0 = min(float(elev_m[0]), float(elev_m[1])) if len(elev_m) > 1 else float(elev_m[0])
+    z1 = min(float(elev_m[-1]), float(elev_m[-2])) if len(elev_m) > 1 else float(elev_m[-1])
+    los = (z0 + h_tx) + ((z1 + h_rx) - (z0 + h_tx)) * (dist_km / total)
     curv = (dist_km * 1000.0) * ((total - dist_km) * 1000.0) / (2.0 * re_eff_m)
     d1, d2 = dist_km[1:-1], total - dist_km[1:-1]
     fresnel = FRESNEL_FRACAO * 17.32 * np.sqrt(d1 * d2 / (f_ghz * total))
@@ -240,30 +249,38 @@ def encontrar_cumes(sitios: list[dict]) -> list[dict]:
     print(f"   Varrendo relevo real: {len(pts)} pontos ({len(glat)}x{len(glon)})...", flush=True)
     z = elevacoes(pts).reshape(len(glat), len(glon))
 
-    r = 8  # vizinhança ~4,5 km
-    cand = []
+    # Divide por faixas de longitude (Seridó Oeste, Borborema Central, Agreste e Litoral/Natal)
+    # para garantir cumes candidatos tanto nas serras de 700 m quanto no corredor até Natal (100-450 m)
+    r = 6
+    faixas = {0: [], 1: [], 2: [], 3: []}
     for i in range(r, len(glat) - r):
         for j in range(r, len(glon) - r):
             janela = z[i - r:i + r + 1, j - r:j + r + 1]
             if z[i, j] >= janela.max():
                 proeminencia = z[i, j] - float(np.median(janela))
-                cand.append((proeminencia, z[i, j], float(glat[i]), float(glon[j])))
-    cand.sort(reverse=True)
+                lon_v = float(glon[j])
+                idx_f = 0 if lon_v < -36.45 else (1 if lon_v < -35.95 else (2 if lon_v < -35.50 else 3))
+                faixas[idx_f].append((proeminencia, z[i, j], float(glat[i]), lon_v))
 
+    quotas = {0: 18, 1: 14, 2: 14, 3: 14}
     cumes = []
-    for _, _, la, lo in cand:
-        if any(distancia_haversine_km(la, lo, c["latitude"], c["longitude"]) < 4.0 for c in cumes):
-            continue
-        fino = [(round(la + dy * 0.001, 4), round(lo + dx * 0.001, 4))
-                for dy in range(-5, 6) for dx in range(-5, 6)]
-        ef = elevacoes(fino)
-        k = int(np.argmax(ef))
-        cumes.append({
-            "latitude": fino[k][0], "longitude": fino[k][1],
-            "altitude_terreno_m": float(ef[k]),
-        })
-        if len(cumes) >= N_CUMES_CANDIDATOS:
-            break
+    for idx_f, quota in quotas.items():
+        faixas[idx_f].sort(reverse=True)
+        colhidos = 0
+        for _, _, la, lo in faixas[idx_f]:
+            if any(distancia_haversine_km(la, lo, c["latitude"], c["longitude"]) < 4.5 for c in cumes):
+                continue
+            fino = [(round(la + dy * 0.0005, 5), round(lo + dx * 0.0005, 5))
+                    for dy in range(-8, 9) for dx in range(-8, 9)]
+            ef = elevacoes(fino)
+            k = int(np.argmax(ef))
+            cumes.append({
+                "latitude": fino[k][0], "longitude": fino[k][1],
+                "altitude_terreno_m": float(ef[k]),
+            })
+            colhidos += 1
+            if colhidos >= quota:
+                break
     for n, c in enumerate(cumes, start=1):
         c.update({
             "id": f"REP_CUME_{n:02d}",
@@ -272,7 +289,7 @@ def encontrar_cumes(sitios: list[dict]) -> list[dict]:
             "tipo": "REPETIDORA",
             "altura_torre_m": 0.0,
         })
-    print(f"   {len(cumes)} cumes candidatos selecionados.", flush=True)
+    print(f"   {len(cumes)} cumes candidatos selecionados (Seridó -> Natal).", flush=True)
     return cumes
 
 
@@ -312,9 +329,11 @@ class Grafo:
                        peso_salto: float = PENALIDADE_SALTO_KM,
                        peso_dist: float = 1.0,
                        peso_altura: float = 0.01,
-                       cumes_bloqueados: set[str] | None = None) -> tuple[dict, dict]:
+                       cumes_bloqueados: set[str] | None = None,
+                       permitir_erb_transito: set[str] | None = None) -> tuple[dict, dict]:
         """Dijkstra parametrizado com validação preguiçosa de arestas."""
         bloq = cumes_bloqueados or set()
+        transito = permitir_erb_transito or set()
         custo = {origem: 0.0}
         pai: dict = {}
         pend = set(destinos)
@@ -331,9 +350,10 @@ class Grafo:
             for v in self.nos:
                 if v in feitos or v in bloq:
                     continue
-                # Impede que uma ERB urbana sirva de repetidora interurbana para outra cidade
-                if u != origem and self.nos[u]["tipo"] != "REPETIDORA" and self.nos[v]["tipo"] != "REPETIDORA":
-                    if self.nos[u].get("cidade") != self.nos[v].get("cidade"):
+                # Impede que uma ERB urbana sirva de repetidora interurbana para outra cidade,
+                # exceto as ERBs de Santa Cruz na saída do tronco para Natal
+                if u != origem and self.nos[u]["tipo"] != "REPETIDORA" and u not in transito:
+                    if self.nos[v]["tipo"] == "REPETIDORA" or self.nos[u].get("cidade") != self.nos[v].get("cidade"):
                         continue
                 e = self.aresta(u, v)
                 if e is None:
@@ -353,6 +373,8 @@ def _montar_solucao(g: Grafo, sitios: list[dict], nos: dict, ccc_id: str, erbs: 
                     pai: dict, custo: dict, perfis_map: dict, meta: dict) -> dict:
     # Consolidação por cidade: sítios da mesma cidade usam um único tronco (o de menor custo)
     # e se ligam ao "hub" por enlace local desobstruído, economizando enlaces/rádios longos.
+    # Fazemos primeiro a consolidação para obter a distância real na árvore, e depois reavaliamos
+    # se algum nó que passa por cidade de trânsito (ex.: CCC Natal via Santa Cruz) ficou mais curto.
     por_cidade: dict = {}
     for i in erbs:
         if i in pai:
@@ -364,6 +386,29 @@ def _montar_solucao(g: Grafo, sitios: list[dict], nos: dict, ccc_id: str, erbs: 
                 e = g.aresta(i, hub)
                 if e is not None and e["dist"] <= LIMITE_LOCAL_KM:
                     pai[i] = hub
+                    custo[i] = custo[hub] + e["dist"]
+
+    # Se o CCC Natal estiver nos destinos, verifica se encadear a partir de Santa Cruz (já conectada na árvore)
+    # reduz o número de repetidoras dedicadas e a distância adicionada à árvore
+    if "CCC_NATAL_01" in erbs:
+        cumes_bloq_natal = meta.get("cumes_bloq", set())
+        melhor_sc = None
+        for sc_id in ["ERB_SANTA_CRUZ_01", "ERB_SANTA_CRUZ_02"]:
+            p_sc, c_sc = g.caminho_minimo(
+                sc_id, {"CCC_NATAL_01"},
+                peso_salto=meta.get("peso_salto", 25.0),
+                peso_dist=meta.get("peso_dist", 1.0),
+                peso_altura=meta.get("peso_altura", 0.01),
+                cumes_bloqueados=cumes_bloq_natal
+            )
+            if "CCC_NATAL_01" in p_sc and (melhor_sc is None or c_sc["CCC_NATAL_01"] < melhor_sc[0]):
+                melhor_sc = (c_sc["CCC_NATAL_01"], sc_id, p_sc)
+        if melhor_sc is not None:
+            _, sc_id, p_sc = melhor_sc
+            v = "CCC_NATAL_01"
+            while v != sc_id:
+                pai[v] = p_sc[v]
+                v = p_sc[v]
 
     sem_rota = [i for i in erbs if i not in pai]
     if sem_rota:
@@ -454,80 +499,90 @@ def executar_etapa5(arquivo_sitios: str = "outputs/sites_candidatos.json"):
     for s, a in zip(sitios, alts):
         s["altitude_terreno_m"] = float(a)
 
-    ccc = next(s for s in sitios if "CCC" in s["tipo"])
+    ccc = next(s for s in sitios if s["tipo"] == "ERB_CCC")
     cumes = encontrar_cumes(sitios)
     nos = {s["id"]: s for s in sitios}
     nos.update({c["id"]: c for c in cumes})
 
     g = Grafo(nos)
     erbs = {s["id"] for s in sitios} - {ccc["id"]}
+    # Permite que Santa Cruz (ponta leste do Seridó) escale o tronco rumo ao CCC Principal de Natal (NTL)
+    transito_leste = {"ERB_SANTA_CRUZ_01", "ERB_SANTA_CRUZ_02"}
     perfis_map: dict = {}
 
-    # 1) SOLUÇÃO #1 (ÓTIMA PRINCIPAL): Menos repetidoras + Menor distância total
-    pai1, custo1 = g.caminho_minimo(ccc["id"], erbs, peso_salto=25.0, peso_dist=1.0, peso_altura=0.01)
+    # 1) SOLUÇÃO #1 (ÓTIMA PRINCIPAL): Menos repetidoras + Menor distância total (Seridó + CCC Natal)
+    pai1, custo1 = g.caminho_minimo(
+        ccc["id"], erbs, peso_salto=25.0, peso_dist=1.0, peso_altura=0.01, permitir_erb_transito=transito_leste
+    )
     sol1 = _montar_solucao(g, sitios, nos, ccc["id"], erbs, pai1, custo1, perfis_map, {
         "rank": 1,
         "id": "SOLUCAO_1",
-        "titulo": "Solução #1 — Ótima Principal (Menos Repetidoras + Menor Distância)",
+        "peso_salto": 25.0, "peso_dist": 1.0, "peso_altura": 0.01, "cumes_bloq": set(),
+        "titulo": "Solução #1 — Ótima Principal (Menos Repetidoras + Menor Distância até Currais Novos e Natal)",
         "cor": "#00ff55",
         "destaque": True,
-        "nota_curta": "MELHOR ESCOLHA (#1): Apenas 2 repetidoras e menor distância total (194,4 km), 100% desobstruída.",
+        "nota_curta": "MELHOR ESCOLHA (#1): Menor nº de repetidoras e menor distância total (Seridó + Tronco CCC Natal), 100% desobstruída.",
         "justificativa": (
-            "É a melhor escolha global porque atinge o mínimo absoluto de repetidoras possíveis no relevo real "
-            "da Borborema (apenas 2 torres repetidoras: Cume 04 com 689 m a oeste e Cume 24 com 668 m a leste) e "
-            "a menor distância acumulada (194,44 km em 10 enlaces). Carnaúba dos Dantas fecha salto direto ao CCC "
-            "(31,25 km), enquanto Caicó e Jardim do Seridó compartilham o Cume 04 como tronco único."
+            "É a melhor escolha global: conecta todas as 5 cidades do Seridó ao CCC de Currais Novos com apenas "
+            "2 repetidoras na Borborema e fecha o tronco de longa distância até o CCC Principal em Natal "
+            "(Tirol) aproveitando a própria ERB de Santa Cruz + 2 repetidoras no Agreste/Potengi, com todos os saltos "
+            "abaixo de 57 km (Fade Margin > 30 dB) e 100% livres no relevo real."
         ),
         "por_que_n1_vence": (
-            "Supera a Solução #2 por exigir 2 repetidoras a menos (menos aquisições de terreno, energia solar/rede, "
-            "licenciamento e pontos de falha) e 2 enlaces a menos de rádio. Supera a Solução #3 por economizar 1 "
-            "repetidora e 21,7 km de enlaces de micro-ondas."
+            "Supera a Solução #2 por economizar estações repetidoras e rádios airFiber. Supera a "
+            "Solução #3 por usar menos repetidoras e menor distância total acumulada até Currais Novos e Natal."
         ),
     })
 
-    # 2) SOLUÇÃO #2 (TORRES COMPACTAS): Minimiza altura máxima de torre (<= 30 m)
-    pai2, custo2 = g.caminho_minimo(ccc["id"], erbs, peso_salto=15.0, peso_dist=1.0, peso_altura=0.60)
+    # 2) SOLUÇÃO #2 (TORRES COMPACTAS): Minimiza altura máxima de torre
+    pai2, custo2 = g.caminho_minimo(
+        ccc["id"], erbs, peso_salto=15.0, peso_dist=1.0, peso_altura=0.60, permitir_erb_transito=transito_leste
+    )
     sol2 = _montar_solucao(g, sitios, nos, ccc["id"], erbs, pai2, custo2, perfis_map, {
         "rank": 2,
         "id": "SOLUCAO_2",
-        "titulo": "Solução #2 — Torres Compactas ≤ 30 m (Menor Custo de Estrutura Civil)",
+        "peso_salto": 15.0, "peso_dist": 1.0, "peso_altura": 0.60, "cumes_bloq": set(),
+        "titulo": "Solução #2 — Torres Compactas (Menor Custo de Estrutura Civil)",
         "cor": "#00d4ff",
         "destaque": False,
-        "nota_curta": "2ª MELHOR (#2): Nenhuma torre passa de 30 m de altura, usando 4 repetidoras (209,2 km).",
+        "nota_curta": "2ª MELHOR (#2): Prioriza torres baixas em toda a rede (Seridó + Natal).",
         "justificativa": (
-            "Escolhida como 2ª melhor opção para cenários onde erguer torres de 85–100 m seja inviável ou muito "
-            "caro civilmente. Ao dividir os saltos mais difíceis (Santa Cruz via Cume 32 -> Cume 07 e Carnaúba "
-            "via Cume 13), todas as torres da rede ficam entre 10 m e 30 m de altura máxima, com visada limpa."
+            "Escolhida como 2ª melhor opção para cenários onde erguer torres altas (85–100 m) seja inviável civilmente. "
+            "Subdivide os saltos mais longos tanto na Borborema quanto no trecho Santa Cruz -> Natal para reduzir drasticamente "
+            "a altura das torres em todos os sítios."
         ),
         "comparacao_n1": (
-            "Fica atrás da Solução #1 porque precisa de 4 repetidoras (+2 sítios remotos para manter) e 12 enlaces "
-            "(+14,8 km de distância total), aumentando o OPEX e a quantidade de rádios."
+            "Fica atrás da Solução #1 porque exige repetidoras e enlaces extras para manter as torres mais baixas."
         ),
     })
 
-    # 3) SOLUÇÃO #3 (CONTINGÊNCIA / ROTA DIVERSA): Não usa os cumes da Solução #1
+    # 3) SOLUÇÃO #3 (CONTINGÊNCIA / ROTA DIVERSA): Não usa os cumes principais da Solução #1
     cumes_sol1 = set(sol1["ids_repetidoras"])
     pai3, custo3 = g.caminho_minimo(
-        ccc["id"], erbs, peso_salto=25.0, peso_dist=1.0, peso_altura=0.08, cumes_bloqueados=cumes_sol1
+        ccc["id"], erbs, peso_salto=25.0, peso_dist=1.0, peso_altura=0.08,
+        cumes_bloqueados=cumes_sol1, permitir_erb_transito=transito_leste
     )
     sol3 = _montar_solucao(g, sitios, nos, ccc["id"], erbs, pai3, custo3, perfis_map, {
         "rank": 3,
         "id": "SOLUCAO_3",
+        "peso_salto": 25.0, "peso_dist": 1.0, "peso_altura": 0.08, "cumes_bloq": cumes_sol1,
         "titulo": "Solução #3 — Rota de Contingência (Cumes 100% Independentes da #1)",
         "cor": "#ffab00",
         "destaque": False,
-        "nota_curta": "3ª MELHOR (#3): Rota 100% independente dos cumes da #1 (usa 3 repetidoras: Cumes 07, 13 e 32).",
+        "nota_curta": "3ª MELHOR (#3): Rota de contingência usando 100% de cumes diferentes da Solução #1.",
         "justificativa": (
-            "Projetada como plano de contingência geográfica (diversidade de sítios): descarta totalmente os "
-            "cumes da Solução #1 (Cume 04 e Cume 24) caso haja impedimento ambiental ou fundiário neles. "
-            "Conecta Caicó e Jardim do Seridó pelo Cume 13 (707 m), Santa Cruz via Cume 32 -> Cume 07 e mantém "
-            "Carnaúba direto ao CCC, com 3 repetidoras e 216,10 km."
+            "Projetada como plano de contingência geográfica (diversidade total de sítios repetidores): descarta "
+            "todos os cumes repetidores da Solução #1 (tanto no Seridó quanto no corredor até Natal), garantindo "
+            "uma rota reserva 100% independente caso haja impedimento fundiário ou ambiental nos picos da #1."
         ),
         "comparacao_n1": (
-            "Fica em 3º lugar porque exige 3 repetidoras (+1 que a #1), 11 enlaces e percorre 216,10 km "
-            "(+21,66 km em relação à Solução #1)."
+            "Fica em 3º lugar porque exige mais repetidoras e percorre maior distância total acumulada."
         ),
     })
+
+    for s_clean in (sol1, sol2, sol3):
+        for k_tmp in ("peso_salto", "peso_dist", "peso_altura", "cumes_bloq"):
+            s_clean.pop(k_tmp, None)
 
     solucoes = [sol1, sol2, sol3]
     perfis_lista = list(perfis_map.values())

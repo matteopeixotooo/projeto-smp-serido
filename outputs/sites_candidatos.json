@@ -106,5 +106,17 @@
         "altura_torre_m": 45.0,
         "setores": 3,
         "raio_celula_km": 1.808
+    },
+    {
+        "id": "CCC_NATAL_01",
+        "nome": "CCC Principal Natal - Tirol (Núcleo NTL)",
+        "cidade": "Natal",
+        "tipo": "CCC_NATAL",
+        "latitude": -5.8085,
+        "longitude": -35.2035,
+        "altitude_terreno_m": 52.0,
+        "altura_torre_m": 55.0,
+        "setores": 0,
+        "raio_celula_km": 0.0
     }
 ]

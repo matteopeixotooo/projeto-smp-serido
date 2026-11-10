@@ -26,6 +26,20 @@ AJUSTES_TERRENO_FIRME = {
     "ERB_SANTA_CRUZ_02": (-6.240300, -36.021700),
 }
 
+# Núcleo Principal da Rede em Natal (NTL) exigido pelo enunciado do Projeto 07 (Bairro Tirol - área alta consolidada)
+CCC_NATAL_FIXO = {
+    "id": "CCC_NATAL_01",
+    "nome": "CCC Principal Natal - Tirol (Núcleo NTL)",
+    "cidade": "Natal",
+    "tipo": "CCC_NATAL",
+    "latitude": -5.808500,
+    "longitude": -35.203500,
+    "altitude_terreno_m": 52.0,
+    "altura_torre_m": 55.0,
+    "setores": 0,
+    "raio_celula_km": 0.0
+}
+
 
 def sanitizar_id(texto: str) -> str:
     """Remove acentos e espaços para gerar IDs ASCII compatíveis."""
@@ -135,6 +149,9 @@ def gerar_posicionamento_erbs(dados_cobertura: list[dict]) -> tuple[list[dict], 
     for s in lista_sitios:
         if s["id"] in AJUSTES_TERRENO_FIRME:
             s["latitude"], s["longitude"] = AJUSTES_TERRENO_FIRME[s["id"]]
+
+    # Adiciona o Núcleo da Rede (CCC) em Natal (NTL) para interconexão via Backhaul de Micro-ondas
+    lista_sitios.append(dict(CCC_NATAL_FIXO))
 
     return lista_sitios, ccc_info
 
