@@ -1,7 +1,4 @@
 # Roteiro e Resumo para Apresentação — Projeto 07 (SMP Seridó + Backhaul Natal)
-
-> **Linguagem direta (de aluno para aluno / apresentação em sala)** para explicar de forma simples: **quais tecnologias usamos**, **para que serve cada uma**, **onde entrou cada número do enunciado do professor** e **como o nosso programa escolheu os locais das antenas**.
-
 ---
 
 ## 1. Tecnologias e Ferramentas que Usamos (e Para Que Serve Cada Uma)
