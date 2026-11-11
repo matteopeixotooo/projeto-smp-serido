@@ -3,8 +3,6 @@
 
 ## 1. Tecnologias e Ferramentas que Usamos (e Para Que Serve Cada Uma)
 
-Se o professor ou os debatedores (Ian e Gustavo) perguntarem *"O que vocês usaram para fazer esse projeto?"*, a resposta se divide em **Tecnologias de Telecom** e **Tecnologias de Software/Dados**:
-
 ### 📡 A. Tecnologias de Telecomunicações (Rede Celular e Rádio)
 1. **SMP / GSM em 1.800 MHz com TDMA (Acesso Múltiplo por Divisão de Tempo):**
    - **Para que serve:** É a tecnologia que conecta a **ERB (torre celular)** ao **celular do usuário (EM)**.
