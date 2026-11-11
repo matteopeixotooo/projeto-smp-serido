@@ -13,7 +13,7 @@ CENTROIDES_MUNICIPIOS = {
     "Currais Novos": {"lat": -6.2608, "lon": -36.5147, "alt_base_m": 341.0},
     "Santa Cruz": {"lat": -6.2289, "lon": -36.0225, "alt_base_m": 230.0},
     "Jardim do Seridó": {"lat": -6.5844, "lon": -36.7725, "alt_base_m": 218.0},
-    "Carnaúba dos Dantas": {"lat": -6.5328, "lon": -36.5956, "alt_base_m": 325.0}
+    "Carnaúba dos Dantas": {"lat": -6.52181, "lon": -36.59170, "alt_base_m": 495.0}
 }
 
 # Micro-ajuste em relação à posição trigonométrica pura para retirar ERBs de corpos d'água (açudes/rios) e vias pavimentadas
@@ -24,6 +24,8 @@ AJUSTES_TERRENO_FIRME = {
     "ERB_CAICO_03": (-6.447800, -37.099800),
     # Santa Cruz Sítio 02: +125 m para nordeste na encosta do Monte Santa Rita, saindo do leito da via de acesso
     "ERB_SANTA_CRUZ_02": (-6.240300, -36.021700),
+    # Carnaúba dos Dantas: coordenada exata solicitada (06.52181S, 036.59170W)
+    "ERB_CARNAUBA_DOS_DANTAS_01": (-6.52181, -36.59170),
 }
 
 # Núcleo Principal da Rede em Natal (NTL) exigido pelo enunciado do Projeto 07 (Bairro Tirol - área alta consolidada)

@@ -144,11 +144,11 @@ Altitude do Terreno: 217.32269287109375 m</description>
 Tipo: ERB
 Cidade: Carnaúba dos Dantas
 Altura da Torre: 45.0 m
-Altitude do Terreno: 552.2971801757812 m</description>
+Altitude do Terreno: 577.1068725585938 m</description>
         <styleUrl>#estilo_erb</styleUrl>
         <Point>
           <altitudeMode>relativeToGround</altitudeMode>
-          <coordinates>-36.5956,-6.5328,45.0</coordinates>
+          <coordinates>-36.5917,-6.52181,45.0</coordinates>
         </Point>
       </Placemark>
       <Placemark>
@@ -217,19 +217,6 @@ Altitude do Terreno: 118.18994140625 m</description>
         </Point>
       </Placemark>
       <Placemark>
-        <name>Repetidora Cume 15 (707 m)</name>
-        <description>ID: REP_CUME_15
-Tipo: REPETIDORA
-Cidade: Repetidora Interurbana
-Altura da Torre: 25.0 m
-Altitude do Terreno: 706.8353881835938 m</description>
-        <styleUrl>#estilo_rep</styleUrl>
-        <Point>
-          <altitudeMode>relativeToGround</altitudeMode>
-          <coordinates>-36.5702,-6.5119,25.0</coordinates>
-        </Point>
-      </Placemark>
-      <Placemark>
         <name>Repetidora Cume 18 (705 m)</name>
         <description>ID: REP_CUME_18
 Tipo: REPETIDORA
@@ -292,6 +279,19 @@ Altitude do Terreno: 676.7948608398438 m</description>
         <Point>
           <altitudeMode>relativeToGround</altitudeMode>
           <coordinates>-36.9047,-6.3414,15.0</coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Repetidora Cume 15 (707 m)</name>
+        <description>ID: REP_CUME_15
+Tipo: REPETIDORA
+Cidade: Repetidora Interurbana
+Altura da Torre: 25.0 m
+Altitude do Terreno: 706.8353881835938 m</description>
+        <styleUrl>#estilo_rep</styleUrl>
+        <Point>
+          <altitudeMode>relativeToGround</altitudeMode>
+          <coordinates>-36.5702,-6.5119,25.0</coordinates>
         </Point>
       </Placemark>
       <Placemark>
@@ -464,16 +464,16 @@ RSL Estimado: -40.33 dBm</description>
       </Placemark>
       <Placemark>
         <name>PTP: ERB Carnaúba dos Dantas - Centro &lt;-&gt; ERB Currais Novos - Centro (CCC - Núcleo da Rede)</name>
-        <description>Distância: 31.25 km
+        <description>Distância: 29.95 km
 Antena Tx: 0.9m (Standard)
 Antena Rx: 1.2m (Standard)
-Torres (Tx / Rx): 90.0m / 25.0m
-Fade Margin Estimada: 31.83 dB
-RSL Estimado: -41.17 dBm</description>
+Torres (Tx / Rx): 55.0m / 25.0m
+Fade Margin Estimada: 32.19 dB
+RSL Estimado: -40.81 dBm</description>
         <styleUrl>#linha_tronco</styleUrl>
         <LineString>
           <altitudeMode>relativeToGround</altitudeMode>
-          <coordinates>-36.5956,-6.5328,45.0 -36.50407,-6.2669,45.0</coordinates>
+          <coordinates>-36.5917,-6.52181,45.0 -36.50407,-6.2669,45.0</coordinates>
         </LineString>
       </Placemark>
       <Placemark>

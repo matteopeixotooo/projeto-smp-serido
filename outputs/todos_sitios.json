@@ -140,9 +140,9 @@
         "nome": "ERB Carnaúba dos Dantas - Centro",
         "cidade": "Carnaúba dos Dantas",
         "tipo": "ERB",
-        "latitude": -6.5328,
-        "longitude": -36.5956,
-        "altitude_terreno_m": 552.2971801757812,
+        "latitude": -6.52181,
+        "longitude": -36.5917,
+        "altitude_terreno_m": 577.1068725585938,
         "altura_torre_m": 45.0,
         "setores": 3,
         "raio_celula_km": 1.808,
@@ -228,21 +228,6 @@
         ]
     },
     {
-        "latitude": -6.5119,
-        "longitude": -36.5702,
-        "altitude_terreno_m": 706.8353881835938,
-        "id": "REP_CUME_15",
-        "nome": "Repetidora Cume 15 (707 m)",
-        "cidade": "Repetidora Interurbana",
-        "tipo": "REPETIDORA",
-        "altura_torre_m": 25.0,
-        "rank_solucao": 2,
-        "solucoes": [
-            2,
-            3
-        ]
-    },
-    {
         "latitude": -6.1294,
         "longitude": -36.4972,
         "altitude_terreno_m": 705.425048828125,
@@ -309,6 +294,20 @@
         "cidade": "Repetidora Interurbana",
         "tipo": "REPETIDORA",
         "altura_torre_m": 15.0,
+        "rank_solucao": 3,
+        "solucoes": [
+            3
+        ]
+    },
+    {
+        "latitude": -6.5119,
+        "longitude": -36.5702,
+        "altitude_terreno_m": 706.8353881835938,
+        "id": "REP_CUME_15",
+        "nome": "Repetidora Cume 15 (707 m)",
+        "cidade": "Repetidora Interurbana",
+        "tipo": "REPETIDORA",
+        "altura_torre_m": 25.0,
         "rank_solucao": 3,
         "solucoes": [
             3

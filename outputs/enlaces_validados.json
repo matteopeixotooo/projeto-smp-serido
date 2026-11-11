@@ -163,10 +163,10 @@
         "destino": "ERB Currais Novos - Centro (CCC - Núcleo da Rede)",
         "id_destino": "ERB_CURRAIS_NOVOS_01",
         "frequencia_ghz": 11.0,
-        "distancia_km": 31.25,
-        "h_torre_origem_m": 90.0,
+        "distancia_km": 29.95,
+        "h_torre_origem_m": 55.0,
         "h_torre_destino_m": 25.0,
-        "folga_fresnel_m": 9.19,
+        "folga_fresnel_m": 11.15,
         "repetidora": null
     },
     {

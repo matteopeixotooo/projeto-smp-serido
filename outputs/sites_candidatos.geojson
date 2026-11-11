@@ -158,8 +158,8 @@
             "geometry": {
                 "type": "Point",
                 "coordinates": [
-                    -36.5956,
-                    -6.5328
+                    -36.5917,
+                    -6.52181
                 ]
             },
             "properties": {
@@ -168,7 +168,7 @@
                 "cidade": "Carnaúba dos Dantas",
                 "tipo": "ERB",
                 "altura_torre_m": 45.0,
-                "altitude_m": 325.0,
+                "altitude_m": 495.0,
                 "raio_cobertura_km": 1.808
             }
         },
