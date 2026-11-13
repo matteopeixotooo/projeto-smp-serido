@@ -35,7 +35,7 @@
         "fade_margin_chuva_db": 29.81,
         "peso_antenas_kg": 6.4,
         "area_vento_m2": 0.28,
-        "custo_kits_brl": 9116.2,
+        "custo_kits_brl": 9422.54,
         "custo_relativo": 2.0,
         "viavel": true
     },
@@ -75,7 +75,7 @@
         "fade_margin_chuva_db": 28.17,
         "peso_antenas_kg": 6.4,
         "area_vento_m2": 0.28,
-        "custo_kits_brl": 9116.2,
+        "custo_kits_brl": 9422.54,
         "custo_relativo": 2.0,
         "viavel": true
     },
@@ -115,7 +115,7 @@
         "fade_margin_chuva_db": 28.11,
         "peso_antenas_kg": 6.4,
         "area_vento_m2": 0.28,
-        "custo_kits_brl": 9116.2,
+        "custo_kits_brl": 9422.54,
         "custo_relativo": 2.0,
         "viavel": true
     },
@@ -155,7 +155,7 @@
         "fade_margin_chuva_db": 27.48,
         "peso_antenas_kg": 6.4,
         "area_vento_m2": 0.28,
-        "custo_kits_brl": 9116.2,
+        "custo_kits_brl": 9422.54,
         "custo_relativo": 2.0,
         "viavel": true
     },
@@ -195,7 +195,7 @@
         "fade_margin_chuva_db": 19.12,
         "peso_antenas_kg": 36.0,
         "area_vento_m2": 1.5,
-        "custo_kits_brl": 20600.0,
+        "custo_kits_brl": 18985.22,
         "custo_relativo": 6.0,
         "viavel": true
     },
@@ -235,7 +235,7 @@
         "fade_margin_chuva_db": 15.65,
         "peso_antenas_kg": 36.0,
         "area_vento_m2": 1.5,
-        "custo_kits_brl": 20600.0,
+        "custo_kits_brl": 18985.22,
         "custo_relativo": 6.0,
         "viavel": true
     },
@@ -275,7 +275,7 @@
         "fade_margin_chuva_db": 12.91,
         "peso_antenas_kg": 36.0,
         "area_vento_m2": 1.5,
-        "custo_kits_brl": 20600.0,
+        "custo_kits_brl": 18985.22,
         "custo_relativo": 6.0,
         "viavel": true
     },
@@ -315,7 +315,7 @@
         "fade_margin_chuva_db": 11.36,
         "peso_antenas_kg": 36.0,
         "area_vento_m2": 1.5,
-        "custo_kits_brl": 20600.0,
+        "custo_kits_brl": 18985.22,
         "custo_relativo": 6.0,
         "viavel": true
     },
@@ -355,7 +355,7 @@
         "fade_margin_chuva_db": 7.7,
         "peso_antenas_kg": 36.0,
         "area_vento_m2": 1.5,
-        "custo_kits_brl": 20600.0,
+        "custo_kits_brl": 18985.22,
         "custo_relativo": 6.0,
         "viavel": true
     },
@@ -395,7 +395,7 @@
         "fade_margin_chuva_db": 4.25,
         "peso_antenas_kg": 36.0,
         "area_vento_m2": 1.5,
-        "custo_kits_brl": 20600.0,
+        "custo_kits_brl": 18985.22,
         "custo_relativo": 6.0,
         "viavel": true
     },
@@ -435,7 +435,7 @@
         "fade_margin_chuva_db": 4.8,
         "peso_antenas_kg": 76.0,
         "area_vento_m2": 2.6,
-        "custo_kits_brl": 24100.0,
+        "custo_kits_brl": 22485.22,
         "custo_relativo": 9.6,
         "viavel": true
     },
@@ -475,7 +475,7 @@
         "fade_margin_chuva_db": 25.55,
         "peso_antenas_kg": 27.0,
         "area_vento_m2": 1.9,
-        "custo_kits_brl": 12996.2,
+        "custo_kits_brl": 23344.4,
         "custo_relativo": 5.0,
         "viavel": true
     }

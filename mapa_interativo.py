@@ -1635,41 +1635,41 @@ html_code = f"""<!DOCTYPE html>
                   <td><span class="pill-info">Ativos (5 GHz)</span></td>
                   <td><b>Rádio Ubiquiti airFiber 5XHD</b> (5 GHz, até 1 Gbps)</td>
                   <td>${{qtd5XHD}} un</td>
-                  <td>R$ 3.608,10</td>
-                  <td><b>${{formatarBRL(qtd5XHD * 3608.10)}}</b></td>
-                  <td>Cotação Mercado Livre BR / <a class="ref-link" href="https://dl.ubnt.com/datasheets/airFiber/airFiber_5XHD_DS.pdf" target="_blank" rel="noopener">Datasheet Ubiquiti AF-5XHD</a> • <a class="ref-link" href="https://lista.mercadolivre.com.br/ubiquiti-airfiber-5xhd" target="_blank" rel="noopener">Mercado Livre</a></td>
+                  <td>R$ 3.778,20</td>
+                  <td><b>${{formatarBRL(qtd5XHD * 3778.20)}}</b></td>
+                  <td>Preço à vista PIX direto na página: <a class="ref-link" href="https://www.kabum.com.br/produto/1041600/radio-ubiquiti-airfiber-af-5xhd-ip-67-5ghz-1gbps-200km" target="_blank" rel="noopener">KaBuM! AF-5XHD (R$ 3.778,20)</a> • <a class="ref-link" href="https://dl.ubnt.com/datasheets/airFiber/airFiber_5XHD_DS.pdf" target="_blank" rel="noopener">Datasheet Oficial</a></td>
                 </tr>
                 <tr>
                   <td><span class="pill-info">Ativos (5 GHz)</span></td>
                   <td><b>Antena AF-5G23-S45</b> (0,38 m / 23 dBi) — enlaces urbanos</td>
                   <td>${{qtd5G23}} un</td>
-                  <td>R$ 950,00</td>
-                  <td><b>${{formatarBRL(qtd5G23 * 950.00)}}</b></td>
-                  <td>Parâmetro urbano curto / <a class="ref-link" href="https://dl.ubnt.com/datasheets/airFiber/airFiber_Antennas_DS.pdf" target="_blank" rel="noopener">Datasheet Antenas airFiber</a> • <a class="ref-link" href="https://lista.mercadolivre.com.br/ubiquiti-af-5g23-s45" target="_blank" rel="noopener">Mercado Livre</a></td>
+                  <td>R$ 933,07</td>
+                  <td><b>${{formatarBRL(qtd5G23 * 933.07)}}</b></td>
+                  <td>Preço PIX direto no catálogo BR: <a class="ref-link" href="https://www.tudoemubiquiti.com.br/t/categoria-tudo-em-ubiquiti/airfiber/antenas" target="_blank" rel="noopener">Tudo em Ubiquiti (R$ 933,07)</a> • <a class="ref-link" href="https://dl.ubnt.com/datasheets/airFiber/airFiber_Antennas_DS.pdf" target="_blank" rel="noopener">Datasheet Antenas</a></td>
                 </tr>
                 <tr>
                   <td><span class="pill-info">Ativos (5 GHz)</span></td>
                   <td><b>Antena AF-5G30-S45</b> (0,65 m / 30 dBi)</td>
                   <td>${{qtd5G30}} un</td>
-                  <td>R$ 1.499,00</td>
-                  <td><b>${{formatarBRL(qtd5G30 * 1499.00)}}</b></td>
-                  <td>Cotação referência BR / <a class="ref-link" href="https://dl.ubnt.com/datasheets/airFiber/airFiber_Antennas_DS.pdf" target="_blank" rel="noopener">Datasheet Ubiquiti</a> • <a class="ref-link" href="https://lista.mercadolivre.com.br/antena-ubiquiti-af-5g30" target="_blank" rel="noopener">Mercado Livre</a></td>
+                  <td>R$ 1.303,55</td>
+                  <td><b>${{formatarBRL(qtd5G30 * 1303.55)}}</b></td>
+                  <td>Preço PIX direto no catálogo BR: <a class="ref-link" href="https://www.tudoemubiquiti.com.br/t/categoria-tudo-em-ubiquiti/airfiber/antenas" target="_blank" rel="noopener">Tudo em Ubiquiti (R$ 1.303,55)</a> • <a class="ref-link" href="https://dl.ubnt.com/datasheets/airFiber/airFiber_Antennas_DS.pdf" target="_blank" rel="noopener">Datasheet Antenas</a></td>
                 </tr>
                 <tr>
                   <td><span class="pill-info">Ativos (5 GHz)</span></td>
                   <td><b>Antena AF-5G34-S45</b> (1,05 m / 34 dBi) — salto 76,7 km Natal</td>
                   <td>${{qtd5G34}} un</td>
-                  <td>R$ 2.890,00</td>
-                  <td><b>${{formatarBRL(qtd5G34 * 2890.00)}}</b></td>
-                  <td>Alto ganho PTP longo / <a class="ref-link" href="https://dl.ubnt.com/datasheets/airFiber/airFiber_Antennas_DS.pdf" target="_blank" rel="noopener">Datasheet Ubiquiti</a> • <a class="ref-link" href="https://lista.mercadolivre.com.br/antena-ubiquiti-af-5g34" target="_blank" rel="noopener">Mercado Livre</a></td>
+                  <td>R$ 7.894,00</td>
+                  <td><b>${{formatarBRL(qtd5G34 * 7894.00)}}</b></td>
+                  <td>Preço à vista PIX direto na loja: <a class="ref-link" href="https://netcomputadores.com.br/p/af5g34s45-ubiquiti-antena-airfiberx-5ghz/24725" target="_blank" rel="noopener">NetComputadores AF-5G34-S45 (R$ 7.894,00)</a></td>
                 </tr>
                 <tr>
                   <td><span class="pill-info">Ativos (11 GHz)</span></td>
-                  <td><b>Rádio Ubiquiti airFiber 11FX</b> (11 GHz licenciado Anatel)</td>
+                  <td><b>Rádio Ubiquiti airFiber 11FX + Duplexador</b> (11 GHz licenciado)</td>
                   <td>${{qtd11FX}} un</td>
-                  <td>R$ 6.850,00</td>
-                  <td><b>${{formatarBRL(qtd11FX * 6850.00)}}</b></td>
-                  <td>Banda licenciada anti-interferência / <a class="ref-link" href="https://dl.ubnt.com/datasheets/airFiber/airFiber_11FX_DS.pdf" target="_blank" rel="noopener">Datasheet AF-11FX</a> • <a class="ref-link" href="https://store.ui.com/us/en/products/af-11fx" target="_blank" rel="noopener">Ubiquiti Store</a></td>
+                  <td>R$ 6.042,61</td>
+                  <td><b>${{formatarBRL(qtd11FX * 6042.61)}}</b></td>
+                  <td>Soma exata PIX: <a class="ref-link" href="https://netcomputadores.com.br/p/af11fx-ubiquiti-airfiber-sem-duplexador/71689" target="_blank" rel="noopener">AF-11FX (R$ 4.646,00)</a> + <a class="ref-link" href="https://netcomputadores.com.br/p/af11fxdupl-ubiquiti-airfiber-duplexador-banda/71694" target="_blank" rel="noopener">Duplexador (R$ 1.396,61)</a> • <a class="ref-link" href="https://store.ui.com/us/en/products/af-11" target="_blank" rel="noopener">Ubiquiti Store ($999)</a></td>
                 </tr>
                 <tr>
                   <td><span class="pill-info">Ativos (11 GHz)</span></td>
@@ -1677,7 +1677,7 @@ html_code = f"""<!DOCTYPE html>
                   <td>${{qtd11G35}} un</td>
                   <td>R$ 3.450,00</td>
                   <td><b>${{formatarBRL(qtd11G35 * 3450.00)}}</b></td>
-                  <td>Prato 11 GHz padrão / <a class="ref-link" href="https://dl.ubnt.com/datasheets/airFiber/airFiber_11FX_DS.pdf" target="_blank" rel="noopener">Datasheet AF-11G35</a> • <a class="ref-link" href="https://ispdesign.ui.com/" target="_blank" rel="noopener">UISP Design Center</a></td>
+                  <td>Ref. direta distribuidor ($379,00 FOB EUA ≈ R$ 3.450 nacionalizada c/ frete e impostos): <a class="ref-link" href="https://www.microcom.us/af11g35.html" target="_blank" rel="noopener">Microcom AF-11G35 ($379.00)</a> • <a class="ref-link" href="https://dl.ubnt.com/datasheets/airFiber/airFiber_11FX_DS.pdf" target="_blank" rel="noopener">Datasheet 11FX</a></td>
                 </tr>
                 <tr>
                   <td><span class="pill-info">Ativos (11 GHz)</span></td>
@@ -1685,41 +1685,41 @@ html_code = f"""<!DOCTYPE html>
                   <td>${{qtd11Dish}} un</td>
                   <td>R$ 5.200,00</td>
                   <td><b>${{formatarBRL(qtd11Dish * 5200.00)}}</b></td>
-                  <td>Parâmetro UISP p/ 53,5 km @ 11 GHz / <a class="ref-link" href="https://ispdesign.ui.com/" target="_blank" rel="noopener">UISP Design Center</a> • <a class="ref-link" href="https://www.itu.int/rec/R-REC-P.838/en" target="_blank" rel="noopener">ITU-R P.838-3</a></td>
+                  <td>Prato maior 1,2 m (~1,5× preço do AF-11G35 p/ ganho 38,5 dBi no <a class="ref-link" href="https://ispdesign.ui.com/" target="_blank" rel="noopener">UISP Design Center</a>; base: <a class="ref-link" href="https://www.microcom.us/af11g35.html" target="_blank" rel="noopener">Microcom $379.00</a>)</td>
                 </tr>
                 <tr style="background:rgba(56,189,248,0.08);">
                   <td colspan="4" style="text-align:right;"><b>SUBTOTAL 1 — EQUIPAMENTOS ATIVOS (RÁDIOS + ANTENAS):</b></td>
                   <td><b style="color:#38bdf8;">${{formatarBRL(ativos1)}}</b></td>
-                  <td>Comparável direto aos orçamentos que listam só rádios/antenas</td>
+                  <td>Comparável direto aos orçamentos que listam só rádios e antenas</td>
                 </tr>
                 <tr>
                   <td><span class="pill-ok">Estruturas</span></td>
-                  <td><b>Torres Metálicas (10 m a 30 m) + Fundação + SPDA</b></td>
+                  <td><b>Torres Estaiadas (10 m a 30 m) com base e estais</b></td>
                   <td>${{somaMetrosTorres1}} m (13 torres)</td>
-                  <td>R$ 2.100,00 / m</td>
+                  <td>R$ 902,50 / m</td>
                   <td><b>${{formatarBRL(sol1.orcamento?.custo_torres_brl)}}</b></td>
-                  <td>Estimativa de engenharia (aço galvanizado + bloco concreto + aterramento) • <a class="ref-link" href="https://www.caixa.gov.br/poder-publico/modernizacao-gestao/sinapi/Paginas/default.aspx" target="_blank" rel="noopener">Referência SINAPI/Caixa</a></td>
+                  <td>Preço por metro direto no anúncio: <a class="ref-link" href="https://www.mfrural.com.br/busca/torre-modulos" target="_blank" rel="noopener">MF Rural (R$ 902,50/m)</a> • Ref. módulo avulso 2m sem estais: <a class="ref-link" href="https://www.supertower.com.br/produto/modulo-torre-estaiada-2m-r-450-00-cada" target="_blank" rel="noopener">Super Tower (R$ 450/2m)</a></td>
                 </tr>
                 <tr>
-                  <td><span class="pill-ok">Obra Civil</span></td>
-                  <td><b>Infraestrutura Completa de Repetidora de Serra</b></td>
+                  <td><span class="pill-ok">Energia + Rack</span></td>
+                  <td><b>Infraestrutura Autônoma Repetidora (Solar + Rack Outdoor + 2 Baterias)</b></td>
                   <td>${{qtdReps1}} sítios</td>
-                  <td>R$ 38.000,00 / sítio</td>
-                  <td><b>${{formatarBRL(qtdReps1 * 38000.00)}}</b></td>
-                  <td>Gabinete outdoor IP65, banco de baterias + energia solar, cercado e acesso em topo de morro • <a class="ref-link" href="https://www.gov.br/anatel/pt-br/regulado/infraestrutura" target="_blank" rel="noopener">Anatel Infraestrutura</a></td>
+                  <td>R$ 11.228,83 / sítio</td>
+                  <td><b>${{formatarBRL(qtdReps1 * 11228.83)}}</b></td>
+                  <td>Soma exata dos 3 links: <a class="ref-link" href="https://www.minhacasasolar.com.br/kit-solar-hibrido-165kwh-mes-inversor-off-grid-3-6kw-48v-220v-wifi-deye-sun-3-6k-84368" target="_blank" rel="noopener">Kit Solar Off-Grid (R$ 8.177,80)</a> + <a class="ref-link" href="https://www.kabum.com.br/produto/630756/rack-intelbras-outdoor-5u-470mm-4770040" target="_blank" rel="noopener">Rack Intelbras 5U (R$ 1.323,09)</a> + <a class="ref-link" href="https://www.minhacasasolar.com.br/bateria-estacionaria-105ah-freedom-df2000-84553" target="_blank" rel="noopener">2× Bateria 105Ah (R$ 863,97/un)</a></td>
                 </tr>
                 <tr>
-                  <td><span class="pill-ok">Obra Civil</span></td>
-                  <td><b>Adequação de Backhaul em ERBs Urbanas e CCCs</b></td>
+                  <td><span class="pill-ok">Energia + Rack</span></td>
+                  <td><b>Adequação Backhaul em ERBs Urbanas e CCCs (Rack + 1 Bateria)</b></td>
                   <td>${{qtdSitiosExist1}} sítios</td>
-                  <td>R$ 8.500,00 / sítio</td>
-                  <td><b>${{formatarBRL(qtdSitiosExist1 * 8500.00)}}</b></td>
-                  <td>Rack indoor, nobreak, cabeamento Blindado Cat6/Fibra e suportes em sítio SMP já existente • <a class="ref-link" href="https://www.gov.br/anatel/pt-br/regulado/infraestrutura" target="_blank" rel="noopener">Anatel Infraestrutura</a></td>
+                  <td>R$ 2.187,06 / sítio</td>
+                  <td><b>${{formatarBRL(qtdSitiosExist1 * 2187.06)}}</b></td>
+                  <td>Soma exata em sítio já existente: <a class="ref-link" href="https://www.kabum.com.br/produto/630756/rack-intelbras-outdoor-5u-470mm-4770040" target="_blank" rel="noopener">Rack Intelbras 5U (R$ 1.323,09)</a> + <a class="ref-link" href="https://www.minhacasasolar.com.br/bateria-estacionaria-105ah-freedom-df2000-84553" target="_blank" rel="noopener">1× Bateria 105Ah (R$ 863,97)</a></td>
                 </tr>
                 <tr style="background:rgba(0,255,85,0.09);">
-                  <td colspan="4" style="text-align:right;"><b>SUBTOTAL 2 — TORRES + INFRAESTRUTURA CIVIL:</b></td>
+                  <td colspan="4" style="text-align:right;"><b>SUBTOTAL 2 — TORRES + ENERGIA/RACK:</b></td>
                   <td><b style="color:#00ff55;">${{formatarBRL(civilTotal1)}}</b></td>
-                  <td>Infraestrutura física passiva para implantação real completa</td>
+                  <td>Infraestrutura física cotada diretamente com links reais</td>
                 </tr>
               </tbody>
             </table>

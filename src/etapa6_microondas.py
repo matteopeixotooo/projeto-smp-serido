@@ -17,8 +17,8 @@ CATALOGO_UBIQUITI = {
             "sensibilidade_dbm": -73.0,  # 64QAM / 256QAM operacional
             "peso_kg": 18.0,
             "area_vento_m2": 0.75,
-            "preco_radio_brl": 6850.00,
-            "preco_antena_brl": 3450.00,
+            "preco_radio_brl": 6042.61,   # R$ 4.646,00 (NetComputadores AF-11FX) + R$ 1.396,61 (Duplexador)
+            "preco_antena_brl": 3450.00,  # Ref. Microcom US$ 379,00 nacionalizada (II/IPI/ICMS + frete)
             "custo_relativo": 3.0,
         },
         {
@@ -30,12 +30,12 @@ CATALOGO_UBIQUITI = {
             "sensibilidade_dbm": -73.0,
             "peso_kg": 38.0,
             "area_vento_m2": 1.30,
-            "preco_radio_brl": 6850.00,
-            "preco_antena_brl": 5200.00,
+            "preco_radio_brl": 6042.61,   # R$ 4.646,00 (NetComputadores AF-11FX) + R$ 1.396,61 (Duplexador)
+            "preco_antena_brl": 5200.00,  # ~1.5x AF-11G35 (prato alta performance 1.2m)
             "custo_relativo": 4.8,
         },
     ],
-    5.0: [  # airFiber 5XHD (5 GHz - Cotações Mercado Livre / Brasil)
+    5.0: [  # airFiber 5XHD (5 GHz - Cotações verificadas em lojas BR)
         {
             "modelo_radio": "airFiber 5XHD",
             "modelo_antena": "AF-5G23-S45 (0.38m / 23 dBi)",
@@ -45,8 +45,8 @@ CATALOGO_UBIQUITI = {
             "sensibilidade_dbm": -74.0,
             "peso_kg": 3.2,
             "area_vento_m2": 0.14,
-            "preco_radio_brl": 3608.10,
-            "preco_antena_brl": 950.00,
+            "preco_radio_brl": 3778.20,   # KaBuM! PIX (AF-5XHD)
+            "preco_antena_brl": 933.07,   # Tudo em Ubiquiti PIX (AF-5G23-S45)
             "custo_relativo": 1.0,
         },
         {
@@ -58,8 +58,8 @@ CATALOGO_UBIQUITI = {
             "sensibilidade_dbm": -74.0,
             "peso_kg": 7.4,
             "area_vento_m2": 0.38,
-            "preco_radio_brl": 3608.10,
-            "preco_antena_brl": 1499.00,
+            "preco_radio_brl": 3778.20,   # KaBuM! PIX (AF-5XHD)
+            "preco_antena_brl": 1303.55,  # Tudo em Ubiquiti PIX (AF-5G30-S45)
             "custo_relativo": 1.6,
         },
         {
@@ -71,8 +71,8 @@ CATALOGO_UBIQUITI = {
             "sensibilidade_dbm": -76.0,  # 64QAM (>250 Mbps em 40 MHz)
             "peso_kg": 13.5,
             "area_vento_m2": 0.95,
-            "preco_radio_brl": 3608.10,
-            "preco_antena_brl": 2890.00,
+            "preco_radio_brl": 3778.20,   # KaBuM! PIX (AF-5XHD)
+            "preco_antena_brl": 7894.00,  # NetComputadores PIX (AF-5G34-S45)
             "custo_relativo": 2.5,
         },
     ],
@@ -80,10 +80,10 @@ CATALOGO_UBIQUITI = {
 
 MARGEM_FADING_MIN_DB = 24.0
 
-# Custos referenciais de Infraestrutura Civil e Implantação (Torre <= 50 m)
-CUSTO_TORRE_POR_METRO_BRL = 2100.00     # Torre autoportante/estaiada leve + fundação + SPDA
-CUSTO_BASE_REPETIDORA_BRL = 38000.00    # Gabinete outdoor, banco de baterias/solar, cercado e acesso
-CUSTO_BASE_ERB_BACKHAUL_BRL = 8500.00   # Adequação elétrica/rack no sítio SMP já existente
+# Custos referenciais com cotações diretas verificadas (Torres + Solar + Rack + Baterias)
+CUSTO_TORRE_POR_METRO_BRL = 902.50      # MF Rural (torre estaiada/módulos R$ 902,50/m; ref. módulo 2m Supertower R$ 450)
+CUSTO_BASE_REPETIDORA_BRL = 11228.83    # Kit Solar Off-Grid Deye (R$ 8.177,80) + Rack Outdoor Intelbras 5U (R$ 1.323,09) + 2x Bateria Freedom 105Ah (2x R$ 863,97)
+CUSTO_BASE_ERB_BACKHAUL_BRL = 2187.06   # Rack Outdoor Intelbras 5U (R$ 1.323,09) + 1x Bateria 105Ah (R$ 863,97) em sítio SMP já existente
 
 
 def fspl_db(dist_km: float, freq_ghz: float) -> float:
