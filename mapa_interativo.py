@@ -293,8 +293,8 @@ html_code = f"""<!DOCTYPE html>
       <button class="tool-btn" id="btn-cob" title="Mostrar/Ocultar Cobertura Celular 1.800 MHz (R=1,81 km / 3 Setores)" onclick="alternarCoberturaSMP()">📡</button>
       <button class="tool-btn" id="btn-calc-shortcut" title="Abrir Aba de Cálculos & Orçamento" onclick="alternarAba('calc')">🧮</button>
       <div class="tool-sep"></div>
-      <button class="tool-btn" id="btn-site" title="Adicionar Antena / Sítio Livre" onclick="setModo('add_site')">📍</button>
-      <button class="tool-btn" id="btn-rep" title="Adicionar Repetidora Livre" onclick="setModo('add_rep')">⚡</button>
+      <button class="tool-btn" id="btn-site" title="Adicionar Torre Celular ERB (com área R=1,81 km)" onclick="setModo('add_site')">📍</button>
+      <button class="tool-btn" id="btn-rep" title="Adicionar Repetidora PTP (sem área celular)" onclick="setModo('add_rep')">⚡</button>
       <button class="tool-btn" id="btn-ptp" title="Criar Enlace PtP (Clique Ponto 1 e depois Ponto 2)" onclick="setModo('add_ptp')">🔗</button>
       <div class="tool-sep"></div>
       <button class="tool-btn" id="btn-del" title="Excluir Elemento Selecionado" onclick="excluirSelecionado()">🗑️</button>
@@ -335,6 +335,13 @@ html_code = f"""<!DOCTYPE html>
           <div class="card-title">
             <span id="st1-nome">Estação 1</span>
             <span class="tower-lock-pill" id="st1-grau-pill">Torre fixa • 1 enlace</span>
+          </div>
+          <div class="field-row" id="st1-tipo-row" style="display:none;">
+            <span>Papel do Sítio:</span>
+            <select id="st1-tipo-select" onchange="alternarTipoEstacaoDrawer('st1', this.value)" title="Torre ERB inclui área de cobertura celular SMP (R=1,81 km); Repetidora é só backhaul PTP">
+              <option value="ERB">📡 Torre ERB (Área 1,81 km)</option>
+              <option value="REPETIDORA">⚡ Repetidora PTP</option>
+            </select>
           </div>
           <div class="field-row">
             <span>Coordenadas:</span>
@@ -405,9 +412,19 @@ html_code = f"""<!DOCTYPE html>
           </div>
 
           <div class="phys-strip">
-            <span>🌍 Abaulamento (k=4/3): <b id="txt-abaulamento">+0.0 m</b> no centro</span>
-            <span>🔵 Elipse 1ª Fresnel: <b id="txt-fresnel-r1">0.0 m</b> (60%: <b id="txt-fresnel-06">0.0 m</b>)</span>
+            <span>🌍 Abaulamento (k=4/3): <b id="txt-abaulamento">+0.0 m</b></span>
+            <span>🔵 Fresnel: <b id="txt-fresnel-r1">0.0 m</b> (60%: <b id="txt-fresnel-06">0.0 m</b>)</span>
             <span>🌧️ Chuva 50 mm/h: <b id="txt-chuva-loss">-0.0 dB</b></span>
+            <span id="wrap-difracao-loss" style="display:none; color:#ff6b6b;">⛰️ Obstrução: <b id="txt-difracao-loss">-0.0 dB</b></span>
+            <span>
+              <select id="sel-clutter-mode" onchange="atualizarModoVegetacao(this.value)" style="background:#242738; color:#4ade80; border:1px solid #2e5b43; border-radius:4px; padding:1px 4px; font-size:0.71rem; font-weight:700;" title="Altura estimada da vegetação / clutter (efeito verde igual ao LINKPlanner)">
+                <option value="auto" selected>🌿 Veg: Auto (Satélite)</option>
+                <option value="5">🌿 Veg: 5 m (Caatinga)</option>
+                <option value="10">🌿 Veg: 10 m (Mata/Urbano)</option>
+                <option value="15">🌿 Veg: 15 m (Árvores Altas)</option>
+                <option value="0">🌿 Veg: 0 m (Solo Nu)</option>
+              </select>
+            </span>
           </div>
 
           <div id="canvas-container">
@@ -421,6 +438,13 @@ html_code = f"""<!DOCTYPE html>
           <div class="card-title">
             <span id="st2-nome">Estação 2</span>
             <span class="tower-lock-pill" id="st2-grau-pill">Torre fixa • 1 enlace</span>
+          </div>
+          <div class="field-row" id="st2-tipo-row" style="display:none;">
+            <span>Papel do Sítio:</span>
+            <select id="st2-tipo-select" onchange="alternarTipoEstacaoDrawer('st2', this.value)" title="Torre ERB inclui área de cobertura celular SMP (R=1,81 km); Repetidora é só backhaul PTP">
+              <option value="ERB">📡 Torre ERB (Área 1,81 km)</option>
+              <option value="REPETIDORA">⚡ Repetidora PTP</option>
+            </select>
           </div>
           <div class="field-row">
             <span>Coordenadas:</span>
@@ -505,6 +529,7 @@ html_code = f"""<!DOCTYPE html>
         <button class="hud3d-btn sky" id="btn-3d-sat" onclick="alternarCamadaSatelite3D()">🛰️ Satélite: ON</button>
         <button class="hud3d-btn active" id="btn-3d-fresnel" onclick="alternarFresnel3D()">🔵 Fresnel: ON</button>
         <button class="hud3d-btn active" id="btn-3d-bulge" onclick="alternarCurvatura3D()">🌍 Terra k=4/3: ON</button>
+        <button class="hud3d-btn active" id="btn-3d-veg" onclick="alternarVegetacao3D()">🌿 Vegetação: ON</button>
       </div>
     </div>
     <div id="telemetry-3d">Selecione um enlace para ver o relevo 3D lateral.</div>
@@ -660,13 +685,19 @@ html_code = f"""<!DOCTYPE html>
     // CAMADA DE COBERTURA CELULAR SMP 1800 MHz (R = 1.808 km, 3 Setores de 120°)
     function construirCoberturaSMP() {{
       camadaCoberturaSMP.clearLayers();
-      SITIOS_FIXOS.filter(s => s.raio_celula_km > 0).forEach(s => {{
+      const customErbSites = sitesCustom
+        .map(mk => mk.dados)
+        .filter(s => s.tipo === 'ERB' && (s.raio_celula_km || 0) > 0);
+      const todosComArea = [...SITIOS_FIXOS.filter(s => s.raio_celula_km > 0), ...customErbSites];
+
+      todosComArea.forEach(s => {{
         const R_m = s.raio_celula_km * 1000.0;
+        const ehCustom = s.fixo === false;
         const circle = L.circle([s.latitude, s.longitude], {{
           radius: R_m,
-          color: '#38bdf8',
+          color: ehCustom ? '#22d3ee' : '#38bdf8',
           weight: 2.0,
-          fillColor: '#0ea5e9',
+          fillColor: ehCustom ? '#06b6d4' : '#0ea5e9',
           fillOpacity: 0.17,
           dashArray: '6, 5'
         }}).addTo(camadaCoberturaSMP);
@@ -912,10 +943,65 @@ html_code = f"""<!DOCTYPE html>
       }}
     }}
 
+    function atualizarPopupSitioCustom(mk) {{
+      const s = mk.dados;
+      const ehErb = s.tipo === 'ERB';
+      mk.setIcon(getSiteIcon(s.tipo, false));
+      mk.setTooltipContent(`<b>${{s.nome}}</b><br>${{ehErb ? '📡 Torre ERB (Área 1,81 km)' : '⚡ Repetidora PTP'}}<br>(Clique p/ alternar tipo ou arraste)`);
+      const htmlPop =
+        `<div style="min-width:210px; font-family:sans-serif; font-size:12px; color:#0f172a;">` +
+        `<div style="font-weight:700; margin-bottom:4px;">${{s.nome}}</div>` +
+        `<div style="color:#475569; font-family:monospace; margin-bottom:8px;">${{s.latitude.toFixed(5)}}, ${{s.longitude.toFixed(5)}}</div>` +
+        `<div style="margin-bottom:6px;">Papel: <b>${{ehErb ? '📡 Torre Celular ERB (R=1,81 km)' : '⚡ Repetidora PTP (sem raio)'}}</b></div>` +
+        `<button onclick="alternarTipoSitioCustom('${{s.id}}')" style="width:100%; background:${{ehErb ? '#0284c7' : '#16a34a'}}; color:#fff; border:none; border-radius:6px; padding:6px 8px; font-weight:700; cursor:pointer;">` +
+        `${{ehErb ? 'Converter p/ ⚡ Repetidora PTP' : 'Converter p/ 📡 Torre ERB (Área 1,81 km)'}}` +
+        `</button></div>`;
+      if (mk.getPopup()) mk.setPopupContent(htmlPop);
+      else mk.bindPopup(htmlPop);
+    }}
+
+    function aplicarTipoSitioCustom(mk, novoTipo) {{
+      const s = mk.dados;
+      s.tipo = novoTipo;
+      s.raio_celula_km = (novoTipo === 'ERB') ? 1.808 : 0.0;
+      if (s.nome.includes('Custom')) {{
+        const mNum = s.nome.match(/(\\d+)/);
+        const num = mNum ? mNum[1] : '1';
+        s.nome = novoTipo === 'ERB' ? `Torre ERB ${{num}} (Custom)` : `Repetidora ${{num}} (Custom)`;
+      }}
+      atualizarPopupSitioCustom(mk);
+      construirCoberturaSMP();
+      if (novoTipo === 'ERB' && !coberturaVisivel) alternarCoberturaSMP();
+
+      linksCustom.forEach(poly => {{
+        if (poly.dados.origem_obj === s) poly.dados.origem = s.nome;
+        if (poly.dados.destino_obj === s) poly.dados.destino = s.nome;
+      }});
+      if (enlaceSelecionado && (enlaceSelecionado.dados.origem_obj === s || enlaceSelecionado.dados.destino_obj === s)) {{
+        selecionarEnlace(enlaceSelecionado);
+      }}
+    }}
+
+    function alternarTipoSitioCustom(siteId) {{
+      const mk = sitesCustom.find(m => m.dados.id === siteId);
+      if (!mk) return;
+      const novoTipo = mk.dados.tipo === 'ERB' ? 'REPETIDORA' : 'ERB';
+      aplicarTipoSitioCustom(mk, novoTipo);
+      mk.closePopup();
+    }}
+
+    function alternarTipoEstacaoDrawer(st, novoTipo) {{
+      if (!enlaceSelecionado) return;
+      const d = enlaceSelecionado.dados;
+      const stObj = (st === 'st1') ? d.origem_obj : d.destino_obj;
+      const mk = sitesCustom.find(m => m.dados === stObj || m.dados.id === stObj.id);
+      if (mk) aplicarTipoSitioCustom(mk, novoTipo);
+    }}
+
     map.on('click', function(e) {{
       if (modoAtual === 'add_site' || modoAtual === 'add_rep') {{
         const ehRep = modoAtual === 'add_rep';
-        const prefixo = ehRep ? 'Repetidora ' : 'Antena / Sítio ';
+        const prefixo = ehRep ? 'Repetidora ' : 'Torre ERB ';
         const num = ehRep ? contadores.rep++ : contadores.site++;
         const nome = `${{prefixo}}${{num}} (Custom)`;
 
@@ -923,6 +1009,7 @@ html_code = f"""<!DOCTYPE html>
           id: 'CUST_' + Date.now(),
           nome: nome,
           tipo: ehRep ? 'REPETIDORA' : 'ERB',
+          raio_celula_km: ehRep ? 0.0 : 1.808,
           latitude: e.latlng.lat,
           longitude: e.latlng.lng,
           altura_torre_m: 30.0,
@@ -936,17 +1023,27 @@ html_code = f"""<!DOCTYPE html>
         }}).addTo(map);
 
         mk.dados = novoSite;
-        mk.bindTooltip(`<b>${{nome}}</b><br>(Arraste livremente)`, {{ direction: 'top' }});
-        mk.on('drag', () => atualizarConexoesDoNo(mk));
+        mk.bindTooltip('', {{ direction: 'top' }});
+        atualizarPopupSitioCustom(mk);
+        mk.on('drag', () => {{
+          novoSite.latitude = mk.getLatLng().lat;
+          novoSite.longitude = mk.getLatLng().lng;
+          atualizarConexoesDoNo(mk);
+          if (novoSite.tipo === 'ERB') construirCoberturaSMP();
+        }});
         mk.on('dragend', () => {{
           novoSite.latitude = mk.getLatLng().lat;
           novoSite.longitude = mk.getLatLng().lng;
+          atualizarPopupSitioCustom(mk);
+          construirCoberturaSMP();
           if (enlaceSelecionado && (enlaceSelecionado.dados.origem_obj === mk.dados || enlaceSelecionado.dados.destino_obj === mk.dados)) {{
             recalcularPerfilGrafico();
           }}
         }});
         mk.on('click', () => tratarCliqueNoNo(mk));
         sitesCustom.push(mk);
+        construirCoberturaSMP();
+        if (!ehRep && !coberturaVisivel) alternarCoberturaSMP();
         setModo('select');
       }}
     }});
@@ -1069,6 +1166,19 @@ html_code = f"""<!DOCTYPE html>
       document.getElementById('st2-nome').textContent = d.destino_obj.nome;
       document.getElementById('st2-coords').textContent = `${{d.destino_obj.latitude.toFixed(4)}}, ${{d.destino_obj.longitude.toFixed(4)}}`;
 
+      const rowTipo1 = document.getElementById('st1-tipo-row');
+      const rowTipo2 = document.getElementById('st2-tipo-row');
+      if (rowTipo1) {{
+        const custom1 = d.origem_obj && d.origem_obj.fixo === false;
+        rowTipo1.style.display = custom1 ? 'flex' : 'none';
+        if (custom1) document.getElementById('st1-tipo-select').value = (d.origem_obj.tipo === 'ERB') ? 'ERB' : 'REPETIDORA';
+      }}
+      if (rowTipo2) {{
+        const custom2 = d.destino_obj && d.destino_obj.fixo === false;
+        rowTipo2.style.display = custom2 ? 'flex' : 'none';
+        if (custom2) document.getElementById('st2-tipo-select').value = (d.destino_obj.tipo === 'ERB') ? 'ERB' : 'REPETIDORA';
+      }}
+
       recalcularPerfilGrafico();
     }}
 
@@ -1158,6 +1268,21 @@ html_code = f"""<!DOCTYPE html>
           return;
         }}
         map.removeLayer(elementoSelecionado);
+        const idxSite = sitesCustom.indexOf(elementoSelecionado);
+        if (idxSite >= 0) {{
+          sitesCustom.splice(idxSite, 1);
+          for (let i = linksCustom.length - 1; i >= 0; i--) {{
+            const lp = linksCustom[i];
+            if (lp.dados.mk_a === elementoSelecionado || lp.dados.mk_b === elementoSelecionado) {{
+              map.removeLayer(lp);
+              if (lp === enlaceSelecionado) fecharGaveta();
+              linksCustom.splice(i, 1);
+            }}
+          }}
+          construirCoberturaSMP();
+        }}
+        const idxLink = linksCustom.indexOf(elementoSelecionado);
+        if (idxLink >= 0) linksCustom.splice(idxLink, 1);
         if (elementoSelecionado === enlaceSelecionado) fecharGaveta();
         elementoSelecionado = null;
       }}
@@ -1189,6 +1314,177 @@ html_code = f"""<!DOCTYPE html>
     }}
 
     const cacheElev = {{}};
+    const cacheTilesPx = {{}};
+    let clutterModo = 'auto';
+    let perfilReqGen = 0;
+
+    function atualizarModoVegetacao(modo) {{
+      clutterModo = modo;
+      if (enlaceSelecionado) recalcularPerfilGrafico();
+      if (estado3d && estado3d.polyAtual && document.getElementById('view-3d').style.display === 'block') {{
+        construirCenaLink3D(estado3d.polyAtual, false);
+      }}
+    }}
+
+    function lonToTileXFrac(lon, z) {{ return ((lon + 180.0) / 360.0) * Math.pow(2, z); }}
+    function latToTileYFrac(lat, z) {{
+      const r = lat * Math.PI / 180.0;
+      return ((1.0 - Math.log(Math.tan(r) + 1.0 / Math.cos(r)) / Math.PI) / 2.0) * Math.pow(2, z);
+    }}
+
+    function carregarPixelsTile(url, cacheKey) {{
+      if (cacheTilesPx[cacheKey]) return cacheTilesPx[cacheKey];
+      const p = new Promise(resolve => {{
+        const img = new Image();
+        img.crossOrigin = 'anonymous';
+        img.onload = () => {{
+          try {{
+            const cv = document.createElement('canvas');
+            cv.width = 256; cv.height = 256;
+            const c = cv.getContext('2d');
+            c.drawImage(img, 0, 0, 256, 256);
+            resolve(c.getImageData(0, 0, 256, 256).data);
+          }} catch (e) {{
+            resolve(null);
+          }}
+        }};
+        img.onerror = () => resolve(null);
+        img.src = url;
+      }});
+      cacheTilesPx[cacheKey] = p;
+      return p;
+    }}
+
+    async function getElevacoesTerrarium(lats, lons, z=12) {{
+      const needed = new Map();
+      for (let i = 0; i < lats.length; i++) {{
+        const tx = Math.floor(lonToTileXFrac(lons[i], z));
+        const ty = Math.floor(latToTileYFrac(lats[i], z));
+        const key = `terr/${{z}}/${{tx}}/${{ty}}`;
+        if (!needed.has(key)) {{
+          needed.set(key, carregarPixelsTile(`https://s3.amazonaws.com/elevation-tiles-prod/terrarium/${{z}}/${{tx}}/${{ty}}.png`, key));
+        }}
+      }}
+      const entries = await Promise.all([...needed.entries()].map(async ([k, pr]) => [k, await pr]));
+      const tileMap = new Map(entries);
+      const out = new Array(lats.length);
+      for (let i = 0; i < lats.length; i++) {{
+        const xf = lonToTileXFrac(lons[i], z);
+        const yf = latToTileYFrac(lats[i], z);
+        const tx = Math.floor(xf), ty = Math.floor(yf);
+        const pxData = tileMap.get(`terr/${{z}}/${{tx}}/${{ty}}`);
+        if (!pxData) return null;
+        const fx = (xf - tx) * 255.0;
+        const fy = (yf - ty) * 255.0;
+        const x0 = Math.max(0, Math.min(255, Math.floor(fx)));
+        const y0 = Math.max(0, Math.min(255, Math.floor(fy)));
+        const x1 = Math.min(255, x0 + 1), y1 = Math.min(255, y0 + 1);
+        const wx = fx - x0, wy = fy - y0;
+        const dec = (x, y) => {{
+          const off = (y * 256 + x) * 4;
+          return (pxData[off] * 256.0 + pxData[off + 1] + pxData[off + 2] / 256.0) - 32768.0;
+        }};
+        const v00 = dec(x0, y0), v10 = dec(x1, y0), v01 = dec(x0, y1), v11 = dec(x1, y1);
+        out[i] = v00 * (1 - wx) * (1 - wy) + v10 * wx * (1 - wy) + v01 * (1 - wx) * wy + v11 * wx * wy;
+      }}
+      return out;
+    }}
+
+    async function getClutterVegetacao(lats, lons) {{
+      const N = lats.length;
+      if (clutterModo !== 'auto') {{
+        const fix = Math.max(0, Number(clutterModo) || 0);
+        return new Array(N).fill(fix);
+      }}
+      const z = 13;
+      const needed = new Map();
+      for (let i = 0; i < N; i++) {{
+        const tx = Math.floor(lonToTileXFrac(lons[i], z));
+        const ty = Math.floor(latToTileYFrac(lats[i], z));
+        const key = `sat/${{z}}/${{tx}}/${{ty}}`;
+        if (!needed.has(key)) {{
+          needed.set(key, carregarPixelsTile(`https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/${{z}}/${{ty}}/${{tx}}`, key));
+        }}
+      }}
+      const entries = await Promise.all([...needed.entries()].map(async ([k, pr]) => [k, await pr]));
+      const tileMap = new Map(entries);
+      const raw = new Array(N);
+      for (let i = 0; i < N; i++) {{
+        const xf = lonToTileXFrac(lons[i], z);
+        const yf = latToTileYFrac(lats[i], z);
+        const tx = Math.floor(xf), ty = Math.floor(yf);
+        const pxData = tileMap.get(`sat/${{z}}/${{tx}}/${{ty}}`);
+        if (!pxData) {{
+          raw[i] = 5.5;
+          continue;
+        }}
+        const px = Math.max(0, Math.min(255, Math.round((xf - tx) * 255)));
+        const py = Math.max(0, Math.min(255, Math.round((yf - ty) * 255)));
+        let r = 0, g = 0, b = 0, cnt = 0;
+        for (let dy = -1; dy <= 1; dy++) {{
+          for (let dx = -1; dx <= 1; dx++) {{
+            const cx = Math.max(0, Math.min(255, px + dx));
+            const cy = Math.max(0, Math.min(255, py + dy));
+            const off = (cy * 256 + cx) * 4;
+            r += pxData[off]; g += pxData[off + 1]; b += pxData[off + 2];
+            cnt++;
+          }}
+        }}
+        r /= cnt; g /= cnt; b /= cnt;
+        const exg = 2 * g - r - b;
+        const luma = (r + g + b) / 3.0;
+        if (luma > 165 && exg < 0) raw[i] = 2.0;
+        else if (exg >= 18 || (luma < 75 && g >= r)) raw[i] = 10.5;
+        else if (exg >= 4) raw[i] = 7.0;
+        else raw[i] = 4.5;
+      }}
+      // Suavização leve (janela 3 pontos) para casar com textura real de copa
+      return raw.map((v, i) => (raw[Math.max(0, i - 1)] + v + raw[Math.min(N - 1, i + 1)]) / 3.0);
+    }}
+
+    function difracaoKnifeEdgeJ(nu) {{
+      if (nu <= -0.78) return 0.0;
+      const t = nu - 0.1;
+      return 6.9 + 20.0 * Math.log10(Math.sqrt(t * t + 1.0) + t);
+    }}
+
+    function calcularPerdaDifracaoITUR(terrTopo, losArr, rF1Arr) {{
+      const N = terrTopo.length;
+      if (N < 3) return 0.0;
+      let pIdx = -1, nuMax = -999;
+      for (let i = 1; i < N - 1; i++) {{
+        const r = Math.max(0.1, rF1Arr[i]);
+        const nu = Math.SQRT2 * ((terrTopo[i] - losArr[i]) / r);
+        if (nu > nuMax) {{
+          nuMax = nu;
+          pIdx = i;
+        }}
+      }}
+      if (nuMax <= -0.78 || pIdx < 1) return 0.0;
+      let perda = difracaoKnifeEdgeJ(nuMax);
+
+      // Correção Deygout para sub-obstruções antes e depois do pico principal
+      if (nuMax > 0.0) {{
+        let nuL = -999, nuR = -999;
+        for (let i = 1; i < pIdx; i++) {{
+          const subLos = losArr[0] + (terrTopo[pIdx] - losArr[0]) * (i / pIdx);
+          const fSub = rF1Arr[i] * Math.sqrt(Math.max(0.05, 1.0 - (i / pIdx) * 0.2));
+          const nu = Math.SQRT2 * ((terrTopo[i] - subLos) / Math.max(0.1, fSub));
+          if (nu > nuL) nuL = nu;
+        }}
+        for (let i = pIdx + 1; i < N - 1; i++) {{
+          const span = (N - 1 - pIdx);
+          const subLos = terrTopo[pIdx] + (losArr[N - 1] - terrTopo[pIdx]) * ((i - pIdx) / span);
+          const fSub = rF1Arr[i] * Math.sqrt(Math.max(0.05, 1.0 - ((N - 1 - i) / span) * 0.2));
+          const nu = Math.SQRT2 * ((terrTopo[i] - subLos) / Math.max(0.1, fSub));
+          if (nu > nuR) nuR = nu;
+        }}
+        if (nuL > 0.0) perda += difracaoKnifeEdgeJ(nuL);
+        if (nuR > 0.0) perda += difracaoKnifeEdgeJ(nuR);
+      }}
+      return Math.max(0.0, perda);
+    }}
+
     function perfilEmbutido(lat1, lon1, lat2, lon2) {{
       const eq = (a, b) => Math.abs(a - b) < 1e-4;
       for (const p of PERFIS_REAIS) {{
@@ -1198,18 +1494,29 @@ html_code = f"""<!DOCTYPE html>
       return null;
     }}
 
-    async function getPerfilTerreno(lat1, lon1, lat2, lon2, N=60) {{
+    async function getPerfilTerreno(lat1, lon1, lat2, lon2, N=180) {{
       const emb = perfilEmbutido(lat1, lon1, lat2, lon2);
       if (emb) return emb;
-      const k = `${{lat1.toFixed(3)}},${{lon1.toFixed(3)}}_${{lat2.toFixed(3)}},${{lon2.toFixed(3)}}`;
+      const k = `${{lat1.toFixed(4)}},${{lon1.toFixed(4)}}_${{lat2.toFixed(4)}},${{lon2.toFixed(4)}}_${{N}}`;
       if (cacheElev[k]) return cacheElev[k];
       const lats = [], lons = [];
       for (let i = 0; i < N; i++) {{
         lats.push(lat1 + (i / (N - 1)) * (lat2 - lat1));
         lons.push(lon1 + (i / (N - 1)) * (lon2 - lon1));
       }}
+      const terrElev = await getElevacoesTerrarium(lats, lons, 12);
+      if (terrElev) {{
+        cacheElev[k] = terrElev;
+        return terrElev;
+      }}
       try {{
-        const url = `https://api.open-meteo.com/v1/elevation?latitude=${{lats.map(x=>x.toFixed(4)).join(',')}}&longitude=${{lons.map(x=>x.toFixed(4)).join(',')}}`;
+        const N_om = Math.min(95, N);
+        const latsOm = [], lonsOm = [];
+        for (let i = 0; i < N_om; i++) {{
+          latsOm.push((lat1 + (i / (N_om - 1)) * (lat2 - lat1)).toFixed(4));
+          lonsOm.push((lon1 + (i / (N_om - 1)) * (lon2 - lon1)).toFixed(4));
+        }}
+        const url = `https://api.open-meteo.com/v1/elevation?latitude=${{latsOm.join(',')}}&longitude=${{lonsOm.join(',')}}`;
         const resp = await fetch(url);
         const d = await resp.json();
         if (!d.elevation) return null;
@@ -1222,6 +1529,7 @@ html_code = f"""<!DOCTYPE html>
 
     async function recalcularPerfilGrafico() {{
       if (!enlaceSelecionado) return;
+      const myReq = ++perfilReqGen;
       const d = enlaceSelecionado.dados;
       const st1 = d.origem_obj;
       const st2 = d.destino_obj;
@@ -1241,27 +1549,11 @@ html_code = f"""<!DOCTYPE html>
       const sens = d.sensibilidade_dbm || (freq === 5.0 ? (gRx >= 34 ? -76.0 : -74.0) : -73.0);
       const bw = d.channel_width_mhz || (freq === 11.0 ? 28 : 20);
 
-      // Link Budget + Chuva
-      const fspl = 92.45 + 20 * Math.log10(Math.max(0.1, distTotal)) + 20 * Math.log10(freq);
-      const rsl = pTx + gTx + gRx - fspl - 1.5;
-      const fadeMargin = rsl - sens;
-      const perdaChuva = atenuacaoChuvaITUR(distTotal, freq, 50.0);
-      const fadeChuva = fadeMargin - perdaChuva;
-
-      document.getElementById('st1-rsl').textContent = `${{rsl.toFixed(1)}} dBm`;
-      document.getElementById('st2-rsl').textContent = `${{rsl.toFixed(1)}} dBm`;
-      const fmEl = document.getElementById('txt-fade-margin');
-      fmEl.textContent = `${{fadeMargin.toFixed(1)}} dB / ${{fadeChuva.toFixed(1)}} dB`;
-      fmEl.style.color = fadeChuva >= 4.0 ? '#00ff55' : '#ffab00';
-
-      const pctSig = Math.max(15, Math.min(100, (rsl + 85) * 2.2));
-      document.getElementById('st1-signal-bar').style.width = `${{pctSig}}%`;
-      document.getElementById('st2-signal-bar').style.width = `${{pctSig}}%`;
-
-      const capacityMbps = Math.round(bw * 8.6 * Math.min(1.0, Math.max(0.35, fadeMargin / 26.0)));
-      document.getElementById('txt-capacity').textContent = `${{capacityMbps}} Mbps`;
-
       // Física: Abaulamento k=4/3 e Fresnel F1 / 0.6*F1
+      const fspl = 92.45 + 20 * Math.log10(Math.max(0.1, distTotal)) + 20 * Math.log10(freq);
+      const rslEspacoLivre = pTx + gTx + gRx - fspl - 1.5;
+      const perdaChuva = atenuacaoChuvaITUR(distTotal, freq, 50.0);
+
       const Re_eff = 6371.0 * (4.0/3.0) * 1000.0;
       const abaulMax = ((distTotal * 1000.0) ** 2) / (8.0 * Re_eff);
       const f1Max = 17.32 * Math.sqrt(distTotal / (4.0 * freq));
@@ -1271,6 +1563,7 @@ html_code = f"""<!DOCTYPE html>
       document.getElementById('txt-chuva-loss').textContent = `-${{perdaChuva.toFixed(2)}} dB`;
 
       const elevs = await getPerfilTerreno(st1.latitude, st1.longitude, st2.latitude, st2.longitude);
+      if (myReq !== perfilReqGen) return;
       if (!elevs) {{
         const b = document.getElementById('badge-obstrucao');
         b.textContent = 'SEM DADOS DE RELEVO';
@@ -1279,12 +1572,23 @@ html_code = f"""<!DOCTYPE html>
       }}
 
       const N = elevs.length;
+      const latsPath = [], lonsPath = [];
+      for (let i = 0; i < N; i++) {{
+        latsPath.push(st1.latitude + (i / (N - 1)) * (st2.latitude - st1.latitude));
+        lonsPath.push(st1.longitude + (i / (N - 1)) * (st2.longitude - st1.longitude));
+      }}
+      const clutter = await getClutterVegetacao(latsPath, lonsPath);
+      if (myReq !== perfilReqGen) return;
+
       const cota1 = elevs[0] + h1;
       const cota2 = elevs[N - 1] + h2;
 
       let piorFolga = 9999;
+      let piorFolgaSolo = 9999;
       const dadosPlanos = [];
       const dadosTerreno = [];
+      const dadosClutter = [];
+      const dadosTopoVeg = [];
       const dadosLos = [];
       const dadosCurv = [];
       const dadosF1 = [];
@@ -1294,26 +1598,73 @@ html_code = f"""<!DOCTYPE html>
         const distKm = frac * distTotal;
         const curv = ((distKm * 1000) * ((distTotal - distKm) * 1000)) / (2 * Re_eff);
         const terrComCurv = elevs[i] + curv;
+        const vegPt = (i === 0 || i === N - 1) ? 0.0 : clutter[i];
+        const topoVeg = terrComCurv + vegPt;
         const los = cota1 + (cota2 - cota1) * frac;
 
         let rF1 = 0;
         if (i > 0 && i < N - 1) {{
           rF1 = 17.32 * Math.sqrt((distKm * (distTotal - distKm)) / (freq * distTotal));
-          const folga = (los - 0.6 * rF1) - terrComCurv;
-          if (folga < piorFolga) piorFolga = folga;
+          const folgaVeg = (los - 0.6 * rF1) - topoVeg;
+          const folgaSolo = (los - 0.6 * rF1) - terrComCurv;
+          if (folgaVeg < piorFolga) piorFolga = folgaVeg;
+          if (folgaSolo < piorFolgaSolo) piorFolgaSolo = folgaSolo;
         }}
 
         dadosPlanos.push(elevs[i]);
         dadosTerreno.push(terrComCurv);
+        dadosClutter.push(vegPt);
+        dadosTopoVeg.push(topoVeg);
         dadosLos.push(los);
         dadosCurv.push(curv);
         dadosF1.push(rF1);
       }}
 
+      // Perda real por difração (ITU-R P.526 Deygout) quando há obstrução/intrusão em Fresnel
+      const perdaDifracao = calcularPerdaDifracaoITUR(dadosTopoVeg, dadosLos, dadosF1);
+      const rsl = rslEspacoLivre - perdaDifracao;
+      const fadeMargin = rsl - sens;
+      const fadeChuva = fadeMargin - perdaChuva;
+
+      const wrapDif = document.getElementById('wrap-difracao-loss');
+      const txtDif = document.getElementById('txt-difracao-loss');
+      if (wrapDif && txtDif) {{
+        wrapDif.style.display = perdaDifracao > 0.1 ? 'inline' : 'none';
+        txtDif.textContent = `-${{perdaDifracao.toFixed(1)}} dB`;
+      }}
+
+      const rslColor = fadeMargin < 0 ? '#ff4d4d' : (fadeMargin < 8 ? '#ffab00' : '#00ff55');
+      const rsl1El = document.getElementById('st1-rsl');
+      const rsl2El = document.getElementById('st2-rsl');
+      rsl1El.textContent = `${{rsl.toFixed(1)}} dBm`;
+      rsl2El.textContent = `${{rsl.toFixed(1)}} dBm`;
+      rsl1El.style.color = rslColor;
+      rsl2El.style.color = rslColor;
+
+      const fmEl = document.getElementById('txt-fade-margin');
+      fmEl.textContent = `${{fadeMargin.toFixed(1)}} dB / ${{fadeChuva.toFixed(1)}} dB`;
+      fmEl.style.color = fadeMargin < 0 ? '#ff4d4d' : (fadeChuva >= 4.0 ? '#00ff55' : '#ffab00');
+
+      const pctSig = Math.max(2, Math.min(100, (rsl + 100) * 1.65));
+      const barColor = fadeMargin < 0 ? '#ef4444' : (fadeMargin < 8 ? '#f59e0b' : '#00ff55');
+      ['st1-signal-bar', 'st2-signal-bar'].forEach(bid => {{
+        const bEl = document.getElementById(bid);
+        bEl.style.width = `${{pctSig}}%`;
+        bEl.style.background = barColor;
+      }});
+
+      let capacityMbps = 0;
+      if (fadeMargin > 0.0 && piorFolga > -12.0) {{
+        capacityMbps = Math.round(bw * 8.6 * Math.min(1.0, Math.max(0.15, fadeMargin / 26.0)));
+      }}
+      const capEl = document.getElementById('txt-capacity');
+      capEl.textContent = capacityMbps > 0 ? `${{capacityMbps}} Mbps` : '0 Mbps (Sem Enlace)';
+      capEl.style.color = capacityMbps > 0 ? '#00ff55' : '#ff4d4d';
+
       const obstruido = piorFolga < 0;
       const badgeObs = document.getElementById('badge-obstrucao');
       if (obstruido) {{
-        badgeObs.textContent = `LINK OBSTRUÍDO (${{piorFolga.toFixed(1)}} m)`;
+        badgeObs.textContent = `LINK OBSTRUÍDO (${{piorFolga.toFixed(1)}} m | Difração -${{perdaDifracao.toFixed(1)}} dB)`;
         badgeObs.className = 'status-badge status-obstr';
         if (!d.fixo) enlaceSelecionado.setStyle({{ color: '#ff1744' }});
       }} else {{
@@ -1322,7 +1673,7 @@ html_code = f"""<!DOCTYPE html>
         if (!d.fixo) enlaceSelecionado.setStyle({{ color: '#00b4ff' }});
       }}
 
-      ultimoPerfilCanvas = {{ distTotal, dadosPlanos, dadosTerreno, dadosLos, dadosCurv, dadosF1, cota1, cota2, h1, h2, obstruido }};
+      ultimoPerfilCanvas = {{ distTotal, dadosPlanos, dadosTerreno, dadosClutter, dadosTopoVeg, dadosLos, dadosCurv, dadosF1, cota1, cota2, h1, h2, obstruido }};
       desenharCanvasPerfil(ultimoPerfilCanvas);
     }}
 
@@ -1334,15 +1685,16 @@ html_code = f"""<!DOCTYPE html>
       const ctx = cv.getContext('2d');
 
       const W = cv.width, H = cv.height;
-      const {{ dadosPlanos: plano, dadosTerreno: terr, dadosLos: los, dadosF1: f1, cota1, cota2, obstruido }} = p;
+      const {{ dadosPlanos: plano, dadosTerreno: terr, dadosClutter: veg, dadosTopoVeg: topoVeg, dadosLos: los, dadosF1: f1, cota1, cota2, obstruido }} = p;
       const N = terr.length;
+      const topoRef = topoVeg || terr;
 
       const losUp100 = los.map((v, i) => v + f1[i]);
       const losDn100 = los.map((v, i) => v - f1[i]);
       const losDn060 = los.map((v, i) => v - 0.6 * f1[i]);
 
       const minAlt = Math.min(...plano, ...terr, ...losDn100) - 18;
-      const maxAlt = Math.max(...losUp100, ...terr) + 22;
+      const maxAlt = Math.max(...losUp100, ...topoRef) + 22;
       const range = Math.max(10, maxAlt - minAlt);
 
       const getY = val => H - ((val - minAlt) / range) * (H - 28) - 14;
@@ -1369,13 +1721,37 @@ html_code = f"""<!DOCTYPE html>
       ctx.lineTo(getX(N - 1), H);
       ctx.closePath();
       const grad = ctx.createLinearGradient(0, 0, 0, H);
-      grad.addColorStop(0, '#36415c');
+      grad.addColorStop(0, '#473e35');
       grad.addColorStop(1, '#161a26');
       ctx.fillStyle = grad;
       ctx.fill();
-      ctx.strokeStyle = '#64748b';
-      ctx.lineWidth = 1.5;
+      ctx.strokeStyle = '#94a3b8';
+      ctx.lineWidth = 1.3;
       ctx.stroke();
+
+      // 2B. CAMADA VERDE DE VEGETAÇÃO / CLUTTER ESTIMADA (estilo LINKPlanner)
+      if (veg && topoVeg && veg.some(v => v > 0.1)) {{
+        ctx.beginPath();
+        for (let i = 0; i < N; i++) {{
+          if (i === 0) ctx.moveTo(getX(i), getY(topoVeg[i]));
+          else ctx.lineTo(getX(i), getY(topoVeg[i]));
+        }}
+        for (let i = N - 1; i >= 0; i--) {{
+          ctx.lineTo(getX(i), getY(terr[i]));
+        }}
+        ctx.closePath();
+        ctx.fillStyle = 'rgba(34, 197, 94, 0.48)';
+        ctx.fill();
+
+        ctx.beginPath();
+        for (let i = 0; i < N; i++) {{
+          if (i === 0) ctx.moveTo(getX(i), getY(topoVeg[i]));
+          else ctx.lineTo(getX(i), getY(topoVeg[i]));
+        }}
+        ctx.strokeStyle = '#4ade80';
+        ctx.lineWidth = 1.1;
+        ctx.stroke();
+      }}
 
       // 3. ELIPSE COMPLETA DA 1ª ZONA DE FRESNEL (100% F1 ao redor da Linha de Visada, igual ao UISP)
       ctx.beginPath();
@@ -1484,24 +1860,27 @@ html_code = f"""<!DOCTYPE html>
       const terrReal = ultimoPerfilCanvas.dadosPlanos[idx];
       const curvPt = ultimoPerfilCanvas.dadosCurv[idx];
       const terrCurv = ultimoPerfilCanvas.dadosTerreno[idx];
+      const vegPt = (ultimoPerfilCanvas.dadosClutter && ultimoPerfilCanvas.dadosClutter[idx]) || 0;
+      const topoVeg = (ultimoPerfilCanvas.dadosTopoVeg && ultimoPerfilCanvas.dadosTopoVeg[idx]) || terrCurv;
       const losPt = ultimoPerfilCanvas.dadosLos[idx];
       const f1Pt = ultimoPerfilCanvas.dadosF1[idx];
       const fres06 = losPt - 0.6 * f1Pt;
-      const folgaPt = fres06 - terrCurv;
+      const folgaPt = fres06 - topoVeg;
 
       desenharCanvasPerfil(ultimoPerfilCanvas, idx);
 
       tooltipEl.style.display = 'block';
-      const leftPos = (x + 215 > W) ? (x - 208) : (x + 12);
+      const leftPos = (x + 225 > W) ? (x - 218) : (x + 12);
       tooltipEl.style.left = `${{Math.max(4, leftPos)}}px`;
       tooltipEl.style.top = '8px';
       tooltipEl.innerHTML =
         `<b>Distância:</b> ${{distPt.toFixed(2)}} km<br>` +
-        `<b>Terreno Real:</b> ${{terrReal.toFixed(1)}} m<br>` +
+        `<b>Terreno Real (Solo):</b> ${{terrReal.toFixed(1)}} m<br>` +
+        `<b>Vegetação Est. (Clutter):</b> <span style="color:#4ade80;">+${{vegPt.toFixed(1)}} m</span><br>` +
         `<b>Abaulamento (k=4/3):</b> +${{curvPt.toFixed(1)}} m<br>` +
         `<b>Linha de Visada (LOS):</b> ${{losPt.toFixed(1)}} m<br>` +
         `<b>Borda 0.6·F1:</b> ${{fres06.toFixed(1)}} m<br>` +
-        `<b>Folga Livre:</b> <span style="color:${{folgaPt>=0?'#00ff55':'#ff6b6b'}};font-weight:700">${{folgaPt>=0?'+':''}}${{folgaPt.toFixed(1)}} m</span>`;
+        `<b>Folga Livre (c/ Veg.):</b> <span style="color:${{folgaPt>=0?'#00ff55':'#ff6b6b'}};font-weight:700">${{folgaPt>=0?'+':''}}${{folgaPt.toFixed(1)}} m</span>`;
     }});
     canvasEl.addEventListener('mouseleave', () => {{
       tooltipEl.style.display = 'none';
@@ -1955,7 +2334,7 @@ html_code = f"""<!DOCTYPE html>
     // =========================================================================
     let cena3d = null, cam3d = null, rend3d = null, grupo3d = null, anim3dId = null;
     let orbit3d = {{ theta: Math.PI / 2, phi: 1.44, radius: 12, target: null, down: false, pan: false, lx: 0, ly: 0 }};
-    let estado3d = {{ exag: 8, satelite: true, fresnel: true, curvatura: true, preset: 'side', polyAtual: null, listaLinks: [] }};
+    let estado3d = {{ exag: 8, satelite: true, fresnel: true, curvatura: true, vegetacao: true, preset: 'side', polyAtual: null, listaLinks: [] }};
 
     function redimensionarCena3D() {{
       const host = document.getElementById('canvas-3d-host');
@@ -2072,7 +2451,7 @@ html_code = f"""<!DOCTYPE html>
       sel.innerHTML = todos.map((p, idx) => {{
         const d = p.dados;
         const tag = d.fixo ? `[Sol #${{d.rank_solucao}}]` : '[Custom]';
-        const dist = d.distancia_km || haversineKm(d.origem_obj.latitude, d.origem_obj.longitude, d.destino_obj.latitude, d.destino_obj.longitude).toFixed(2);
+        const dist = d.distancia_km ? Number(d.distancia_km).toFixed(2) : haversineDist(d.origem_obj.latitude, d.origem_obj.longitude, d.destino_obj.latitude, d.destino_obj.longitude).toFixed(2);
         return `<option value="${{idx}}">${{tag}} ${{d.origem_obj.nome}} ➔ ${{d.destino_obj.nome}} (${{dist}} km)</option>`;
       }}).join('');
 
@@ -2094,7 +2473,7 @@ html_code = f"""<!DOCTYPE html>
       estado3d.polyAtual = poly;
       const d = poly.dados;
       const st1 = d.origem_obj, st2 = d.destino_obj;
-      const distKm = haversineKm(st1.latitude, st1.longitude, st2.latitude, st2.longitude);
+      const distKm = haversineDist(st1.latitude, st1.longitude, st2.latitude, st2.longitude);
 
       if (resetCam) {{
         // Sugere exagero vertical didático conforme a distância do salto
@@ -2133,6 +2512,16 @@ html_code = f"""<!DOCTYPE html>
       const b = document.getElementById('btn-3d-bulge');
       b.textContent = estado3d.curvatura ? '🌍 Terra k=4/3: ON' : '🌍 Terra k=4/3: Plana';
       b.classList.toggle('active', estado3d.curvatura);
+      if (estado3d.polyAtual) construirCenaLink3D(estado3d.polyAtual, false);
+    }}
+
+    function alternarVegetacao3D() {{
+      estado3d.vegetacao = !estado3d.vegetacao;
+      const b = document.getElementById('btn-3d-veg');
+      if (b) {{
+        b.textContent = estado3d.vegetacao ? '🌿 Vegetação: ON' : '🌿 Vegetação: OFF';
+        b.classList.toggle('active', estado3d.vegetacao);
+      }}
       if (estado3d.polyAtual) construirCenaLink3D(estado3d.polyAtual, false);
     }}
 
@@ -2283,8 +2672,8 @@ html_code = f"""<!DOCTYPE html>
       const d = poly.dados;
       const st1 = d.origem_obj, st2 = d.destino_obj;
       const rk = d.fixo ? (d.rank_solucao || 1) : null;
-      const h1 = (rk && ALTURAS_SOL[rk] && ALTURAS_SOL[rk][d.id_origem] != null) ? ALTURAS_SOL[rk][d.id_origem] : (d.h_torre_origem_m || 15);
-      const h2 = (rk && ALTURAS_SOL[rk] && ALTURAS_SOL[rk][d.id_destino] != null) ? ALTURAS_SOL[rk][d.id_destino] : (d.h_torre_destino_m || 15);
+      const h1 = (rk && ALTURAS_SOL[rk] && ALTURAS_SOL[rk][d.id_origem] != null) ? ALTURAS_SOL[rk][d.id_origem] : (d.h_torre_origem_m || 30);
+      const h2 = (rk && ALTURAS_SOL[rk] && ALTURAS_SOL[rk][d.id_destino] != null) ? ALTURAS_SOL[rk][d.id_destino] : (d.h_torre_destino_m || 30);
       const freq = Number(d.frequencia_ghz) || 11.0;
 
       const midLat = 0.5 * (st1.latitude + st2.latitude);
@@ -2299,7 +2688,7 @@ html_code = f"""<!DOCTYPE html>
       const rx = uy, ry = -ux;
 
       const encontrado = obterCorredor3D(st1, st2, distKm);
-      let nu = 65, nv = 33, padKm = Math.max(0.6, distKm * 0.08), halfWKm = Math.max(2.2, Math.min(8.0, distKm * 0.22)), zArr = null;
+      let nu = 65, nv = 33, padKm = (distKm / 56.0) * 4.0, halfWKm = Math.max(2.2, Math.min(8.0, distKm * 0.22)), zArr = null;
       if (encontrado) {{
         const g = encontrado.grid;
         nu = g.nu; nv = g.nv;
@@ -2314,14 +2703,35 @@ html_code = f"""<!DOCTYPE html>
           }}
         }}
       }} else {{
-        const prof = await getPerfilTerreno(st1.latitude, st1.longitude, st2.latitude, st2.longitude);
-        const centro = prof || Array.from({{ length: 65 }}, () => 250);
-        zArr = new Float32Array(nu * nv);
+        // Para enlaces customizados, monta corredor 3D real (65x33) via tiles Terrarium 30m
+        const xMinKmTmp = -distKm / 2 - padKm, xMaxKmTmp = distKm / 2 + padKm;
+        const gLats = new Array(nu * nv), gLons = new Array(nu * nv);
         for (let j = 0; j < nv; j++) {{
-          const offFrac = Math.abs((j / (nv - 1)) * 2 - 1);
+          const zKm = -halfWKm + (j / (nv - 1)) * (2 * halfWKm);
           for (let i = 0; i < nu; i++) {{
-            const uIdx = Math.min(centro.length - 1, Math.max(0, Math.round((i / (nu - 1)) * (centro.length - 1))));
-            zArr[j * nu + i] = centro[uIdx] - offFrac * 18.0;
+            const xKm = xMinKmTmp + (i / (nu - 1)) * (xMaxKmTmp - xMinKmTmp);
+            const idx = j * nu + i;
+            const pxM = xKm * 1000.0 * ux + zKm * 1000.0 * rx;
+            const pyM = xKm * 1000.0 * uy + zKm * 1000.0 * ry;
+            gLats[idx] = midLat + pyM / mPerLat;
+            gLons[idx] = midLon + pxM / mPerLon;
+          }}
+        }}
+        const terrGrid = await getElevacoesTerrarium(gLats, gLons, 12);
+        if (myGen !== renderGen3d) return;
+        if (terrGrid) {{
+          zArr = Float32Array.from(terrGrid);
+        }} else {{
+          const prof = await getPerfilTerreno(st1.latitude, st1.longitude, st2.latitude, st2.longitude);
+          if (myGen !== renderGen3d) return;
+          const centro = prof || Array.from({{ length: 65 }}, () => 250);
+          zArr = new Float32Array(nu * nv);
+          for (let j = 0; j < nv; j++) {{
+            const offFrac = Math.abs((j / (nv - 1)) * 2 - 1);
+            for (let i = 0; i < nu; i++) {{
+              const uIdx = Math.min(centro.length - 1, Math.max(0, Math.round((i / (nu - 1)) * (centro.length - 1))));
+              zArr[j * nu + i] = centro[uIdx] - offFrac * 18.0;
+            }}
           }}
         }}
       }}
@@ -2427,19 +2837,64 @@ html_code = f"""<!DOCTYPE html>
       const yAnt1 = ySolo1 + (h1 / 1000.0) * exag;
       const yAnt2 = ySolo2 + (h2 / 1000.0) * exag;
 
-      // Calcula folga real sobre o perfil para colorir o feixe e Fresnel
-      let piorFolga = 9999;
       const arrRef = profCentro || zArr.slice(centerRow * nu, (centerRow + 1) * nu);
-      for (let i = 1; i < arrRef.length - 1; i++) {{
-        const frac = i / (arrRef.length - 1);
+      const nProf = arrRef.length;
+      const latsP = [], lonsP = [];
+      for (let i = 0; i < nProf; i++) {{
+        latsP.push(st1.latitude + (i / (nProf - 1)) * (st2.latitude - st1.latitude));
+        lonsP.push(st1.longitude + (i / (nProf - 1)) * (st2.longitude - st1.longitude));
+      }}
+      const vegCentro = (estado3d.vegetacao && clutterModo !== '0')
+        ? await getClutterVegetacao(latsP, lonsP)
+        : new Array(nProf).fill(0);
+      if (myGen !== renderGen3d) return;
+
+      // Desenha faixa verde translúcida de vegetação / clutter estimada no eixo central 3D
+      if (estado3d.vegetacao && vegCentro.some(v => v > 0.1)) {{
+        const vegPos = [], vegIdx = [];
+        for (let i = 0; i < nProf; i++) {{
+          const frac = i / (nProf - 1);
+          const xKm = -distKm / 2 + frac * distKm;
+          const d1M = frac * distM, d2M = distM - d1M;
+          const curv = estado3d.curvatura ? (d1M * d2M) / (2 * ReEffM) : 0;
+          const vAlt = (i === 0 || i === nProf - 1) ? 0 : vegCentro[i];
+          const yBase = (((arrRef[i] + curv) / 1000.0) - baseKm) * exag;
+          const yTopo = (((arrRef[i] + curv + vAlt) / 1000.0) - baseKm) * exag;
+          vegPos.push(xKm, yBase, 0.0, xKm, yTopo, 0.0);
+        }}
+        for (let i = 0; i < nProf - 1; i++) {{
+          const a = i * 2, b = a + 1, c = a + 2, dd = a + 3;
+          vegIdx.push(a, c, b, b, c, dd);
+        }}
+        const vg = new THREE.BufferGeometry();
+        vg.setAttribute('position', new THREE.Float32BufferAttribute(vegPos, 3));
+        vg.setIndex(vegIdx);
+        grupo3d.add(new THREE.Mesh(vg, new THREE.MeshBasicMaterial({{
+          color: 0x22c55e, transparent: true, opacity: 0.62, side: THREE.DoubleSide
+        }})));
+      }}
+
+      // Calcula folga real (incluindo vegetação) e perda por difração ITU-R P.526
+      let piorFolga = 9999;
+      const topoArr3d = [], losArr3d = [], f1Arr3d = [];
+      for (let i = 0; i < nProf; i++) {{
+        const frac = i / (nProf - 1);
         const d1 = frac * distKm;
         const d2 = distKm - d1;
         const curv = estado3d.curvatura ? ((d1 * 1000) * (d2 * 1000)) / (2 * ReEffM) : 0;
+        const vegPt = (i === 0 || i === nProf - 1) ? 0.0 : vegCentro[i];
+        const topoM = arrRef[i] + curv + vegPt;
         const losM = (altTxM + h1) + ((altRxM + h2) - (altTxM + h1)) * frac;
-        const r1 = 17.32 * Math.sqrt((d1 * d2) / (freq * distKm));
-        const flg = (losM - 0.6 * r1) - (arrRef[i] + curv);
-        if (flg < piorFolga) piorFolga = flg;
+        const r1 = (i > 0 && i < nProf - 1) ? 17.32 * Math.sqrt((d1 * d2) / (freq * distKm)) : 0;
+        if (i > 0 && i < nProf - 1) {{
+          const flg = (losM - 0.6 * r1) - topoM;
+          if (flg < piorFolga) piorFolga = flg;
+        }}
+        topoArr3d.push(topoM);
+        losArr3d.push(losM);
+        f1Arr3d.push(r1);
       }}
+      const perdaDif3d = calcularPerdaDifracaoITUR(topoArr3d, losArr3d, f1Arr3d);
       const limpo = piorFolga >= 0;
       const corFeixe = limpo ? 0x00ff55 : 0xff3b3b;
 
@@ -2523,10 +2978,12 @@ html_code = f"""<!DOCTYPE html>
       // Atualiza telemetria lateral
       const f1Max = 17.32 * Math.sqrt(distKm / (4.0 * freq));
       const curvMax = ((distKm * 1000) ** 2) / (8 * ReEffM);
+      const vegAvg = vegCentro.length ? (vegCentro.reduce((a, b) => a + b, 0) / vegCentro.length) : 0;
       document.getElementById('telemetry-3d').innerHTML =
         `<div><b>${{st1.nome}}</b> ➔ <b>${{st2.nome}}</b></div>` +
         `<div>Distância: <b>${{distKm.toFixed(2)}} km</b> | Banda: <b>${{freq}} GHz</b> | Torres: <b>${{h1}}m / ${{h2}}m</b></div>` +
         `<div>Abaulamento k=4/3: <b>+${{curvMax.toFixed(1)}} m</b> | Raio 0.6·F1: <b>${{(0.6 * f1Max).toFixed(1)}} m</b></div>` +
+        `<div>Vegetação (Clutter): <b style="color:#4ade80;">${{estado3d.vegetacao ? ('~' + vegAvg.toFixed(1) + ' m médio') : 'OFF (0 m)'}}</b>${{perdaDif3d > 0.1 ? (' | Difração: <b style="color:#ff6b6b;">-' + perdaDif3d.toFixed(1) + ' dB</b>') : ''}}</div>` +
         `<div>Status 3D: <b style="color:${{limpo ? '#00ff55' : '#ff6b6b'}};">${{limpo ? 'VISADA LIMPA (+' + piorFolga.toFixed(1) + ' m)' : 'OBSTRUÍDO (' + piorFolga.toFixed(1) + ' m)'}}</b></div>`;
 
       if (resetCam) definirCamera3D(estado3d.preset || 'side');
