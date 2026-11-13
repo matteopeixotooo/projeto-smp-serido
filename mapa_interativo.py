@@ -101,7 +101,7 @@ html_code = f"""<!DOCTYPE html>
   <meta charset="UTF-8">
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
   <meta http-equiv="Pragma" content="no-cache" />
-  <title>UISP Design Center - Projeto SMP Seridó (Backhaul, Engenharia & Orçamento)</title>
+  <title>Simulador - Projeto SMP Seridó (Backhaul, Engenharia & Orçamento)</title>
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <script src="https://unpkg.com/three@0.128.0/build/three.min.js"></script>
@@ -275,7 +275,7 @@ html_code = f"""<!DOCTYPE html>
   <!-- HEADER -->
   <div id="header">
     <div class="logo-box">
-      <span class="logo-badge">UISP</span>
+      <span class="logo-badge">Simulator</span>
       <span>Projeto SMP Seridó & Backhaul Natal</span>
     </div>
     <div class="nav-tabs">
@@ -1760,7 +1760,7 @@ html_code = f"""<!DOCTYPE html>
         ctx.stroke();
       }}
 
-      // 3. ELIPSE COMPLETA DA 1ª ZONA DE FRESNEL (100% F1 ao redor da Linha de Visada, igual ao UISP)
+      // 3. ELIPSE COMPLETA DA 1ª ZONA DE FRESNEL (100% F1 ao redor da Linha de Visada)
       ctx.beginPath();
       for (let i = 0; i < N; i++) {{
         if (i === 0) ctx.moveTo(getX(i), getY(losUp100[i]));
