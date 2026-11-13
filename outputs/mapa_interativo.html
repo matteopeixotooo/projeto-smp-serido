@@ -17,6 +17,7 @@
     .nav-tab { background: #202434; border: 1px solid #323850; color: #b7bfd4; padding: 6px 14px; border-radius: 6px; font-size: 0.84rem; font-weight: 700; cursor: pointer; transition: all 0.15s; }
     .nav-tab:hover { background: #2a3046; color: #fff; }
     .nav-tab.active { background: #0070f3; border-color: #3291ff; color: #fff; box-shadow: 0 0 12px rgba(0, 112, 243, 0.35); }
+    .nav-tab.cob-on { background: rgba(14, 165, 233, 0.22); border-color: #38bdf8; color: #7dd3fc; box-shadow: 0 0 12px rgba(56, 189, 248, 0.35); }
     .header-info { font-size: 0.8rem; color: #8a8f9d; display: flex; gap: 16px; align-items: center; }
     .header-info b { color: #00ff55; }
 
@@ -156,6 +157,7 @@
     <div class="nav-tabs">
       <button class="nav-tab active" id="tab-btn-map" onclick="alternarAba('map')">🗺️ Simulador & Mapa (Top 3 Rotas)</button>
       <button class="nav-tab" id="tab-btn-calc" onclick="alternarAba('calc')">🧮 Cálculos, Chuva & Orçamento (Apresentação)</button>
+      <button class="nav-tab" id="header-btn-cob" onclick="alternarCoberturaSMP()" title="Ativa/desativa o raio celular de 1,808 km (8,5 km² e 3 setores de 120°) nas 9 ERBs urbanas">📡 Raio ERBs (1,81 km): OFF</button>
     </div>
     <div class="header-info">
       <span>Torres: <b>Única & Fixa ≤ 50 m</b></span>
@@ -492,14 +494,19 @@
       camadaCoberturaSMP.clearLayers();
       SITIOS_FIXOS.filter(s => s.raio_celula_km > 0).forEach(s => {
         const R_m = s.raio_celula_km * 1000.0;
-        L.circle([s.latitude, s.longitude], {
+        const circle = L.circle([s.latitude, s.longitude], {
           radius: R_m,
           color: '#38bdf8',
-          weight: 1.5,
+          weight: 2.0,
           fillColor: '#0ea5e9',
-          fillOpacity: 0.12,
-          dashArray: '5, 5'
+          fillOpacity: 0.17,
+          dashArray: '6, 5'
         }).addTo(camadaCoberturaSMP);
+
+        circle.bindTooltip(
+          `<b>${s.nome}</b><br>Cobertura SMP 1.800 MHz (Cluster 4×3)<br>Raio: <b>${s.raio_celula_km.toFixed(3)} km</b> | Área: <b>8,5 km²</b> | 3 setores de 120°`,
+          { sticky: true }
+        );
 
         // Desenha os 3 raios divisores de setores (0°, 120°, 240°)
         [0, 120, 240].forEach(ang => {
@@ -507,9 +514,20 @@
           const dLat = (s.raio_celula_km * Math.cos(rad)) / 111.139;
           const dLon = (s.raio_celula_km * Math.sin(rad)) / (111.139 * Math.cos(s.latitude * Math.PI / 180.0));
           L.polyline([[s.latitude, s.longitude], [s.latitude + dLat, s.longitude + dLon]], {
-            color: '#7dd3fc', weight: 1, opacity: 0.55
+            color: '#7dd3fc', weight: 1.3, opacity: 0.72
           }).addTo(camadaCoberturaSMP);
         });
+
+        // Etiqueta compacta do raio na borda norte da célula
+        const dLatLabel = (s.raio_celula_km * 0.65) / 111.139;
+        L.marker([s.latitude + dLatLabel, s.longitude], {
+          interactive: false,
+          icon: L.divIcon({
+            className: 'smp-radius-tag',
+            html: `<div style="background:rgba(12,18,32,0.86); border:1px solid #38bdf8; color:#7dd3fc; font-size:10px; font-weight:700; padding:1px 5px; border-radius:4px; white-space:nowrap; transform:translate(-50%,-50%);">R=${s.raio_celula_km.toFixed(2)} km</div>`,
+            iconSize: [0, 0]
+          })
+        }).addTo(camadaCoberturaSMP);
       });
     }
     construirCoberturaSMP();
@@ -517,8 +535,19 @@
     function alternarCoberturaSMP() {
       coberturaVisivel = !coberturaVisivel;
       document.getElementById('btn-cob').classList.toggle('active', coberturaVisivel);
-      if (coberturaVisivel) camadaCoberturaSMP.addTo(map);
-      else map.removeLayer(camadaCoberturaSMP);
+      const hdrBtn = document.getElementById('header-btn-cob');
+      if (hdrBtn) {
+        hdrBtn.classList.toggle('cob-on', coberturaVisivel);
+        hdrBtn.textContent = coberturaVisivel
+          ? '📡 Raio ERBs (1,81 km): ON'
+          : '📡 Raio ERBs (1,81 km): OFF';
+      }
+      if (coberturaVisivel) {
+        alternarAba('map');
+        camadaCoberturaSMP.addTo(map);
+      } else {
+        map.removeLayer(camadaCoberturaSMP);
+      }
     }
 
     // RENDERIZAÇÃO DAS 3 SOLUÇÕES
