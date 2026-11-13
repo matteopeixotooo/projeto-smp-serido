@@ -1,21 +1,27 @@
 """
-mapa_interativo.py - Clone Funcional do Ubiquiti ISP Design Center (UISP)
-Plota as 3 melhores soluções de topologia calculadas sobre o relevo real (DEM Copernicus 30 m),
-com destaque para a Solução #1 (Melhor Caso), notas comparativas detalhadas, controle para
-ativar/desativar individualmente ou todas as 3 soluções de uma vez, e corte altimétrico real.
+mapa_interativo.py - Simulador UISP Design Center + Interface Didática de Cálculos & Orçamento.
+Gera outputs/mapa_interativo.html e index.html (standalone offline para GitHub Pages).
 """
 import os
 import json
 import webbrowser
+from src.etapa2_cobertura import calcular_balanco_potencia
 
 ARQ_SITIOS = "outputs/todos_sitios.json"
 ARQ_ENLACES = "outputs/enlaces_com_antenas.json"
 ARQ_SOLUCOES = "outputs/solucoes_topologia.json"
+ARQ_DEMANDA = "outputs/demanda_capacidade.json" if os.path.exists("outputs/demanda_capacidade.json") else "demanda_capacidade.json"
+ARQ_COBERTURA = "outputs/dimensionamento_cobertura.json"
+ARQ_INTERFERENCIA = "outputs/relatorio_interferencia.json"
 
 sitios_otimos = []
 enlaces_otimos = []
 solucoes_topologia = []
 perfis_reais = []
+demanda_dados = []
+cobertura_dados = []
+interferencia_dados = {}
+balanco_dados = calcular_balanco_potencia()
 
 if os.path.exists("outputs/perfis_enlaces.json"):
     with open("outputs/perfis_enlaces.json", "r", encoding="utf-8") as f:
@@ -37,43 +43,59 @@ if os.path.exists(ARQ_SOLUCOES):
     with open(ARQ_SOLUCOES, "r", encoding="utf-8") as f:
         solucoes_topologia = json.load(f)
 
+if os.path.exists(ARQ_DEMANDA):
+    with open(ARQ_DEMANDA, "r", encoding="utf-8") as f:
+        demanda_dados = json.load(f)
+
+if os.path.exists(ARQ_COBERTURA):
+    with open(ARQ_COBERTURA, "r", encoding="utf-8") as f:
+        cobertura_dados = json.load(f)
+
+if os.path.exists(ARQ_INTERFERENCIA):
+    with open(ARQ_INTERFERENCIA, "r", encoding="utf-8") as f:
+        interferencia_dados = json.load(f)
+
 html_code = f"""<!DOCTYPE html>
 <html lang="pt-br">
 <head>
   <meta charset="UTF-8">
-  <title>UISP Design Center - Simulador Seridó (Top 3 Soluções)</title>
+  <title>UISP Design Center - Projeto SMP Seridó (Top 3 + Engenharia & Orçamento)</title>
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <style>
     * {{ box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }}
     body {{ background: #0f1117; color: #e1e4ea; height: 100vh; display: flex; flex-direction: column; overflow: hidden; }}
-    
+
     /* TOPO / HEADER UISP */
-    #header {{ height: 48px; background: #161822; border-bottom: 1px solid #282b3c; display: flex; align-items: center; justify-content: space-between; padding: 0 16px; z-index: 2000; }}
-    .logo-box {{ display: flex; align-items: center; gap: 10px; font-weight: bold; font-size: 1.05rem; color: #fff; }}
-    .logo-badge {{ background: #0070f3; color: white; padding: 2px 7px; border-radius: 4px; font-size: 0.8rem; font-weight: 800; }}
-    .header-info {{ font-size: 0.85rem; color: #8a8f9d; display: flex; gap: 20px; align-items: center; }}
+    #header {{ height: 50px; background: #161822; border-bottom: 1px solid #282b3c; display: flex; align-items: center; justify-content: space-between; padding: 0 16px; z-index: 2000; flex-shrink: 0; }}
+    .logo-box {{ display: flex; align-items: center; gap: 10px; font-weight: bold; font-size: 1.02rem; color: #fff; }}
+    .logo-badge {{ background: #0070f3; color: white; padding: 2px 7px; border-radius: 4px; font-size: 0.78rem; font-weight: 800; }}
+    .nav-tabs {{ display: flex; gap: 8px; align-items: center; }}
+    .nav-tab {{ background: #202434; border: 1px solid #323850; color: #b7bfd4; padding: 6px 14px; border-radius: 6px; font-size: 0.84rem; font-weight: 700; cursor: pointer; transition: all 0.15s; }}
+    .nav-tab:hover {{ background: #2a3046; color: #fff; }}
+    .nav-tab.active {{ background: #0070f3; border-color: #3291ff; color: #fff; box-shadow: 0 0 12px rgba(0, 112, 243, 0.35); }}
+    .header-info {{ font-size: 0.8rem; color: #8a8f9d; display: flex; gap: 16px; align-items: center; }}
     .header-info b {{ color: #00ff55; }}
 
     /* ÁREA DO MAPA */
-    #map-wrapper {{ flex: 1; position: relative; width: 100%; }}
+    #map-wrapper {{ flex: 1; position: relative; width: 100%; display: block; }}
     #map {{ width: 100%; height: 100%; }}
 
     /* BARRA DE FERRAMENTAS FLUTUANTE */
     #toolbar {{ position: absolute; top: 16px; left: 16px; background: rgba(22, 24, 34, 0.94); border: 1px solid #2d3142; border-radius: 8px; display: flex; flex-direction: column; gap: 4px; padding: 6px; z-index: 1500; box-shadow: 0 4px 16px rgba(0,0,0,0.6); }}
-    .tool-btn {{ width: 42px; height: 42px; background: transparent; border: 1px solid transparent; border-radius: 6px; color: #a4a9b6; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 1.25rem; transition: all 0.2s; }}
+    .tool-btn {{ width: 42px; height: 42px; background: transparent; border: 1px solid transparent; border-radius: 6px; color: #a4a9b6; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 1.2rem; transition: all 0.2s; }}
     .tool-btn:hover {{ background: #282c3f; color: #fff; }}
     .tool-btn.active {{ background: #0070f3; color: #fff; border-color: #3291ff; }}
     .tool-sep {{ height: 1px; background: #2d3142; margin: 4px 0; }}
 
     /* PAINEL FLUTUANTE DAS 3 MELHORES SOLUÇÕES */
-    #solutions-panel {{ position: absolute; top: 16px; left: 72px; width: 430px; max-height: calc(100vh - 80px); background: rgba(18, 20, 30, 0.95); border: 1px solid #2e3348; border-radius: 10px; z-index: 1500; box-shadow: 0 8px 28px rgba(0,0,0,0.75); display: flex; flex-direction: column; overflow: hidden; backdrop-filter: blur(8px); transition: all 0.2s ease; }}
+    #solutions-panel {{ position: absolute; top: 16px; left: 72px; width: 430px; max-height: calc(100vh - 90px); background: rgba(18, 20, 30, 0.95); border: 1px solid #2e3348; border-radius: 10px; z-index: 1500; box-shadow: 0 8px 28px rgba(0,0,0,0.75); display: flex; flex-direction: column; overflow: hidden; backdrop-filter: blur(8px); transition: all 0.2s ease; }}
     #solutions-panel.minimized {{ width: 290px; max-height: 44px; }}
     .sol-panel-header {{ display: flex; justify-content: space-between; align-items: center; padding: 10px 14px; background: #161927; border-bottom: 1px solid #282d42; cursor: pointer; user-select: none; }}
-    .sol-panel-title {{ font-size: 0.9rem; font-weight: 700; color: #fff; display: flex; align-items: center; gap: 8px; }}
+    .sol-panel-title {{ font-size: 0.88rem; font-weight: 700; color: #fff; display: flex; align-items: center; gap: 8px; }}
     .sol-panel-body {{ padding: 10px 12px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; }}
     .sol-bulk-actions {{ display: flex; gap: 6px; }}
-    .bulk-btn {{ flex: 1; padding: 6px 8px; background: #222638; border: 1px solid #363c56; color: #d5d9e6; border-radius: 6px; font-size: 0.76rem; font-weight: 600; cursor: pointer; transition: all 0.15s; }}
+    .bulk-btn {{ flex: 1; padding: 6px 8px; background: #222638; border: 1px solid #363c56; color: #d5d9e6; border-radius: 6px; font-size: 0.75rem; font-weight: 600; cursor: pointer; transition: all 0.15s; }}
     .bulk-btn:hover {{ background: #2e344d; color: #fff; border-color: #4f587d; }}
     .bulk-btn.primary {{ background: rgba(0, 255, 85, 0.14); border-color: #00ff55; color: #00ff55; }}
     .bulk-btn.primary:hover {{ background: rgba(0, 255, 85, 0.24); }}
@@ -82,58 +104,96 @@ html_code = f"""<!DOCTYPE html>
     .sol-card.best-case {{ background: linear-gradient(180deg, rgba(0, 255, 85, 0.10) 0%, rgba(23, 26, 40, 0.95) 100%); border: 1.5px solid #00ff55; box-shadow: 0 0 14px rgba(0, 255, 85, 0.18); }}
     .sol-card.inactive {{ opacity: 0.52; }}
     .sol-card-top {{ display: flex; align-items: center; justify-content: space-between; gap: 8px; }}
-    .sol-check-label {{ display: flex; align-items: center; gap: 8px; cursor: pointer; font-weight: 700; font-size: 0.84rem; color: #fff; }}
+    .sol-check-label {{ display: flex; align-items: center; gap: 8px; cursor: pointer; font-weight: 700; font-size: 0.82rem; color: #fff; }}
     .sol-check-label input[type="checkbox"] {{ width: 16px; height: 16px; cursor: pointer; accent-color: #00ff55; }}
     .sol-swatch {{ width: 14px; height: 5px; border-radius: 3px; display: inline-block; }}
-    .sol-badge-best {{ background: #00ff55; color: #09130c; font-size: 0.68rem; font-weight: 900; padding: 2px 6px; border-radius: 4px; letter-spacing: 0.3px; }}
-    .sol-badge-alt {{ background: #262b40; color: #b5bdd0; font-size: 0.68rem; font-weight: 700; padding: 2px 6px; border-radius: 4px; }}
-    .sol-metrics {{ display: flex; flex-wrap: wrap; gap: 6px; font-size: 0.74rem; color: #c5cbe0; background: #121520; padding: 5px 8px; border-radius: 5px; border: 1px solid #222638; }}
+    .sol-badge-best {{ background: #00ff55; color: #09130c; font-size: 0.67rem; font-weight: 900; padding: 2px 6px; border-radius: 4px; }}
+    .sol-badge-alt {{ background: #262b40; color: #b5bdd0; font-size: 0.67rem; font-weight: 700; padding: 2px 6px; border-radius: 4px; }}
+    .sol-metrics {{ display: flex; flex-wrap: wrap; gap: 6px; font-size: 0.73rem; color: #c5cbe0; background: #121520; padding: 5px 8px; border-radius: 5px; border: 1px solid #222638; }}
     .sol-metrics span b {{ color: #fff; }}
-    .sol-note {{ font-size: 0.75rem; line-height: 1.38; color: #b8bfd4; }}
+    .sol-note {{ font-size: 0.74rem; line-height: 1.38; color: #b8bfd4; }}
     .sol-note b {{ color: #e2e6f3; }}
-    .sol-why-win {{ font-size: 0.74rem; line-height: 1.35; color: #9dfcc0; background: rgba(0, 255, 85, 0.08); border-left: 3px solid #00ff55; padding: 5px 8px; border-radius: 4px; }}
-    .sol-why-lose {{ font-size: 0.73rem; line-height: 1.35; color: #ffd591; background: rgba(255, 171, 0, 0.08); border-left: 3px solid #ffab00; padding: 4px 8px; border-radius: 4px; }}
+    .sol-why-win {{ font-size: 0.73rem; line-height: 1.35; color: #9dfcc0; background: rgba(0, 255, 85, 0.08); border-left: 3px solid #00ff55; padding: 5px 8px; border-radius: 4px; }}
+    .sol-why-lose {{ font-size: 0.72rem; line-height: 1.35; color: #ffd591; background: rgba(255, 171, 0, 0.08); border-left: 3px solid #ffab00; padding: 4px 8px; border-radius: 4px; }}
 
-    /* PAINEL INFERIOR GAVETA (RÉPLICA UISP) */
-    #bottom-drawer {{ position: absolute; bottom: 0; left: 0; right: 0; background: rgba(18, 20, 29, 0.96); border-top: 1px solid #2c3042; backdrop-filter: blur(8px); display: none; flex-direction: column; z-index: 1600; box-shadow: 0 -8px 24px rgba(0,0,0,0.7); max-height: 390px; transition: transform 0.25s ease; }}
-    #drawer-header {{ display: flex; justify-content: space-between; align-items: center; padding: 6px 16px; background: #13151f; border-bottom: 1px solid #242736; font-size: 0.85rem; gap: 12px; }}
+    /* GAVETA INFERIOR (RÉPLICA UISP COM FRESNEL + ABAULAMENTO) */
+    #bottom-drawer {{ position: absolute; bottom: 0; left: 0; right: 0; background: rgba(16, 18, 27, 0.97); border-top: 1px solid #2c3042; backdrop-filter: blur(8px); display: none; flex-direction: column; z-index: 1600; box-shadow: 0 -8px 24px rgba(0,0,0,0.75); max-height: 420px; }}
+    #drawer-header {{ display: flex; justify-content: space-between; align-items: center; padding: 6px 16px; background: #12141e; border-bottom: 1px solid #242736; font-size: 0.84rem; gap: 12px; }}
     #drawer-title {{ display: flex; align-items: center; gap: 10px; font-weight: 600; flex-wrap: wrap; }}
-    .badge-rota {{ padding: 2px 8px; border-radius: 4px; font-size: 0.75rem; font-weight: bold; }}
+    .badge-rota {{ padding: 2px 8px; border-radius: 4px; font-size: 0.74rem; font-weight: bold; }}
     .rota-otima {{ background: rgba(0, 255, 85, 0.15); color: #00ff55; border: 1px solid #00ff55; }}
     .rota-sol2 {{ background: rgba(0, 212, 255, 0.15); color: #00d4ff; border: 1px solid #00d4ff; }}
     .rota-sol3 {{ background: rgba(255, 171, 0, 0.15); color: #ffab00; border: 1px solid #ffab00; }}
     .rota-custom {{ background: rgba(0, 180, 255, 0.15); color: #00b4ff; border: 1px solid #00b4ff; }}
-    #drawer-note {{ font-size: 0.76rem; color: #a9b2c7; flex: 1; text-align: right; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }}
+    #drawer-note {{ font-size: 0.75rem; color: #a9b2c7; flex: 1; text-align: right; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }}
     .close-btn {{ cursor: pointer; background: transparent; border: none; color: #8e94a5; font-size: 1.2rem; }}
     .close-btn:hover {{ color: #fff; }}
 
-    #drawer-body {{ display: grid; grid-template-columns: 310px 1fr 310px; gap: 12px; padding: 12px 16px; }}
-    .card-station {{ background: #181a26; border: 1px solid #272a3b; border-radius: 8px; padding: 10px 12px; display: flex; flex-direction: column; gap: 8px; }}
-    .card-title {{ font-size: 0.85rem; font-weight: bold; color: #fff; display: flex; justify-content: space-between; }}
-    .field-row {{ display: flex; justify-content: space-between; align-items: center; font-size: 0.8rem; color: #9da3b4; }}
-    .field-row select, .field-row input[type="text"] {{ background: #222534; border: 1px solid #363b52; color: #fff; padding: 3px 6px; border-radius: 4px; font-size: 0.8rem; width: 55%; }}
+    #drawer-body {{ display: grid; grid-template-columns: 315px 1fr 315px; gap: 12px; padding: 10px 16px; }}
+    .card-station {{ background: #181a26; border: 1px solid #272a3b; border-radius: 8px; padding: 10px 12px; display: flex; flex-direction: column; gap: 6px; }}
+    .card-title {{ font-size: 0.84rem; font-weight: bold; color: #fff; display: flex; justify-content: space-between; align-items: center; gap: 6px; }}
+    .tower-lock-pill {{ font-size: 0.68rem; background: rgba(0, 180, 255, 0.14); color: #67d4ff; border: 1px solid rgba(0, 180, 255, 0.35); padding: 1px 6px; border-radius: 4px; font-weight: 600; }}
+    .field-row {{ display: flex; justify-content: space-between; align-items: center; font-size: 0.78rem; color: #9da3b4; }}
+    .field-row select {{ background: #222534; border: 1px solid #363b52; color: #fff; padding: 3px 6px; border-radius: 4px; font-size: 0.77rem; width: 58%; }}
     .stepper {{ display: flex; align-items: center; gap: 4px; }}
-    .step-btn {{ width: 26px; height: 24px; background: #282c3e; border: 1px solid #3a3f58; color: #fff; border-radius: 4px; cursor: pointer; font-weight: bold; display: flex; align-items: center; justify-content: center; }}
+    .step-btn {{ width: 24px; height: 22px; background: #282c3e; border: 1px solid #3a3f58; color: #fff; border-radius: 4px; cursor: pointer; font-weight: bold; display: flex; align-items: center; justify-content: center; }}
     .step-btn:hover {{ background: #383e58; }}
-    .step-val {{ font-size: 0.85rem; color: #00ff55; font-weight: bold; width: 48px; text-align: center; }}
+    .step-val {{ font-size: 0.84rem; color: #00ff55; font-weight: bold; width: 46px; text-align: center; }}
 
-    /* SINAL RECEBIDO GAUGE */
     .signal-box {{ margin-top: auto; padding-top: 6px; border-top: 1px solid #242738; }}
-    .signal-val {{ font-size: 1.15rem; font-weight: 800; color: #00ff55; display: flex; justify-content: space-between; align-items: baseline; }}
+    .signal-val {{ font-size: 1.08rem; font-weight: 800; color: #00ff55; display: flex; justify-content: space-between; align-items: baseline; }}
     .signal-bar-wrap {{ height: 6px; background: #222534; border-radius: 3px; overflow: hidden; margin-top: 4px; }}
     .signal-bar-fill {{ height: 100%; width: 75%; background: linear-gradient(90deg, #ff4444, #ffbb00, #00ff55); }}
 
-    /* CENTRO: CAPACIDADE E CORTE ALTIMÉTRICO */
     .card-center {{ display: flex; flex-direction: column; gap: 6px; }}
-    .center-top {{ display: flex; justify-content: space-between; align-items: center; background: #181a26; padding: 6px 12px; border-radius: 6px; border: 1px solid #272a3b; }}
-    .capacity-tag {{ font-size: 1.05rem; font-weight: bold; color: #fff; display: flex; align-items: baseline; gap: 6px; }}
-    .capacity-val {{ color: #3291ff; font-size: 1.25rem; font-weight: 900; }}
-    .status-badge {{ font-size: 0.8rem; padding: 3px 8px; border-radius: 4px; font-weight: bold; }}
+    .center-top {{ display: flex; justify-content: space-between; align-items: center; background: #181a26; padding: 6px 12px; border-radius: 6px; border: 1px solid #272a3b; flex-wrap: wrap; gap: 6px; }}
+    .capacity-tag {{ font-size: 0.98rem; font-weight: bold; color: #fff; display: flex; align-items: baseline; gap: 6px; }}
+    .capacity-val {{ color: #3291ff; font-size: 1.18rem; font-weight: 900; }}
+    .status-badge {{ font-size: 0.76rem; padding: 3px 8px; border-radius: 4px; font-weight: bold; }}
     .status-clear {{ background: rgba(0, 255, 85, 0.15); color: #00ff55; }}
     .status-obstr {{ background: rgba(255, 68, 68, 0.2); color: #ff4444; }}
+    .phys-strip {{ display: flex; justify-content: space-between; align-items: center; font-size: 0.72rem; color: #9fb0c9; background: #131622; padding: 4px 10px; border-radius: 5px; border: 1px solid #23273a; flex-wrap: wrap; gap: 8px; }}
+    .phys-strip b {{ color: #e2e8f0; }}
 
-    #canvas-container {{ flex: 1; height: 175px; background: #13151f; border-radius: 6px; border: 1px solid #242736; position: relative; }}
+    #canvas-container {{ flex: 1; height: 185px; background: #11141e; border-radius: 6px; border: 1px solid #242736; position: relative; cursor: crosshair; }}
     canvas {{ width: 100%; height: 100%; display: block; }}
+    #canvas-tooltip {{ position: absolute; display: none; pointer-events: none; background: rgba(14, 17, 26, 0.95); border: 1px solid #38bdf8; border-radius: 6px; padding: 6px 9px; font-size: 0.72rem; color: #e2e8f0; line-height: 1.45; box-shadow: 0 4px 14px rgba(0,0,0,0.6); z-index: 50; min-width: 195px; }}
+
+    /* SEGUNDA INTERFACE: CÁLCULOS, ENGENHARIA E ORÇAMENTO */
+    #calc-view {{ flex: 1; display: none; overflow-y: auto; background: #0d1017; padding: 24px 28px 60px 28px; }}
+    .calc-container {{ max-width: 1280px; margin: 0 auto; display: flex; flex-direction: column; gap: 22px; }}
+    .calc-hero {{ background: linear-gradient(135deg, #131a2b 0%, #0f172a 100%); border: 1px solid #26324d; border-radius: 12px; padding: 22px 24px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; }}
+    .calc-hero h1 {{ font-size: 1.45rem; color: #fff; margin-bottom: 6px; }}
+    .calc-hero p {{ font-size: 0.88rem; color: #9fb0c9; max-width: 780px; line-height: 1.45; }}
+    .kpi-grid {{ display: grid; grid-template-columns: repeat(auto-fit, minmax(195px, 1fr)); gap: 12px; }}
+    .kpi-card {{ background: #151926; border: 1px solid #252c40; border-radius: 10px; padding: 14px 16px; }}
+    .kpi-card.highlight {{ border-color: #00ff55; background: linear-gradient(180deg, rgba(0,255,85,0.09) 0%, #151926 100%); }}
+    .kpi-label {{ font-size: 0.74rem; color: #8b96b0; text-transform: uppercase; letter-spacing: 0.4px; margin-bottom: 6px; }}
+    .kpi-value {{ font-size: 1.38rem; font-weight: 800; color: #fff; }}
+    .kpi-card.highlight .kpi-value {{ color: #00ff55; }}
+    .kpi-sub {{ font-size: 0.75rem; color: #9fb0c9; margin-top: 4px; }}
+
+    .section-card {{ background: #141824; border: 1px solid #242b3d; border-radius: 12px; padding: 18px 20px; display: flex; flex-direction: column; gap: 14px; }}
+    .section-title {{ font-size: 1.08rem; font-weight: 800; color: #fff; display: flex; align-items: center; gap: 10px; border-bottom: 1px solid #22293b; padding-bottom: 10px; }}
+    .section-tag {{ font-size: 0.72rem; background: rgba(0, 112, 243, 0.2); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.4); padding: 2px 8px; border-radius: 999px; font-weight: 700; }}
+    .two-col {{ display: grid; grid-template-columns: repeat(auto-fit, minmax(360px, 1fr)); gap: 14px; }}
+    .formula-box {{ background: #0e121b; border: 1px solid #232a3d; border-left: 3px solid #38bdf8; border-radius: 8px; padding: 12px 14px; font-size: 0.83rem; line-height: 1.55; color: #cbd5e1; }}
+    .formula-box code {{ background: #1b2234; color: #7dd3fc; padding: 2px 6px; border-radius: 4px; font-family: monospace; }}
+
+    table.eng-table {{ width: 100%; border-collapse: collapse; font-size: 0.8rem; }}
+    table.eng-table th {{ background: #1b2132; color: #cbd5e1; text-align: left; padding: 8px 10px; border-bottom: 1px solid #2d354c; font-weight: 700; }}
+    table.eng-table td {{ padding: 8px 10px; border-bottom: 1px solid #1e2436; color: #e2e8f0; }}
+    table.eng-table tr:hover td {{ background: rgba(255,255,255,0.025); }}
+    .pill-ok {{ background: rgba(0,255,85,0.14); color: #00ff55; padding: 2px 7px; border-radius: 4px; font-weight: 700; font-size: 0.72rem; }}
+    .pill-bad {{ background: rgba(255,68,68,0.18); color: #ff6b6b; padding: 2px 7px; border-radius: 4px; font-weight: 700; font-size: 0.72rem; }}
+    .pill-info {{ background: rgba(56,189,248,0.14); color: #38bdf8; padding: 2px 7px; border-radius: 4px; font-weight: 700; font-size: 0.72rem; }}
+
+    .budget-grid {{ display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 14px; }}
+    .budget-card {{ background: #10141f; border: 1px solid #262e42; border-radius: 10px; padding: 16px; display: flex; flex-direction: column; gap: 8px; }}
+    .budget-card.win {{ border: 1.5px solid #00ff55; background: linear-gradient(180deg, rgba(0,255,85,0.08) 0%, #10141f 100%); }}
+    .budget-total {{ font-size: 1.5rem; font-weight: 900; color: #fff; }}
+    .budget-card.win .budget-total {{ color: #00ff55; }}
+    .diagram-box {{ background: #0c1018; border: 1px solid #22293b; border-radius: 10px; padding: 14px; overflow-x: auto; }}
   </style>
 </head>
 <body>
@@ -142,22 +202,27 @@ html_code = f"""<!DOCTYPE html>
   <div id="header">
     <div class="logo-box">
       <span class="logo-badge">UISP</span>
-      <span>Design Center - Projeto SMP Seridó</span>
+      <span>Projeto 07 — SMP Seridó & Backhaul Natal</span>
+    </div>
+    <div class="nav-tabs">
+      <button class="nav-tab active" id="tab-btn-map" onclick="alternarAba('map')">🗺️ Simulador & Mapa (Top 3 Rotas)</button>
+      <button class="nav-tab" id="tab-btn-calc" onclick="alternarAba('calc')">🧮 Cálculos, Chuva & Orçamento (Apresentação)</button>
     </div>
     <div class="header-info">
-      <span>Destaque Principal: <b>Solução #1 (Verde Neon ★)</b></span>
-      <span>Núcleo: Currais Novos (CCC)</span>
-      <span>DEM: <b>Copernicus 30m Offline (100% Desobstruído)</b></span>
+      <span>Torres: <b>Única & Fixa ≤ 50 m</b></span>
+      <span>DEM: <b>Copernicus 30m</b></span>
     </div>
   </div>
 
-  <!-- CONTAINER DO MAPA -->
+  <!-- ABA 1: SIMULADOR & MAPA -->
   <div id="map-wrapper">
     <div id="map"></div>
 
     <!-- TOOLBAR FLUTUANTE -->
     <div id="toolbar">
       <button class="tool-btn active" id="btn-select" title="Mãozinha: Selecionar e Inspecionar" onclick="setModo('select')">🖐️</button>
+      <button class="tool-btn" id="btn-cob" title="Mostrar/Ocultar Cobertura Celular 1.800 MHz (R=1,81 km / 3 Setores)" onclick="alternarCoberturaSMP()">📡</button>
+      <button class="tool-btn" id="btn-calc-shortcut" title="Abrir Aba de Cálculos & Orçamento" onclick="alternarAba('calc')">🧮</button>
       <div class="tool-sep"></div>
       <button class="tool-btn" id="btn-site" title="Adicionar Antena / Sítio Livre" onclick="setModo('add_site')">📍</button>
       <button class="tool-btn" id="btn-rep" title="Adicionar Repetidora Livre" onclick="setModo('add_rep')">⚡</button>
@@ -172,7 +237,7 @@ html_code = f"""<!DOCTYPE html>
         <div class="sol-panel-title">
           <span>🏆 Top 3 Melhores Caminhos (Relevo Real)</span>
         </div>
-        <span id="sol-panel-toggle-icon" style="color:#9da3b4; font-size:0.85rem;">▼ Minimizar</span>
+        <span id="sol-panel-toggle-icon" style="color:#9da3b4; font-size:0.84rem;">▼ Minimizar</span>
       </div>
       <div class="sol-panel-body" id="sol-panel-body">
         <div class="sol-bulk-actions">
@@ -189,7 +254,7 @@ html_code = f"""<!DOCTYPE html>
       <div id="drawer-header">
         <div id="drawer-title">
           <span id="label-enlace-nome">Enlace Selecionado</span>
-          <span class="badge-rota rota-otima" id="badge-tipo-enlace">SOLUÇÃO #1 (ÓTIMA)</span>
+          <span class="badge-rota rota-otima" id="badge-tipo-enlace">SOLUÇÃO #1</span>
         </div>
         <div id="drawer-note"></div>
         <button class="close-btn" onclick="fecharGaveta()">✕</button>
@@ -200,7 +265,7 @@ html_code = f"""<!DOCTYPE html>
         <div class="card-station">
           <div class="card-title">
             <span id="st1-nome">Estação 1</span>
-            <span style="color: #6c7284; font-size: 0.75rem;">TX</span>
+            <span class="tower-lock-pill" id="st1-grau-pill">Torre fixa • 1 enlace</span>
           </div>
           <div class="field-row">
             <span>Coordenadas:</span>
@@ -218,15 +283,16 @@ html_code = f"""<!DOCTYPE html>
             <select id="st1-antena" onchange="atualizarHardware()">
               <option value="35.0">AF-11G35 (0.9m / 35 dBi)</option>
               <option value="38.5">Dish 1.2m (38.5 dBi)</option>
+              <option value="34.0">AF-5G34 (1.05m / 34 dBi)</option>
               <option value="30.0">AF-5G30 (0.65m / 30 dBi)</option>
               <option value="23.0">AF-5G23 (0.38m / 23 dBi)</option>
             </select>
           </div>
           <div class="field-row">
-            <span>Altura da Torre:</span>
+            <span>Altura Única Torre:</span>
             <div class="stepper">
               <button class="step-btn" onclick="ajustarTorre('st1', -5)">-</button>
-              <span class="step-val" id="st1-h-torre">35 m</span>
+              <span class="step-val" id="st1-h-torre">15 m</span>
               <button class="step-btn" onclick="ajustarTorre('st1', +5)">+</button>
             </div>
           </div>
@@ -236,7 +302,7 @@ html_code = f"""<!DOCTYPE html>
           </div>
           <div class="signal-box">
             <div class="signal-val">
-              <span style="font-size: 0.8rem; color: #9da3b4;">Sinal Esperado:</span>
+              <span style="font-size: 0.78rem; color: #9da3b4;">Sinal Esperado (RSL):</span>
               <span id="st1-rsl">-41 dBm</span>
             </div>
             <div class="signal-bar-wrap">
@@ -245,18 +311,18 @@ html_code = f"""<!DOCTYPE html>
           </div>
         </div>
 
-        <!-- CENTRO: GRÁFICO E CAPACIDADE -->
+        <!-- CENTRO: GRÁFICO COM FRESNEL ELÍPTICO E ABAULAMENTO -->
         <div class="card-center">
           <div class="center-top">
             <div class="capacity-tag">
               <span>Throughput:</span>
-              <span class="capacity-val" id="txt-capacity">860 Mbps</span>
+              <span class="capacity-val" id="txt-capacity">240 Mbps</span>
             </div>
-            <div style="font-size: 0.85rem; color: #a4a9b6;">
+            <div style="font-size: 0.82rem; color: #a4a9b6;">
               Distância: <b id="txt-dist" style="color: #fff;">32.5 km</b> | 
               Canal: 
               <select id="sel-channel-width" style="background: #242738; color: #00ff55; border: 1px solid #363b52; border-radius: 4px; padding: 2px 4px;" onchange="atualizarHardware()">
-                <option value="20">20 MHz</option>
+                <option value="20">20 MHz (5G)</option>
                 <option value="28" selected>28 MHz (ANATEL 11G)</option>
                 <option value="40">40 MHz</option>
                 <option value="56">56 MHz (ANATEL 11G)</option>
@@ -266,8 +332,15 @@ html_code = f"""<!DOCTYPE html>
             <div class="status-badge status-clear" id="badge-obstrucao">VISADA LIMPA</div>
           </div>
 
+          <div class="phys-strip">
+            <span>🌍 Abaulamento (k=4/3): <b id="txt-abaulamento">+0.0 m</b> no centro</span>
+            <span>🔵 Elipse 1ª Fresnel: <b id="txt-fresnel-r1">0.0 m</b> (60%: <b id="txt-fresnel-06">0.0 m</b>)</span>
+            <span>🌧️ Chuva 50 mm/h: <b id="txt-chuva-loss">-0.0 dB</b></span>
+          </div>
+
           <div id="canvas-container">
             <canvas id="profileCanvas"></canvas>
+            <div id="canvas-tooltip"></div>
           </div>
         </div>
 
@@ -275,7 +348,7 @@ html_code = f"""<!DOCTYPE html>
         <div class="card-station">
           <div class="card-title">
             <span id="st2-nome">Estação 2</span>
-            <span style="color: #6c7284; font-size: 0.75rem;">RX</span>
+            <span class="tower-lock-pill" id="st2-grau-pill">Torre fixa • 1 enlace</span>
           </div>
           <div class="field-row">
             <span>Coordenadas:</span>
@@ -293,25 +366,26 @@ html_code = f"""<!DOCTYPE html>
             <select id="st2-antena" onchange="atualizarHardware()">
               <option value="35.0">AF-11G35 (0.9m / 35 dBi)</option>
               <option value="38.5">Dish 1.2m (38.5 dBi)</option>
+              <option value="34.0">AF-5G34 (1.05m / 34 dBi)</option>
               <option value="30.0">AF-5G30 (0.65m / 30 dBi)</option>
               <option value="23.0">AF-5G23 (0.38m / 23 dBi)</option>
             </select>
           </div>
           <div class="field-row">
-            <span>Altura da Torre:</span>
+            <span>Altura Única Torre:</span>
             <div class="stepper">
               <button class="step-btn" onclick="ajustarTorre('st2', -5)">-</button>
-              <span class="step-val" id="st2-h-torre">45 m</span>
+              <span class="step-val" id="st2-h-torre">15 m</span>
               <button class="step-btn" onclick="ajustarTorre('st2', +5)">+</button>
             </div>
           </div>
           <div class="field-row">
-            <span>Fade Margin (FM):</span>
-            <b id="txt-fade-margin" style="color: #00ff55;">32.1 dB</b>
+            <span>Fade Margin (Limpo / Chuva):</span>
+            <b id="txt-fade-margin" style="color: #00ff55;">32.1 dB / 20.0 dB</b>
           </div>
           <div class="signal-box">
             <div class="signal-val">
-              <span style="font-size: 0.8rem; color: #9da3b4;">Sinal Esperado:</span>
+              <span style="font-size: 0.78rem; color: #9da3b4;">Sinal Esperado (RSL):</span>
               <span id="st2-rsl">-41 dBm</span>
             </div>
             <div class="signal-bar-wrap">
@@ -323,32 +397,78 @@ html_code = f"""<!DOCTYPE html>
     </div>
   </div>
 
+  <!-- ABA 2: CÁLCULOS, CHUVA & ORÇAMENTO (APRESENTAÇÃO EM SALA) -->
+  <div id="calc-view">
+    <div class="calc-container" id="calc-content"></div>
+  </div>
+
   <script>
     // DADOS INJETADOS DO MOTOR PYTHON
     const SITIOS_FIXOS = {json.dumps(sitios_otimos, ensure_ascii=False)};
     const ENLACES_FIXOS = {json.dumps(enlaces_otimos, ensure_ascii=False)};
     const SOLUCOES = {json.dumps(solucoes_topologia, ensure_ascii=False)};
     const PERFIS_REAIS = {json.dumps(perfis_reais)};
+    const DEMANDA_SMP = {json.dumps(demanda_dados, ensure_ascii=False)};
+    const COBERTURA_SMP = {json.dumps(cobertura_dados, ensure_ascii=False)};
+    const INTERFERENCIA_SMP = {json.dumps(interferencia_dados, ensure_ascii=False)};
+    const BALANCO_SMP = {json.dumps(balanco_dados, ensure_ascii=False)};
 
-    // ESTADO DA APLICAÇÃO
+    // Mapa de altura física ÚNICA e FIXA por solução e ID de sítio: ALTURAS_SOL[rk][siteId]
+    const ALTURAS_SOL = {{}};
+    const GRAU_SOL = {{}};
+    SOLUCOES.forEach(sol => {{
+      ALTURAS_SOL[sol.rank] = {{ ...(sol.alturas_fixas_torres || {{}}) }};
+      GRAU_SOL[sol.rank] = {{}};
+      sol.enlaces.forEach(l => {{
+        GRAU_SOL[sol.rank][l.id_origem] = (GRAU_SOL[sol.rank][l.id_origem] || 0) + 1;
+        GRAU_SOL[sol.rank][l.id_destino] = (GRAU_SOL[sol.rank][l.id_destino] || 0) + 1;
+      }});
+    }});
+
     let modoAtual = 'select';
     let pontoOrigemPtp = null;
     let enlaceSelecionado = null;
     let elementoSelecionado = null;
+    let coberturaVisivel = false;
+    let camadaCoberturaSMP = L.layerGroup();
 
     let sitesCustom = [];
     let linksCustom = [];
     let contadores = {{ site: 1, rep: 1 }};
 
-    // Estado de visibilidade das 3 soluções (por padrão todas ativas, com #1 em destaque no topo)
-    const solucaoAtiva = {{ 1: true, 2: true, 3: true }};
+    const solucaoAtiva = {{ 1: true, 2: false, 3: false }};
     const camadasSolucao = {{ 1: [], 2: [], 3: [] }};
     const marcadoresFixos = {{}};
 
+    // Estado do último desenho no canvas para tooltip interativo
+    let ultimoPerfilCanvas = null;
+
+    // ALTERNÂNCIA DE ABAS (MAPA <-> CÁLCULOS/ORÇAMENTO)
+    function alternarAba(aba) {{
+      const mapWrap = document.getElementById('map-wrapper');
+      const calcView = document.getElementById('calc-view');
+      const btnMap = document.getElementById('tab-btn-map');
+      const btnCalc = document.getElementById('tab-btn-calc');
+
+      if (aba === 'calc') {{
+        mapWrap.style.display = 'none';
+        calcView.style.display = 'block';
+        btnMap.classList.remove('active');
+        btnCalc.classList.add('active');
+        renderizarPainelCalculos();
+      }} else {{
+        calcView.style.display = 'none';
+        mapWrap.style.display = 'block';
+        btnCalc.classList.remove('active');
+        btnMap.classList.add('active');
+        setTimeout(() => map.invalidateSize(), 100);
+      }}
+    }}
+
     // INICIALIZAÇÃO DO MAPA LEAFLET
     const map = L.map('map', {{
-      center: [-6.40, -36.65],
-      zoom: 10,
+      center: [-6.25, -36.20],
+      zoom: 9,
       zoomControl: false
     }});
 
@@ -365,7 +485,7 @@ html_code = f"""<!DOCTYPE html>
     L.control.layers({{"🛰️ Satélite": layerSatelite, "🏔️ Relevo / Topo": layerTopo}}, null, {{ position: 'topright' }}).addTo(map);
 
     function getSiteIcon(tipo, fixo=true, solucoesDoNo=[1]) {{
-      let cor = '#00e5ff'; // ERB azul ciano
+      let cor = '#00e5ff';
       let border = '#ffffff';
       let raio = 8;
 
@@ -374,19 +494,17 @@ html_code = f"""<!DOCTYPE html>
         raio = 11;
       }} else if (tipo.includes('REPETIDORA')) {{
         if (solucoesDoNo.includes(1)) {{
-          cor = '#00ff55'; // Repetidora da Solução #1 destacada em verde-limão
+          cor = '#00ff55';
           raio = 10;
         }} else if (solucoesDoNo.includes(2)) {{
-          cor = '#00d4ff'; // Repetidora da Solução #2 em azul ciano
+          cor = '#00d4ff';
           raio = 9;
         }} else {{
-          cor = '#ffab00'; // Repetidora da Solução #3 em âmbar
+          cor = '#ffab00';
           raio = 9;
         }}
       }}
-      if (!fixo) {{
-        border = '#00ff55';
-      }}
+      if (!fixo) border = '#00ff55';
 
       return L.divIcon({{
         className: 'custom-site-marker',
@@ -396,7 +514,15 @@ html_code = f"""<!DOCTYPE html>
       }});
     }}
 
-    // MAPAS DE ACESSO RÁPIDO AOS SÍTIOS FIXOS
+    function tooltipDoSitio(s) {{
+      const sols = s.solucoes || [1];
+      const rkRef = solucaoAtiva[1] && sols.includes(1) ? 1 : (solucaoAtiva[2] && sols.includes(2) ? 2 : (sols[0] || 1));
+      const hAtual = (ALTURAS_SOL[rkRef] && ALTURAS_SOL[rkRef][s.id]) || s.altura_torre_m;
+      const grau = (GRAU_SOL[rkRef] && GRAU_SOL[rkRef][s.id]) || 1;
+      const tagSols = s.tipo.includes('REPETIDORA') ? `<br>Usada na(s) Solução(ões): <b>#${{sols.join(', #')}}</b>` : '';
+      return `<b>${{s.nome}}</b><br>Torre fixa (Sol. #${{rkRef}}): <b>${{hAtual}} m</b> (${{grau}} enlace(s))<br>Cota terreno: ${{s.altitude_terreno_m}} m${{tagSols}}`;
+    }}
+
     const dictSitiosFixos = {{}};
     SITIOS_FIXOS.forEach(s => {{
       dictSitiosFixos[s.id] = s;
@@ -406,20 +532,62 @@ html_code = f"""<!DOCTYPE html>
       }}).addTo(map);
 
       mk.dados = {{ ...s, fixo: true, solucoes: sols }};
-      const tagSols = s.tipo.includes('REPETIDORA') ? `<br>Usada na(s) Solução(ões): <b>#${{sols.join(', #')}}</b>` : '';
-      mk.bindTooltip(`<b>${{s.nome}}</b><br>Torre máx: ${{s.altura_torre_m}}m | Cota terreno: ${{s.altitude_terreno_m}}m${{tagSols}}`, {{ direction: 'top' }});
+      mk.bindTooltip(tooltipDoSitio(s), {{ direction: 'top' }});
       mk.on('click', () => tratarCliqueNoNo(mk));
       marcadoresFixos[s.id] = mk;
     }});
 
-    // RENDERIZAÇÃO DAS 3 SOLUÇÕES (desenha #3, depois #2, e por último #1 por cima em destaque)
+    // CAMADA DE COBERTURA CELULAR SMP 1800 MHz (R = 1.808 km, 3 Setores de 120°)
+    function construirCoberturaSMP() {{
+      camadaCoberturaSMP.clearLayers();
+      SITIOS_FIXOS.filter(s => s.raio_celula_km > 0).forEach(s => {{
+        const R_m = s.raio_celula_km * 1000.0;
+        L.circle([s.latitude, s.longitude], {{
+          radius: R_m,
+          color: '#38bdf8',
+          weight: 1.5,
+          fillColor: '#0ea5e9',
+          fillOpacity: 0.12,
+          dashArray: '5, 5'
+        }}).addTo(camadaCoberturaSMP);
+
+        // Desenha os 3 raios divisores de setores (0°, 120°, 240°)
+        [0, 120, 240].forEach(ang => {{
+          const rad = ang * Math.PI / 180.0;
+          const dLat = (s.raio_celula_km * Math.cos(rad)) / 111.139;
+          const dLon = (s.raio_celula_km * Math.sin(rad)) / (111.139 * Math.cos(s.latitude * Math.PI / 180.0));
+          L.polyline([[s.latitude, s.longitude], [s.latitude + dLat, s.longitude + dLon]], {{
+            color: '#7dd3fc', weight: 1, opacity: 0.55
+          }}).addTo(camadaCoberturaSMP);
+        }});
+      }});
+    }}
+    construirCoberturaSMP();
+
+    function alternarCoberturaSMP() {{
+      coberturaVisivel = !coberturaVisivel;
+      document.getElementById('btn-cob').classList.toggle('active', coberturaVisivel);
+      if (coberturaVisivel) camadaCoberturaSMP.addTo(map);
+      else map.removeLayer(camadaCoberturaSMP);
+    }}
+
+    // RENDERIZAÇÃO DAS 3 SOLUÇÕES
     const estiloPorRank = {{
       1: {{ color: '#00ff55', weight: 5.5, opacity: 0.98, dashArray: null }},
       2: {{ color: '#00d4ff', weight: 3.5, opacity: 0.88, dashArray: '8, 6' }},
       3: {{ color: '#ffab00', weight: 3.5, opacity: 0.88, dashArray: '3, 7' }},
     }};
 
-    // Desenha da #3 para a #1 para que a #1 fique sempre no topo visual
+    function tooltipDoEnlace(poly) {{
+      const d = poly.dados;
+      const rk = d.rank_solucao;
+      const hA = ALTURAS_SOL[rk] ? ALTURAS_SOL[rk][d.id_origem] : d.h_torre_origem_m;
+      const hB = ALTURAS_SOL[rk] ? ALTURAS_SOL[rk][d.id_destino] : d.h_torre_destino_m;
+      return `<b>[Solução #${{rk}}] ${{d.origem}} ⇄ ${{d.destino}}</b><br>` +
+             `Dist: ${{d.distancia_km}} km (${{d.frequencia_ghz}} GHz) | Torres fixas: <b>${{hA}}m / ${{hB}}m</b><br>` +
+             `Folga Fresnel (60% + k=4/3): +${{d.folga_fresnel_m}}m | Chuva 50mm/h: -${{d.atenuacao_chuva_50mmh_db || 0}} dB`;
+    }}
+
     [...SOLUCOES].sort((a, b) => b.rank - a.rank).forEach(sol => {{
       const rk = sol.rank;
       const est = estiloPorRank[rk] || estiloPorRank[1];
@@ -429,8 +597,6 @@ html_code = f"""<!DOCTYPE html>
         const stB = dictSitiosFixos[l.id_destino];
         if (!stA || !stB) return;
 
-        // Pequeno deslocamento visual nas soluções 2 e 3 quando compartilham o mesmo par de nós,
-        // para que todas as 3 soluções possam ser vistas simultaneamente no mapa
         let latOffset = 0, lonOffset = 0;
         if (rk === 2) {{ latOffset = 0.0014; lonOffset = -0.0014; }}
         if (rk === 3) {{ latOffset = -0.0014; lonOffset = 0.0014; }}
@@ -445,7 +611,8 @@ html_code = f"""<!DOCTYPE html>
           weight: est.weight,
           opacity: est.opacity,
           dashArray: est.dashArray
-        }}).addTo(map);
+        }});
+        if (solucaoAtiva[rk]) poly.addTo(map);
 
         poly.dados = {{
           ...l,
@@ -457,13 +624,7 @@ html_code = f"""<!DOCTYPE html>
           destino_obj: stB
         }};
 
-        poly.bindTooltip(
-          `<b>[Solução #${{rk}}] ${{l.origem}} ⇄ ${{l.destino}}</b><br>` +
-          `Dist: ${{l.distancia_km}} km | Torres: ${{l.h_torre_origem_m}}m / ${{l.h_torre_destino_m}}m | Folga Fresnel: +${{l.folga_fresnel_m}}m<br>` +
-          `<i>${{sol.nota_curta}}</i>`,
-          {{ sticky: true }}
-        );
-
+        poly.bindTooltip(tooltipDoEnlace(poly), {{ sticky: true }});
         poly.on('click', (e) => {{
           L.DomEvent.stopPropagation(e);
           selecionarEnlace(poly);
@@ -473,7 +634,11 @@ html_code = f"""<!DOCTYPE html>
       }});
     }});
 
-    // RENDERIZAR CARTÕES E CONTROLES DAS 3 SOLUÇÕES
+    function formatarBRL(val) {{
+      return Number(val || 0).toLocaleString('pt-BR', {{ style: 'currency', currency: 'BRL' }});
+    }}
+
+    // CARTÕES DAS 3 SOLUÇÕES
     function renderizarPainelSolucoes() {{
       const cont = document.getElementById('sol-cards-container');
       cont.innerHTML = '';
@@ -494,6 +659,8 @@ html_code = f"""<!DOCTYPE html>
           ? `<div class="sol-why-win"><b>Por que a #1 é a melhor:</b> ${{sol.por_que_n1_vence}}</div>`
           : `<div class="sol-why-lose"><b>Por que a #1 vence esta:</b> ${{sol.comparacao_n1}}</div>`;
 
+        const capex = sol.orcamento ? formatarBRL(sol.orcamento.custo_total_capex_brl) : '—';
+
         card.innerHTML = `
           <div class="sol-card-top">
             <label class="sol-check-label">
@@ -506,9 +673,9 @@ html_code = f"""<!DOCTYPE html>
           <div class="sol-metrics">
             <span>Repetidoras: <b>${{sol.num_repetidoras}}</b></span>
             <span>Enlaces: <b>${{sol.num_enlaces}}</b></span>
-            <span>Dist. Total: <b>${{sol.distancia_total_km}} km</b></span>
+            <span>Dist: <b>${{sol.distancia_total_km}} km</b></span>
             <span>Torre Máx: <b>${{sol.altura_max_torre_m}} m</b></span>
-            <span>Folga Mín: <b>+${{sol.folga_minima_m}} m</b></span>
+            <span>CAPEX: <b>${{capex}}</b></span>
           </div>
           <div class="sol-note"><b>Motivo da escolha:</b> ${{sol.justificativa}}</div>
           ${{comparacaoHtml}}
@@ -533,17 +700,16 @@ html_code = f"""<!DOCTYPE html>
         if (chk) chk.checked = mostrar;
       }});
 
-      // Garante que a Solução #1 fique sempre desenhada por cima quando ativa
       if (solucaoAtiva[1]) {{
         camadasSolucao[1].forEach(poly => poly.bringToFront());
       }}
 
-      // Mostra/oculta repetidoras exclusivas das soluções desativadas
       Object.values(marcadoresFixos).forEach(mk => {{
         const sols = mk.dados.solucoes || [1, 2, 3];
         const algumAtivo = sols.some(r => solucaoAtiva[r]);
         if (algumAtivo) {{
           if (!map.hasLayer(mk)) mk.addTo(map);
+          mk.setTooltipContent(tooltipDoSitio(mk.dados));
         }} else {{
           if (map.hasLayer(mk)) map.removeLayer(mk);
         }}
@@ -553,9 +719,8 @@ html_code = f"""<!DOCTYPE html>
     function alternarSolucao(rk, estado) {{
       solucaoAtiva[rk] = estado;
       atualizarVisibilidadeMapa();
-      // Se ativou uma solução, seleciona o primeiro enlace interurbano dela para mostrar o relevo
       if (estado && camadasSolucao[rk].length > 0) {{
-        const linkDestaque = camadasSolucao[rk].find(p => p.dados.distancia_km > 10) || camadasSolucao[rk][0];
+        const linkDestaque = camadasSolucao[rk].find(p => p.dados.distancia_km > 40) || camadasSolucao[rk][0];
         selecionarEnlace(linkDestaque);
       }}
     }}
@@ -575,11 +740,14 @@ html_code = f"""<!DOCTYPE html>
     }}
 
     renderizarPainelSolucoes();
+    atualizarVisibilidadeMapa();
 
-    // CONTROLE DE MODO DA TOOLBAR
+    // TOOLBAR
     function setModo(modo) {{
       modoAtual = modo;
-      document.querySelectorAll('.tool-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('#toolbar .tool-btn').forEach(b => {{
+        if (b.id !== 'btn-cob' && b.id !== 'btn-calc-shortcut') b.classList.remove('active');
+      }});
       pontoOrigemPtp = null;
 
       if (modo === 'select') {{
@@ -597,7 +765,6 @@ html_code = f"""<!DOCTYPE html>
       }}
     }}
 
-    // CLIQUE NO MAPA (SANDBOX PARA ADICIONAR NÓS)
     map.on('click', function(e) {{
       if (modoAtual === 'add_site' || modoAtual === 'add_rep') {{
         const ehRep = modoAtual === 'add_rep';
@@ -611,7 +778,7 @@ html_code = f"""<!DOCTYPE html>
           tipo: ehRep ? 'REPETIDORA' : 'ERB',
           latitude: e.latlng.lat,
           longitude: e.latlng.lng,
-          altura_torre_m: ehRep ? 30.0 : 45.0,
+          altura_torre_m: 30.0,
           altitude_terreno_m: 300.0,
           fixo: false
         }};
@@ -623,7 +790,6 @@ html_code = f"""<!DOCTYPE html>
 
         mk.dados = novoSite;
         mk.bindTooltip(`<b>${{nome}}</b><br>(Arraste livremente)`, {{ direction: 'top' }});
-        
         mk.on('drag', () => atualizarConexoesDoNo(mk));
         mk.on('dragend', () => {{
           novoSite.latitude = mk.getLatLng().lat;
@@ -632,7 +798,6 @@ html_code = f"""<!DOCTYPE html>
             recalcularPerfilGrafico();
           }}
         }});
-
         mk.on('click', () => tratarCliqueNoNo(mk));
         sitesCustom.push(mk);
         setModo('select');
@@ -647,9 +812,7 @@ html_code = f"""<!DOCTYPE html>
           pontoOrigemPtp = mk;
           mk._icon.style.filter = 'drop-shadow(0 0 8px #fff)';
         }} else {{
-          if (pontoOrigemPtp !== mk) {{
-            criarNovoEnlacePtP(pontoOrigemPtp, mk);
-          }}
+          if (pontoOrigemPtp !== mk) criarNovoEnlacePtP(pontoOrigemPtp, mk);
           pontoOrigemPtp._icon.style.filter = '';
           pontoOrigemPtp = null;
           setModo('select');
@@ -662,29 +825,24 @@ html_code = f"""<!DOCTYPE html>
       const stB = mkB.dados;
 
       const poly = L.polyline([[stA.latitude, stA.longitude], [stB.latitude, stB.longitude]], {{
-        color: '#00b4ff',
-        weight: 4.5,
-        opacity: 0.95
+        color: '#00b4ff', weight: 4.5, opacity: 0.95
       }}).addTo(map);
 
       poly.dados = {{
         id: 'LINK_' + Date.now(),
-        origem: stA.nome,
-        destino: stB.nome,
-        id_origem: stA.id,
-        id_destino: stB.id,
-        origem_obj: stA,
-        destino_obj: stB,
-        mk_a: mkA,
-        mk_b: mkB,
-        h_torre_origem_m: stA.altura_torre_m || 45.0,
-        h_torre_destino_m: stB.altura_torre_m || 45.0,
+        origem: stA.nome, destino: stB.nome,
+        id_origem: stA.id, id_destino: stB.id,
+        origem_obj: stA, destino_obj: stB,
+        mk_a: mkA, mk_b: mkB,
+        h_torre_origem_m: stA.altura_torre_m || 30.0,
+        h_torre_destino_m: stB.altura_torre_m || 30.0,
         frequencia_ghz: 11.0,
+        potencia_tx_dbm: 30.0,
+        sensibilidade_dbm: -73.0,
         ganho_tx_dbi: 35.0,
         ganho_rx_dbi: 35.0,
-        radio_tx: 'airFiber 11FX',
-        radio_rx: 'airFiber 11FX',
-        channel_width_mhz: 80,
+        radio_utilizado: 'airFiber 11FX',
+        channel_width_mhz: 28,
         fixo: false
       }};
 
@@ -692,7 +850,6 @@ html_code = f"""<!DOCTYPE html>
         L.DomEvent.stopPropagation(e);
         selecionarEnlace(poly);
       }});
-
       linksCustom.push(poly);
       selecionarEnlace(poly);
     }}
@@ -705,15 +862,14 @@ html_code = f"""<!DOCTYPE html>
       }});
     }}
 
-    // SELEÇÃO E ABERTURA DO PAINEL INFERIOR
     function selecionarEnlace(poly) {{
       enlaceSelecionado = poly;
       elementoSelecionado = poly;
 
       const d = poly.dados;
       document.getElementById('bottom-drawer').style.display = 'flex';
-
       document.getElementById('label-enlace-nome').textContent = `${{d.origem_obj.nome}}  ➔  ${{d.destino_obj.nome}}`;
+
       const badge = document.getElementById('badge-tipo-enlace');
       const noteEl = document.getElementById('drawer-note');
 
@@ -723,26 +879,48 @@ html_code = f"""<!DOCTYPE html>
           badge.textContent = '★ SOLUÇÃO #1 — MELHOR CAMINHO';
           badge.className = 'badge-rota rota-otima';
         }} else if (rk === 2) {{
-          badge.textContent = 'SOLUÇÃO #2 — TORRES COMPACTAS (≤30m)';
+          badge.textContent = 'SOLUÇÃO #2 — SALTOS ≤ 56 KM (11 GHz)';
           badge.className = 'badge-rota rota-sol2';
         }} else {{
-          badge.textContent = 'SOLUÇÃO #3 — ROTA DE CONTINGÊNCIA';
+          badge.textContent = 'SOLUÇÃO #3 — CONTINGÊNCIA';
           badge.className = 'badge-rota rota-sol3';
         }}
         noteEl.textContent = d.nota_solucao || '';
+
+        const hA = ALTURAS_SOL[rk][d.id_origem] ?? d.h_torre_origem_m;
+        const hB = ALTURAS_SOL[rk][d.id_destino] ?? d.h_torre_destino_m;
+        const gA = GRAU_SOL[rk][d.id_origem] || 1;
+        const gB = GRAU_SOL[rk][d.id_destino] || 1;
+        document.getElementById('st1-h-torre').textContent = `${{hA}} m`;
+        document.getElementById('st2-h-torre').textContent = `${{hB}} m`;
+        document.getElementById('st1-grau-pill').textContent = `Torre fixa • ${{gA}} enlace(s)`;
+        document.getElementById('st2-grau-pill').textContent = `Torre fixa • ${{gB}} enlace(s)`;
       }} else {{
         badge.textContent = 'ENLACE CUSTOMIZADO (LIVRE)';
         badge.className = 'badge-rota rota-custom';
         noteEl.textContent = '';
+        document.getElementById('st1-h-torre').textContent = `${{d.h_torre_origem_m}} m`;
+        document.getElementById('st2-h-torre').textContent = `${{d.h_torre_destino_m}} m`;
+        document.getElementById('st1-grau-pill').textContent = `Torre custom`;
+        document.getElementById('st2-grau-pill').textContent = `Torre custom`;
       }}
+
+      // Sincroniza Rádio, Antena e Largura de Canal com os dados reais
+      const rad = d.radio_utilizado || (d.frequencia_ghz === 5.0 ? 'airFiber 5XHD' : 'airFiber 11FX');
+      document.getElementById('st1-radio').value = rad;
+      document.getElementById('st2-radio').value = rad;
+      document.getElementById('st1-antena').value = String(d.ganho_tx_dbi || 35.0);
+      document.getElementById('st2-antena').value = String(d.ganho_rx_dbi || 35.0);
+
+      if (!d.channel_width_mhz) {{
+        d.channel_width_mhz = (d.frequencia_ghz === 5.0) ? (d.distancia_km > 20 ? 40 : 20) : 28;
+      }}
+      document.getElementById('sel-channel-width').value = String(d.channel_width_mhz);
 
       document.getElementById('st1-nome').textContent = d.origem_obj.nome;
       document.getElementById('st1-coords').textContent = `${{d.origem_obj.latitude.toFixed(4)}}, ${{d.origem_obj.longitude.toFixed(4)}}`;
-      document.getElementById('st1-h-torre').textContent = `${{d.h_torre_origem_m}} m`;
-
       document.getElementById('st2-nome').textContent = d.destino_obj.nome;
       document.getElementById('st2-coords').textContent = `${{d.destino_obj.latitude.toFixed(4)}}, ${{d.destino_obj.longitude.toFixed(4)}}`;
-      document.getElementById('st2-h-torre').textContent = `${{d.h_torre_destino_m}} m`;
 
       recalcularPerfilGrafico();
     }}
@@ -752,27 +930,55 @@ html_code = f"""<!DOCTYPE html>
       enlaceSelecionado = null;
     }}
 
+    // ALTERAR ALTURA DA TORRE: ATUALIZA A TORRE ÚNICA EM TODOS OS ENLACES CONECTADOS NA SOLUÇÃO!
     function ajustarTorre(st, delta) {{
       if (!enlaceSelecionado) return;
-      if (st === 'st1') {{
-        let h = (enlaceSelecionado.dados.h_torre_origem_m || 45) + delta;
-        h = Math.max(10, Math.min(100, h));
-        enlaceSelecionado.dados.h_torre_origem_m = h;
-        document.getElementById('st1-h-torre').textContent = `${{h}} m`;
+      const d = enlaceSelecionado.dados;
+      const siteId = (st === 'st1') ? d.id_origem : d.id_destino;
+
+      if (d.fixo) {{
+        const rk = d.rank_solucao;
+        let h = (ALTURAS_SOL[rk][siteId] || 15) + delta;
+        h = Math.max(10, Math.min(50, h));
+        ALTURAS_SOL[rk][siteId] = h;
+
+        // Propaga a altura única da torre para todos os enlaces ligados a ela nessa solução
+        camadasSolucao[rk].forEach(p => {{
+          if (p.dados.id_origem === siteId) p.dados.h_torre_origem_m = h;
+          if (p.dados.id_destino === siteId) p.dados.h_torre_destino_m = h;
+          p.setTooltipContent(tooltipDoEnlace(p));
+        }});
+
+        if (marcadoresFixos[siteId]) {{
+          marcadoresFixos[siteId].setTooltipContent(tooltipDoSitio(marcadoresFixos[siteId].dados));
+        }}
+        document.getElementById(st === 'st1' ? 'st1-h-torre' : 'st2-h-torre').textContent = `${{h}} m`;
       }} else {{
-        let h = (enlaceSelecionado.dados.h_torre_destino_m || 45) + delta;
+        let h = ((st === 'st1' ? d.h_torre_origem_m : d.h_torre_destino_m) || 30) + delta;
         h = Math.max(10, Math.min(100, h));
-        enlaceSelecionado.dados.h_torre_destino_m = h;
-        document.getElementById('st2-h-torre').textContent = `${{h}} m`;
+        if (st === 'st1') {{
+          d.h_torre_origem_m = h;
+          document.getElementById('st1-h-torre').textContent = `${{h}} m`;
+        }} else {{
+          d.h_torre_destino_m = h;
+          document.getElementById('st2-h-torre').textContent = `${{h}} m`;
+        }}
       }}
       recalcularPerfilGrafico();
     }}
 
     function atualizarHardware() {{
       if (!enlaceSelecionado) return;
-      enlaceSelecionado.dados.ganho_tx_dbi = parseFloat(document.getElementById('st1-antena').value);
-      enlaceSelecionado.dados.ganho_rx_dbi = parseFloat(document.getElementById('st2-antena').value);
-      enlaceSelecionado.dados.channel_width_mhz = parseInt(document.getElementById('sel-channel-width').value);
+      const d = enlaceSelecionado.dados;
+      const rad = document.getElementById('st1-radio').value;
+      document.getElementById('st2-radio').value = rad;
+      d.radio_utilizado = rad;
+      d.frequencia_ghz = rad.includes('5XHD') ? 5.0 : 11.0;
+      d.ganho_tx_dbi = parseFloat(document.getElementById('st1-antena').value);
+      d.ganho_rx_dbi = parseFloat(document.getElementById('st2-antena').value);
+      d.potencia_tx_dbm = d.frequencia_ghz === 5.0 ? (d.ganho_tx_dbi >= 34 ? 28.0 : 26.0) : 30.0;
+      d.sensibilidade_dbm = d.frequencia_ghz === 5.0 ? (d.ganho_rx_dbi >= 34 ? -76.0 : -74.0) : -73.0;
+      d.channel_width_mhz = parseInt(document.getElementById('sel-channel-width').value);
       recalcularPerfilGrafico();
     }}
 
@@ -783,35 +989,36 @@ html_code = f"""<!DOCTYPE html>
           return;
         }}
         map.removeLayer(elementoSelecionado);
-        if (elementoSelecionado === enlaceSelecionado) {{
-          fecharGaveta();
-        }}
+        if (elementoSelecionado === enlaceSelecionado) fecharGaveta();
         elementoSelecionado = null;
       }}
     }}
 
-    // MATEMÁTICA GEODÉSICA E LINK BUDGET
+    // GEODESIA & CHUVA ITU-R P.838-3
     function haversineDist(lat1, lon1, lat2, lon2) {{
       const R = 6371.0;
       const dLat = (lat2 - lat1) * Math.PI / 180.0;
       const dLon = (lon2 - lon1) * Math.PI / 180.0;
-      const a = Math.sin(dLat/2) * Math.sin(dLat/2) +
-                Math.cos(lat1*Math.PI/180.0) * Math.cos(lat2*Math.PI/180.0) *
-                Math.sin(dLon/2) * Math.sin(dLon/2);
+      const a = Math.sin(dLat/2)**2 + Math.cos(lat1*Math.PI/180.0)*Math.cos(lat2*Math.PI/180.0)*Math.sin(dLon/2)**2;
       return R * 2.0 * Math.atan2(Math.sqrt(a), Math.sqrt(1.0 - a));
     }}
 
     function calcularAzimute(lat1, lon1, lat2, lon2) {{
-      const p1 = lat1 * Math.PI / 180;
-      const p2 = lat2 * Math.PI / 180;
-      const dL = (lon2 - lon1) * Math.PI / 180;
+      const p1 = lat1 * Math.PI / 180, p2 = lat2 * Math.PI / 180, dL = (lon2 - lon1) * Math.PI / 180;
       const y = Math.sin(dL) * Math.cos(p2);
       const x = Math.cos(p1)*Math.sin(p2) - Math.sin(p1)*Math.cos(p2)*Math.cos(dL);
-      let az = Math.atan2(y, x) * 180 / Math.PI;
-      return (az + 360) % 360;
+      return (Math.atan2(y, x) * 180 / Math.PI + 360) % 360;
     }}
 
-    // CACHE DE ELEVAÇÃO E PERFIS REAIS EMBUTIDOS
+    function atenuacaoChuvaITUR(distKm, freqGhz, chuvaMmH=50.0) {{
+      const k = freqGhz <= 6.0 ? 0.000216 : 0.01772;
+      const alpha = freqGhz <= 6.0 ? 1.44 : 1.214;
+      const gammaR = k * Math.pow(chuvaMmH, alpha);
+      const d0 = 35.0 * Math.exp(-0.015 * chuvaMmH);
+      const lEff = distKm / (1.0 + distKm / d0);
+      return gammaR * lEff;
+    }}
+
     const cacheElev = {{}};
     function perfilEmbutido(lat1, lon1, lat2, lon2) {{
       const eq = (a, b) => Math.abs(a - b) < 1e-4;
@@ -844,7 +1051,6 @@ html_code = f"""<!DOCTYPE html>
       }}
     }}
 
-    // ATUALIZAÇÃO DO GRÁFICO 2D NO ESTILO UBIQUITI
     async function recalcularPerfilGrafico() {{
       if (!enlaceSelecionado) return;
       const d = enlaceSelecionado.dados;
@@ -857,61 +1063,82 @@ html_code = f"""<!DOCTYPE html>
       const az1 = calcularAzimute(st1.latitude, st1.longitude, st2.latitude, st2.longitude);
       document.getElementById('st1-azim-tilt').textContent = `${{az1.toFixed(0)}}° / 0.1°`;
 
-      const h1 = d.h_torre_origem_m || 45;
-      const h2 = d.h_torre_destino_m || 45;
+      const h1 = d.fixo ? (ALTURAS_SOL[d.rank_solucao][d.id_origem] ?? d.h_torre_origem_m) : (d.h_torre_origem_m || 30);
+      const h2 = d.fixo ? (ALTURAS_SOL[d.rank_solucao][d.id_destino] ?? d.h_torre_destino_m) : (d.h_torre_destino_m || 30);
       const gTx = d.ganho_tx_dbi || 35.0;
       const gRx = d.ganho_rx_dbi || 35.0;
       const freq = d.frequencia_ghz || 11.0;
+      const pTx = d.potencia_tx_dbm || (freq === 5.0 ? (gTx >= 34 ? 28.0 : 26.0) : 30.0);
+      const sens = d.sensibilidade_dbm || (freq === 5.0 ? (gRx >= 34 ? -76.0 : -74.0) : -73.0);
       const bw = d.channel_width_mhz || (freq === 11.0 ? 28 : 20);
-      document.getElementById('sel-channel-width').value = String(bw);
 
-      // Link Budget
-      const fspl = 92.45 + 20 * Math.log10(distTotal) + 20 * Math.log10(freq);
-      const rsl = 26.0 + gTx + gRx - fspl - 1.5;
-      const fadeMargin = rsl - (-73.0);
+      // Link Budget + Chuva
+      const fspl = 92.45 + 20 * Math.log10(Math.max(0.1, distTotal)) + 20 * Math.log10(freq);
+      const rsl = pTx + gTx + gRx - fspl - 1.5;
+      const fadeMargin = rsl - sens;
+      const perdaChuva = atenuacaoChuvaITUR(distTotal, freq, 50.0);
+      const fadeChuva = fadeMargin - perdaChuva;
 
       document.getElementById('st1-rsl').textContent = `${{rsl.toFixed(1)}} dBm`;
       document.getElementById('st2-rsl').textContent = `${{rsl.toFixed(1)}} dBm`;
-      document.getElementById('txt-fade-margin').textContent = `${{fadeMargin.toFixed(1)}} dB`;
+      const fmEl = document.getElementById('txt-fade-margin');
+      fmEl.textContent = `${{fadeMargin.toFixed(1)}} dB / ${{fadeChuva.toFixed(1)}} dB`;
+      fmEl.style.color = fadeChuva >= 4.0 ? '#00ff55' : '#ffab00';
 
-      let capacityMbps = Math.round(bw * 10.5 * Math.min(1.0, Math.max(0.2, (fadeMargin / 35.0))));
+      const pctSig = Math.max(15, Math.min(100, (rsl + 85) * 2.2));
+      document.getElementById('st1-signal-bar').style.width = `${{pctSig}}%`;
+      document.getElementById('st2-signal-bar').style.width = `${{pctSig}}%`;
+
+      const capacityMbps = Math.round(bw * 8.6 * Math.min(1.0, Math.max(0.35, fadeMargin / 26.0)));
       document.getElementById('txt-capacity').textContent = `${{capacityMbps}} Mbps`;
 
-      // Relevo e Fresnel
+      // Física: Abaulamento k=4/3 e Fresnel F1 / 0.6*F1
+      const Re_eff = 6371.0 * (4.0/3.0) * 1000.0;
+      const abaulMax = ((distTotal * 1000.0) ** 2) / (8.0 * Re_eff);
+      const f1Max = 17.32 * Math.sqrt(distTotal / (4.0 * freq));
+      document.getElementById('txt-abaulamento').textContent = `+${{abaulMax.toFixed(1)}} m`;
+      document.getElementById('txt-fresnel-r1').textContent = `${{f1Max.toFixed(1)}} m`;
+      document.getElementById('txt-fresnel-06').textContent = `${{(0.6 * f1Max).toFixed(1)}} m`;
+      document.getElementById('txt-chuva-loss').textContent = `-${{perdaChuva.toFixed(2)}} dB`;
+
       const elevs = await getPerfilTerreno(st1.latitude, st1.longitude, st2.latitude, st2.longitude);
       if (!elevs) {{
         const b = document.getElementById('badge-obstrucao');
-        b.textContent = 'SEM DADOS DE RELEVO (API indisponível)';
+        b.textContent = 'SEM DADOS DE RELEVO';
         b.className = 'status-badge status-obstr';
         return;
       }}
-      const N = elevs.length;
-      const Re_eff = 6371.0 * (4.0/3.0) * 1000.0;
 
+      const N = elevs.length;
       const cota1 = elevs[0] + h1;
       const cota2 = elevs[N - 1] + h2;
 
       let piorFolga = 9999;
+      const dadosPlanos = [];
       const dadosTerreno = [];
-      const dadosFresnel = [];
       const dadosLos = [];
+      const dadosCurv = [];
+      const dadosF1 = [];
 
       for (let i = 0; i < N; i++) {{
-        const distKm = (i / (N - 1)) * distTotal;
+        const frac = i / (N - 1);
+        const distKm = frac * distTotal;
         const curv = ((distKm * 1000) * ((distTotal - distKm) * 1000)) / (2 * Re_eff);
-        const terr = elevs[i] + curv;
-        dadosTerreno.push(terr);
+        const terrComCurv = elevs[i] + curv;
+        const los = cota1 + (cota2 - cota1) * frac;
 
-        const los = cota1 + (cota2 - cota1) * (i / (N - 1));
-        dadosLos.push(los);
-
-        let f06 = 0;
+        let rF1 = 0;
         if (i > 0 && i < N - 1) {{
-          f06 = 0.6 * (17.32 * Math.sqrt((distKm * (distTotal - distKm)) / (freq * distTotal)));
-          const folga = los - (terr + f06);
+          rF1 = 17.32 * Math.sqrt((distKm * (distTotal - distKm)) / (freq * distTotal));
+          const folga = (los - 0.6 * rF1) - terrComCurv;
           if (folga < piorFolga) piorFolga = folga;
         }}
-        dadosFresnel.push(terr + f06);
+
+        dadosPlanos.push(elevs[i]);
+        dadosTerreno.push(terrComCurv);
+        dadosLos.push(los);
+        dadosCurv.push(curv);
+        dadosF1.push(rF1);
       }}
 
       const obstruido = piorFolga < 0;
@@ -926,72 +1153,115 @@ html_code = f"""<!DOCTYPE html>
         if (!d.fixo) enlaceSelecionado.setStyle({{ color: '#00b4ff' }});
       }}
 
-      desenharCanvasPerfil(dadosTerreno, dadosFresnel, dadosLos, cota1, cota2, h1, h2, obstruido);
+      ultimoPerfilCanvas = {{ distTotal, dadosPlanos, dadosTerreno, dadosLos, dadosCurv, dadosF1, cota1, cota2, h1, h2, obstruido }};
+      desenharCanvasPerfil(ultimoPerfilCanvas);
     }}
 
-    function desenharCanvasPerfil(terr, fresnel, los, cota1, cota2, h1, h2, obstruido) {{
+    function desenharCanvasPerfil(p, hoverIdx=null) {{
       const cv = document.getElementById('profileCanvas');
       const container = document.getElementById('canvas-container');
       cv.width = container.clientWidth;
       cv.height = container.clientHeight;
       const ctx = cv.getContext('2d');
 
-      const W = cv.width;
-      const H = cv.height;
+      const W = cv.width, H = cv.height;
+      const {{ dadosPlanos: plano, dadosTerreno: terr, dadosLos: los, dadosF1: f1, cota1, cota2, obstruido }} = p;
       const N = terr.length;
 
-      const minAlt = Math.min(...terr) - 20;
-      const maxAlt = Math.max(...los, ...fresnel, ...terr) + 30;
-      const range = maxAlt - minAlt;
+      const losUp100 = los.map((v, i) => v + f1[i]);
+      const losDn100 = los.map((v, i) => v - f1[i]);
+      const losDn060 = los.map((v, i) => v - 0.6 * f1[i]);
 
-      function getY(val) {{
-        return H - ((val - minAlt) / range) * (H - 30) - 15;
-      }}
-      function getX(i) {{
-        return (i / (N - 1)) * (W - 60) + 30;
-      }}
+      const minAlt = Math.min(...plano, ...terr, ...losDn100) - 18;
+      const maxAlt = Math.max(...losUp100, ...terr) + 22;
+      const range = Math.max(10, maxAlt - minAlt);
+
+      const getY = val => H - ((val - minAlt) / range) * (H - 28) - 14;
+      const getX = i => (i / (N - 1)) * (W - 76) + 38;
 
       ctx.clearRect(0, 0, W, H);
 
-      // 1. TERRENO COM GRADIENTE ESCURO
+      // 1. LINHA DE TERRENO SEM ABAULAMENTO (referência sutil pontilhada)
       ctx.beginPath();
-      ctx.moveTo(getX(0), H);
+      ctx.setLineDash([2, 3]);
       for (let i = 0; i < N; i++) {{
-        ctx.lineTo(getX(i), getY(terr[i]));
+        if (i === 0) ctx.moveTo(getX(i), getY(plano[i]));
+        else ctx.lineTo(getX(i), getY(plano[i]));
       }}
-      ctx.lineTo(getX(N - 1), H);
-      ctx.closePath();
-      const grad = ctx.createLinearGradient(0, 0, 0, H);
-      grad.addColorStop(0, '#363d52');
-      grad.addColorStop(1, '#1a1c26');
-      ctx.fillStyle = grad;
-      ctx.fill();
-      ctx.strokeStyle = '#5a627d';
-      ctx.lineWidth = 1.5;
-      ctx.stroke();
-
-      // 2. FRESNEL 0.6·F1 (Linha tracejada laranja)
-      ctx.beginPath();
-      ctx.setLineDash([4, 4]);
-      for (let i = 0; i < N; i++) {{
-        if (i === 0) ctx.moveTo(getX(i), getY(fresnel[i]));
-        else ctx.lineTo(getX(i), getY(fresnel[i]));
-      }}
-      ctx.strokeStyle = '#ffa94d';
-      ctx.lineWidth = 1.2;
+      ctx.strokeStyle = 'rgba(148, 163, 184, 0.35)';
+      ctx.lineWidth = 1;
       ctx.stroke();
       ctx.setLineDash([]);
 
-      // 3. LINHA DE VISADA DIRETA
+      // 2. TERRENO REAL COM ABAULAMENTO DA TERRA (k = 4/3)
+      ctx.beginPath();
+      ctx.moveTo(getX(0), H);
+      for (let i = 0; i < N; i++) ctx.lineTo(getX(i), getY(terr[i]));
+      ctx.lineTo(getX(N - 1), H);
+      ctx.closePath();
+      const grad = ctx.createLinearGradient(0, 0, 0, H);
+      grad.addColorStop(0, '#36415c');
+      grad.addColorStop(1, '#161a26');
+      ctx.fillStyle = grad;
+      ctx.fill();
+      ctx.strokeStyle = '#64748b';
+      ctx.lineWidth = 1.5;
+      ctx.stroke();
+
+      // 3. ELIPSE COMPLETA DA 1ª ZONA DE FRESNEL (100% F1 ao redor da Linha de Visada, igual ao UISP)
+      ctx.beginPath();
+      for (let i = 0; i < N; i++) {{
+        if (i === 0) ctx.moveTo(getX(i), getY(losUp100[i]));
+        else ctx.lineTo(getX(i), getY(losUp100[i]));
+      }}
+      for (let i = N - 1; i >= 0; i--) {{
+        ctx.lineTo(getX(i), getY(losDn100[i]));
+      }}
+      ctx.closePath();
+      ctx.fillStyle = obstruido ? 'rgba(255, 56, 56, 0.16)' : 'rgba(56, 189, 248, 0.18)';
+      ctx.fill();
+
+      // Contorno superior e inferior da elipse 100% F1
+      ctx.beginPath();
+      for (let i = 0; i < N; i++) {{
+        if (i === 0) ctx.moveTo(getX(i), getY(losUp100[i]));
+        else ctx.lineTo(getX(i), getY(losUp100[i]));
+      }}
+      ctx.strokeStyle = 'rgba(56, 189, 248, 0.65)';
+      ctx.lineWidth = 1.2;
+      ctx.stroke();
+
+      ctx.beginPath();
+      for (let i = 0; i < N; i++) {{
+        if (i === 0) ctx.moveTo(getX(i), getY(losDn100[i]));
+        else ctx.lineTo(getX(i), getY(losDn100[i]));
+      }}
+      ctx.strokeStyle = 'rgba(56, 189, 248, 0.65)';
+      ctx.lineWidth = 1.2;
+      ctx.stroke();
+
+      // 4. BORDA CRÍTICA DE 60% DE FRESNEL (0.6 * F1) ABAIXO DA VISADA
+      ctx.beginPath();
+      ctx.setLineDash([4, 4]);
+      for (let i = 0; i < N; i++) {{
+        if (i === 0) ctx.moveTo(getX(i), getY(losDn060[i]));
+        else ctx.lineTo(getX(i), getY(losDn060[i]));
+      }}
+      ctx.strokeStyle = '#ffa94d';
+      ctx.lineWidth = 1.4;
+      ctx.stroke();
+      ctx.setLineDash([]);
+
+      // 5. LINHA DE VISADA DIRETA (LOS)
       ctx.beginPath();
       ctx.moveTo(getX(0), getY(cota1));
       ctx.lineTo(getX(N - 1), getY(cota2));
       ctx.strokeStyle = obstruido ? '#ff3838' : '#00ff55';
-      ctx.lineWidth = 2.5;
+      ctx.lineWidth = 2.2;
       ctx.stroke();
 
-      // 4. POSTES DAS TORRES
-      ctx.strokeStyle = '#fff';
+      // 6. TORRES TX E RX
+      ctx.strokeStyle = '#ffffff';
       ctx.lineWidth = 3;
       ctx.beginPath();
       ctx.moveTo(getX(0), getY(terr[0]));
@@ -1000,20 +1270,381 @@ html_code = f"""<!DOCTYPE html>
       ctx.lineTo(getX(N - 1), getY(cota2));
       ctx.stroke();
 
-      // Rótulos de Cota
-      ctx.fillStyle = '#8a8f9d';
+      // Nós das antenas no topo das torres
+      [ [getX(0), getY(cota1)], [getX(N - 1), getY(cota2)] ].forEach(([cx, cy]) => {{
+        ctx.beginPath();
+        ctx.arc(cx, cy, 4, 0, Math.PI * 2);
+        ctx.fillStyle = '#38bdf8';
+        ctx.fill();
+        ctx.strokeStyle = '#fff';
+        ctx.lineWidth = 1.5;
+        ctx.stroke();
+      }});
+
+      // Cursor interativo
+      if (hoverIdx !== null && hoverIdx >= 0 && hoverIdx < N) {{
+        const hx = getX(hoverIdx);
+        ctx.beginPath();
+        ctx.moveTo(hx, 8);
+        ctx.lineTo(hx, H - 8);
+        ctx.strokeStyle = 'rgba(255,255,255,0.35)';
+        ctx.lineWidth = 1;
+        ctx.stroke();
+      }}
+
+      // Rótulos laterais de Cota
+      ctx.fillStyle = '#94a3b8';
       ctx.font = '10px monospace';
-      ctx.fillText(`${{Math.round(terr[0])}}m`, getX(0) - 25, getY(terr[0]));
-      ctx.fillText(`${{Math.round(terr[N-1])}}m`, getX(N-1) + 6, getY(terr[N-1]));
+      ctx.fillText(`${{Math.round(terr[0])}}m`, 4, getY(terr[0]));
+      ctx.fillText(`${{Math.round(terr[N-1])}}m`, W - 34, getY(terr[N-1]));
     }}
 
-    // SELECIONA O ENLACE TRONCO DE CAICÓ DA SOLUÇÃO #1 POR PADRÃO AO ABRIR
+    // TOOLTIP INTERATIVO SOBRE O GRÁFICO DE PERFIL
+    const canvasEl = document.getElementById('profileCanvas');
+    const tooltipEl = document.getElementById('canvas-tooltip');
+    canvasEl.addEventListener('mousemove', (e) => {{
+      if (!ultimoPerfilCanvas) return;
+      const rect = canvasEl.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const W = rect.width;
+      const frac = Math.max(0, Math.min(1, (x - 38) / (W - 76)));
+      const N = ultimoPerfilCanvas.dadosTerreno.length;
+      const idx = Math.round(frac * (N - 1));
+
+      const distPt = frac * ultimoPerfilCanvas.distTotal;
+      const terrReal = ultimoPerfilCanvas.dadosPlanos[idx];
+      const curvPt = ultimoPerfilCanvas.dadosCurv[idx];
+      const terrCurv = ultimoPerfilCanvas.dadosTerreno[idx];
+      const losPt = ultimoPerfilCanvas.dadosLos[idx];
+      const f1Pt = ultimoPerfilCanvas.dadosF1[idx];
+      const fres06 = losPt - 0.6 * f1Pt;
+      const folgaPt = fres06 - terrCurv;
+
+      desenharCanvasPerfil(ultimoPerfilCanvas, idx);
+
+      tooltipEl.style.display = 'block';
+      const leftPos = (x + 215 > W) ? (x - 208) : (x + 12);
+      tooltipEl.style.left = `${{Math.max(4, leftPos)}}px`;
+      tooltipEl.style.top = '8px';
+      tooltipEl.innerHTML =
+        `<b>Distância:</b> ${{distPt.toFixed(2)}} km<br>` +
+        `<b>Terreno Real:</b> ${{terrReal.toFixed(1)}} m<br>` +
+        `<b>Abaulamento (k=4/3):</b> +${{curvPt.toFixed(1)}} m<br>` +
+        `<b>Linha de Visada (LOS):</b> ${{losPt.toFixed(1)}} m<br>` +
+        `<b>Borda 0.6·F1:</b> ${{fres06.toFixed(1)}} m<br>` +
+        `<b>Folga Livre:</b> <span style="color:${{folgaPt>=0?'#00ff55':'#ff6b6b'}};font-weight:700">${{folgaPt>=0?'+':''}}${{folgaPt.toFixed(1)}} m</span>`;
+    }});
+    canvasEl.addEventListener('mouseleave', () => {{
+      tooltipEl.style.display = 'none';
+      if (ultimoPerfilCanvas) desenharCanvasPerfil(ultimoPerfilCanvas, null);
+    }});
+
+    // =========================================================================
+    // SEGUNDA INTERFACE: CÁLCULOS, CHUVA ITU-R & ORÇAMENTO (APRESENTAÇÃO)
+    // =========================================================================
+    function renderizarPainelCalculos() {{
+      const el = document.getElementById('calc-content');
+      const sol1 = SOLUCOES[0] || {{}};
+      const sol2 = SOLUCOES[1] || {{}};
+      const sol3 = SOLUCOES[2] || {{}};
+
+      const popTotal = DEMANDA_SMP.reduce((a, x) => a + x.populacao_total, 0);
+      const assinTotal = DEMANDA_SMP.reduce((a, x) => a + x.assinantes_operadora, 0);
+      const erlTotal = DEMANDA_SMP.reduce((a, x) => a + x.trafego_total_erl, 0);
+      const erbsTotal = COBERTURA_SMP.reduce((a, x) => a + x.erbs_finais_adotadas, 0);
+      const raioCel = COBERTURA_SMP[0] ? COBERTURA_SMP[0].raio_cobertura_km : 1.808;
+      const areaCel = COBERTURA_SMP[0] ? COBERTURA_SMP[0].area_erb_km2 : 8.5;
+
+      const capex1 = sol1.orcamento ? sol1.orcamento.custo_total_capex_brl : 0;
+      const capex2 = sol2.orcamento ? sol2.orcamento.custo_total_capex_brl : 0;
+      const capex3 = sol3.orcamento ? sol3.orcamento.custo_total_capex_brl : 0;
+
+      // Linhas Etapa 1 + 2
+      const rowsCidades = DEMANDA_SMP.map((d, i) => {{
+        const c = COBERTURA_SMP[i] || {{}};
+        return `<tr>
+          <td><b>${{d.cidade}}</b></td>
+          <td>${{d.populacao_total.toLocaleString('pt-BR')}}</td>
+          <td>${{d.assinantes_operadora.toLocaleString('pt-BR')}}</td>
+          <td>${{d.trafego_total_erl}} Erl</td>
+          <td>${{d.portadoras_rf_por_setor}} RF/setor (${{(d.portadoras_rf_por_setor*0.2).toFixed(1)}} MHz)</td>
+          <td>${{c.area_urbana_km2 || '-'}} km²</td>
+          <td>${{d.erbs_capacidade}} / ${{c.erbs_por_cobertura || '-'}}</td>
+          <td><span class="pill-ok">${{c.erbs_finais_adotadas || d.erbs_capacidade}} ERBs</span></td>
+        </tr>`;
+      }}).join('');
+
+      // Linhas Etapa 3 (S/I pior caso e Rappaport)
+      const rowsSI = (INTERFERENCIA_SMP.resultados_simulacao || [])
+        .filter(r => r['Expoente (γ)'] === 3.5 || r['Expoente (γ)'] === 4.0)
+        .map(r => `<tr>
+          <td>${{r['Cenário']}}</td>
+          <td>γ = ${{r['Expoente (γ)']}}</td>
+          <td><b>${{r['S/I Calculado (dB)']}} dB</b></td>
+          <td>&gt; ${{r['S/I Exigido (dB)']}} dB</td>
+          <td>+${{r['Margem (dB)']}} dB</td>
+          <td><span class="${{r['Conformidade']==='APROVADO'?'pill-ok':'pill-bad'}}">${{r['Conformidade']}}</span></td>
+        </tr>`).join('');
+
+      // Linhas Etapa 6 (Enlaces Solução #1 + Chuva + Orçamento)
+      const rowsSol1Links = (sol1.enlaces || []).map(l => `<tr>
+        <td><b>${{l.origem}}</b> ➔ ${{l.destino}}</td>
+        <td>${{l.distancia_km}} km</td>
+        <td><span class="pill-info">${{l.frequencia_ghz}} GHz</span></td>
+        <td><b>${{l.h_torre_origem_m}}m / ${{l.h_torre_destino_m}}m</b></td>
+        <td>+${{l.abaulamento_max_m}} m</td>
+        <td>+${{l.folga_fresnel_m}} m</td>
+        <td>${{l.radio_utilizado}} + ${{l.antena_tx.split(' ')[0]}}</td>
+        <td>${{l.fade_margin_db}} dB</td>
+        <td>-${{l.atenuacao_chuva_50mmh_db}} dB</td>
+        <td><span class="pill-ok">${{l.fade_margin_chuva_db}} dB</span></td>
+        <td>${{formatarBRL(l.custo_kits_brl)}}</td>
+      </tr>`).join('');
+
+      // Alturas únicas fixas das torres da Solução #1
+      const rowsTorresUnicas = Object.entries(sol1.alturas_fixas_torres || {{}}).map(([sid, h]) => {{
+        const sitio = SITIOS_FIXOS.find(s => s.id === sid) || {{ nome: sid, altitude_terreno_m: '-' }};
+        const g = GRAU_SOL[1][sid] || 1;
+        return `<tr>
+          <td><b>${{sitio.nome}}</b></td>
+          <td>${{sitio.altitude_terreno_m}} m</td>
+          <td><span class="pill-ok">${{h}} m (única e fixa)</span></td>
+          <td>${{g}} enlace(s) atendido(s)</td>
+        </tr>`;
+      }}).join('');
+
+      el.innerHTML = `
+        <div class="calc-hero">
+          <div>
+            <h1>📘 Memorial de Cálculo, Propagação, Chuva & Orçamento — Projeto 07</h1>
+            <p>Visão completa e didática para apresentação em sala (Maria Letícia & Matteo | Debatedores: Ian & Gustavo). Todos os números abaixo são gerados automaticamente pelos scripts Python sobre o Censo IBGE 2022 e o relevo real Copernicus DEM 30m.</p>
+          </div>
+          <button class="nav-tab active" onclick="alternarAba('map')">⬅️ Voltar ao Mapa Interativo</button>
+        </div>
+
+        <div class="kpi-grid">
+          <div class="kpi-card">
+            <div class="kpi-label">Sistema Celular SMP</div>
+            <div class="kpi-value">1.800 MHz (4×3)</div>
+            <div class="kpi-sub">8 slots / RF (200 kHz) • máx 8 RF/setor</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-label">Raio Celular (COST 231)</div>
+            <div class="kpi-value">${{raioCel}} km</div>
+            <div class="kpi-sub">Área = ${{areaCel}} km²/ERB • Total: ${{erbsTotal}} ERBs</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-label">Interferência Pior Caso</div>
+            <div class="kpi-value">12,56 dB (&gt; 12 dB)</div>
+            <div class="kpi-sub">Cluster K=4 (Q=3,464) • 2 interferentes</div>
+          </div>
+          <div class="kpi-card highlight">
+            <div class="kpi-label">Solução #1 — Torres Fixas</div>
+            <div class="kpi-value">Máx ${{sol1.altura_max_torre_m || 30}} m (≤ 50 m)</div>
+            <div class="kpi-sub">${{sol1.num_repetidoras}} repetidoras (só 1 p/ Natal!)</div>
+          </div>
+          <div class="kpi-card highlight">
+            <div class="kpi-label">Investimento CAPEX (#1)</div>
+            <div class="kpi-value">${{formatarBRL(capex1)}}</div>
+            <div class="kpi-sub">Economia de ${{formatarBRL(capex2 - capex1)}} vs #2</div>
+          </div>
+        </div>
+
+        <!-- ETAPA 1 E 2 -->
+        <div class="section-card">
+          <div class="section-title">1️⃣ Etapas 1 e 2 — Tráfego (Erlang B), Link Budget Celular e Quantidade de ERBs <span class="section-tag">1800 MHz • 0,015 Erl/usuário</span></div>
+          <div class="two-col">
+            <div class="formula-box">
+              <b>Como entrou o Tráfego do Enunciado:</b><br>
+              • Concorrência: <b>2 concorrentes</b> (3 operadoras) ⇒ Nossa fatia = <code>1/3</code> da população (${{assinTotal.toLocaleString('pt-BR')}} clientes de ${{popTotal.toLocaleString('pt-BR')}} hab., totalizando <b>${{erlTotal.toFixed(1)}} Erl</b>).<br>
+              • Canais por setor: máx <code>8 RF × 8 slots - 1 controle (BCCH) = 63 canais</code>.<br>
+              • Pela fórmula de <b>Erlang B (GoS = 2%)</b>, 1 setor suporta <code>52,48 Erl</code> ⇒ 1 ERB (3 setores) suporta <code>157,44 Erl</code>.
+            </div>
+            <div class="formula-box">
+              <b>Como entrou a Cobertura (Gargalo no Uplink):</b><br>
+              • <b>Uplink (EM → ERB):</b> <code>0,8 W (29,03 dBm)</code> + <code>0 dBi</code> − <code>1,5 dB</code> (corpo) + <code>18 dBi</code> − <code>2 dB</code> (cabo) − <code>6 dB</code> (sombreamento) − <code>(-105 dBm)</code> = <b>${{BALANCO_SMP.pl_max_uplink_db}} dB</b> (gargalo!).<br>
+              • <b>Downlink (ERB → EM):</b> <code>10 W (40 dBm)</code> ⇒ <b>${{BALANCO_SMP.pl_max_downlink_db}} dB</b>.<br>
+              • Invertendo o modelo <b>COST 231 Hata (1800 MHz)</b> com <code>h_ERB = 45 m</code>, resulta em <b>R = ${{raioCel}} km</b> (${{areaCel}} km² por hexágono).
+            </div>
+          </div>
+          <table class="eng-table">
+            <thead>
+              <tr><th>Município</th><th>População</th><th>Clientes (1/3)</th><th>Tráfego</th><th>Portadoras/Setor</th><th>Área Urbana</th><th>ERBs (Cap / Cob)</th><th>Adotadas</th></tr>
+            </thead>
+            <tbody>${{rowsCidades}}</tbody>
+          </table>
+        </div>
+
+        <!-- ETAPA 3 -->
+        <div class="section-card">
+          <div class="section-title">2️⃣ Etapa 3 — Interferência Co-Canal no Cluster 4×3 <span class="section-tag">S/I &gt; 12 dB Aprovado</span></div>
+          <div class="formula-box">
+            No cluster <b>K = 4</b> com <b>3 setores de 120°</b> (4×3), a razão de reuso é <code>Q = D/R = √(3·K) = √12 = 3,4641</code>, e a setorização reduz os interferentes de 6 para apenas <b>2 células co-canal</b>. Mesmo no <b>Pior Caso Extremo</b> (usuário na borda com interferentes a <code>D−R</code> e <code>D</code>), para <code>γ = 3,5</code> obtemos <code>S/I = 12,56 dB &gt; 12,0 dB</code>.
+          </div>
+          <table class="eng-table">
+            <thead>
+              <tr><th>Cenário Geométrico</th><th>Expoente de Perda</th><th>S/I Calculado</th><th>Exigência</th><th>Margem</th><th>Status</th></tr>
+            </thead>
+            <tbody>${{rowsSI}}</tbody>
+          </table>
+        </div>
+
+        <!-- ETAPA 4 & 5: POSICIONAMENTO E ALTURAS ÚNICAS -->
+        <div class="section-card">
+          <div class="section-title">3️⃣ Etapas 4 e 5 — Escolha dos Locais, Abaulamento (k=4/3), Fresnel e Altura Fixa Única das Torres <span class="section-tag">Torres ≤ 50 m • Sem Saltos Redundantes</span></div>
+          <div class="two-col">
+            <div class="formula-box">
+              <b>Como escolhemos os melhores locais (sem "caixa-preta"):</b><br>
+              1. <b>Micro-Siting Urbano (±750 m):</b> Dentro da zona de cobertura de cada cidade, varremos o DEM Copernicus 30m e subimos a ERB para a cota urbana firme mais alta (ex.: em Currais Novos subiu de 342 m para <b>435,7 m</b>; em Natal usamos a cota alta urbana da <b>Candelária/BR-101 a 101,2 m</b> com acesso e energia). Carnaúba dos Dantas permanece travada em <code>-6.52181, -36.59170</code> (577,1 m).<br>
+              2. <b>Varredura de Serras (94.644 pontos) + Hill Climbing:</b> Achamos os melhores cumes reais e proibimos saltos &lt; 12 km entre repetidoras.<br>
+              3. <b>Altura Única por Torre:</b> Cada torre tem <b>uma única altura fixa (10 m a 30 m na Sol. #1)</b> que atende todos os enlaces ligados a ela!
+            </div>
+            <div class="formula-box">
+              <b>Física da Visada (Abaulamento + Zona de Fresnel):</b><br>
+              • <b>Abaulamento da Terra (k = 4/3):</b> <code>h_curv(d) = (d₁ · d₂) / (2 · k · R_Terra)</code>. No salto de 76,7 km até Natal, a Terra "sobe" <b>+86,6 m</b> no centro (descontando a refração k=4/3)!<br>
+              • <b>1ª Zona de Fresnel:</b> <code>R₁ = 17,32 · √((d₁ · d₂) / (f_GHz · D))</code>. Exigimos pelo menos <b>60% de F₁ livre + 8 m de folga de segurança</b>.<br>
+              • <b>Chuva Intensa (ITU-R P.838-3 @ 50 mm/h):</b> Em <code>76,7 km</code> (Serra da Tapuia → Natal), 11 GHz perderia ~28 dB na chuva; por isso adotamos <b>5 GHz (airFiber 5XHD)</b> nesse salto longo, perdendo apenas <b>0,82 dB</b>!
+            </div>
+          </div>
+
+          <h4 style="color:#cbd5e1; margin-top:4px; font-size:0.9rem;">📏 Tabela de Altura Física Única por Torre — Solução #1 (Nenhuma torre passa de 30 m!)</h4>
+          <table class="eng-table">
+            <thead>
+              <tr><th>Sítio / Torre</th><th>Altitude do Solo (DEM 30m)</th><th>Altura Física Única</th><th>Enlaces Compartilhados</th></tr>
+            </thead>
+            <tbody>${{rowsTorresUnicas}}</tbody>
+          </table>
+        </div>
+
+        <!-- ETAPA 6: ORÇAMENTO & CHUVA -->
+        <div class="section-card">
+          <div class="section-title">4️⃣ Orçamento Detalhado (CAPEX), Atenuação por Chuva e Quadro Síntese <span class="section-tag">Comparativo Solução #1 vs #2 vs #3</span></div>
+          <div class="budget-grid">
+            <div class="budget-card win">
+              <div style="display:flex; justify-content:space-between; align-items:center;">
+                <b style="color:#00ff55;">★ Solução #1 — Ótima Principal</b>
+                <span class="pill-ok">MELHOR CUSTO</span>
+              </div>
+              <div class="budget-total">${{formatarBRL(capex1)}}</div>
+              <div style="font-size:0.8rem; color:#cbd5e1; line-height:1.5;">
+                • <b>Ativos (24 kits rádio+antena):</b> ${{formatarBRL(sol1.orcamento?.custo_ativos_brl)}}<br>
+                • <b>Torres (≤ 30 m, 210 m acumulados):</b> ${{formatarBRL(sol1.orcamento?.custo_torres_brl)}}<br>
+                • <b>Infraestrutura Civil (3 repetidoras + 10 sítios):</b> ${{formatarBRL(sol1.orcamento?.custo_infra_sitios_brl)}}<br>
+                • <b>Destaque:</b> Apenas <b>1 repetidora</b> indo de Santa Cruz até Natal!
+              </div>
+            </div>
+            <div class="budget-card">
+              <div style="display:flex; justify-content:space-between; align-items:center;">
+                <b style="color:#00d4ff;">Solução #2 — Saltos ≤ 56 km (11 GHz)</b>
+                <span class="pill-info">+${{formatarBRL(capex2 - capex1)}}</span>
+              </div>
+              <div class="budget-total">${{formatarBRL(capex2)}}</div>
+              <div style="font-size:0.8rem; color:#9fb0c9; line-height:1.5;">
+                • <b>Ativos (26 kits rádio+antena):</b> ${{formatarBRL(sol2.orcamento?.custo_ativos_brl)}}<br>
+                • <b>Torres (≤ 30 m):</b> ${{formatarBRL(sol2.orcamento?.custo_torres_brl)}}<br>
+                • <b>Infraestrutura (4 repetidoras):</b> ${{formatarBRL(sol2.orcamento?.custo_infra_sitios_brl)}}<br>
+                • Exige 1 repetidora extra antes de Natal para manter todos os saltos em 11 GHz ≤ 56 km.
+              </div>
+            </div>
+            <div class="budget-card">
+              <div style="display:flex; justify-content:space-between; align-items:center;">
+                <b style="color:#ffab00;">Solução #3 — Rota de Contingência</b>
+                <span class="pill-bad">+${{formatarBRL(capex3 - capex1)}}</span>
+              </div>
+              <div class="budget-total">${{formatarBRL(capex3)}}</div>
+              <div style="font-size:0.8rem; color:#9fb0c9; line-height:1.5;">
+                • <b>Ativos (28 kits rádio+antena):</b> ${{formatarBRL(sol3.orcamento?.custo_ativos_brl)}}<br>
+                • <b>Torres (≤ 35 m):</b> ${{formatarBRL(sol3.orcamento?.custo_torres_brl)}}<br>
+                • <b>Infraestrutura (5 repetidoras):</b> ${{formatarBRL(sol3.orcamento?.custo_infra_sitios_brl)}}<br>
+                • Rota reserva usando 100% outros cumes caso haja bloqueio fundiário nos da #1.
+              </div>
+            </div>
+          </div>
+
+          <h4 style="color:#cbd5e1; margin-top:6px; font-size:0.9rem;">📋 Quadro Síntese dos 12 Enlaces da Solução #1 (Chuva ITU-R P.838-3 + Custo de Equipamentos)</h4>
+          <div style="overflow-x:auto;">
+            <table class="eng-table">
+              <thead>
+                <tr>
+                  <th>Enlace (Origem ➔ Destino)</th><th>Dist.</th><th>Banda</th><th>Torres Fixas</th><th>Abaul. k=4/3</th><th>Folga 0.6·F1</th><th>Equipamento Ubiquiti</th><th>FM Limpo</th><th>Chuva 50mm/h</th><th>FM Chuva</th><th>Ativos (2 kits)</th>
+                </tr>
+              </thead>
+              <tbody>${{rowsSol1Links}}</tbody>
+            </table>
+          </div>
+
+          <h4 style="color:#cbd5e1; margin-top:6px; font-size:0.9rem;">🔀 Diagrama Lógico da Rede (Solução #1 — Fluxo do Seridó até Natal)</h4>
+          <div class="diagram-box">
+            <svg viewBox="0 0 1120 250" width="100%" height="230" style="min-width:920px;">
+              <defs>
+                <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                  <path d="M 0 1 L 10 5 L 0 9 z" fill="#00ff55" />
+                </marker>
+              </defs>
+              <!-- Linhas lógicas -->
+              <line x1="170" y1="45" x2="310" y2="125" stroke="#00ff55" stroke-width="2.5" marker-end="url(#arrow)" />
+              <line x1="170" y1="125" x2="310" y2="125" stroke="#00ff55" stroke-width="2.5" marker-end="url(#arrow)" />
+              <line x1="170" y1="205" x2="310" y2="125" stroke="#00ff55" stroke-width="2.5" marker-end="url(#arrow)" />
+              <line x1="450" y1="125" x2="530" y2="125" stroke="#00ff55" stroke-width="3" marker-end="url(#arrow)" />
+              <line x1="680" y1="125" x2="755" y2="125" stroke="#00ff55" stroke-width="3" marker-end="url(#arrow)" />
+              <line x1="875" y1="125" x2="893" y2="125" stroke="#00ff55" stroke-width="3" marker-end="url(#arrow)" />
+              <!-- Nós -->
+              <rect x="15" y="22" width="155" height="46" rx="8" fill="#172033" stroke="#00e5ff" />
+              <text x="92" y="42" fill="#fff" font-size="11" font-weight="bold" text-anchor="middle">Caicó (3 ERBs)</text>
+              <text x="92" y="57" fill="#7dd3fc" font-size="9.5" text-anchor="middle">53,5 km • 11FX • Torre 15m</text>
+
+              <rect x="15" y="102" width="155" height="46" rx="8" fill="#172033" stroke="#00e5ff" />
+              <text x="92" y="122" fill="#fff" font-size="11" font-weight="bold" text-anchor="middle">Jardim do Seridó</text>
+              <text x="92" y="137" fill="#7dd3fc" font-size="9.5" text-anchor="middle">28,5 km • 11FX • Torre 10m</text>
+
+              <rect x="15" y="182" width="155" height="46" rx="8" fill="#172033" stroke="#00e5ff" />
+              <text x="92" y="202" fill="#fff" font-size="11" font-weight="bold" text-anchor="middle">Carnaúba dos Dantas</text>
+              <text x="92" y="217" fill="#7dd3fc" font-size="9.5" text-anchor="middle">14,6 km • 11FX • Torre 30m</text>
+
+              <rect x="312" y="96" width="138" height="58" rx="8" fill="#122b22" stroke="#00ff55" stroke-width="2" />
+              <text x="381" y="118" fill="#00ff55" font-size="11" font-weight="bold" text-anchor="middle">Rep. Cume 06</text>
+              <text x="381" y="133" fill="#cbd5e1" font-size="9.5" text-anchor="middle">689 m • Torre 15m</text>
+              <text x="381" y="146" fill="#94a3b8" font-size="9" text-anchor="middle">17,8 km → CCC</text>
+
+              <rect x="532" y="96" width="148" height="58" rx="8" fill="#331520" stroke="#ff1744" stroke-width="2" />
+              <text x="606" y="118" fill="#fff" font-size="11" font-weight="bold" text-anchor="middle">CCC Currais Novos</text>
+              <text x="606" y="133" fill="#fda4af" font-size="9.5" text-anchor="middle">2 ERBs • Torre 15m</text>
+              <text x="606" y="146" fill="#cbd5e1" font-size="9" text-anchor="middle">35,3 km → Cume 28</text>
+
+              <rect x="757" y="96" width="118" height="58" rx="8" fill="#122b22" stroke="#00ff55" stroke-width="2" />
+              <text x="816" y="118" fill="#00ff55" font-size="11" font-weight="bold" text-anchor="middle">Rep. Cume 28</text>
+              <text x="816" y="133" fill="#cbd5e1" font-size="9.5" text-anchor="middle">681 m • Torre 15m</text>
+              <text x="816" y="146" fill="#94a3b8" font-size="9" text-anchor="middle">22,9 km → Sta Cruz</text>
+
+              <rect x="895" y="96" width="110" height="58" rx="8" fill="#172033" stroke="#00e5ff" />
+              <text x="950" y="118" fill="#fff" font-size="11" font-weight="bold" text-anchor="middle">Santa Cruz</text>
+              <text x="950" y="133" fill="#7dd3fc" font-size="9.5" text-anchor="middle">2 ERBs • 10/25m</text>
+              <text x="950" y="146" fill="#94a3b8" font-size="9" text-anchor="middle">20,9 km → Cume 46</text>
+
+              <rect x="1020" y="34" width="90" height="54" rx="8" fill="#122b22" stroke="#00ff55" stroke-width="2" />
+              <text x="1065" y="54" fill="#00ff55" font-size="10.5" font-weight="bold" text-anchor="middle">Rep. Cume 46</text>
+              <text x="1065" y="68" fill="#cbd5e1" font-size="9" text-anchor="middle">381 m • 10m</text>
+              <text x="1065" y="80" fill="#94a3b8" font-size="8.5" text-anchor="middle">1 salto → NTL</text>
+
+              <rect x="1020" y="166" width="90" height="54" rx="8" fill="#331520" stroke="#ff1744" stroke-width="2" />
+              <text x="1065" y="186" fill="#fff" font-size="10.5" font-weight="bold" text-anchor="middle">CCC Natal</text>
+              <text x="1065" y="200" fill="#fda4af" font-size="9" text-anchor="middle">76,7 km • 5XHD</text>
+              <text x="1065" y="212" fill="#cbd5e1" font-size="8.5" text-anchor="middle">Torre 15m</text>
+              <line x1="1065" y1="88" x2="1065" y2="164" stroke="#00ff55" stroke-width="2.5" marker-end="url(#arrow)" />
+              <line x1="950" y1="96" x2="1020" y2="61" stroke="#00ff55" stroke-width="2.5" marker-end="url(#arrow)" />
+            </svg>
+          </div>
+        </div>
+      `;
+    }}
+
+    // SELECIONA O ENLACE DE LONGA DISTÂNCIA PARA NATAL OU CAICÓ AO ABRIR
     setTimeout(() => {{
       if (camadasSolucao[1] && camadasSolucao[1].length > 0) {{
-        const caicoLink = camadasSolucao[1].find(p => p.dados.distancia_km > 40) || camadasSolucao[1][0];
-        selecionarEnlace(caicoLink);
+        const linkDestaque = camadasSolucao[1].find(p => p.dados.distancia_km > 45) || camadasSolucao[1][0];
+        selecionarEnlace(linkDestaque);
       }}
-    }}, 400);
+    }}, 350);
   </script>
 </body>
 </html>
@@ -1023,13 +1654,12 @@ caminho_saida = os.path.abspath("outputs/mapa_interativo.html")
 with open(caminho_saida, "w", encoding="utf-8") as f:
     f.write(html_code)
 
-# Cria também index.html na raiz do repositório para publicação direta no GitHub Pages
 caminho_index = os.path.abspath("index.html")
 with open(caminho_index, "w", encoding="utf-8") as f:
     f.write(html_code)
 
 print("=" * 80)
-print(" UISP DESIGN CENTER - VERSÃO STANDALONE (TOP 3 SOLUÇÕES) GERADA COM SUCESSO!")
+print(" UISP DESIGN CENTER + INTERFACE DE CÁLCULOS & ORÇAMENTO GERADOS!")
 print(f" Arquivo: file://{caminho_saida}")
 print("=" * 80)
 

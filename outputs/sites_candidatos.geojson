@@ -6,8 +6,8 @@
             "geometry": {
                 "type": "Point",
                 "coordinates": [
-                    -37.087158,
-                    -6.4586
+                    -37.08366,
+                    -6.4646
                 ]
             },
             "properties": {
@@ -16,7 +16,7 @@
                 "cidade": "Caicó",
                 "tipo": "ERB",
                 "altura_torre_m": 45.0,
-                "altitude_m": 151.0,
+                "altitude_m": 172.7,
                 "raio_cobertura_km": 1.808
             }
         },
@@ -25,8 +25,8 @@
             "geometry": {
                 "type": "Point",
                 "coordinates": [
-                    -37.1012,
-                    -6.4692
+                    -37.1067,
+                    -6.4662
                 ]
             },
             "properties": {
@@ -35,7 +35,7 @@
                 "cidade": "Caicó",
                 "tipo": "ERB",
                 "altura_torre_m": 45.0,
-                "altitude_m": 151.0,
+                "altitude_m": 175.5,
                 "raio_cobertura_km": 1.808
             }
         },
@@ -44,8 +44,8 @@
             "geometry": {
                 "type": "Point",
                 "coordinates": [
-                    -37.0998,
-                    -6.4478
+                    -37.1033,
+                    -6.4448
                 ]
             },
             "properties": {
@@ -54,7 +54,7 @@
                 "cidade": "Caicó",
                 "tipo": "ERB",
                 "altura_torre_m": 45.0,
-                "altitude_m": 151.0,
+                "altitude_m": 165.7,
                 "raio_cobertura_km": 1.808
             }
         },
@@ -63,8 +63,8 @@
             "geometry": {
                 "type": "Point",
                 "coordinates": [
-                    -36.50407,
-                    -6.2669
+                    -36.49857,
+                    -6.2709
                 ]
             },
             "properties": {
@@ -73,7 +73,7 @@
                 "cidade": "Currais Novos",
                 "tipo": "ERB_CCC",
                 "altura_torre_m": 45.0,
-                "altitude_m": 341.0,
+                "altitude_m": 435.7,
                 "raio_cobertura_km": 1.808
             }
         },
@@ -82,7 +82,7 @@
             "geometry": {
                 "type": "Point",
                 "coordinates": [
-                    -36.52533,
+                    -36.52383,
                     -6.2547
                 ]
             },
@@ -92,7 +92,7 @@
                 "cidade": "Currais Novos",
                 "tipo": "ERB",
                 "altura_torre_m": 45.0,
-                "altitude_m": 341.0,
+                "altitude_m": 361.1,
                 "raio_cobertura_km": 1.808
             }
         },
@@ -101,8 +101,8 @@
             "geometry": {
                 "type": "Point",
                 "coordinates": [
-                    -36.0225,
-                    -6.216699
+                    -36.02,
+                    -6.2117
                 ]
             },
             "properties": {
@@ -111,7 +111,7 @@
                 "cidade": "Santa Cruz",
                 "tipo": "ERB",
                 "altura_torre_m": 45.0,
-                "altitude_m": 230.0,
+                "altitude_m": 269.9,
                 "raio_cobertura_km": 1.808
             }
         },
@@ -120,8 +120,8 @@
             "geometry": {
                 "type": "Point",
                 "coordinates": [
-                    -36.0217,
-                    -6.2403
+                    -36.0207,
+                    -6.2393
                 ]
             },
             "properties": {
@@ -130,7 +130,7 @@
                 "cidade": "Santa Cruz",
                 "tipo": "ERB",
                 "altura_torre_m": 45.0,
-                "altitude_m": 230.0,
+                "altitude_m": 322.8,
                 "raio_cobertura_km": 1.808
             }
         },
@@ -139,8 +139,8 @@
             "geometry": {
                 "type": "Point",
                 "coordinates": [
-                    -36.7725,
-                    -6.5844
+                    -36.7685,
+                    -6.5899
                 ]
             },
             "properties": {
@@ -149,7 +149,7 @@
                 "cidade": "Jardim do Seridó",
                 "tipo": "ERB",
                 "altura_torre_m": 45.0,
-                "altitude_m": 218.0,
+                "altitude_m": 246.0,
                 "raio_cobertura_km": 1.808
             }
         },
@@ -168,7 +168,7 @@
                 "cidade": "Carnaúba dos Dantas",
                 "tipo": "ERB",
                 "altura_torre_m": 45.0,
-                "altitude_m": 495.0,
+                "altitude_m": 577.1,
                 "raio_cobertura_km": 1.808
             }
         },
@@ -177,17 +177,17 @@
             "geometry": {
                 "type": "Point",
                 "coordinates": [
-                    -35.2035,
-                    -5.8085
+                    -35.2348,
+                    -5.8393
                 ]
             },
             "properties": {
                 "id": "CCC_NATAL_01",
-                "nome": "CCC Principal Natal - Tirol (Núcleo NTL)",
+                "nome": "CCC Principal Natal - Candelária/BR-101 (Núcleo NTL)",
                 "cidade": "Natal",
                 "tipo": "CCC_NATAL",
-                "altura_torre_m": 55.0,
-                "altitude_m": 52.0,
+                "altura_torre_m": 30.0,
+                "altitude_m": 101.2,
                 "raio_cobertura_km": 0.0
             }
         }

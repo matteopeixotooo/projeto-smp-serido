@@ -14,7 +14,8 @@ LIMIAR_RX_ERB_DBM = -105.0  # Sensibilidade de recepção na ERB
 LIMIAR_RX_EM_DBM = -102.0  # Sensibilidade típica de recepção na EM móvel
 
 # Restrições Estruturais e Topológicas
-ALTURA_MAX_TORRE_M = 100.0  # Torres com até 100 metros de altura
+ALTURA_MAX_TORRE_M = 100.0  # Teto normativo do enunciado (torres com até 100 metros de altura)
+ALTURA_MAX_BACKHAUL_M = 50.0  # Teto prático de engenharia/custo adotado no projeto (≤ 50 m)
 ALTURA_PADRAO_ERB_M = 45.0  # Altura nominal típica adotada para a ERB
 ALTURA_EM_M = 1.5  # Altura padrão do telemóvel do utilizador
 CLUSTER_K = 4  # Cluster com 4 ERBs (configuração 4x3)
