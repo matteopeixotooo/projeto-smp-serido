@@ -7,138 +7,6 @@
         "latitude": -6.4646,
         "longitude": -37.08366,
         "altitude_terreno_m": 170.9,
-        "altura_torre_m": 15.0,
-        "setores": 3,
-        "raio_celula_km": 1.808,
-        "solucoes": [
-            1,
-            2,
-            3
-        ],
-        "alturas_por_solucao": {
-            "1": 15.0,
-            "2": 15.0,
-            "3": 15.0
-        }
-    },
-    {
-        "id": "ERB_CAICO_02",
-        "nome": "ERB Caicó - Setor Sudoeste",
-        "cidade": "Caicó",
-        "tipo": "ERB",
-        "latitude": -6.4662,
-        "longitude": -37.1067,
-        "altitude_terreno_m": 175.5,
-        "altura_torre_m": 20.0,
-        "setores": 3,
-        "raio_celula_km": 1.808,
-        "solucoes": [
-            1,
-            2,
-            3
-        ],
-        "alturas_por_solucao": {
-            "1": 20.0,
-            "2": 20.0,
-            "3": 20.0
-        }
-    },
-    {
-        "id": "ERB_CAICO_03",
-        "nome": "ERB Caicó - Setor Noroeste",
-        "cidade": "Caicó",
-        "tipo": "ERB",
-        "latitude": -6.4448,
-        "longitude": -37.1033,
-        "altitude_terreno_m": 162.5,
-        "altura_torre_m": 10.0,
-        "setores": 3,
-        "raio_celula_km": 1.808,
-        "solucoes": [
-            1,
-            2,
-            3
-        ],
-        "alturas_por_solucao": {
-            "1": 10.0,
-            "2": 10.0,
-            "3": 10.0
-        }
-    },
-    {
-        "id": "ERB_CURRAIS_NOVOS_01",
-        "nome": "ERB Currais Novos - Centro (CCC - Núcleo da Rede)",
-        "cidade": "Currais Novos",
-        "tipo": "ERB_CCC",
-        "latitude": -6.2709,
-        "longitude": -36.49857,
-        "altitude_terreno_m": 432.5,
-        "altura_torre_m": 15.0,
-        "setores": 3,
-        "raio_celula_km": 1.808,
-        "solucoes": [
-            1,
-            2,
-            3
-        ],
-        "alturas_por_solucao": {
-            "1": 15.0,
-            "2": 15.0,
-            "3": 35.0
-        }
-    },
-    {
-        "id": "ERB_CURRAIS_NOVOS_02",
-        "nome": "ERB Currais Novos - Sítio 02",
-        "cidade": "Currais Novos",
-        "tipo": "ERB",
-        "latitude": -6.2547,
-        "longitude": -36.52383,
-        "altitude_terreno_m": 361.1,
-        "altura_torre_m": 20.0,
-        "setores": 3,
-        "raio_celula_km": 1.808,
-        "solucoes": [
-            1,
-            2,
-            3
-        ],
-        "alturas_por_solucao": {
-            "1": 20.0,
-            "2": 20.0,
-            "3": 20.0
-        }
-    },
-    {
-        "id": "ERB_SANTA_CRUZ_01",
-        "nome": "ERB Santa Cruz - Centro",
-        "cidade": "Santa Cruz",
-        "tipo": "ERB",
-        "latitude": -6.2117,
-        "longitude": -36.02,
-        "altitude_terreno_m": 269.9,
-        "altura_torre_m": 10.0,
-        "setores": 3,
-        "raio_celula_km": 1.808,
-        "solucoes": [
-            1,
-            2,
-            3
-        ],
-        "alturas_por_solucao": {
-            "1": 10.0,
-            "2": 10.0,
-            "3": 10.0
-        }
-    },
-    {
-        "id": "ERB_SANTA_CRUZ_02",
-        "nome": "ERB Santa Cruz - Sítio 02",
-        "cidade": "Santa Cruz",
-        "tipo": "ERB",
-        "latitude": -6.2393,
-        "longitude": -36.0207,
-        "altitude_terreno_m": 322.8,
         "altura_torre_m": 25.0,
         "setores": 3,
         "raio_celula_km": 1.808,
@@ -154,14 +22,14 @@
         }
     },
     {
-        "id": "ERB_JARDIM_DO_SERIDO_01",
-        "nome": "ERB Jardim do Seridó - Centro",
-        "cidade": "Jardim do Seridó",
+        "id": "ERB_CAICO_02",
+        "nome": "ERB Caicó - Setor Sudoeste",
+        "cidade": "Caicó",
         "tipo": "ERB",
-        "latitude": -6.5899,
-        "longitude": -36.7685,
-        "altitude_terreno_m": 246.0,
-        "altura_torre_m": 10.0,
+        "latitude": -6.4662,
+        "longitude": -37.1067,
+        "altitude_terreno_m": 175.5,
+        "altura_torre_m": 25.0,
         "setores": 3,
         "raio_celula_km": 1.808,
         "solucoes": [
@@ -170,8 +38,140 @@
             3
         ],
         "alturas_por_solucao": {
-            "1": 10.0,
-            "2": 10.0,
+            "1": 25.0,
+            "2": 25.0,
+            "3": 25.0
+        }
+    },
+    {
+        "id": "ERB_CAICO_03",
+        "nome": "ERB Caicó - Setor Noroeste",
+        "cidade": "Caicó",
+        "tipo": "ERB",
+        "latitude": -6.4448,
+        "longitude": -37.1033,
+        "altitude_terreno_m": 162.5,
+        "altura_torre_m": 20.0,
+        "setores": 3,
+        "raio_celula_km": 1.808,
+        "solucoes": [
+            1,
+            2,
+            3
+        ],
+        "alturas_por_solucao": {
+            "1": 20.0,
+            "2": 20.0,
+            "3": 20.0
+        }
+    },
+    {
+        "id": "ERB_CURRAIS_NOVOS_01",
+        "nome": "ERB Currais Novos - Centro (CCC - Núcleo da Rede)",
+        "cidade": "Currais Novos",
+        "tipo": "ERB_CCC",
+        "latitude": -6.2709,
+        "longitude": -36.49857,
+        "altitude_terreno_m": 432.5,
+        "altura_torre_m": 25.0,
+        "setores": 3,
+        "raio_celula_km": 1.808,
+        "solucoes": [
+            1,
+            2,
+            3
+        ],
+        "alturas_por_solucao": {
+            "1": 25.0,
+            "2": 25.0,
+            "3": 40.0
+        }
+    },
+    {
+        "id": "ERB_CURRAIS_NOVOS_02",
+        "nome": "ERB Currais Novos - Sítio 02",
+        "cidade": "Currais Novos",
+        "tipo": "ERB",
+        "latitude": -6.2547,
+        "longitude": -36.52383,
+        "altitude_terreno_m": 361.1,
+        "altura_torre_m": 25.0,
+        "setores": 3,
+        "raio_celula_km": 1.808,
+        "solucoes": [
+            1,
+            2,
+            3
+        ],
+        "alturas_por_solucao": {
+            "1": 25.0,
+            "2": 25.0,
+            "3": 25.0
+        }
+    },
+    {
+        "id": "ERB_SANTA_CRUZ_01",
+        "nome": "ERB Santa Cruz - Centro",
+        "cidade": "Santa Cruz",
+        "tipo": "ERB",
+        "latitude": -6.2117,
+        "longitude": -36.02,
+        "altitude_terreno_m": 269.9,
+        "altura_torre_m": 20.0,
+        "setores": 3,
+        "raio_celula_km": 1.808,
+        "solucoes": [
+            1,
+            2,
+            3
+        ],
+        "alturas_por_solucao": {
+            "1": 20.0,
+            "2": 20.0,
+            "3": 20.0
+        }
+    },
+    {
+        "id": "ERB_SANTA_CRUZ_02",
+        "nome": "ERB Santa Cruz - Sítio 02",
+        "cidade": "Santa Cruz",
+        "tipo": "ERB",
+        "latitude": -6.2393,
+        "longitude": -36.0207,
+        "altitude_terreno_m": 322.8,
+        "altura_torre_m": 30.0,
+        "setores": 3,
+        "raio_celula_km": 1.808,
+        "solucoes": [
+            1,
+            2,
+            3
+        ],
+        "alturas_por_solucao": {
+            "1": 30.0,
+            "2": 30.0,
+            "3": 30.0
+        }
+    },
+    {
+        "id": "ERB_JARDIM_DO_SERIDO_01",
+        "nome": "ERB Jardim do Seridó - Centro",
+        "cidade": "Jardim do Seridó",
+        "tipo": "ERB",
+        "latitude": -6.5899,
+        "longitude": -36.7685,
+        "altitude_terreno_m": 246.0,
+        "altura_torre_m": 20.0,
+        "setores": 3,
+        "raio_celula_km": 1.808,
+        "solucoes": [
+            1,
+            2,
+            3
+        ],
+        "alturas_por_solucao": {
+            "1": 20.0,
+            "2": 20.0,
             "3": 25.0
         }
     },
@@ -183,7 +183,7 @@
         "latitude": -6.5585,
         "longitude": -36.5915,
         "altitude_terreno_m": 315.9,
-        "altura_torre_m": 15.0,
+        "altura_torre_m": 20.0,
         "setores": 3,
         "raio_celula_km": 1.808,
         "solucoes": [
@@ -192,8 +192,8 @@
             3
         ],
         "alturas_por_solucao": {
-            "1": 15.0,
-            "2": 15.0,
+            "1": 20.0,
+            "2": 20.0,
             "3": 50.0
         }
     },
@@ -205,7 +205,7 @@
         "latitude": -5.8393,
         "longitude": -35.2348,
         "altitude_terreno_m": 101.2,
-        "altura_torre_m": 15.0,
+        "altura_torre_m": 20.0,
         "setores": 0,
         "raio_celula_km": 0.0,
         "solucoes": [
@@ -214,9 +214,9 @@
             3
         ],
         "alturas_por_solucao": {
-            "1": 15.0,
-            "2": 10.0,
-            "3": 25.0
+            "1": 20.0,
+            "2": 20.0,
+            "3": 35.0
         }
     },
     {
@@ -227,7 +227,7 @@
         "nome": "Repetidora Cume 06 (689 m)",
         "cidade": "Repetidora Interurbana",
         "tipo": "REPETIDORA",
-        "altura_torre_m": 15.0,
+        "altura_torre_m": 20.0,
         "enlaces_conectados": 4,
         "rank_solucao": 1,
         "solucoes": [
@@ -235,8 +235,8 @@
             2
         ],
         "alturas_por_solucao": {
-            "1": 15.0,
-            "2": 15.0
+            "1": 20.0,
+            "2": 20.0
         }
     },
     {
@@ -247,7 +247,7 @@
         "nome": "Repetidora Cume 28 (681 m)",
         "cidade": "Repetidora Interurbana",
         "tipo": "REPETIDORA",
-        "altura_torre_m": 15.0,
+        "altura_torre_m": 25.0,
         "enlaces_conectados": 2,
         "rank_solucao": 1,
         "solucoes": [
@@ -255,8 +255,8 @@
             2
         ],
         "alturas_por_solucao": {
-            "1": 15.0,
-            "2": 15.0
+            "1": 25.0,
+            "2": 25.0
         }
     },
     {
@@ -267,7 +267,7 @@
         "nome": "Repetidora Cume 46 (381 m)",
         "cidade": "Repetidora Interurbana",
         "tipo": "REPETIDORA",
-        "altura_torre_m": 10.0,
+        "altura_torre_m": 20.0,
         "enlaces_conectados": 2,
         "rank_solucao": 1,
         "solucoes": [
@@ -275,8 +275,8 @@
             2
         ],
         "alturas_por_solucao": {
-            "1": 10.0,
-            "2": 10.0
+            "1": 20.0,
+            "2": 20.0
         }
     },
     {
@@ -287,7 +287,7 @@
         "nome": "Repetidora Cume 69 (577 m)",
         "cidade": "Repetidora Interurbana",
         "tipo": "REPETIDORA",
-        "altura_torre_m": 30.0,
+        "altura_torre_m": 35.0,
         "enlaces_conectados": 2,
         "rank_solucao": 1,
         "solucoes": [
@@ -295,8 +295,8 @@
             2
         ],
         "alturas_por_solucao": {
-            "1": 30.0,
-            "2": 30.0
+            "1": 35.0,
+            "2": 35.0
         }
     },
     {
@@ -307,14 +307,14 @@
         "nome": "Repetidora Cume 64 (118 m)",
         "cidade": "Repetidora Interurbana",
         "tipo": "REPETIDORA",
-        "altura_torre_m": 15.0,
+        "altura_torre_m": 20.0,
         "enlaces_conectados": 2,
         "rank_solucao": 2,
         "solucoes": [
             2
         ],
         "alturas_por_solucao": {
-            "2": 15.0
+            "2": 20.0
         }
     },
     {
@@ -325,14 +325,14 @@
         "nome": "Repetidora Cume 12 (562 m)",
         "cidade": "Repetidora Interurbana",
         "tipo": "REPETIDORA",
-        "altura_torre_m": 20.0,
+        "altura_torre_m": 30.0,
         "enlaces_conectados": 2,
         "rank_solucao": 3,
         "solucoes": [
             3
         ],
         "alturas_por_solucao": {
-            "3": 20.0
+            "3": 30.0
         }
     },
     {
@@ -343,14 +343,14 @@
         "nome": "Repetidora Cume 16 (692 m)",
         "cidade": "Repetidora Interurbana",
         "tipo": "REPETIDORA",
-        "altura_torre_m": 15.0,
+        "altura_torre_m": 35.0,
         "enlaces_conectados": 3,
         "rank_solucao": 3,
         "solucoes": [
             3
         ],
         "alturas_por_solucao": {
-            "3": 15.0
+            "3": 35.0
         }
     },
     {
@@ -361,14 +361,14 @@
         "nome": "Repetidora Cume 29 (567 m)",
         "cidade": "Repetidora Interurbana",
         "tipo": "REPETIDORA",
-        "altura_torre_m": 15.0,
+        "altura_torre_m": 25.0,
         "enlaces_conectados": 2,
         "rank_solucao": 3,
         "solucoes": [
             3
         ],
         "alturas_por_solucao": {
-            "3": 15.0
+            "3": 25.0
         }
     },
     {
@@ -379,14 +379,14 @@
         "nome": "Repetidora Cume 30 (636 m)",
         "cidade": "Repetidora Interurbana",
         "tipo": "REPETIDORA",
-        "altura_torre_m": 25.0,
+        "altura_torre_m": 35.0,
         "enlaces_conectados": 3,
         "rank_solucao": 3,
         "solucoes": [
             3
         ],
         "alturas_por_solucao": {
-            "3": 25.0
+            "3": 35.0
         }
     },
     {
@@ -397,14 +397,14 @@
         "nome": "Repetidora Cume 48 (372 m)",
         "cidade": "Repetidora Interurbana",
         "tipo": "REPETIDORA",
-        "altura_torre_m": 15.0,
+        "altura_torre_m": 20.0,
         "enlaces_conectados": 2,
         "rank_solucao": 3,
         "solucoes": [
             3
         ],
         "alturas_por_solucao": {
-            "3": 15.0
+            "3": 20.0
         }
     }
 ]

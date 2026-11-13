@@ -39,12 +39,12 @@
         <description>ID: ERB_CAICO_01
 Tipo: ERB
 Cidade: Caicó
-Altura da Torre: 15.0 m
+Altura da Torre: 25.0 m
 Altitude do Terreno: 170.9 m</description>
         <styleUrl>#estilo_erb</styleUrl>
         <Point>
           <altitudeMode>relativeToGround</altitudeMode>
-          <coordinates>-37.08366,-6.4646,15.0</coordinates>
+          <coordinates>-37.08366,-6.4646,25.0</coordinates>
         </Point>
       </Placemark>
       <Placemark>
@@ -52,12 +52,12 @@ Altitude do Terreno: 170.9 m</description>
         <description>ID: ERB_CAICO_02
 Tipo: ERB
 Cidade: Caicó
-Altura da Torre: 20.0 m
+Altura da Torre: 25.0 m
 Altitude do Terreno: 175.5 m</description>
         <styleUrl>#estilo_erb</styleUrl>
         <Point>
           <altitudeMode>relativeToGround</altitudeMode>
-          <coordinates>-37.1067,-6.4662,20.0</coordinates>
+          <coordinates>-37.1067,-6.4662,25.0</coordinates>
         </Point>
       </Placemark>
       <Placemark>
@@ -65,12 +65,12 @@ Altitude do Terreno: 175.5 m</description>
         <description>ID: ERB_CAICO_03
 Tipo: ERB
 Cidade: Caicó
-Altura da Torre: 10.0 m
+Altura da Torre: 20.0 m
 Altitude do Terreno: 162.5 m</description>
         <styleUrl>#estilo_erb</styleUrl>
         <Point>
           <altitudeMode>relativeToGround</altitudeMode>
-          <coordinates>-37.1033,-6.4448,10.0</coordinates>
+          <coordinates>-37.1033,-6.4448,20.0</coordinates>
         </Point>
       </Placemark>
       <Placemark>
@@ -78,12 +78,12 @@ Altitude do Terreno: 162.5 m</description>
         <description>ID: ERB_CURRAIS_NOVOS_01
 Tipo: ERB_CCC
 Cidade: Currais Novos
-Altura da Torre: 15.0 m
+Altura da Torre: 25.0 m
 Altitude do Terreno: 432.5 m</description>
         <styleUrl>#estilo_ccc</styleUrl>
         <Point>
           <altitudeMode>relativeToGround</altitudeMode>
-          <coordinates>-36.49857,-6.2709,15.0</coordinates>
+          <coordinates>-36.49857,-6.2709,25.0</coordinates>
         </Point>
       </Placemark>
       <Placemark>
@@ -91,12 +91,12 @@ Altitude do Terreno: 432.5 m</description>
         <description>ID: ERB_CURRAIS_NOVOS_02
 Tipo: ERB
 Cidade: Currais Novos
-Altura da Torre: 20.0 m
+Altura da Torre: 25.0 m
 Altitude do Terreno: 361.1 m</description>
         <styleUrl>#estilo_erb</styleUrl>
         <Point>
           <altitudeMode>relativeToGround</altitudeMode>
-          <coordinates>-36.52383,-6.2547,20.0</coordinates>
+          <coordinates>-36.52383,-6.2547,25.0</coordinates>
         </Point>
       </Placemark>
       <Placemark>
@@ -104,12 +104,12 @@ Altitude do Terreno: 361.1 m</description>
         <description>ID: ERB_SANTA_CRUZ_01
 Tipo: ERB
 Cidade: Santa Cruz
-Altura da Torre: 10.0 m
+Altura da Torre: 20.0 m
 Altitude do Terreno: 269.9 m</description>
         <styleUrl>#estilo_erb</styleUrl>
         <Point>
           <altitudeMode>relativeToGround</altitudeMode>
-          <coordinates>-36.02,-6.2117,10.0</coordinates>
+          <coordinates>-36.02,-6.2117,20.0</coordinates>
         </Point>
       </Placemark>
       <Placemark>
@@ -117,12 +117,12 @@ Altitude do Terreno: 269.9 m</description>
         <description>ID: ERB_SANTA_CRUZ_02
 Tipo: ERB
 Cidade: Santa Cruz
-Altura da Torre: 25.0 m
+Altura da Torre: 30.0 m
 Altitude do Terreno: 322.8 m</description>
         <styleUrl>#estilo_erb</styleUrl>
         <Point>
           <altitudeMode>relativeToGround</altitudeMode>
-          <coordinates>-36.0207,-6.2393,25.0</coordinates>
+          <coordinates>-36.0207,-6.2393,30.0</coordinates>
         </Point>
       </Placemark>
       <Placemark>
@@ -130,12 +130,12 @@ Altitude do Terreno: 322.8 m</description>
         <description>ID: ERB_JARDIM_DO_SERIDO_01
 Tipo: ERB
 Cidade: Jardim do Seridó
-Altura da Torre: 10.0 m
+Altura da Torre: 20.0 m
 Altitude do Terreno: 246.0 m</description>
         <styleUrl>#estilo_erb</styleUrl>
         <Point>
           <altitudeMode>relativeToGround</altitudeMode>
-          <coordinates>-36.7685,-6.5899,10.0</coordinates>
+          <coordinates>-36.7685,-6.5899,20.0</coordinates>
         </Point>
       </Placemark>
       <Placemark>
@@ -143,12 +143,12 @@ Altitude do Terreno: 246.0 m</description>
         <description>ID: ERB_CARNAUBA_DOS_DANTAS_01
 Tipo: ERB
 Cidade: Carnaúba dos Dantas
-Altura da Torre: 15.0 m
+Altura da Torre: 20.0 m
 Altitude do Terreno: 315.9 m</description>
         <styleUrl>#estilo_erb</styleUrl>
         <Point>
           <altitudeMode>relativeToGround</altitudeMode>
-          <coordinates>-36.5915,-6.5585,15.0</coordinates>
+          <coordinates>-36.5915,-6.5585,20.0</coordinates>
         </Point>
       </Placemark>
       <Placemark>
@@ -156,12 +156,12 @@ Altitude do Terreno: 315.9 m</description>
         <description>ID: CCC_NATAL_01
 Tipo: CCC_NATAL
 Cidade: Natal
-Altura da Torre: 15.0 m
+Altura da Torre: 20.0 m
 Altitude do Terreno: 101.2 m</description>
         <styleUrl>#estilo_ccc</styleUrl>
         <Point>
           <altitudeMode>relativeToGround</altitudeMode>
-          <coordinates>-35.2348,-5.8393,15.0</coordinates>
+          <coordinates>-35.2348,-5.8393,20.0</coordinates>
         </Point>
       </Placemark>
       <Placemark>
@@ -169,12 +169,12 @@ Altitude do Terreno: 101.2 m</description>
         <description>ID: REP_CUME_06
 Tipo: REPETIDORA
 Cidade: Repetidora Interurbana
-Altura da Torre: 15.0 m
+Altura da Torre: 20.0 m
 Altitude do Terreno: 689.2557373046875 m</description>
         <styleUrl>#estilo_rep</styleUrl>
         <Point>
           <altitudeMode>relativeToGround</altitudeMode>
-          <coordinates>-36.6047,-6.3915,15.0</coordinates>
+          <coordinates>-36.6047,-6.3915,20.0</coordinates>
         </Point>
       </Placemark>
       <Placemark>
@@ -182,12 +182,12 @@ Altitude do Terreno: 689.2557373046875 m</description>
         <description>ID: REP_CUME_28
 Tipo: REPETIDORA
 Cidade: Repetidora Interurbana
-Altura da Torre: 15.0 m
+Altura da Torre: 25.0 m
 Altitude do Terreno: 680.7811279296875 m</description>
         <styleUrl>#estilo_rep</styleUrl>
         <Point>
           <altitudeMode>relativeToGround</altitudeMode>
-          <coordinates>-36.2115,-6.1327,15.0</coordinates>
+          <coordinates>-36.2115,-6.1327,25.0</coordinates>
         </Point>
       </Placemark>
       <Placemark>
@@ -195,12 +195,12 @@ Altitude do Terreno: 680.7811279296875 m</description>
         <description>ID: REP_CUME_46
 Tipo: REPETIDORA
 Cidade: Repetidora Interurbana
-Altura da Torre: 10.0 m
+Altura da Torre: 20.0 m
 Altitude do Terreno: 381.2609558105469 m</description>
         <styleUrl>#estilo_rep</styleUrl>
         <Point>
           <altitudeMode>relativeToGround</altitudeMode>
-          <coordinates>-35.8479,-6.1623,10.0</coordinates>
+          <coordinates>-35.8479,-6.1623,20.0</coordinates>
         </Point>
       </Placemark>
       <Placemark>
@@ -208,12 +208,12 @@ Altitude do Terreno: 381.2609558105469 m</description>
         <description>ID: REP_CUME_69
 Tipo: REPETIDORA
 Cidade: Repetidora Interurbana
-Altura da Torre: 30.0 m
+Altura da Torre: 35.0 m
 Altitude do Terreno: 577.1068725585938 m</description>
         <styleUrl>#estilo_rep</styleUrl>
         <Point>
           <altitudeMode>relativeToGround</altitudeMode>
-          <coordinates>-36.5917,-6.52181,30.0</coordinates>
+          <coordinates>-36.5917,-6.52181,35.0</coordinates>
         </Point>
       </Placemark>
       <Placemark>
@@ -221,12 +221,12 @@ Altitude do Terreno: 577.1068725585938 m</description>
         <description>ID: REP_CUME_64
 Tipo: REPETIDORA
 Cidade: Repetidora Interurbana
-Altura da Torre: 15.0 m
+Altura da Torre: 20.0 m
 Altitude do Terreno: 118.18994140625 m</description>
         <styleUrl>#estilo_rep</styleUrl>
         <Point>
           <altitudeMode>relativeToGround</altitudeMode>
-          <coordinates>-35.3867,-5.9651,15.0</coordinates>
+          <coordinates>-35.3867,-5.9651,20.0</coordinates>
         </Point>
       </Placemark>
       <Placemark>
@@ -234,12 +234,12 @@ Altitude do Terreno: 118.18994140625 m</description>
         <description>ID: REP_CUME_12
 Tipo: REPETIDORA
 Cidade: Repetidora Interurbana
-Altura da Torre: 20.0 m
+Altura da Torre: 30.0 m
 Altitude do Terreno: 561.8125610351562 m</description>
         <styleUrl>#estilo_rep</styleUrl>
         <Point>
           <altitudeMode>relativeToGround</altitudeMode>
-          <coordinates>-36.9463,-6.2295,20.0</coordinates>
+          <coordinates>-36.9463,-6.2295,30.0</coordinates>
         </Point>
       </Placemark>
       <Placemark>
@@ -247,12 +247,12 @@ Altitude do Terreno: 561.8125610351562 m</description>
         <description>ID: REP_CUME_16
 Tipo: REPETIDORA
 Cidade: Repetidora Interurbana
-Altura da Torre: 15.0 m
+Altura da Torre: 35.0 m
 Altitude do Terreno: 692.0980834960938 m</description>
         <styleUrl>#estilo_rep</styleUrl>
         <Point>
           <altitudeMode>relativeToGround</altitudeMode>
-          <coordinates>-36.4879,-6.5159,15.0</coordinates>
+          <coordinates>-36.4879,-6.5159,35.0</coordinates>
         </Point>
       </Placemark>
       <Placemark>
@@ -260,12 +260,12 @@ Altitude do Terreno: 692.0980834960938 m</description>
         <description>ID: REP_CUME_29
 Tipo: REPETIDORA
 Cidade: Repetidora Interurbana
-Altura da Torre: 15.0 m
+Altura da Torre: 25.0 m
 Altitude do Terreno: 567.3485107421875 m</description>
         <styleUrl>#estilo_rep</styleUrl>
         <Point>
           <altitudeMode>relativeToGround</altitudeMode>
-          <coordinates>-36.1343,-6.2099,15.0</coordinates>
+          <coordinates>-36.1343,-6.2099,25.0</coordinates>
         </Point>
       </Placemark>
       <Placemark>
@@ -273,12 +273,12 @@ Altitude do Terreno: 567.3485107421875 m</description>
         <description>ID: REP_CUME_30
 Tipo: REPETIDORA
 Cidade: Repetidora Interurbana
-Altura da Torre: 25.0 m
+Altura da Torre: 35.0 m
 Altitude do Terreno: 635.8814697265625 m</description>
         <styleUrl>#estilo_rep</styleUrl>
         <Point>
           <altitudeMode>relativeToGround</altitudeMode>
-          <coordinates>-36.3867,-6.2999,25.0</coordinates>
+          <coordinates>-36.3867,-6.2999,35.0</coordinates>
         </Point>
       </Placemark>
       <Placemark>
@@ -286,12 +286,12 @@ Altitude do Terreno: 635.8814697265625 m</description>
         <description>ID: REP_CUME_48
 Tipo: REPETIDORA
 Cidade: Repetidora Interurbana
-Altura da Torre: 15.0 m
+Altura da Torre: 20.0 m
 Altitude do Terreno: 371.946533203125 m</description>
         <styleUrl>#estilo_rep</styleUrl>
         <Point>
           <altitudeMode>relativeToGround</altitudeMode>
-          <coordinates>-35.9123,-6.1503,15.0</coordinates>
+          <coordinates>-35.9123,-6.1503,20.0</coordinates>
         </Point>
       </Placemark>
     </Folder>
@@ -302,13 +302,13 @@ Altitude do Terreno: 371.946533203125 m</description>
         <description>Distância: 2.55 km
 Antena Tx: 0.38m (Standard)
 Antena Rx: 0.38m (Standard)
-Torres (Tx / Rx): 20.0m / 15.0m
+Torres (Tx / Rx): 25.0m / 25.0m
 Fade Margin Estimada: 29.94 dB
 RSL Estimado: -44.06 dBm</description>
         <styleUrl>#linha_local</styleUrl>
         <LineString>
           <altitudeMode>relativeToGround</altitudeMode>
-          <coordinates>-37.1067,-6.4662,20.0 -37.08366,-6.4646,15.0</coordinates>
+          <coordinates>-37.1067,-6.4662,25.0 -37.08366,-6.4646,25.0</coordinates>
         </LineString>
       </Placemark>
       <Placemark>
@@ -316,13 +316,13 @@ RSL Estimado: -44.06 dBm</description>
         <description>Distância: 3.07 km
 Antena Tx: 0.38m (Standard)
 Antena Rx: 0.38m (Standard)
-Torres (Tx / Rx): 25.0m / 10.0m
+Torres (Tx / Rx): 30.0m / 20.0m
 Fade Margin Estimada: 28.33 dB
 RSL Estimado: -45.67 dBm</description>
         <styleUrl>#linha_local</styleUrl>
         <LineString>
           <altitudeMode>relativeToGround</altitudeMode>
-          <coordinates>-36.0207,-6.2393,25.0 -36.02,-6.2117,10.0</coordinates>
+          <coordinates>-36.0207,-6.2393,30.0 -36.02,-6.2117,20.0</coordinates>
         </LineString>
       </Placemark>
       <Placemark>
@@ -330,13 +330,13 @@ RSL Estimado: -45.67 dBm</description>
         <description>Distância: 3.09 km
 Antena Tx: 0.38m (Standard)
 Antena Rx: 0.38m (Standard)
-Torres (Tx / Rx): 10.0m / 15.0m
+Torres (Tx / Rx): 20.0m / 25.0m
 Fade Margin Estimada: 28.27 dB
 RSL Estimado: -45.73 dBm</description>
         <styleUrl>#linha_local</styleUrl>
         <LineString>
           <altitudeMode>relativeToGround</altitudeMode>
-          <coordinates>-37.1033,-6.4448,10.0 -37.08366,-6.4646,15.0</coordinates>
+          <coordinates>-37.1033,-6.4448,20.0 -37.08366,-6.4646,25.0</coordinates>
         </LineString>
       </Placemark>
       <Placemark>
@@ -344,13 +344,13 @@ RSL Estimado: -45.73 dBm</description>
         <description>Distância: 3.32 km
 Antena Tx: 0.38m (Standard)
 Antena Rx: 0.38m (Standard)
-Torres (Tx / Rx): 20.0m / 15.0m
+Torres (Tx / Rx): 25.0m / 25.0m
 Fade Margin Estimada: 27.65 dB
 RSL Estimado: -46.35 dBm</description>
         <styleUrl>#linha_tronco</styleUrl>
         <LineString>
           <altitudeMode>relativeToGround</altitudeMode>
-          <coordinates>-36.52383,-6.2547,20.0 -36.49857,-6.2709,15.0</coordinates>
+          <coordinates>-36.52383,-6.2547,25.0 -36.49857,-6.2709,25.0</coordinates>
         </LineString>
       </Placemark>
       <Placemark>
@@ -358,13 +358,13 @@ RSL Estimado: -46.35 dBm</description>
         <description>Distância: 4.08 km
 Antena Tx: 0.38m (Standard)
 Antena Rx: 0.38m (Standard)
-Torres (Tx / Rx): 15.0m / 30.0m
+Torres (Tx / Rx): 20.0m / 35.0m
 Fade Margin Estimada: 25.86 dB
 RSL Estimado: -48.14 dBm</description>
         <styleUrl>#linha_local</styleUrl>
         <LineString>
           <altitudeMode>relativeToGround</altitudeMode>
-          <coordinates>-36.5915,-6.5585,15.0 -36.5917,-6.52181,30.0</coordinates>
+          <coordinates>-36.5915,-6.5585,20.0 -36.5917,-6.52181,35.0</coordinates>
         </LineString>
       </Placemark>
       <Placemark>
@@ -372,13 +372,13 @@ RSL Estimado: -48.14 dBm</description>
         <description>Distância: 14.56 km
 Antena Tx: 0.9m (Standard)
 Antena Rx: 0.9m (Standard)
-Torres (Tx / Rx): 30.0m / 15.0m
+Torres (Tx / Rx): 35.0m / 20.0m
 Fade Margin Estimada: 34.96 dB
 RSL Estimado: -38.04 dBm</description>
         <styleUrl>#linha_local</styleUrl>
         <LineString>
           <altitudeMode>relativeToGround</altitudeMode>
-          <coordinates>-36.5917,-6.52181,30.0 -36.6047,-6.3915,15.0</coordinates>
+          <coordinates>-36.5917,-6.52181,35.0 -36.6047,-6.3915,20.0</coordinates>
         </LineString>
       </Placemark>
       <Placemark>
@@ -386,13 +386,13 @@ RSL Estimado: -38.04 dBm</description>
         <description>Distância: 17.82 km
 Antena Tx: 0.9m (Standard)
 Antena Rx: 0.9m (Standard)
-Torres (Tx / Rx): 15.0m / 15.0m
+Torres (Tx / Rx): 20.0m / 25.0m
 Fade Margin Estimada: 33.2 dB
 RSL Estimado: -39.8 dBm</description>
         <styleUrl>#linha_tronco</styleUrl>
         <LineString>
           <altitudeMode>relativeToGround</altitudeMode>
-          <coordinates>-36.6047,-6.3915,15.0 -36.49857,-6.2709,15.0</coordinates>
+          <coordinates>-36.6047,-6.3915,20.0 -36.49857,-6.2709,25.0</coordinates>
         </LineString>
       </Placemark>
       <Placemark>
@@ -400,13 +400,13 @@ RSL Estimado: -39.8 dBm</description>
         <description>Distância: 20.93 km
 Antena Tx: 0.9m (Standard)
 Antena Rx: 0.9m (Standard)
-Torres (Tx / Rx): 10.0m / 25.0m
+Torres (Tx / Rx): 20.0m / 30.0m
 Fade Margin Estimada: 31.81 dB
 RSL Estimado: -41.19 dBm</description>
         <styleUrl>#linha_local</styleUrl>
         <LineString>
           <altitudeMode>relativeToGround</altitudeMode>
-          <coordinates>-35.8479,-6.1623,10.0 -36.0207,-6.2393,25.0</coordinates>
+          <coordinates>-35.8479,-6.1623,20.0 -36.0207,-6.2393,30.0</coordinates>
         </LineString>
       </Placemark>
       <Placemark>
@@ -414,13 +414,13 @@ RSL Estimado: -41.19 dBm</description>
         <description>Distância: 22.92 km
 Antena Tx: 0.9m (Standard)
 Antena Rx: 0.9m (Standard)
-Torres (Tx / Rx): 10.0m / 15.0m
+Torres (Tx / Rx): 20.0m / 25.0m
 Fade Margin Estimada: 31.02 dB
 RSL Estimado: -41.98 dBm</description>
         <styleUrl>#linha_local</styleUrl>
         <LineString>
           <altitudeMode>relativeToGround</altitudeMode>
-          <coordinates>-36.02,-6.2117,10.0 -36.2115,-6.1327,15.0</coordinates>
+          <coordinates>-36.02,-6.2117,20.0 -36.2115,-6.1327,25.0</coordinates>
         </LineString>
       </Placemark>
       <Placemark>
@@ -428,13 +428,13 @@ RSL Estimado: -41.98 dBm</description>
         <description>Distância: 28.53 km
 Antena Tx: 0.9m (Standard)
 Antena Rx: 0.9m (Standard)
-Torres (Tx / Rx): 10.0m / 15.0m
+Torres (Tx / Rx): 20.0m / 20.0m
 Fade Margin Estimada: 29.12 dB
 RSL Estimado: -43.88 dBm</description>
         <styleUrl>#linha_local</styleUrl>
         <LineString>
           <altitudeMode>relativeToGround</altitudeMode>
-          <coordinates>-36.7685,-6.5899,10.0 -36.6047,-6.3915,15.0</coordinates>
+          <coordinates>-36.7685,-6.5899,20.0 -36.6047,-6.3915,20.0</coordinates>
         </LineString>
       </Placemark>
       <Placemark>
@@ -442,13 +442,13 @@ RSL Estimado: -43.88 dBm</description>
         <description>Distância: 35.26 km
 Antena Tx: 0.9m (Standard)
 Antena Rx: 0.9m (Standard)
-Torres (Tx / Rx): 15.0m / 15.0m
+Torres (Tx / Rx): 25.0m / 25.0m
 Fade Margin Estimada: 27.28 dB
 RSL Estimado: -45.72 dBm</description>
         <styleUrl>#linha_tronco</styleUrl>
         <LineString>
           <altitudeMode>relativeToGround</altitudeMode>
-          <coordinates>-36.2115,-6.1327,15.0 -36.49857,-6.2709,15.0</coordinates>
+          <coordinates>-36.2115,-6.1327,25.0 -36.49857,-6.2709,25.0</coordinates>
         </LineString>
       </Placemark>
       <Placemark>
@@ -456,13 +456,13 @@ RSL Estimado: -45.72 dBm</description>
         <description>Distância: 53.54 km
 Antena Tx: 1.2m (Standard)
 Antena Rx: 1.2m (Standard)
-Torres (Tx / Rx): 15.0m / 15.0m
+Torres (Tx / Rx): 25.0m / 20.0m
 Fade Margin Estimada: 30.65 dB
 RSL Estimado: -42.35 dBm</description>
         <styleUrl>#linha_local</styleUrl>
         <LineString>
           <altitudeMode>relativeToGround</altitudeMode>
-          <coordinates>-37.08366,-6.4646,15.0 -36.6047,-6.3915,15.0</coordinates>
+          <coordinates>-37.08366,-6.4646,25.0 -36.6047,-6.3915,20.0</coordinates>
         </LineString>
       </Placemark>
       <Placemark>
@@ -470,13 +470,13 @@ RSL Estimado: -42.35 dBm</description>
         <description>Distância: 76.73 km
 Antena Tx: 1.05m (Standard)
 Antena Rx: 1.05m (Standard)
-Torres (Tx / Rx): 15.0m / 10.0m
+Torres (Tx / Rx): 20.0m / 20.0m
 Fade Margin Estimada: 26.37 dB
 RSL Estimado: -49.63 dBm</description>
         <styleUrl>#linha_tronco</styleUrl>
         <LineString>
           <altitudeMode>relativeToGround</altitudeMode>
-          <coordinates>-35.2348,-5.8393,15.0 -35.8479,-6.1623,10.0</coordinates>
+          <coordinates>-35.2348,-5.8393,20.0 -35.8479,-6.1623,20.0</coordinates>
         </LineString>
       </Placemark>
     </Folder>

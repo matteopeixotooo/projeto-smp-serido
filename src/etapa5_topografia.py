@@ -11,7 +11,7 @@ Melhorias estruturais implementadas:
      >= 12 km entre repetidoras (elimina saltos minúsculos redundantes) e permitindo
      tronco de longa distância até Natal com apenas 1 repetidora.
   4. Cálculo explícito do abaulamento da Terra (k = 4/3), 60% da 1ª Zona de Fresnel e
-     folga mínima >= 8,0 m.
+     folga mínima >= 16,0 m (torres mínimas de 20 m p/ evitar visada rente ao solo/vegetação).
 """
 import heapq
 import html
@@ -38,9 +38,9 @@ ARQ_CACHE = "outputs/dem_cache.json"
 # Parâmetros físicos e topológicos
 K_FACTOR = 4.0 / 3.0
 FRESNEL_FRACAO = 0.6            # 60% da 1ª zona de Fresnel livre
-MARGEM_FOLGA_M = 8.0            # folga mínima de segurança acima de 0,6·F1
+MARGEM_FOLGA_M = 16.0           # folga mínima de segurança acima de 0,6·F1 (evita feixe rente ao solo/vegetação)
 MARGEM_VEGETACAO_M = 0.0        # DSM Copernicus já representa superfície (vegetação/prédios)
-H_MIN_M, H_PASSO_M = 10.0, 5.0  # alturas testadas: 10 m .. 50 m
+H_MIN_M, H_PASSO_M = 20.0, 5.0  # alturas realistas: 20 m .. 50 m
 H_MAX_M = ALTURA_MAX_BACKHAUL_M
 PASSO_PERFIL_M = 15.0           # 2x a resolução do DEM (30 m)
 MAX_AMOSTRAS = 6000
