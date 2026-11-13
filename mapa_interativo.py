@@ -193,6 +193,11 @@ html_code = f"""<!DOCTYPE html>
     .budget-card.win {{ border: 1.5px solid #00ff55; background: linear-gradient(180deg, rgba(0,255,85,0.08) 0%, #10141f 100%); }}
     .budget-total {{ font-size: 1.5rem; font-weight: 900; color: #fff; }}
     .budget-card.win .budget-total {{ color: #00ff55; }}
+    .budget-split {{ display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 4px 0; }}
+    .split-pill {{ background: #161d2e; border: 1px solid #26314a; border-radius: 6px; padding: 7px 9px; font-size: 0.76rem; }}
+    .split-pill b {{ display: block; font-size: 0.92rem; margin-top: 2px; }}
+    .ref-link {{ color: #38bdf8; text-decoration: none; font-weight: 600; }}
+    .ref-link:hover {{ text-decoration: underline; color: #7dd3fc; }}
     .diagram-box {{ background: #0c1018; border: 1px solid #22293b; border-radius: 10px; padding: 14px; overflow-x: auto; }}
   </style>
 </head>
@@ -272,15 +277,15 @@ html_code = f"""<!DOCTYPE html>
             <span id="st1-coords" style="font-family: monospace; color: #fff;">-6.000, -36.000</span>
           </div>
           <div class="field-row">
-            <span>Produto / Rádio:</span>
-            <select id="st1-radio" onchange="atualizarHardware()">
+            <span>Banda / Rádio:</span>
+            <select id="st1-radio" onchange="atualizarHardware('st1-radio')" title="Trocar entre 11 GHz e 5 GHz recalcula a Zona de Fresnel, FSPL e chuva">
               <option value="airFiber 11FX">airFiber 11FX (11 GHz)</option>
               <option value="airFiber 5XHD">airFiber 5XHD (5 GHz)</option>
             </select>
           </div>
           <div class="field-row">
             <span>Antena / Prato:</span>
-            <select id="st1-antena" onchange="atualizarHardware()">
+            <select id="st1-antena" onchange="atualizarHardware('antena')">
               <option value="35.0">AF-11G35 (0.9m / 35 dBi)</option>
               <option value="38.5">Dish 1.2m (38.5 dBi)</option>
               <option value="34.0">AF-5G34 (1.05m / 34 dBi)</option>
@@ -320,8 +325,8 @@ html_code = f"""<!DOCTYPE html>
             </div>
             <div style="font-size: 0.82rem; color: #a4a9b6;">
               Distância: <b id="txt-dist" style="color: #fff;">32.5 km</b> | 
-              Canal: 
-              <select id="sel-channel-width" style="background: #242738; color: #00ff55; border: 1px solid #363b52; border-radius: 4px; padding: 2px 4px;" onchange="atualizarHardware()">
+              Largura Canal: 
+              <select id="sel-channel-width" style="background: #242738; color: #00ff55; border: 1px solid #363b52; border-radius: 4px; padding: 2px 4px;" onchange="atualizarHardware('canal')" title="Altera a largura do canal em MHz (capacidade/Throughput). Para recalcular Fresnel, troque a Banda/Rádio (5 GHz vs 11 GHz).">
                 <option value="20">20 MHz (5G)</option>
                 <option value="28" selected>28 MHz (ANATEL 11G)</option>
                 <option value="40">40 MHz</option>
@@ -355,15 +360,15 @@ html_code = f"""<!DOCTYPE html>
             <span id="st2-coords" style="font-family: monospace; color: #fff;">-6.000, -36.000</span>
           </div>
           <div class="field-row">
-            <span>Produto / Rádio:</span>
-            <select id="st2-radio" onchange="atualizarHardware()">
+            <span>Banda / Rádio:</span>
+            <select id="st2-radio" onchange="atualizarHardware('st2-radio')" title="Trocar entre 11 GHz e 5 GHz recalcula a Zona de Fresnel, FSPL e chuva">
               <option value="airFiber 11FX">airFiber 11FX (11 GHz)</option>
               <option value="airFiber 5XHD">airFiber 5XHD (5 GHz)</option>
             </select>
           </div>
           <div class="field-row">
             <span>Antena / Prato:</span>
-            <select id="st2-antena" onchange="atualizarHardware()">
+            <select id="st2-antena" onchange="atualizarHardware('antena')">
               <option value="35.0">AF-11G35 (0.9m / 35 dBi)</option>
               <option value="38.5">Dish 1.2m (38.5 dBi)</option>
               <option value="34.0">AF-5G34 (1.05m / 34 dBi)</option>
@@ -520,7 +525,8 @@ html_code = f"""<!DOCTYPE html>
       const hAtual = (ALTURAS_SOL[rkRef] && ALTURAS_SOL[rkRef][s.id]) || s.altura_torre_m;
       const grau = (GRAU_SOL[rkRef] && GRAU_SOL[rkRef][s.id]) || 1;
       const tagSols = s.tipo.includes('REPETIDORA') ? `<br>Usada na(s) Solução(ões): <b>#${{sols.join(', #')}}</b>` : '';
-      return `<b>${{s.nome}}</b><br>Torre fixa (Sol. #${{rkRef}}): <b>${{hAtual}} m</b> (${{grau}} enlace(s))<br>Cota terreno: ${{s.altitude_terreno_m}} m${{tagSols}}`;
+      const cotaTerr = Number.isFinite(Number(s.altitude_terreno_m)) ? Number(s.altitude_terreno_m).toFixed(1) : s.altitude_terreno_m;
+      return `<b>${{s.nome}}</b><br>Torre fixa (Sol. #${{rkRef}}): <b>${{hAtual}} m</b> (${{grau}} enlace(s))<br>Cota terreno: ${{cotaTerr}} m${{tagSols}}`;
     }}
 
     const dictSitiosFixos = {{}};
@@ -967,18 +973,40 @@ html_code = f"""<!DOCTYPE html>
       recalcularPerfilGrafico();
     }}
 
-    function atualizarHardware() {{
+    function atualizarHardware(origem='st1-radio') {{
       if (!enlaceSelecionado) return;
       const d = enlaceSelecionado.dados;
-      const rad = document.getElementById('st1-radio').value;
+      const rad = document.getElementById(origem === 'st2-radio' ? 'st2-radio' : 'st1-radio').value;
+      document.getElementById('st1-radio').value = rad;
       document.getElementById('st2-radio').value = rad;
       d.radio_utilizado = rad;
       d.frequencia_ghz = rad.includes('5XHD') ? 5.0 : 11.0;
+
+      // Ao trocar a banda do rádio (11 GHz <-> 5 GHz), ajusta automaticamente antenas e canal compatíveis e recalcula Fresnel
+      if (origem === 'st1-radio' || origem === 'st2-radio') {{
+        const ant5 = ['23.0', '30.0', '34.0'];
+        const ant11 = ['35.0', '38.5'];
+        const a1 = document.getElementById('st1-antena');
+        const a2 = document.getElementById('st2-antena');
+        if (d.frequencia_ghz === 5.0) {{
+          const padrao5 = d.distancia_km > 35 ? '34.0' : (d.distancia_km > 10 ? '30.0' : '23.0');
+          if (!ant5.includes(a1.value)) a1.value = padrao5;
+          if (!ant5.includes(a2.value)) a2.value = padrao5;
+          document.getElementById('sel-channel-width').value = d.distancia_km > 20 ? '40' : '20';
+        }} else {{
+          const padrao11 = d.distancia_km > 40 ? '38.5' : '35.0';
+          if (!ant11.includes(a1.value)) a1.value = padrao11;
+          if (!ant11.includes(a2.value)) a2.value = padrao11;
+          document.getElementById('sel-channel-width').value = '28';
+        }}
+      }}
+
       d.ganho_tx_dbi = parseFloat(document.getElementById('st1-antena').value);
       d.ganho_rx_dbi = parseFloat(document.getElementById('st2-antena').value);
       d.potencia_tx_dbm = d.frequencia_ghz === 5.0 ? (d.ganho_tx_dbi >= 34 ? 28.0 : 26.0) : 30.0;
       d.sensibilidade_dbm = d.frequencia_ghz === 5.0 ? (d.ganho_rx_dbi >= 34 ? -76.0 : -74.0) : -73.0;
       d.channel_width_mhz = parseInt(document.getElementById('sel-channel-width').value);
+      if (d.fixo) enlaceSelecionado.setTooltipContent(tooltipDoEnlace(enlaceSelecionado));
       recalcularPerfilGrafico();
     }}
 
@@ -1405,13 +1433,34 @@ html_code = f"""<!DOCTYPE html>
       const rowsTorresUnicas = Object.entries(sol1.alturas_fixas_torres || {{}}).map(([sid, h]) => {{
         const sitio = SITIOS_FIXOS.find(s => s.id === sid) || {{ nome: sid, altitude_terreno_m: '-' }};
         const g = GRAU_SOL[1][sid] || 1;
+        const cotaFmt = Number.isFinite(Number(sitio.altitude_terreno_m)) ? `${{Number(sitio.altitude_terreno_m).toFixed(1)}} m` : '-';
         return `<tr>
           <td><b>${{sitio.nome}}</b></td>
-          <td>${{sitio.altitude_terreno_m}} m</td>
+          <td>${{cotaFmt}}</td>
           <td><span class="pill-ok">${{h}} m (única e fixa)</span></td>
           <td>${{g}} enlace(s) atendido(s)</td>
         </tr>`;
       }}).join('');
+
+      // Contagens dinâmicas para Tabela de Referências de Custos (Solução #1)
+      const linksSol1 = sol1.enlaces || [];
+      const qtd5XHD = linksSol1.filter(l => l.radio_utilizado === 'airFiber 5XHD').length * 2;
+      const qtd11FX = linksSol1.filter(l => l.radio_utilizado === 'airFiber 11FX').length * 2;
+      const countAnt = (frag) => linksSol1.reduce((acc, l) => acc + (l.antena_tx.includes(frag) ? 1 : 0) + (l.antena_rx.includes(frag) ? 1 : 0), 0);
+      const qtd5G23 = countAnt('AF-5G23');
+      const qtd5G30 = countAnt('AF-5G30');
+      const qtd5G34 = countAnt('AF-5G34');
+      const qtd11G35 = countAnt('AF-11G35');
+      const qtd11Dish = countAnt('1.2m');
+      const somaMetrosTorres1 = Object.values(sol1.alturas_fixas_torres || {{}}).reduce((a, b) => a + b, 0);
+      const qtdReps1 = sol1.num_repetidoras || 3;
+      const qtdSitiosExist1 = Object.keys(sol1.alturas_fixas_torres || {{}}).length - qtdReps1;
+      const ativos1 = sol1.orcamento ? sol1.orcamento.custo_ativos_brl : 0;
+      const civilTotal1 = (sol1.orcamento ? (sol1.orcamento.custo_torres_brl + sol1.orcamento.custo_infra_sitios_brl) : 0);
+      const ativos2 = sol2.orcamento ? sol2.orcamento.custo_ativos_brl : 0;
+      const civilTotal2 = (sol2.orcamento ? (sol2.orcamento.custo_torres_brl + sol2.orcamento.custo_infra_sitios_brl) : 0);
+      const ativos3 = sol3.orcamento ? sol3.orcamento.custo_ativos_brl : 0;
+      const civilTotal3 = (sol3.orcamento ? (sol3.orcamento.custo_torres_brl + sol3.orcamento.custo_infra_sitios_brl) : 0);
 
       el.innerHTML = `
         <div class="calc-hero">
@@ -1444,9 +1493,9 @@ html_code = f"""<!DOCTYPE html>
             <div class="kpi-sub">${{sol1.num_repetidoras}} repetidoras (só 1 p/ Natal!)</div>
           </div>
           <div class="kpi-card highlight">
-            <div class="kpi-label">Investimento CAPEX (#1)</div>
-            <div class="kpi-value">${{formatarBRL(capex1)}}</div>
-            <div class="kpi-sub">Economia de ${{formatarBRL(capex2 - capex1)}} vs #2</div>
+            <div class="kpi-label">Só Ativos Rádio+Antena (#1)</div>
+            <div class="kpi-value">${{formatarBRL(ativos1)}}</div>
+            <div class="kpi-sub">24 kits (12 enlaces) • +${{formatarBRL(civilTotal1)}} Torres/Civil = ${{formatarBRL(capex1)}}</div>
           </div>
         </div>
 
@@ -1503,7 +1552,7 @@ html_code = f"""<!DOCTYPE html>
               <b>Física da Visada (Abaulamento + Zona de Fresnel):</b><br>
               • <b>Abaulamento da Terra (k = 4/3):</b> <code>h_curv(d) = (d₁ · d₂) / (2 · k · R_Terra)</code>. No salto de 76,7 km até Natal, a Terra "sobe" <b>+86,6 m</b> no centro (descontando a refração k=4/3)!<br>
               • <b>1ª Zona de Fresnel:</b> <code>R₁ = 17,32 · √((d₁ · d₂) / (f_GHz · D))</code>. Exigimos pelo menos <b>60% de F₁ livre + 8 m de folga de segurança</b>.<br>
-              • <b>Chuva Intensa (ITU-R P.838-3 @ 50 mm/h):</b> Em <code>76,7 km</code> (Serra da Tapuia → Natal), 11 GHz perderia ~28 dB na chuva; por isso adotamos <b>5 GHz (airFiber 5XHD)</b> nesse salto longo, perdendo apenas <b>0,82 dB</b>!
+              • <b>Chuva Intensa (ITU-R P.838-3 @ 50 mm/h):</b> Em <code>76,7 km</code> (Rep. Cume 46 → Natal), 11 GHz perderia ~28 dB na chuva; por isso adotamos <b>5 GHz (airFiber 5XHD)</b> nesse salto longo, perdendo apenas <b>0,82 dB</b>!
             </div>
           </div>
 
@@ -1518,7 +1567,10 @@ html_code = f"""<!DOCTYPE html>
 
         <!-- ETAPA 6: ORÇAMENTO & CHUVA -->
         <div class="section-card">
-          <div class="section-title">4️⃣ Orçamento Detalhado (CAPEX), Atenuação por Chuva e Quadro Síntese <span class="section-tag">Comparativo Solução #1 vs #2 vs #3</span></div>
+          <div class="section-title">4️⃣ Orçamento Separado (Ativos vs. Torres/Civil), Referências & Quadro Síntese <span class="section-tag">Comparativo Solução #1 vs #2 vs #3</span></div>
+          <div class="formula-box">
+            <b>Por que comparar separando Ativos vs. Obra Civil?</b> Trabalhos focados apenas em enlaces PTP normalmente contabilizam <b>só os rádios e antenas (Ativos)</b>. Na nossa Solução #1 completa, os <b>Ativos de Telecom</b> somam <b>${{formatarBRL(ativos1)}}</b> (24 kits em 12 enlaces, incluindo 7 saltos em banda licenciada 11 GHz e 5 em 5 GHz), enquanto <b>Torres + Infraestrutura Civil</b> respondem por <b>${{formatarBRL(civilTotal1)}}</b> (torres, fundação, SPDA, bancos de bateria/solar nas serras e racks), totalizando o CAPEX <i>turn-key</i> de <b>${{formatarBRL(capex1)}}</b>.
+          </div>
           <div class="budget-grid">
             <div class="budget-card win">
               <div style="display:flex; justify-content:space-between; align-items:center;">
@@ -1526,10 +1578,13 @@ html_code = f"""<!DOCTYPE html>
                 <span class="pill-ok">MELHOR CUSTO</span>
               </div>
               <div class="budget-total">${{formatarBRL(capex1)}}</div>
-              <div style="font-size:0.8rem; color:#cbd5e1; line-height:1.5;">
-                • <b>Ativos (24 kits rádio+antena):</b> ${{formatarBRL(sol1.orcamento?.custo_ativos_brl)}}<br>
-                • <b>Torres (≤ 30 m, 210 m acumulados):</b> ${{formatarBRL(sol1.orcamento?.custo_torres_brl)}}<br>
-                • <b>Infraestrutura Civil (3 repetidoras + 10 sítios):</b> ${{formatarBRL(sol1.orcamento?.custo_infra_sitios_brl)}}<br>
+              <div class="budget-split">
+                <div class="split-pill"><span>📡 Só Ativos (24 kits)</span><b style="color:#38bdf8;">${{formatarBRL(ativos1)}}</b></div>
+                <div class="split-pill"><span>🏗️ Torres + Civil</span><b style="color:#cbd5e1;">${{formatarBRL(civilTotal1)}}</b></div>
+              </div>
+              <div style="font-size:0.78rem; color:#cbd5e1; line-height:1.48;">
+                • <b>Torres (≤ 30 m, ${{somaMetrosTorres1}} m somados):</b> ${{formatarBRL(sol1.orcamento?.custo_torres_brl)}}<br>
+                • <b>Civil/Energia (${{qtdReps1}} rep. + ${{qtdSitiosExist1}} ERBs/CCC):</b> ${{formatarBRL(sol1.orcamento?.custo_infra_sitios_brl)}}<br>
                 • <b>Destaque:</b> Apenas <b>1 repetidora</b> indo de Santa Cruz até Natal!
               </div>
             </div>
@@ -1539,10 +1594,13 @@ html_code = f"""<!DOCTYPE html>
                 <span class="pill-info">+${{formatarBRL(capex2 - capex1)}}</span>
               </div>
               <div class="budget-total">${{formatarBRL(capex2)}}</div>
-              <div style="font-size:0.8rem; color:#9fb0c9; line-height:1.5;">
-                • <b>Ativos (26 kits rádio+antena):</b> ${{formatarBRL(sol2.orcamento?.custo_ativos_brl)}}<br>
+              <div class="budget-split">
+                <div class="split-pill"><span>📡 Só Ativos (26 kits)</span><b style="color:#38bdf8;">${{formatarBRL(ativos2)}}</b></div>
+                <div class="split-pill"><span>🏗️ Torres + Civil</span><b style="color:#cbd5e1;">${{formatarBRL(civilTotal2)}}</b></div>
+              </div>
+              <div style="font-size:0.78rem; color:#9fb0c9; line-height:1.48;">
                 • <b>Torres (≤ 30 m):</b> ${{formatarBRL(sol2.orcamento?.custo_torres_brl)}}<br>
-                • <b>Infraestrutura (4 repetidoras):</b> ${{formatarBRL(sol2.orcamento?.custo_infra_sitios_brl)}}<br>
+                • <b>Civil/Energia (${{sol2.num_repetidoras}} repetidoras):</b> ${{formatarBRL(sol2.orcamento?.custo_infra_sitios_brl)}}<br>
                 • Exige 1 repetidora extra antes de Natal para manter todos os saltos em 11 GHz ≤ 56 km.
               </div>
             </div>
@@ -1552,13 +1610,119 @@ html_code = f"""<!DOCTYPE html>
                 <span class="pill-bad">+${{formatarBRL(capex3 - capex1)}}</span>
               </div>
               <div class="budget-total">${{formatarBRL(capex3)}}</div>
-              <div style="font-size:0.8rem; color:#9fb0c9; line-height:1.5;">
-                • <b>Ativos (28 kits rádio+antena):</b> ${{formatarBRL(sol3.orcamento?.custo_ativos_brl)}}<br>
+              <div class="budget-split">
+                <div class="split-pill"><span>📡 Só Ativos (28 kits)</span><b style="color:#38bdf8;">${{formatarBRL(ativos3)}}</b></div>
+                <div class="split-pill"><span>🏗️ Torres + Civil</span><b style="color:#cbd5e1;">${{formatarBRL(civilTotal3)}}</b></div>
+              </div>
+              <div style="font-size:0.78rem; color:#9fb0c9; line-height:1.48;">
                 • <b>Torres (≤ 35 m):</b> ${{formatarBRL(sol3.orcamento?.custo_torres_brl)}}<br>
-                • <b>Infraestrutura (5 repetidoras):</b> ${{formatarBRL(sol3.orcamento?.custo_infra_sitios_brl)}}<br>
+                • <b>Civil/Energia (${{sol3.num_repetidoras}} repetidoras):</b> ${{formatarBRL(sol3.orcamento?.custo_infra_sitios_brl)}}<br>
                 • Rota reserva usando 100% outros cumes caso haja bloqueio fundiário nos da #1.
               </div>
             </div>
+          </div>
+
+          <h4 style="color:#cbd5e1; margin-top:6px; font-size:0.9rem;">🧾 Detalhamento Unitário e Fontes de Referência por Item — Solução #1</h4>
+          <div style="overflow-x:auto;">
+            <table class="eng-table">
+              <thead>
+                <tr>
+                  <th>Categoria</th><th>Item / Especificação</th><th>Qtd.</th><th>Valor Unitário</th><th>Subtotal (Sol. #1)</th><th>Base Técnica e Link de Referência</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><span class="pill-info">Ativos (5 GHz)</span></td>
+                  <td><b>Rádio Ubiquiti airFiber 5XHD</b> (5 GHz, até 1 Gbps)</td>
+                  <td>${{qtd5XHD}} un</td>
+                  <td>R$ 3.608,10</td>
+                  <td><b>${{formatarBRL(qtd5XHD * 3608.10)}}</b></td>
+                  <td>Cotação Mercado Livre BR / <a class="ref-link" href="https://dl.ubnt.com/datasheets/airFiber/airFiber_5XHD_DS.pdf" target="_blank" rel="noopener">Datasheet Ubiquiti AF-5XHD</a> • <a class="ref-link" href="https://lista.mercadolivre.com.br/ubiquiti-airfiber-5xhd" target="_blank" rel="noopener">Mercado Livre</a></td>
+                </tr>
+                <tr>
+                  <td><span class="pill-info">Ativos (5 GHz)</span></td>
+                  <td><b>Antena AF-5G23-S45</b> (0,38 m / 23 dBi) — enlaces urbanos</td>
+                  <td>${{qtd5G23}} un</td>
+                  <td>R$ 950,00</td>
+                  <td><b>${{formatarBRL(qtd5G23 * 950.00)}}</b></td>
+                  <td>Parâmetro urbano curto / <a class="ref-link" href="https://dl.ubnt.com/datasheets/airFiber/airFiber_Antennas_DS.pdf" target="_blank" rel="noopener">Datasheet Antenas airFiber</a> • <a class="ref-link" href="https://lista.mercadolivre.com.br/ubiquiti-af-5g23-s45" target="_blank" rel="noopener">Mercado Livre</a></td>
+                </tr>
+                <tr>
+                  <td><span class="pill-info">Ativos (5 GHz)</span></td>
+                  <td><b>Antena AF-5G30-S45</b> (0,65 m / 30 dBi)</td>
+                  <td>${{qtd5G30}} un</td>
+                  <td>R$ 1.499,00</td>
+                  <td><b>${{formatarBRL(qtd5G30 * 1499.00)}}</b></td>
+                  <td>Cotação referência BR / <a class="ref-link" href="https://dl.ubnt.com/datasheets/airFiber/airFiber_Antennas_DS.pdf" target="_blank" rel="noopener">Datasheet Ubiquiti</a> • <a class="ref-link" href="https://lista.mercadolivre.com.br/antena-ubiquiti-af-5g30" target="_blank" rel="noopener">Mercado Livre</a></td>
+                </tr>
+                <tr>
+                  <td><span class="pill-info">Ativos (5 GHz)</span></td>
+                  <td><b>Antena AF-5G34-S45</b> (1,05 m / 34 dBi) — salto 76,7 km Natal</td>
+                  <td>${{qtd5G34}} un</td>
+                  <td>R$ 2.890,00</td>
+                  <td><b>${{formatarBRL(qtd5G34 * 2890.00)}}</b></td>
+                  <td>Alto ganho PTP longo / <a class="ref-link" href="https://dl.ubnt.com/datasheets/airFiber/airFiber_Antennas_DS.pdf" target="_blank" rel="noopener">Datasheet Ubiquiti</a> • <a class="ref-link" href="https://lista.mercadolivre.com.br/antena-ubiquiti-af-5g34" target="_blank" rel="noopener">Mercado Livre</a></td>
+                </tr>
+                <tr>
+                  <td><span class="pill-info">Ativos (11 GHz)</span></td>
+                  <td><b>Rádio Ubiquiti airFiber 11FX</b> (11 GHz licenciado Anatel)</td>
+                  <td>${{qtd11FX}} un</td>
+                  <td>R$ 6.850,00</td>
+                  <td><b>${{formatarBRL(qtd11FX * 6850.00)}}</b></td>
+                  <td>Banda licenciada anti-interferência / <a class="ref-link" href="https://dl.ubnt.com/datasheets/airFiber/airFiber_11FX_DS.pdf" target="_blank" rel="noopener">Datasheet AF-11FX</a> • <a class="ref-link" href="https://store.ui.com/us/en/products/af-11fx" target="_blank" rel="noopener">Ubiquiti Store</a></td>
+                </tr>
+                <tr>
+                  <td><span class="pill-info">Ativos (11 GHz)</span></td>
+                  <td><b>Antena AF-11G35</b> (0,9 m / 35 dBi)</td>
+                  <td>${{qtd11G35}} un</td>
+                  <td>R$ 3.450,00</td>
+                  <td><b>${{formatarBRL(qtd11G35 * 3450.00)}}</b></td>
+                  <td>Prato 11 GHz padrão / <a class="ref-link" href="https://dl.ubnt.com/datasheets/airFiber/airFiber_11FX_DS.pdf" target="_blank" rel="noopener">Datasheet AF-11G35</a> • <a class="ref-link" href="https://ispdesign.ui.com/" target="_blank" rel="noopener">UISP Design Center</a></td>
+                </tr>
+                <tr>
+                  <td><span class="pill-info">Ativos (11 GHz)</span></td>
+                  <td><b>Prato High-Gain 1,2 m</b> (38,5 dBi) — Caicó 53,5 km</td>
+                  <td>${{qtd11Dish}} un</td>
+                  <td>R$ 5.200,00</td>
+                  <td><b>${{formatarBRL(qtd11Dish * 5200.00)}}</b></td>
+                  <td>Parâmetro UISP p/ 53,5 km @ 11 GHz / <a class="ref-link" href="https://ispdesign.ui.com/" target="_blank" rel="noopener">UISP Design Center</a> • <a class="ref-link" href="https://www.itu.int/rec/R-REC-P.838/en" target="_blank" rel="noopener">ITU-R P.838-3</a></td>
+                </tr>
+                <tr style="background:rgba(56,189,248,0.08);">
+                  <td colspan="4" style="text-align:right;"><b>SUBTOTAL 1 — EQUIPAMENTOS ATIVOS (RÁDIOS + ANTENAS):</b></td>
+                  <td><b style="color:#38bdf8;">${{formatarBRL(ativos1)}}</b></td>
+                  <td>Comparável direto aos orçamentos que listam só rádios/antenas</td>
+                </tr>
+                <tr>
+                  <td><span class="pill-ok">Estruturas</span></td>
+                  <td><b>Torres Metálicas (10 m a 30 m) + Fundação + SPDA</b></td>
+                  <td>${{somaMetrosTorres1}} m (13 torres)</td>
+                  <td>R$ 2.100,00 / m</td>
+                  <td><b>${{formatarBRL(sol1.orcamento?.custo_torres_brl)}}</b></td>
+                  <td>Estimativa de engenharia (aço galvanizado + bloco concreto + aterramento) • <a class="ref-link" href="https://www.caixa.gov.br/poder-publico/modernizacao-gestao/sinapi/Paginas/default.aspx" target="_blank" rel="noopener">Referência SINAPI/Caixa</a></td>
+                </tr>
+                <tr>
+                  <td><span class="pill-ok">Obra Civil</span></td>
+                  <td><b>Infraestrutura Completa de Repetidora de Serra</b></td>
+                  <td>${{qtdReps1}} sítios</td>
+                  <td>R$ 38.000,00 / sítio</td>
+                  <td><b>${{formatarBRL(qtdReps1 * 38000.00)}}</b></td>
+                  <td>Gabinete outdoor IP65, banco de baterias + energia solar, cercado e acesso em topo de morro • <a class="ref-link" href="https://www.gov.br/anatel/pt-br/regulado/infraestrutura" target="_blank" rel="noopener">Anatel Infraestrutura</a></td>
+                </tr>
+                <tr>
+                  <td><span class="pill-ok">Obra Civil</span></td>
+                  <td><b>Adequação de Backhaul em ERBs Urbanas e CCCs</b></td>
+                  <td>${{qtdSitiosExist1}} sítios</td>
+                  <td>R$ 8.500,00 / sítio</td>
+                  <td><b>${{formatarBRL(qtdSitiosExist1 * 8500.00)}}</b></td>
+                  <td>Rack indoor, nobreak, cabeamento Blindado Cat6/Fibra e suportes em sítio SMP já existente • <a class="ref-link" href="https://www.gov.br/anatel/pt-br/regulado/infraestrutura" target="_blank" rel="noopener">Anatel Infraestrutura</a></td>
+                </tr>
+                <tr style="background:rgba(0,255,85,0.09);">
+                  <td colspan="4" style="text-align:right;"><b>SUBTOTAL 2 — TORRES + INFRAESTRUTURA CIVIL:</b></td>
+                  <td><b style="color:#00ff55;">${{formatarBRL(civilTotal1)}}</b></td>
+                  <td>Infraestrutura física passiva para implantação real completa</td>
+                </tr>
+              </tbody>
+            </table>
           </div>
 
           <h4 style="color:#cbd5e1; margin-top:6px; font-size:0.9rem;">📋 Quadro Síntese dos 12 Enlaces da Solução #1 (Chuva ITU-R P.838-3 + Custo de Equipamentos)</h4>
