@@ -311,6 +311,13 @@ def encontrar_cumes(sitios: list[dict]) -> list[dict]:
         alt_t = float(elevacoes([tapuia])[0])
         cumes.append({"latitude": tapuia[0], "longitude": tapuia[1], "altitude_terreno_m": alt_t})
 
+    # Garante inclusão explícita da crista norte do cânion de Carnaúba dos Dantas (577,1 m)
+    # para escoar a ERB urbana de Carnaúba até a Borborema em 1 salto curto desobstruído
+    serra_carnauba = (-6.52181, -36.59170)
+    if not any(distancia_haversine_km(serra_carnauba[0], serra_carnauba[1], c["latitude"], c["longitude"]) < 2.5 for c in cumes):
+        alt_sc = float(elevacoes([serra_carnauba])[0])
+        cumes.append({"latitude": serra_carnauba[0], "longitude": serra_carnauba[1], "altitude_terreno_m": alt_sc})
+
     for n, c in enumerate(cumes, start=1):
         c.update({
             "id": f"REP_CUME_{n:02d}",
@@ -679,8 +686,9 @@ def executar_etapa5(arquivo_sitios: str = "outputs/sites_candidatos.json"):
         "destaque": True,
         "nota_curta": "MELHOR ESCOLHA (#1): Menor nº de repetidoras (apenas 1 para Natal!), torres fixas ≤ 50 m e menor custo.",
         "justificativa": (
-            "É a melhor escolha técnica e econômica: conecta todo o Seridó ao CCC de Currais Novos com apenas 2 repetidoras "
-            "na Borborema e alcança o CCC Principal em Natal (Candelária/BR-101) com APENAS 1 repetidora (Serra da Tapuia), "
+            "É a melhor escolha técnica e econômica: conecta todo o Seridó ao CCC de Currais Novos com apenas 3 repetidoras "
+            "no Seridó/Borborema (incluindo a crista norte de 577 m para vencer o cânion de Carnaúba dos Dantas) e alcança "
+            "o CCC Principal em Natal (Candelária/BR-101) com APENAS 1 repetidora (Serra da Tapuia), "
             "mantendo todas as torres com altura única fixa ≤ 50 m e 100% livres acima de 60% da 1ª Zona de Fresnel + abaulamento."
         ),
         "por_que_n1_vence": (

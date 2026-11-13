@@ -143,12 +143,12 @@ Altitude do Terreno: 246.0 m</description>
         <description>ID: ERB_CARNAUBA_DOS_DANTAS_01
 Tipo: ERB
 Cidade: Carnaúba dos Dantas
-Altura da Torre: 30.0 m
-Altitude do Terreno: 577.1 m</description>
+Altura da Torre: 15.0 m
+Altitude do Terreno: 315.9 m</description>
         <styleUrl>#estilo_erb</styleUrl>
         <Point>
           <altitudeMode>relativeToGround</altitudeMode>
-          <coordinates>-36.5917,-6.52181,30.0</coordinates>
+          <coordinates>-36.5915,-6.5585,15.0</coordinates>
         </Point>
       </Placemark>
       <Placemark>
@@ -204,6 +204,19 @@ Altitude do Terreno: 381.2609558105469 m</description>
         </Point>
       </Placemark>
       <Placemark>
+        <name>Repetidora Cume 69 (577 m)</name>
+        <description>ID: REP_CUME_69
+Tipo: REPETIDORA
+Cidade: Repetidora Interurbana
+Altura da Torre: 30.0 m
+Altitude do Terreno: 577.1068725585938 m</description>
+        <styleUrl>#estilo_rep</styleUrl>
+        <Point>
+          <altitudeMode>relativeToGround</altitudeMode>
+          <coordinates>-36.5917,-6.52181,30.0</coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
         <name>Repetidora Cume 64 (118 m)</name>
         <description>ID: REP_CUME_64
 Tipo: REPETIDORA
@@ -214,19 +227,6 @@ Altitude do Terreno: 118.18994140625 m</description>
         <Point>
           <altitudeMode>relativeToGround</altitudeMode>
           <coordinates>-35.3867,-5.9651,15.0</coordinates>
-        </Point>
-      </Placemark>
-      <Placemark>
-        <name>Repetidora Cume 08 (605 m)</name>
-        <description>ID: REP_CUME_08
-Tipo: REPETIDORA
-Cidade: Repetidora Interurbana
-Altura da Torre: 10.0 m
-Altitude do Terreno: 605.0894775390625 m</description>
-        <styleUrl>#estilo_rep</styleUrl>
-        <Point>
-          <altitudeMode>relativeToGround</altitudeMode>
-          <coordinates>-36.5503,-6.3623,10.0</coordinates>
         </Point>
       </Placemark>
       <Placemark>
@@ -243,6 +243,19 @@ Altitude do Terreno: 561.8125610351562 m</description>
         </Point>
       </Placemark>
       <Placemark>
+        <name>Repetidora Cume 16 (692 m)</name>
+        <description>ID: REP_CUME_16
+Tipo: REPETIDORA
+Cidade: Repetidora Interurbana
+Altura da Torre: 15.0 m
+Altitude do Terreno: 692.0980834960938 m</description>
+        <styleUrl>#estilo_rep</styleUrl>
+        <Point>
+          <altitudeMode>relativeToGround</altitudeMode>
+          <coordinates>-36.4879,-6.5159,15.0</coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
         <name>Repetidora Cume 29 (567 m)</name>
         <description>ID: REP_CUME_29
 Tipo: REPETIDORA
@@ -256,16 +269,16 @@ Altitude do Terreno: 567.3485107421875 m</description>
         </Point>
       </Placemark>
       <Placemark>
-        <name>Repetidora Cume 32 (668 m)</name>
-        <description>ID: REP_CUME_32
+        <name>Repetidora Cume 30 (636 m)</name>
+        <description>ID: REP_CUME_30
 Tipo: REPETIDORA
 Cidade: Repetidora Interurbana
-Altura da Torre: 20.0 m
-Altitude do Terreno: 668.2688598632812 m</description>
+Altura da Torre: 25.0 m
+Altitude do Terreno: 635.8814697265625 m</description>
         <styleUrl>#estilo_rep</styleUrl>
         <Point>
           <altitudeMode>relativeToGround</altitudeMode>
-          <coordinates>-36.3119,-6.2843,20.0</coordinates>
+          <coordinates>-36.3867,-6.2999,25.0</coordinates>
         </Point>
       </Placemark>
       <Placemark>
@@ -341,7 +354,21 @@ RSL Estimado: -46.35 dBm</description>
         </LineString>
       </Placemark>
       <Placemark>
-        <name>PTP: ERB Carnaúba dos Dantas - Centro &lt;-&gt; Repetidora Cume 06 (689 m)</name>
+        <name>PTP: ERB Carnaúba dos Dantas - Centro &lt;-&gt; Repetidora Cume 69 (577 m)</name>
+        <description>Distância: 4.08 km
+Antena Tx: 0.38m (Standard)
+Antena Rx: 0.38m (Standard)
+Torres (Tx / Rx): 15.0m / 30.0m
+Fade Margin Estimada: 25.86 dB
+RSL Estimado: -48.14 dBm</description>
+        <styleUrl>#linha_local</styleUrl>
+        <LineString>
+          <altitudeMode>relativeToGround</altitudeMode>
+          <coordinates>-36.5915,-6.5585,15.0 -36.5917,-6.52181,30.0</coordinates>
+        </LineString>
+      </Placemark>
+      <Placemark>
+        <name>PTP: Repetidora Cume 69 (577 m) &lt;-&gt; Repetidora Cume 06 (689 m)</name>
         <description>Distância: 14.56 km
 Antena Tx: 0.9m (Standard)
 Antena Rx: 0.9m (Standard)

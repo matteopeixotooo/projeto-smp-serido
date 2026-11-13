@@ -1483,7 +1483,14 @@ html_code = f"""<!DOCTYPE html>
       const qtd11G35 = countAnt('AF-11G35');
       const qtd11Dish = countAnt('1.2m');
       const somaMetrosTorres1 = Object.values(sol1.alturas_fixas_torres || {{}}).reduce((a, b) => a + b, 0);
-      const qtdReps1 = sol1.num_repetidoras || 3;
+      const numEnlaces1 = linksSol1.length;
+      const numKits1 = numEnlaces1 * 2;
+      const numKits2 = ((sol2.enlaces || []).length) * 2;
+      const numKits3 = ((sol3.enlaces || []).length) * 2;
+      const numTorres1 = Object.keys(sol1.alturas_fixas_torres || {{}}).length;
+      const qtd5GLinks1 = linksSol1.filter(l => Math.round(Number(l.frequencia_ghz)) === 5).length;
+      const qtd11GLinks1 = linksSol1.filter(l => Math.round(Number(l.frequencia_ghz)) === 11).length;
+      const qtdReps1 = sol1.num_repetidoras || 4;
       const qtdSitiosExist1 = Object.keys(sol1.alturas_fixas_torres || {{}}).length - qtdReps1;
       const ativos1 = sol1.orcamento ? sol1.orcamento.custo_ativos_brl : 0;
       const civilTotal1 = (sol1.orcamento ? (sol1.orcamento.custo_torres_brl + sol1.orcamento.custo_infra_sitios_brl) : 0);
@@ -1525,7 +1532,7 @@ html_code = f"""<!DOCTYPE html>
           <div class="kpi-card highlight">
             <div class="kpi-label">Só Ativos Rádio+Antena (#1)</div>
             <div class="kpi-value">${{formatarBRL(ativos1)}}</div>
-            <div class="kpi-sub">24 kits (12 enlaces) • +${{formatarBRL(civilTotal1)}} Torres/Civil = ${{formatarBRL(capex1)}}</div>
+            <div class="kpi-sub">${{numKits1}} kits (${{numEnlaces1}} enlaces) • +${{formatarBRL(civilTotal1)}} Torres/Civil = ${{formatarBRL(capex1)}}</div>
           </div>
         </div>
 
@@ -1574,7 +1581,7 @@ html_code = f"""<!DOCTYPE html>
           <div class="two-col">
             <div class="formula-box">
               <b>Como escolhemos os melhores locais (sem "caixa-preta"):</b><br>
-              1. <b>Micro-Siting Urbano (±750 m):</b> Dentro da zona de cobertura de cada cidade, varremos o DEM Copernicus 30m e subimos a ERB para a cota urbana firme mais alta (ex.: em Currais Novos subiu de 342 m para <b>435,7 m</b>; em Natal usamos a cota alta urbana da <b>Candelária/BR-101 a 101,2 m</b> com acesso e energia). Carnaúba dos Dantas permanece travada em <code>-6.52181, -36.59170</code> (577,1 m).<br>
+              1. <b>Micro-Siting Urbano (±750 m):</b> Dentro da zona de cobertura de cada cidade, varremos o DEM Copernicus 30m e subimos a ERB para a cota urbana firme mais alta (ex.: em Currais Novos subiu de 342 m para <b>435,7 m</b>; em Natal usamos a cota alta urbana da <b>Candelária/BR-101 a 101,2 m</b> com acesso e energia). Em <b>Carnaúba dos Dantas</b>, a ERB urbana fica na encosta do Monte do Galo (<code>-6.55850, -36.59150</code>, 317,3 m) cobrindo 100% da cidade no raio de <b>1,808 km</b> e subindo em visada limpa de 4,08 km até a crista norte do cânion em <b>Rep. Cume 69</b> (<code>-6.52181, -36.59170</code>, 577,1 m).<br>
               2. <b>Varredura de Serras (94.644 pontos) + Hill Climbing:</b> Achamos os melhores cumes reais e proibimos saltos &lt; 12 km entre repetidoras.<br>
               3. <b>Altura Única por Torre:</b> Cada torre tem <b>uma única altura fixa (10 m a 30 m na Sol. #1)</b> que atende todos os enlaces ligados a ela!
             </div>
@@ -1599,7 +1606,7 @@ html_code = f"""<!DOCTYPE html>
         <div class="section-card">
           <div class="section-title">4️⃣ Orçamento Separado (Ativos vs. Torres/Civil), Referências & Quadro Síntese <span class="section-tag">Comparativo Solução #1 vs #2 vs #3</span></div>
           <div class="formula-box">
-            <b>Por que comparar separando Ativos vs. Obra Civil?</b> Trabalhos focados apenas em enlaces PTP normalmente contabilizam <b>só os rádios e antenas (Ativos)</b>. Na nossa Solução #1 completa, os <b>Ativos de Telecom</b> somam <b>${{formatarBRL(ativos1)}}</b> (24 kits em 12 enlaces, incluindo 7 saltos em banda licenciada 11 GHz e 5 em 5 GHz), enquanto <b>Torres + Infraestrutura Civil</b> respondem por <b>${{formatarBRL(civilTotal1)}}</b> (torres, fundação, SPDA, bancos de bateria/solar nas serras e racks), totalizando o CAPEX <i>turn-key</i> de <b>${{formatarBRL(capex1)}}</b>.
+            <b>Por que comparar separando Ativos vs. Obra Civil?</b> Trabalhos focados apenas em enlaces PTP normalmente contabilizam <b>só os rádios e antenas (Ativos)</b>. Na nossa Solução #1 completa, os <b>Ativos de Telecom</b> somam <b>${{formatarBRL(ativos1)}}</b> (${{numKits1}} kits em ${{numEnlaces1}} enlaces, incluindo ${{qtd11GLinks1}} saltos em banda licenciada 11 GHz e ${{qtd5GLinks1}} em 5 GHz), enquanto <b>Torres + Infraestrutura Civil</b> respondem por <b>${{formatarBRL(civilTotal1)}}</b> (torres, fundação, SPDA, bancos de bateria/solar nas serras e racks), totalizando o CAPEX <i>turn-key</i> de <b>${{formatarBRL(capex1)}}</b>.
           </div>
           <div class="budget-grid">
             <div class="budget-card win">
@@ -1609,7 +1616,7 @@ html_code = f"""<!DOCTYPE html>
               </div>
               <div class="budget-total">${{formatarBRL(capex1)}}</div>
               <div class="budget-split">
-                <div class="split-pill"><span>📡 Só Ativos (24 kits)</span><b style="color:#38bdf8;">${{formatarBRL(ativos1)}}</b></div>
+                <div class="split-pill"><span>📡 Só Ativos (${{numKits1}} kits)</span><b style="color:#38bdf8;">${{formatarBRL(ativos1)}}</b></div>
                 <div class="split-pill"><span>🏗️ Torres + Civil</span><b style="color:#cbd5e1;">${{formatarBRL(civilTotal1)}}</b></div>
               </div>
               <div style="font-size:0.78rem; color:#cbd5e1; line-height:1.48;">
@@ -1625,7 +1632,7 @@ html_code = f"""<!DOCTYPE html>
               </div>
               <div class="budget-total">${{formatarBRL(capex2)}}</div>
               <div class="budget-split">
-                <div class="split-pill"><span>📡 Só Ativos (26 kits)</span><b style="color:#38bdf8;">${{formatarBRL(ativos2)}}</b></div>
+                <div class="split-pill"><span>📡 Só Ativos (${{numKits2}} kits)</span><b style="color:#38bdf8;">${{formatarBRL(ativos2)}}</b></div>
                 <div class="split-pill"><span>🏗️ Torres + Civil</span><b style="color:#cbd5e1;">${{formatarBRL(civilTotal2)}}</b></div>
               </div>
               <div style="font-size:0.78rem; color:#9fb0c9; line-height:1.48;">
@@ -1641,7 +1648,7 @@ html_code = f"""<!DOCTYPE html>
               </div>
               <div class="budget-total">${{formatarBRL(capex3)}}</div>
               <div class="budget-split">
-                <div class="split-pill"><span>📡 Só Ativos (28 kits)</span><b style="color:#38bdf8;">${{formatarBRL(ativos3)}}</b></div>
+                <div class="split-pill"><span>📡 Só Ativos (${{numKits3}} kits)</span><b style="color:#38bdf8;">${{formatarBRL(ativos3)}}</b></div>
                 <div class="split-pill"><span>🏗️ Torres + Civil</span><b style="color:#cbd5e1;">${{formatarBRL(civilTotal3)}}</b></div>
               </div>
               <div style="font-size:0.78rem; color:#9fb0c9; line-height:1.48;">
@@ -1725,7 +1732,7 @@ html_code = f"""<!DOCTYPE html>
                 <tr>
                   <td><span class="pill-ok">Estruturas</span></td>
                   <td><b>Torres Estaiadas (10 m a 30 m) com base e estais</b></td>
-                  <td class="nowrap">${{somaMetrosTorres1}} m (13 torres)</td>
+                  <td class="nowrap">${{somaMetrosTorres1}} m (${{numTorres1}} torres)</td>
                   <td class="nowrap">R$ 902,50 / m</td>
                   <td class="nowrap"><b>${{formatarBRL(sol1.orcamento?.custo_torres_brl)}}</b></td>
                   <td>Preço por metro direto no anúncio: <a class="ref-link" href="https://www.mfrural.com.br/busca/torre-modulos" target="_blank" rel="noopener">MF Rural (R$ 902,50/m)</a> • Ref. módulo avulso 2m sem estais: <a class="ref-link" href="https://www.supertower.com.br/produto/modulo-torre-estaiada-2m-r-450-00-cada" target="_blank" rel="noopener">Super Tower (R$ 450/2m)</a></td>
@@ -1755,7 +1762,7 @@ html_code = f"""<!DOCTYPE html>
             </table>
           </div>
 
-          <h4 style="color:#cbd5e1; margin-top:6px; font-size:0.9rem;">📋 Quadro Síntese dos 12 Enlaces da Solução #1 (Chuva ITU-R P.838-3 + Custo de Equipamentos)</h4>
+          <h4 style="color:#cbd5e1; margin-top:6px; font-size:0.9rem;">📋 Quadro Síntese dos ${{numEnlaces1}} Enlaces da Solução #1 (Chuva ITU-R P.838-3 + Custo de Equipamentos)</h4>
           <div style="overflow-x:auto;">
             <table class="eng-table">
               <thead>
@@ -1769,63 +1776,69 @@ html_code = f"""<!DOCTYPE html>
 
           <h4 style="color:#cbd5e1; margin-top:6px; font-size:0.9rem;">🔀 Diagrama Lógico da Rede (Solução #1 — Fluxo do Seridó até Natal)</h4>
           <div class="diagram-box">
-            <svg viewBox="0 0 1120 250" width="100%" height="230" style="min-width:920px;">
+            <svg viewBox="0 0 1160 250" width="100%" height="230" style="min-width:940px;">
               <defs>
                 <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
                   <path d="M 0 1 L 10 5 L 0 9 z" fill="#00ff55" />
                 </marker>
               </defs>
               <!-- Linhas lógicas -->
-              <line x1="170" y1="45" x2="310" y2="125" stroke="#00ff55" stroke-width="2.5" marker-end="url(#arrow)" />
-              <line x1="170" y1="125" x2="310" y2="125" stroke="#00ff55" stroke-width="2.5" marker-end="url(#arrow)" />
-              <line x1="170" y1="205" x2="310" y2="125" stroke="#00ff55" stroke-width="2.5" marker-end="url(#arrow)" />
-              <line x1="450" y1="125" x2="530" y2="125" stroke="#00ff55" stroke-width="3" marker-end="url(#arrow)" />
-              <line x1="680" y1="125" x2="755" y2="125" stroke="#00ff55" stroke-width="3" marker-end="url(#arrow)" />
-              <line x1="875" y1="125" x2="893" y2="125" stroke="#00ff55" stroke-width="3" marker-end="url(#arrow)" />
+              <line x1="160" y1="45" x2="365" y2="120" stroke="#00ff55" stroke-width="2.5" marker-end="url(#arrow)" />
+              <line x1="160" y1="125" x2="365" y2="125" stroke="#00ff55" stroke-width="2.5" marker-end="url(#arrow)" />
+              <line x1="160" y1="205" x2="205" y2="205" stroke="#00ff55" stroke-width="2.5" marker-end="url(#arrow)" />
+              <line x1="335" y1="205" x2="365" y2="142" stroke="#00ff55" stroke-width="2.5" marker-end="url(#arrow)" />
+              <line x1="490" y1="125" x2="555" y2="125" stroke="#00ff55" stroke-width="3" marker-end="url(#arrow)" />
+              <line x1="700" y1="125" x2="770" y2="125" stroke="#00ff55" stroke-width="3" marker-end="url(#arrow)" />
+              <line x1="888" y1="125" x2="915" y2="125" stroke="#00ff55" stroke-width="3" marker-end="url(#arrow)" />
               <!-- Nós -->
-              <rect x="15" y="22" width="155" height="46" rx="8" fill="#172033" stroke="#00e5ff" />
-              <text x="92" y="42" fill="#fff" font-size="11" font-weight="bold" text-anchor="middle">Caicó (3 ERBs)</text>
-              <text x="92" y="57" fill="#7dd3fc" font-size="9.5" text-anchor="middle">53,5 km • 11FX • Torre 15m</text>
+              <rect x="12" y="22" width="148" height="46" rx="8" fill="#172033" stroke="#00e5ff" />
+              <text x="86" y="42" fill="#fff" font-size="11" font-weight="bold" text-anchor="middle">Caicó (3 ERBs)</text>
+              <text x="86" y="57" fill="#7dd3fc" font-size="9.5" text-anchor="middle">53,5 km • 11FX • Torre 15m</text>
 
-              <rect x="15" y="102" width="155" height="46" rx="8" fill="#172033" stroke="#00e5ff" />
-              <text x="92" y="122" fill="#fff" font-size="11" font-weight="bold" text-anchor="middle">Jardim do Seridó</text>
-              <text x="92" y="137" fill="#7dd3fc" font-size="9.5" text-anchor="middle">28,5 km • 11FX • Torre 10m</text>
+              <rect x="12" y="102" width="148" height="46" rx="8" fill="#172033" stroke="#00e5ff" />
+              <text x="86" y="122" fill="#fff" font-size="11" font-weight="bold" text-anchor="middle">Jardim do Seridó</text>
+              <text x="86" y="137" fill="#7dd3fc" font-size="9.5" text-anchor="middle">28,5 km • 11FX • Torre 10m</text>
 
-              <rect x="15" y="182" width="155" height="46" rx="8" fill="#172033" stroke="#00e5ff" />
-              <text x="92" y="202" fill="#fff" font-size="11" font-weight="bold" text-anchor="middle">Carnaúba dos Dantas</text>
-              <text x="92" y="217" fill="#7dd3fc" font-size="9.5" text-anchor="middle">14,6 km • 11FX • Torre 30m</text>
+              <rect x="12" y="182" width="148" height="46" rx="8" fill="#172033" stroke="#00e5ff" />
+              <text x="86" y="202" fill="#fff" font-size="11" font-weight="bold" text-anchor="middle">Carnaúba (Urbana)</text>
+              <text x="86" y="217" fill="#7dd3fc" font-size="9.5" text-anchor="middle">4,1 km • 5XHD • Torre 15m</text>
 
-              <rect x="312" y="96" width="138" height="58" rx="8" fill="#122b22" stroke="#00ff55" stroke-width="2" />
-              <text x="381" y="118" fill="#00ff55" font-size="11" font-weight="bold" text-anchor="middle">Rep. Cume 06</text>
-              <text x="381" y="133" fill="#cbd5e1" font-size="9.5" text-anchor="middle">689 m • Torre 15m</text>
-              <text x="381" y="146" fill="#94a3b8" font-size="9" text-anchor="middle">17,8 km → CCC</text>
+              <rect x="207" y="178" width="128" height="54" rx="8" fill="#122b22" stroke="#00ff55" stroke-width="2" />
+              <text x="271" y="198" fill="#00ff55" font-size="10.5" font-weight="bold" text-anchor="middle">Rep. Cume 69 (Crista)</text>
+              <text x="271" y="212" fill="#cbd5e1" font-size="9" text-anchor="middle">577 m • Torre 30m</text>
+              <text x="271" y="224" fill="#94a3b8" font-size="8.5" text-anchor="middle">14,6 km • 11FX → Cume 06</text>
 
-              <rect x="532" y="96" width="148" height="58" rx="8" fill="#331520" stroke="#ff1744" stroke-width="2" />
-              <text x="606" y="118" fill="#fff" font-size="11" font-weight="bold" text-anchor="middle">CCC Currais Novos</text>
-              <text x="606" y="133" fill="#fda4af" font-size="9.5" text-anchor="middle">2 ERBs • Torre 15m</text>
-              <text x="606" y="146" fill="#cbd5e1" font-size="9" text-anchor="middle">35,3 km → Cume 28</text>
+              <rect x="367" y="96" width="123" height="58" rx="8" fill="#122b22" stroke="#00ff55" stroke-width="2" />
+              <text x="428" y="118" fill="#00ff55" font-size="11" font-weight="bold" text-anchor="middle">Rep. Cume 06</text>
+              <text x="428" y="133" fill="#cbd5e1" font-size="9.5" text-anchor="middle">689 m • Torre 15m</text>
+              <text x="428" y="146" fill="#94a3b8" font-size="9" text-anchor="middle">17,8 km → CCC</text>
 
-              <rect x="757" y="96" width="118" height="58" rx="8" fill="#122b22" stroke="#00ff55" stroke-width="2" />
-              <text x="816" y="118" fill="#00ff55" font-size="11" font-weight="bold" text-anchor="middle">Rep. Cume 28</text>
-              <text x="816" y="133" fill="#cbd5e1" font-size="9.5" text-anchor="middle">681 m • Torre 15m</text>
-              <text x="816" y="146" fill="#94a3b8" font-size="9" text-anchor="middle">22,9 km → Sta Cruz</text>
+              <rect x="557" y="96" width="143" height="58" rx="8" fill="#331520" stroke="#ff1744" stroke-width="2" />
+              <text x="628" y="118" fill="#fff" font-size="11" font-weight="bold" text-anchor="middle">CCC Currais Novos</text>
+              <text x="628" y="133" fill="#fda4af" font-size="9.5" text-anchor="middle">2 ERBs • 15m / 20m</text>
+              <text x="628" y="146" fill="#cbd5e1" font-size="9" text-anchor="middle">35,3 km → Cume 28</text>
 
-              <rect x="895" y="96" width="110" height="58" rx="8" fill="#172033" stroke="#00e5ff" />
-              <text x="950" y="118" fill="#fff" font-size="11" font-weight="bold" text-anchor="middle">Santa Cruz</text>
-              <text x="950" y="133" fill="#7dd3fc" font-size="9.5" text-anchor="middle">2 ERBs • 10/25m</text>
-              <text x="950" y="146" fill="#94a3b8" font-size="9" text-anchor="middle">20,9 km → Cume 46</text>
+              <rect x="772" y="96" width="116" height="58" rx="8" fill="#122b22" stroke="#00ff55" stroke-width="2" />
+              <text x="830" y="118" fill="#00ff55" font-size="11" font-weight="bold" text-anchor="middle">Rep. Cume 28</text>
+              <text x="830" y="133" fill="#cbd5e1" font-size="9.5" text-anchor="middle">681 m • Torre 15m</text>
+              <text x="830" y="146" fill="#94a3b8" font-size="9" text-anchor="middle">22,9 km → Sta Cruz</text>
 
-              <rect x="1020" y="34" width="90" height="54" rx="8" fill="#122b22" stroke="#00ff55" stroke-width="2" />
-              <text x="1065" y="54" fill="#00ff55" font-size="10.5" font-weight="bold" text-anchor="middle">Rep. Cume 46</text>
-              <text x="1065" y="68" fill="#cbd5e1" font-size="9" text-anchor="middle">381 m • 10m</text>
-              <text x="1065" y="80" fill="#94a3b8" font-size="8.5" text-anchor="middle">1 salto → NTL</text>
+              <rect x="917" y="96" width="112" height="58" rx="8" fill="#172033" stroke="#00e5ff" />
+              <text x="973" y="118" fill="#fff" font-size="11" font-weight="bold" text-anchor="middle">Santa Cruz</text>
+              <text x="973" y="133" fill="#7dd3fc" font-size="9.5" text-anchor="middle">2 ERBs • 10m / 25m</text>
+              <text x="973" y="146" fill="#94a3b8" font-size="9" text-anchor="middle">20,9 km → Cume 46</text>
 
-              <rect x="1020" y="166" width="90" height="54" rx="8" fill="#331520" stroke="#ff1744" stroke-width="2" />
-              <text x="1065" y="186" fill="#fff" font-size="10.5" font-weight="bold" text-anchor="middle">CCC Natal</text>
-              <text x="1065" y="200" fill="#fda4af" font-size="9" text-anchor="middle">76,7 km • 5XHD</text>
-              <text x="1065" y="212" fill="#cbd5e1" font-size="8.5" text-anchor="middle">Torre 15m</text>
-              <line x1="1065" y1="88" x2="1065" y2="164" stroke="#00ff55" stroke-width="2.5" marker-end="url(#arrow)" />
-              <line x1="950" y1="96" x2="1020" y2="61" stroke="#00ff55" stroke-width="2.5" marker-end="url(#arrow)" />
+              <rect x="1050" y="34" width="96" height="54" rx="8" fill="#122b22" stroke="#00ff55" stroke-width="2" />
+              <text x="1098" y="54" fill="#00ff55" font-size="10.5" font-weight="bold" text-anchor="middle">Rep. Cume 46</text>
+              <text x="1098" y="68" fill="#cbd5e1" font-size="9" text-anchor="middle">381 m • 10m</text>
+              <text x="1098" y="80" fill="#94a3b8" font-size="8.5" text-anchor="middle">1 salto → NTL</text>
+
+              <rect x="1050" y="166" width="96" height="54" rx="8" fill="#331520" stroke="#ff1744" stroke-width="2" />
+              <text x="1098" y="186" fill="#fff" font-size="10.5" font-weight="bold" text-anchor="middle">CCC Natal</text>
+              <text x="1098" y="200" fill="#fda4af" font-size="9" text-anchor="middle">76,7 km • 5XHD</text>
+              <text x="1098" y="212" fill="#cbd5e1" font-size="8.5" text-anchor="middle">Torre 15m</text>
+              <line x1="1098" y1="88" x2="1098" y2="164" stroke="#00ff55" stroke-width="2.5" marker-end="url(#arrow)" />
+              <line x1="973" y1="96" x2="1050" y2="61" stroke="#00ff55" stroke-width="2.5" marker-end="url(#arrow)" />
             </svg>
           </div>
         </div>

@@ -172,7 +172,7 @@
         "alturas_por_solucao": {
             "1": 10.0,
             "2": 10.0,
-            "3": 35.0
+            "3": 25.0
         }
     },
     {
@@ -180,10 +180,10 @@
         "nome": "ERB Carnaúba dos Dantas - Centro",
         "cidade": "Carnaúba dos Dantas",
         "tipo": "ERB",
-        "latitude": -6.52181,
-        "longitude": -36.5917,
-        "altitude_terreno_m": 577.1,
-        "altura_torre_m": 30.0,
+        "latitude": -6.5585,
+        "longitude": -36.5915,
+        "altitude_terreno_m": 315.9,
+        "altura_torre_m": 15.0,
         "setores": 3,
         "raio_celula_km": 1.808,
         "solucoes": [
@@ -192,9 +192,9 @@
             3
         ],
         "alturas_por_solucao": {
-            "1": 30.0,
-            "2": 30.0,
-            "3": 25.0
+            "1": 15.0,
+            "2": 15.0,
+            "3": 50.0
         }
     },
     {
@@ -280,6 +280,26 @@
         }
     },
     {
+        "latitude": -6.52181,
+        "longitude": -36.5917,
+        "altitude_terreno_m": 577.1068725585938,
+        "id": "REP_CUME_69",
+        "nome": "Repetidora Cume 69 (577 m)",
+        "cidade": "Repetidora Interurbana",
+        "tipo": "REPETIDORA",
+        "altura_torre_m": 30.0,
+        "enlaces_conectados": 2,
+        "rank_solucao": 1,
+        "solucoes": [
+            1,
+            2
+        ],
+        "alturas_por_solucao": {
+            "1": 30.0,
+            "2": 30.0
+        }
+    },
+    {
         "latitude": -5.9651,
         "longitude": -35.3867,
         "altitude_terreno_m": 118.18994140625,
@@ -295,24 +315,6 @@
         ],
         "alturas_por_solucao": {
             "2": 15.0
-        }
-    },
-    {
-        "latitude": -6.3623,
-        "longitude": -36.5503,
-        "altitude_terreno_m": 605.0894775390625,
-        "id": "REP_CUME_08",
-        "nome": "Repetidora Cume 08 (605 m)",
-        "cidade": "Repetidora Interurbana",
-        "tipo": "REPETIDORA",
-        "altura_torre_m": 10.0,
-        "enlaces_conectados": 3,
-        "rank_solucao": 3,
-        "solucoes": [
-            3
-        ],
-        "alturas_por_solucao": {
-            "3": 10.0
         }
     },
     {
@@ -334,6 +336,24 @@
         }
     },
     {
+        "latitude": -6.5159,
+        "longitude": -36.4879,
+        "altitude_terreno_m": 692.0980834960938,
+        "id": "REP_CUME_16",
+        "nome": "Repetidora Cume 16 (692 m)",
+        "cidade": "Repetidora Interurbana",
+        "tipo": "REPETIDORA",
+        "altura_torre_m": 15.0,
+        "enlaces_conectados": 3,
+        "rank_solucao": 3,
+        "solucoes": [
+            3
+        ],
+        "alturas_por_solucao": {
+            "3": 15.0
+        }
+    },
+    {
         "latitude": -6.2099,
         "longitude": -36.1343,
         "altitude_terreno_m": 567.3485107421875,
@@ -352,21 +372,21 @@
         }
     },
     {
-        "latitude": -6.2843,
-        "longitude": -36.3119,
-        "altitude_terreno_m": 668.2688598632812,
-        "id": "REP_CUME_32",
-        "nome": "Repetidora Cume 32 (668 m)",
+        "latitude": -6.2999,
+        "longitude": -36.3867,
+        "altitude_terreno_m": 635.8814697265625,
+        "id": "REP_CUME_30",
+        "nome": "Repetidora Cume 30 (636 m)",
         "cidade": "Repetidora Interurbana",
         "tipo": "REPETIDORA",
-        "altura_torre_m": 20.0,
-        "enlaces_conectados": 2,
+        "altura_torre_m": 25.0,
+        "enlaces_conectados": 3,
         "rank_solucao": 3,
         "solucoes": [
             3
         ],
         "alturas_por_solucao": {
-            "3": 20.0
+            "3": 25.0
         }
     },
     {

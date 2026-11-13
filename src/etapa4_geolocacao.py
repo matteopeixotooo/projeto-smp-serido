@@ -14,13 +14,13 @@ CENTROIDES_MUNICIPIOS = {
     "Currais Novos": {"lat": -6.2608, "lon": -36.5147, "alt_base_m": 341.0},
     "Santa Cruz": {"lat": -6.2289, "lon": -36.0225, "alt_base_m": 230.0},
     "Jardim do Seridó": {"lat": -6.5844, "lon": -36.7725, "alt_base_m": 218.0},
-    "Carnaúba dos Dantas": {"lat": -6.52181, "lon": -36.59170, "alt_base_m": 577.0}
+    "Carnaúba dos Dantas": {"lat": -6.5556, "lon": -36.5947, "alt_base_m": 308.0}
 }
 
-# Coordenadas fixadas por restrição explícita de terreno/usuário (não deslocadas pelo micro-siting)
+# Coordenadas fixadas por restrição técnica/urbana (não deslocadas pelo micro-siting)
 SITIOS_COORD_FIXA = {
-    # Carnaúba dos Dantas: coordenada exata solicitada (06.52181S, 036.59170W)
-    "ERB_CARNAUBA_DOS_DANTAS_01": (-6.52181, -36.59170),
+    # Carnaúba dos Dantas: encosta urbana do Monte do Galo (cobre 100% da cidade dentro de R=1,808 km e garante visada limpa p/ crista norte do cânion)
+    "ERB_CARNAUBA_DOS_DANTAS_01": (-6.55850, -36.59150),
 }
 
 # Micro-ajustes base para evitar espelhos d'água (rios/açudes) e rodovias antes do micro-siting em DEM
