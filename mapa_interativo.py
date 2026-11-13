@@ -4,8 +4,11 @@ Gera outputs/mapa_interativo.html e index.html (standalone offline para GitHub P
 """
 import os
 import json
+import math
 import webbrowser
+import numpy as np
 from src.etapa2_cobertura import calcular_balanco_potencia
+from src.etapa5_topografia import elevacoes
 
 ARQ_SITIOS = "outputs/todos_sitios.json"
 ARQ_ENLACES = "outputs/enlaces_com_antenas.json"
@@ -18,6 +21,7 @@ sitios_otimos = []
 enlaces_otimos = []
 solucoes_topologia = []
 perfis_reais = []
+corredores_3d = []
 demanda_dados = []
 cobertura_dados = []
 interferencia_dados = {}
@@ -25,11 +29,46 @@ balanco_dados = calcular_balanco_potencia()
 
 if os.path.exists("outputs/perfis_enlaces.json"):
     with open("outputs/perfis_enlaces.json", "r", encoding="utf-8") as f:
+        _perfis_full = json.load(f)
         perfis_reais = [
             {"a": [p["lat_a"], p["lon_a"]], "b": [p["lat_b"], p["lon_b"]],
              "elev": [round(v, 1) for v in p["elev"]]}
-            for p in json.load(f)
+            for p in _perfis_full
         ]
+        for p in _perfis_full:
+            la1, lo1, la2, lo2 = p["lat_a"], p["lon_a"], p["lat_b"], p["lon_b"]
+            mid_lat = 0.5 * (la1 + la2)
+            mid_lon = 0.5 * (lo1 + lo2)
+            m_per_lat = 111139.0
+            m_per_lon = 111139.0 * math.cos(math.radians(mid_lat))
+            dx = (lo2 - lo1) * m_per_lon
+            dy = (la2 - la1) * m_per_lat
+            dist_m = math.hypot(dx, dy)
+            if dist_m < 50.0:
+                continue
+            ux, uy = dx / dist_m, dy / dist_m
+            px, py = -uy, ux
+            pad = max(600.0, dist_m * 0.08)
+            half_w = max(2200.0, min(8000.0, dist_m * 0.22))
+            nu, nv = 65, 33
+            us = np.linspace(-dist_m / 2 - pad, dist_m / 2 + pad, nu)
+            vs = np.linspace(-half_w, half_w, nv)
+            uu, vv = np.meshgrid(us, vs)
+            pts_x = uu * ux + vv * px
+            pts_y = uu * uy + vv * py
+            lats = mid_lat + pts_y / m_per_lat
+            lons = mid_lon + pts_x / m_per_lon
+            coords = list(zip(lats.ravel().tolist(), lons.ravel().tolist()))
+            z = np.round(elevacoes(coords)).astype(int).reshape(nv, nu)
+            corredores_3d.append({
+                "a": [round(la1, 5), round(lo1, 5)],
+                "b": [round(la2, 5), round(lo2, 5)],
+                "w_m": round(half_w),
+                "pad_m": round(pad),
+                "nu": nu,
+                "nv": nv,
+                "z": z.ravel().tolist(),
+            })
 
 if os.path.exists(ARQ_SITIOS):
     with open(ARQ_SITIOS, "r", encoding="utf-8") as f:
@@ -62,6 +101,7 @@ html_code = f"""<!DOCTYPE html>
   <title>UISP Design Center - Projeto SMP Seridó (Top 3 + Engenharia & Orçamento)</title>
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="https://unpkg.com/three@0.128.0/build/three.min.js"></script>
   <style>
     * {{ box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }}
     body {{ background: #0f1117; color: #e1e4ea; height: 100vh; display: flex; flex-direction: column; overflow: hidden; }}
@@ -201,6 +241,25 @@ html_code = f"""<!DOCTYPE html>
     .ref-link {{ color: #38bdf8; text-decoration: none; font-weight: 600; }}
     .ref-link:hover {{ text-decoration: underline; color: #7dd3fc; }}
     .diagram-box {{ background: #0c1018; border: 1px solid #22293b; border-radius: 10px; padding: 14px; overflow-x: auto; }}
+
+    /* TERCEIRA INTERFACE: VISADA 3D LATERAL (RELEVO + SATÉLITE + FRESNEL 3D) */
+    .btn-3d-open {{ background: linear-gradient(135deg, #0ea5e9 0%, #2563eb 100%); border: 1px solid #38bdf8; color: #fff; font-size: 0.74rem; font-weight: 800; padding: 4px 10px; border-radius: 5px; cursor: pointer; display: inline-flex; align-items: center; gap: 5px; transition: all 0.15s; box-shadow: 0 2px 8px rgba(14,165,233,0.35); }}
+    .btn-3d-open:hover {{ filter: brightness(1.12); transform: translateY(-1px); }}
+    #view-3d {{ flex: 1; display: none; position: relative; width: 100%; overflow: hidden; background: radial-gradient(circle at 50% 25%, #162238 0%, #090d16 100%); }}
+    #canvas-3d-host {{ width: 100%; height: 100%; cursor: grab; outline: none; }}
+    #canvas-3d-host:active {{ cursor: grabbing; }}
+    #hud-3d {{ position: absolute; top: 14px; left: 14px; width: 390px; max-width: calc(100vw - 28px); background: rgba(14, 18, 28, 0.92); border: 1px solid #2c3550; border-radius: 10px; padding: 12px 14px; z-index: 50; display: flex; flex-direction: column; gap: 10px; backdrop-filter: blur(8px); box-shadow: 0 8px 24px rgba(0,0,0,0.65); }}
+    .hud3d-title {{ font-size: 0.88rem; font-weight: 800; color: #fff; display: flex; justify-content: space-between; align-items: center; }}
+    .hud3d-row {{ display: flex; flex-direction: column; gap: 4px; font-size: 0.76rem; color: #cbd5e1; }}
+    .hud3d-row select {{ background: #1e2436; border: 1px solid #364160; color: #fff; padding: 6px 8px; border-radius: 6px; font-size: 0.78rem; width: 100%; }}
+    .hud3d-btns {{ display: flex; flex-wrap: wrap; gap: 6px; }}
+    .hud3d-btn {{ flex: 1; min-width: 95px; background: #1d2436; border: 1px solid #334060; color: #cbd5e1; padding: 6px 8px; border-radius: 6px; font-size: 0.74rem; font-weight: 700; cursor: pointer; transition: all 0.15s; text-align: center; }}
+    .hud3d-btn:hover {{ background: #29334d; color: #fff; }}
+    .hud3d-btn.active {{ background: rgba(0, 255, 85, 0.16); border-color: #00ff55; color: #00ff55; }}
+    .hud3d-btn.sky {{ background: rgba(56, 189, 248, 0.16); border-color: #38bdf8; color: #7dd3fc; }}
+    #telemetry-3d {{ position: absolute; top: 14px; right: 14px; background: rgba(14, 18, 28, 0.92); border: 1px solid #2c3550; border-radius: 10px; padding: 10px 14px; z-index: 50; font-size: 0.78rem; color: #cbd5e1; backdrop-filter: blur(8px); max-width: 390px; box-shadow: 0 8px 24px rgba(0,0,0,0.65); line-height: 1.5; }}
+    #telemetry-3d b {{ color: #fff; }}
+    #hint-3d {{ position: absolute; bottom: 14px; left: 50%; transform: translateX(-50%); background: rgba(14, 18, 28, 0.86); border: 1px solid #2c3550; color: #9fb0c9; padding: 6px 14px; border-radius: 999px; font-size: 0.75rem; z-index: 50; white-space: nowrap; pointer-events: none; }}
   </style>
 </head>
 <body>
@@ -214,6 +273,7 @@ html_code = f"""<!DOCTYPE html>
     <div class="nav-tabs">
       <button class="nav-tab active" id="tab-btn-map" onclick="alternarAba('map')">🗺️ Simulador & Mapa (Top 3 Rotas)</button>
       <button class="nav-tab" id="tab-btn-calc" onclick="alternarAba('calc')">🧮 Cálculos, Chuva & Orçamento (Apresentação)</button>
+      <button class="nav-tab" id="tab-btn-3d" onclick="abrirVisada3D()">🏔️ Visada 3D (De Lado)</button>
       <button class="nav-tab" id="header-btn-cob" onclick="alternarCoberturaSMP()" title="Ativa/desativa o raio celular de 1,808 km (8,5 km² e 3 setores de 120°) nas 9 ERBs urbanas">📡 Raio ERBs (1,81 km): OFF</button>
     </div>
     <div class="header-info">
@@ -337,7 +397,10 @@ html_code = f"""<!DOCTYPE html>
                 <option value="80">80 MHz (5G)</option>
               </select>
             </div>
-            <div class="status-badge status-clear" id="badge-obstrucao">VISADA LIMPA</div>
+            <div style="display:flex; align-items:center; gap:6px; flex-wrap:wrap;">
+              <div class="status-badge status-clear" id="badge-obstrucao">VISADA LIMPA</div>
+              <button class="btn-3d-open" onclick="abrirVisada3D()" title="Visualizar este enlace em 3D com relevo real, torres e elipse de Fresnel de lado">🏔️ Ver em 3D (De Lado)</button>
+            </div>
           </div>
 
           <div class="phys-strip">
@@ -410,12 +473,50 @@ html_code = f"""<!DOCTYPE html>
     <div class="calc-container" id="calc-content"></div>
   </div>
 
+  <!-- ABA 3: VISADA 3D LATERAL (RELEVO COPERNICUS 30M + SATÉLITE + FRESNEL 3D) -->
+  <div id="view-3d">
+    <div id="canvas-3d-host"></div>
+    <div id="hud-3d">
+      <div class="hud3d-title">
+        <span>🏔️ Visada 3D — Relevo Copernicus 30m</span>
+        <button class="hud3d-btn" style="flex:0; min-width:auto; padding:4px 10px;" onclick="alternarAba('map')">⬅️ Mapa</button>
+      </div>
+      <div class="hud3d-row">
+        <label for="sel-link-3d"><b>Enlace visualizado:</b></label>
+        <select id="sel-link-3d" onchange="selecionarLink3D(this.value)"></select>
+      </div>
+      <div class="hud3d-row">
+        <span><b>Ângulo de Câmera:</b></span>
+        <div class="hud3d-btns">
+          <button class="hud3d-btn active" id="cam-btn-side" onclick="definirCamera3D('side')">📐 De Lado</button>
+          <button class="hud3d-btn" id="cam-btn-aerial" onclick="definirCamera3D('aerial')">🚁 Aérea 3/4</button>
+          <button class="hud3d-btn" id="cam-btn-tx" onclick="definirCamera3D('tx')">🗼 Torre TX→RX</button>
+        </div>
+      </div>
+      <div class="hud3d-row">
+        <div style="display:flex; justify-content:space-between;">
+          <span><b>Exagero Vertical (altura vs distância):</b></span>
+          <b id="lbl-exag-3d" style="color:#38bdf8;">8×</b>
+        </div>
+        <input type="range" id="rng-exag-3d" min="1" max="20" step="1" value="8" oninput="atualizarExagero3D(this.value)" style="accent-color:#38bdf8; cursor:pointer;" />
+      </div>
+      <div class="hud3d-btns">
+        <button class="hud3d-btn sky" id="btn-3d-sat" onclick="alternarCamadaSatelite3D()">🛰️ Satélite: ON</button>
+        <button class="hud3d-btn active" id="btn-3d-fresnel" onclick="alternarFresnel3D()">🔵 Fresnel: ON</button>
+        <button class="hud3d-btn active" id="btn-3d-bulge" onclick="alternarCurvatura3D()">🌍 Terra k=4/3: ON</button>
+      </div>
+    </div>
+    <div id="telemetry-3d">Selecione um enlace para ver o relevo 3D lateral.</div>
+    <div id="hint-3d">Arraste (esq.): Girar 3D • Botão direito / Shift+arraste: Mover • Scroll: Zoom</div>
+  </div>
+
   <script>
     // DADOS INJETADOS DO MOTOR PYTHON
     const SITIOS_FIXOS = {json.dumps(sitios_otimos, ensure_ascii=False)};
     const ENLACES_FIXOS = {json.dumps(enlaces_otimos, ensure_ascii=False)};
     const SOLUCOES = {json.dumps(solucoes_topologia, ensure_ascii=False)};
     const PERFIS_REAIS = {json.dumps(perfis_reais)};
+    const CORREDORES_3D = {json.dumps(corredores_3d)};
     const DEMANDA_SMP = {json.dumps(demanda_dados, ensure_ascii=False)};
     const COBERTURA_SMP = {json.dumps(cobertura_dados, ensure_ascii=False)};
     const INTERFERENCIA_SMP = {json.dumps(interferencia_dados, ensure_ascii=False)};
@@ -451,23 +552,32 @@ html_code = f"""<!DOCTYPE html>
     // Estado do último desenho no canvas para tooltip interativo
     let ultimoPerfilCanvas = null;
 
-    // ALTERNÂNCIA DE ABAS (MAPA <-> CÁLCULOS/ORÇAMENTO)
+    // ALTERNÂNCIA DE ABAS (MAPA <-> CÁLCULOS/ORÇAMENTO <-> VISADA 3D)
     function alternarAba(aba) {{
       const mapWrap = document.getElementById('map-wrapper');
       const calcView = document.getElementById('calc-view');
+      const view3d = document.getElementById('view-3d');
       const btnMap = document.getElementById('tab-btn-map');
       const btnCalc = document.getElementById('tab-btn-calc');
+      const btn3d = document.getElementById('tab-btn-3d');
+
+      mapWrap.style.display = 'none';
+      calcView.style.display = 'none';
+      view3d.style.display = 'none';
+      btnMap.classList.remove('active');
+      btnCalc.classList.remove('active');
+      if (btn3d) btn3d.classList.remove('active');
 
       if (aba === 'calc') {{
-        mapWrap.style.display = 'none';
         calcView.style.display = 'block';
-        btnMap.classList.remove('active');
         btnCalc.classList.add('active');
         renderizarPainelCalculos();
+      }} else if (aba === '3d') {{
+        view3d.style.display = 'block';
+        if (btn3d) btn3d.classList.add('active');
+        redimensionarCena3D();
       }} else {{
-        calcView.style.display = 'none';
         mapWrap.style.display = 'block';
-        btnCalc.classList.remove('active');
         btnMap.classList.add('active');
         setTimeout(() => map.invalidateSize(), 100);
       }}
@@ -1843,6 +1953,585 @@ html_code = f"""<!DOCTYPE html>
           </div>
         </div>
       `;
+    }}
+
+    // =========================================================================
+    // TERCEIRA INTERFACE: VISADA 3D LATERAL (THREE.JS + DEM 30m + SATÉLITE)
+    // =========================================================================
+    let cena3d = null, cam3d = null, rend3d = null, grupo3d = null, anim3dId = null;
+    let orbit3d = {{ theta: Math.PI / 2, phi: 1.44, radius: 12, target: null, down: false, pan: false, lx: 0, ly: 0 }};
+    let estado3d = {{ exag: 8, satelite: true, fresnel: true, curvatura: true, preset: 'side', polyAtual: null, listaLinks: [] }};
+
+    function redimensionarCena3D() {{
+      const host = document.getElementById('canvas-3d-host');
+      if (!host || !rend3d || !cam3d) return;
+      const w = host.clientWidth || window.innerWidth;
+      const h = host.clientHeight || (window.innerHeight - 50);
+      cam3d.aspect = w / Math.max(1, h);
+      cam3d.updateProjectionMatrix();
+      rend3d.setSize(w, h);
+    }}
+    window.addEventListener('resize', () => {{
+      if (document.getElementById('view-3d').style.display === 'block') redimensionarCena3D();
+    }});
+
+    function inicializarCena3D() {{
+      if (rend3d) return true;
+      const host = document.getElementById('canvas-3d-host');
+      if (typeof THREE === 'undefined') {{
+        host.innerHTML = '<div style="display:flex;height:100%;align-items:center;justify-content:center;color:#fda4af;font-size:1rem;padding:24px;text-align:center;">Não foi possível carregar o motor 3D (Three.js CDN). Verifique sua conexão com a internet para visualizar a cena 3D.</div>';
+        return false;
+      }}
+      const w = host.clientWidth || window.innerWidth;
+      const h = host.clientHeight || (window.innerHeight - 50);
+      cena3d = new THREE.Scene();
+      cena3d.fog = new THREE.FogExp2(0x0b1120, 0.0022);
+
+      cam3d = new THREE.PerspectiveCamera(44, w / Math.max(1, h), 0.05, 600);
+      rend3d = new THREE.WebGLRenderer({{ antialias: true, alpha: true }});
+      rend3d.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+      rend3d.setSize(w, h);
+      host.innerHTML = '';
+      host.appendChild(rend3d.domElement);
+
+      cena3d.add(new THREE.AmbientLight(0xdbeafe, 0.72));
+      const solDir = new THREE.DirectionalLight(0xffffff, 0.92);
+      solDir.position.set(25, 45, 20);
+      cena3d.add(solDir);
+      const contraDir = new THREE.DirectionalLight(0x93c5fd, 0.35);
+      contraDir.position.set(-20, 18, -25);
+      cena3d.add(contraDir);
+
+      grupo3d = new THREE.Group();
+      cena3d.add(grupo3d);
+      orbit3d.target = new THREE.Vector3(0, 0.5, 0);
+
+      // Controles manuais de órbita / pan / zoom (compatível com file:// sem script adicional)
+      const dom = rend3d.domElement;
+      dom.addEventListener('contextmenu', e => e.preventDefault());
+      dom.addEventListener('pointerdown', e => {{
+        orbit3d.down = true;
+        orbit3d.pan = (e.button === 2 || e.shiftKey);
+        orbit3d.lx = e.clientX;
+        orbit3d.ly = e.clientY;
+      }});
+      window.addEventListener('pointerup', () => {{ orbit3d.down = false; }});
+      window.addEventListener('pointermove', e => {{
+        if (!orbit3d.down || document.getElementById('view-3d').style.display !== 'block') return;
+        const dx = e.clientX - orbit3d.lx;
+        const dy = e.clientY - orbit3d.ly;
+        orbit3d.lx = e.clientX;
+        orbit3d.ly = e.clientY;
+        if (orbit3d.pan) {{
+          const fwd = new THREE.Vector3().subVectors(orbit3d.target, cam3d.position).normalize();
+          const right = new THREE.Vector3().crossVectors(fwd, new THREE.Vector3(0, 1, 0)).normalize();
+          const up = new THREE.Vector3().crossVectors(right, fwd).normalize();
+          const scale = orbit3d.radius * 0.0014;
+          orbit3d.target.addScaledVector(right, -dx * scale);
+          orbit3d.target.addScaledVector(up, dy * scale);
+        }} else {{
+          orbit3d.theta -= dx * 0.0075;
+          orbit3d.phi = Math.max(0.12, Math.min(Math.PI * 0.495, orbit3d.phi - dy * 0.0065));
+        }}
+        atualizarPosicaoCamera3D();
+      }});
+      dom.addEventListener('wheel', e => {{
+        e.preventDefault();
+        const factor = e.deltaY > 0 ? 1.12 : 0.89;
+        orbit3d.radius = Math.max(0.8, Math.min(240, orbit3d.radius * factor));
+        atualizarPosicaoCamera3D();
+      }}, {{ passive: false }});
+
+      const loop = () => {{
+        anim3dId = requestAnimationFrame(loop);
+        if (document.getElementById('view-3d').style.display === 'block') {{
+          rend3d.render(cena3d, cam3d);
+        }}
+      }};
+      loop();
+      return true;
+    }}
+
+    function atualizarPosicaoCamera3D() {{
+      if (!cam3d || !orbit3d.target) return;
+      const {{ theta, phi, radius, target }} = orbit3d;
+      cam3d.position.set(
+        target.x + radius * Math.sin(phi) * Math.cos(theta),
+        target.y + radius * Math.cos(phi),
+        target.z + radius * Math.sin(phi) * Math.sin(theta)
+      );
+      cam3d.lookAt(target);
+    }}
+
+    function abrirVisada3D() {{
+      alternarAba('3d');
+      if (!inicializarCena3D()) return;
+
+      // Preenche seletor com os enlaces disponíveis (Sol #1 + ativos + custom)
+      const todos = [];
+      [1, 2, 3].forEach(rk => (camadasSolucao[rk] || []).forEach(p => todos.push(p)));
+      linksCustom.forEach(p => todos.push(p));
+      estado3d.listaLinks = todos;
+
+      const sel = document.getElementById('sel-link-3d');
+      sel.innerHTML = todos.map((p, idx) => {{
+        const d = p.dados;
+        const tag = d.fixo ? `[Sol #${{d.rank_solucao}}]` : '[Custom]';
+        const dist = d.distancia_km || haversineKm(d.origem_obj.latitude, d.origem_obj.longitude, d.destino_obj.latitude, d.destino_obj.longitude).toFixed(2);
+        return `<option value="${{idx}}">${{tag}} ${{d.origem_obj.nome}} ➔ ${{d.destino_obj.nome}} (${{dist}} km)</option>`;
+      }}).join('');
+
+      let idxAlvo = 0;
+      if (enlaceSelecionado) {{
+        const achado = todos.indexOf(enlaceSelecionado);
+        if (achado >= 0) idxAlvo = achado;
+      }} else {{
+        const car = todos.findIndex(p => p.dados.rank_solucao === 1 && p.dados.origem_obj.nome.includes('Carnaúba'));
+        if (car >= 0) idxAlvo = car;
+      }}
+      sel.value = String(idxAlvo);
+      selecionarLink3D(idxAlvo, true);
+    }}
+
+    async function selecionarLink3D(idx, resetCam = true) {{
+      const poly = estado3d.listaLinks[Number(idx)];
+      if (!poly) return;
+      estado3d.polyAtual = poly;
+      const d = poly.dados;
+      const st1 = d.origem_obj, st2 = d.destino_obj;
+      const distKm = haversineKm(st1.latitude, st1.longitude, st2.latitude, st2.longitude);
+
+      if (resetCam) {{
+        // Sugere exagero vertical didático conforme a distância do salto
+        const autoExag = distKm < 8 ? 4 : (distKm < 25 ? 6 : 10);
+        estado3d.exag = autoExag;
+        document.getElementById('rng-exag-3d').value = String(autoExag);
+        document.getElementById('lbl-exag-3d').textContent = `${{autoExag}}×`;
+      }}
+      await construirCenaLink3D(poly, resetCam);
+    }}
+
+    function atualizarExagero3D(val) {{
+      estado3d.exag = Number(val) || 8;
+      document.getElementById('lbl-exag-3d').textContent = `${{estado3d.exag}}×`;
+      if (estado3d.polyAtual) construirCenaLink3D(estado3d.polyAtual, false);
+    }}
+
+    function alternarCamadaSatelite3D() {{
+      estado3d.satelite = !estado3d.satelite;
+      const b = document.getElementById('btn-3d-sat');
+      b.textContent = estado3d.satelite ? '🛰️ Satélite: ON' : '⛰️ Relevo: Hipsométrico';
+      b.classList.toggle('sky', estado3d.satelite);
+      if (estado3d.polyAtual) construirCenaLink3D(estado3d.polyAtual, false);
+    }}
+
+    function alternarFresnel3D() {{
+      estado3d.fresnel = !estado3d.fresnel;
+      const b = document.getElementById('btn-3d-fresnel');
+      b.textContent = estado3d.fresnel ? '🔵 Fresnel: ON' : '🔵 Fresnel: OFF';
+      b.classList.toggle('active', estado3d.fresnel);
+      if (estado3d.polyAtual) construirCenaLink3D(estado3d.polyAtual, false);
+    }}
+
+    function alternarCurvatura3D() {{
+      estado3d.curvatura = !estado3d.curvatura;
+      const b = document.getElementById('btn-3d-bulge');
+      b.textContent = estado3d.curvatura ? '🌍 Terra k=4/3: ON' : '🌍 Terra k=4/3: Plana';
+      b.classList.toggle('active', estado3d.curvatura);
+      if (estado3d.polyAtual) construirCenaLink3D(estado3d.polyAtual, false);
+    }}
+
+    function definirCamera3D(preset) {{
+      estado3d.preset = preset;
+      ['side', 'aerial', 'tx'].forEach(k => {{
+        const el = document.getElementById('cam-btn-' + k);
+        if (el) el.classList.toggle('active', k === preset);
+      }});
+      if (!estado3d.polyAtual || !grupo3d || !grupo3d.userData.distKm) return;
+      const {{ distKm, midY, halfWKm }} = grupo3d.userData;
+      orbit3d.target.set(0, midY, 0);
+      if (preset === 'side') {{
+        orbit3d.theta = Math.PI / 2;
+        orbit3d.phi = 1.46;
+        orbit3d.radius = Math.max(distKm * 1.18, halfWKm * 2.2);
+      }} else if (preset === 'aerial') {{
+        orbit3d.theta = Math.PI * 0.34;
+        orbit3d.phi = 1.02;
+        orbit3d.radius = Math.max(distKm * 1.15, halfWKm * 2.4);
+      }} else if (preset === 'tx') {{
+        orbit3d.target.set(distKm * 0.18, midY, 0);
+        orbit3d.theta = Math.PI + 0.08;
+        orbit3d.phi = 1.44;
+        orbit3d.radius = Math.max(distKm * 0.82, 4.0);
+      }}
+      atualizarPosicaoCamera3D();
+    }}
+
+    function obterCorredor3D(st1, st2, distKm) {{
+      const tol = 0.003;
+      const hit = CORREDORES_3D.find(c =>
+        (Math.abs(c.a[0] - st1.latitude) < tol && Math.abs(c.a[1] - st1.longitude) < tol &&
+         Math.abs(c.b[0] - st2.latitude) < tol && Math.abs(c.b[1] - st2.longitude) < tol) ||
+        (Math.abs(c.a[0] - st2.latitude) < tol && Math.abs(c.a[1] - st2.longitude) < tol &&
+         Math.abs(c.b[0] - st1.latitude) < tol && Math.abs(c.b[1] - st1.longitude) < tol)
+      );
+      if (!hit) return null;
+      const invertido = !(Math.abs(hit.a[0] - st1.latitude) < tol && Math.abs(hit.a[1] - st1.longitude) < tol);
+      return {{ grid: hit, invertido }};
+    }}
+
+    function criarSpriteRotulo3D(titulo, subtitulo, corBorda) {{
+      const cv = document.createElement('canvas');
+      cv.width = 512; cv.height = 128;
+      const ctx = cv.getContext('2d');
+      ctx.fillStyle = 'rgba(11, 16, 28, 0.90)';
+      ctx.strokeStyle = corBorda;
+      ctx.lineWidth = 5;
+      ctx.beginPath();
+      if (typeof ctx.roundRect === 'function') ctx.roundRect(8, 8, 496, 112, 18);
+      else ctx.rect(8, 8, 496, 112);
+      ctx.fill();
+      ctx.stroke();
+      ctx.fillStyle = '#ffffff';
+      ctx.font = 'bold 28px sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText(titulo.slice(0, 34), 256, 54);
+      ctx.fillStyle = corBorda;
+      ctx.font = 'bold 24px monospace';
+      ctx.fillText(subtitulo, 256, 94);
+      const tex = new THREE.CanvasTexture(cv);
+      const mat = new THREE.SpriteMaterial({{ map: tex, transparent: true, depthTest: false }});
+      return new THREE.Sprite(mat);
+    }}
+
+    function corHipsometrica(alt, minAlt, maxAlt) {{
+      const t = Math.max(0, Math.min(1, (alt - minAlt) / Math.max(20, maxAlt - minAlt)));
+      // Gradiente topográfico: vale verde-oliva -> planalto ocre -> crista granito/clara
+      const c = new THREE.Color();
+      if (t < 0.45) c.setRGB(0.14 + t * 0.55, 0.32 + t * 0.40, 0.20 + t * 0.12);
+      else if (t < 0.78) c.setRGB(0.39 + (t - 0.45) * 0.65, 0.50 - (t - 0.45) * 0.12, 0.25 + (t - 0.45) * 0.20);
+      else c.setRGB(0.60 + (t - 0.78) * 1.2, 0.50 + (t - 0.78) * 1.2, 0.42 + (t - 0.78) * 1.3);
+      return c;
+    }}
+
+    function carregarTexturaSateliteCorredor(lats, lons, uvs, onReady) {{
+      let minLat = 90, maxLat = -90, minLon = 180, maxLon = -180;
+      for (let k = 0; k < lats.length; k++) {{
+        if (lats[k] < minLat) minLat = lats[k];
+        if (lats[k] > maxLat) maxLat = lats[k];
+        if (lons[k] < minLon) minLon = lons[k];
+        if (lons[k] > maxLon) maxLon = lons[k];
+      }}
+      const lon2tileX = (lo, z) => ((lo + 180) / 360) * Math.pow(2, z);
+      const lat2tileY = (la, z) => {{
+        const r = la * Math.PI / 180;
+        return ((1 - Math.log(Math.tan(r) + 1 / Math.cos(r)) / Math.PI) / 2) * Math.pow(2, z);
+      }};
+
+      let zEscolhido = 10;
+      for (let z = 14; z >= 8; z--) {{
+        const x0 = Math.floor(lon2tileX(minLon, z)), x1 = Math.floor(lon2tileX(maxLon, z));
+        const y0 = Math.floor(lat2tileY(maxLat, z)), y1 = Math.floor(lat2tileY(minLat, z));
+        if ((x1 - x0 + 1) * (y1 - y0 + 1) <= 20) {{
+          zEscolhido = z;
+          break;
+        }}
+      }}
+      const tx0 = Math.floor(lon2tileX(minLon, zEscolhido));
+      const tx1 = Math.floor(lon2tileX(maxLon, zEscolhido));
+      const ty0 = Math.floor(lat2tileY(maxLat, zEscolhido));
+      const ty1 = Math.floor(lat2tileY(minLat, zEscolhido));
+      const nx = tx1 - tx0 + 1, ny = ty1 - ty0 + 1;
+
+      const tileCanvas = document.createElement('canvas');
+      tileCanvas.width = nx * 256;
+      tileCanvas.height = ny * 256;
+      const ctx = tileCanvas.getContext('2d');
+
+      for (let k = 0; k < lats.length; k++) {{
+        const px = (lon2tileX(lons[k], zEscolhido) - tx0) * 256;
+        const py = (lat2tileY(lats[k], zEscolhido) - ty0) * 256;
+        uvs[k * 2] = px / tileCanvas.width;
+        uvs[k * 2 + 1] = 1.0 - (py / tileCanvas.height);
+      }}
+
+      const promessas = [];
+      for (let gx = tx0; gx <= tx1; gx++) {{
+        for (let gy = ty0; gy <= ty1; gy++) {{
+          promessas.push(new Promise(res => {{
+            const img = new Image();
+            img.crossOrigin = 'anonymous';
+            img.onload = () => {{
+              ctx.drawImage(img, (gx - tx0) * 256, (gy - ty0) * 256, 256, 256);
+              res(true);
+            }};
+            img.onerror = () => res(false);
+            img.src = `https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/${{zEscolhido}}/${{gy}}/${{gx}}`;
+          }}));
+        }}
+      }}
+      Promise.all(promessas).then(oks => {{
+        if (oks.some(Boolean)) {{
+          const tex = new THREE.CanvasTexture(tileCanvas);
+          tex.anisotropy = 4;
+          onReady(tex);
+        }}
+      }});
+    }}
+
+    async function construirCenaLink3D(poly, resetCam) {{
+      if (!grupo3d) return;
+      while (grupo3d.children.length > 0) grupo3d.remove(grupo3d.children[0]);
+
+      const d = poly.dados;
+      const st1 = d.origem_obj, st2 = d.destino_obj;
+      const rk = d.fixo ? (d.rank_solucao || 1) : null;
+      const h1 = (rk && ALTURAS_SOL[rk] && ALTURAS_SOL[rk][d.id_origem] != null) ? ALTURAS_SOL[rk][d.id_origem] : (d.h_torre_origem_m || 15);
+      const h2 = (rk && ALTURAS_SOL[rk] && ALTURAS_SOL[rk][d.id_destino] != null) ? ALTURAS_SOL[rk][d.id_destino] : (d.h_torre_destino_m || 15);
+      const freq = Number(d.frequencia_ghz) || 11.0;
+
+      const midLat = 0.5 * (st1.latitude + st2.latitude);
+      const midLon = 0.5 * (st1.longitude + st2.longitude);
+      const mPerLat = 111139.0;
+      const mPerLon = 111139.0 * Math.cos(midLat * Math.PI / 180.0);
+      const dxM = (st2.longitude - st1.longitude) * mPerLon;
+      const dyM = (st2.latitude - st1.latitude) * mPerLat;
+      const distM = Math.max(100, Math.hypot(dxM, dyM));
+      const distKm = distM / 1000.0;
+      const ux = dxM / distM, uy = dyM / distM;
+      const rx = uy, ry = -ux;
+
+      const encontrado = obterCorredor3D(st1, st2, distKm);
+      let nu = 65, nv = 33, padKm = Math.max(0.6, distKm * 0.08), halfWKm = Math.max(2.2, Math.min(8.0, distKm * 0.22)), zArr = null;
+      if (encontrado) {{
+        const g = encontrado.grid;
+        nu = g.nu; nv = g.nv;
+        padKm = g.pad_m / 1000.0;
+        halfWKm = g.w_m / 1000.0;
+        zArr = new Float32Array(nu * nv);
+        for (let j = 0; j < nv; j++) {{
+          for (let i = 0; i < nu; i++) {{
+            const sj = encontrado.invertido ? (nv - 1 - j) : j;
+            const si = encontrado.invertido ? (nu - 1 - i) : i;
+            zArr[j * nu + i] = g.z[sj * nu + si];
+          }}
+        }}
+      }} else {{
+        const prof = await getPerfilTerreno(st1.latitude, st1.longitude, st2.latitude, st2.longitude);
+        const centro = prof || Array.from({{ length: 65 }}, () => 250);
+        zArr = new Float32Array(nu * nv);
+        for (let j = 0; j < nv; j++) {{
+          const offFrac = Math.abs((j / (nv - 1)) * 2 - 1);
+          for (let i = 0; i < nu; i++) {{
+            const uIdx = Math.min(centro.length - 1, Math.max(0, Math.round((i / (nu - 1)) * (centro.length - 1))));
+            zArr[j * nu + i] = centro[uIdx] - offFrac * 18.0;
+          }}
+        }}
+      }}
+
+      const ReEffM = 6371000.0 * (4.0 / 3.0);
+      const exag = estado3d.exag;
+      let minZ = 1e9, maxZ = -1e9;
+      for (let k = 0; k < zArr.length; k++) {{
+        if (zArr[k] < minZ) minZ = zArr[k];
+        if (zArr[k] > maxZ) maxZ = zArr[k];
+      }}
+      const baseKm = (minZ - 30.0) / 1000.0;
+
+      // Construção da malha 3D do terreno (1 unidade Three.js = 1 km)
+      const nVerts = nu * nv;
+      const positions = new Float32Array(nVerts * 3);
+      const colors = new Float32Array(nVerts * 3);
+      const uvs = new Float32Array(nVerts * 2);
+      const lats = new Float32Array(nVerts);
+      const lons = new Float32Array(nVerts);
+
+      const xMinKm = -distKm / 2 - padKm, xMaxKm = distKm / 2 + padKm;
+      const centerRow = Math.floor(nv / 2);
+      const centerLinePts = [];
+
+      for (let j = 0; j < nv; j++) {{
+        const zKm = -halfWKm + (j / (nv - 1)) * (2 * halfWKm);
+        for (let i = 0; i < nu; i++) {{
+          const xKm = xMinKm + (i / (nu - 1)) * (xMaxKm - xMinKm);
+          const idx = j * nu + i;
+          const d1M = (xKm + distKm / 2) * 1000.0;
+          const d2M = (distKm / 2 - xKm) * 1000.0;
+          const curvM = (estado3d.curvatura && d1M >= 0 && d2M >= 0) ? (d1M * d2M) / (2 * ReEffM) : 0.0;
+          const altM = zArr[idx] + curvM;
+          const yKm = ((altM / 1000.0) - baseKm) * exag;
+
+          positions[idx * 3] = xKm;
+          positions[idx * 3 + 1] = yKm;
+          positions[idx * 3 + 2] = zKm;
+
+          const c = corHipsometrica(zArr[idx], minZ, maxZ);
+          colors[idx * 3] = c.r;
+          colors[idx * 3 + 1] = c.g;
+          colors[idx * 3 + 2] = c.b;
+
+          const ptsXM = xKm * 1000.0 * ux + zKm * 1000.0 * rx;
+          const ptsYM = xKm * 1000.0 * uy + zKm * 1000.0 * ry;
+          lats[idx] = midLat + ptsYM / mPerLat;
+          lons[idx] = midLon + ptsXM / mPerLon;
+
+          if (j === centerRow) centerLinePts.push(new THREE.Vector3(xKm, yKm + 0.008 * exag, 0));
+        }}
+      }}
+
+      const indices = [];
+      for (let j = 0; j < nv - 1; j++) {{
+        for (let i = 0; i < nu - 1; i++) {{
+          const a = j * nu + i, b = a + 1, c = (j + 1) * nu + i, dIdx = c + 1;
+          indices.push(a, c, b, b, c, dIdx);
+        }}
+      }}
+      const geoTerr = new THREE.BufferGeometry();
+      geoTerr.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+      geoTerr.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+      geoTerr.setAttribute('uv', new THREE.BufferAttribute(uvs, 2));
+      geoTerr.setIndex(indices);
+      geoTerr.computeVertexNormals();
+
+      const matTerr = new THREE.MeshLambertMaterial({{
+        vertexColors: true,
+        side: THREE.DoubleSide
+      }});
+      const meshTerr = new THREE.Mesh(geoTerr, matTerr);
+      grupo3d.add(meshTerr);
+
+      // Fio sutil de grade topográfica no modo hipsométrico
+      if (!estado3d.satelite) {{
+        const wireMat = new THREE.MeshBasicMaterial({{ color: 0x38bdf8, wireframe: true, transparent: true, opacity: 0.14 }});
+        grupo3d.add(new THREE.Mesh(geoTerr, wireMat));
+      }} else {{
+        carregarTexturaSateliteCorredor(lats, lons, uvs, (tex) => {{
+          if (!estado3d.satelite) return;
+          geoTerr.attributes.uv.needsUpdate = true;
+          matTerr.map = tex;
+          matTerr.vertexColors = false;
+          matTerr.color.setHex(0xffffff);
+          matTerr.needsUpdate = true;
+        }});
+      }}
+
+      // Linha de corte do terreno exatamente sob o enlace (z = 0)
+      const geoCorte = new THREE.BufferGeometry().setFromPoints(centerLinePts);
+      grupo3d.add(new THREE.Line(geoCorte, new THREE.LineBasicMaterial({{ color: 0xfacc15 }})));
+
+      // Elevações exatas do terreno sob TX e RX (do perfil real se disponível)
+      const profCentro = await getPerfilTerreno(st1.latitude, st1.longitude, st2.latitude, st2.longitude);
+      const altTxM = profCentro ? profCentro[0] : (st1.altitude_terreno_m || zArr[centerRow * nu + 4]);
+      const altRxM = profCentro ? profCentro[profCentro.length - 1] : (st2.altitude_terreno_m || zArr[centerRow * nu + nu - 5]);
+
+      const ySolo1 = ((altTxM / 1000.0) - baseKm) * exag;
+      const ySolo2 = ((altRxM / 1000.0) - baseKm) * exag;
+      const yAnt1 = ySolo1 + (h1 / 1000.0) * exag;
+      const yAnt2 = ySolo2 + (h2 / 1000.0) * exag;
+
+      // Calcula folga real sobre o perfil para colorir o feixe e Fresnel
+      let piorFolga = 9999;
+      const arrRef = profCentro || zArr.slice(centerRow * nu, (centerRow + 1) * nu);
+      for (let i = 1; i < arrRef.length - 1; i++) {{
+        const frac = i / (arrRef.length - 1);
+        const d1 = frac * distKm;
+        const d2 = distKm - d1;
+        const curv = estado3d.curvatura ? ((d1 * 1000) * (d2 * 1000)) / (2 * ReEffM) : 0;
+        const losM = (altTxM + h1) + ((altRxM + h2) - (altTxM + h1)) * frac;
+        const r1 = 17.32 * Math.sqrt((d1 * d2) / (freq * distKm));
+        const flg = (losM - 0.6 * r1) - (arrRef[i] + curv);
+        if (flg < piorFolga) piorFolga = flg;
+      }}
+      const limpo = piorFolga >= 0;
+      const corFeixe = limpo ? 0x00ff55 : 0xff3b3b;
+
+      // Torres 3D (mastro + base + prato apontado para o outro lado)
+      const x1 = -distKm / 2, x2 = distKm / 2;
+      const rTorre = Math.max(0.035, distKm * 0.0045);
+      const addTorre = (xPos, ySolo, yAnt, corHex, nome, altTorre) => {{
+        const altMastro = Math.max(0.04, yAnt - ySolo);
+        const mast = new THREE.Mesh(
+          new THREE.CylinderGeometry(rTorre * 0.55, rTorre * 1.3, altMastro, 10),
+          new THREE.MeshLambertMaterial({{ color: 0xe2e8f0 }})
+        );
+        mast.position.set(xPos, ySolo + altMastro / 2, 0);
+        grupo3d.add(mast);
+
+        const prato = new THREE.Mesh(
+          new THREE.SphereGeometry(rTorre * 2.1, 14, 14),
+          new THREE.MeshBasicMaterial({{ color: corHex }})
+        );
+        prato.position.set(xPos, yAnt, 0);
+        grupo3d.add(prato);
+
+        const lbl = criarSpriteRotulo3D(nome, `Torre ${{altTorre}} m • Solo ${{Math.round(xPos < 0 ? altTxM : altRxM)}} m`, xPos < 0 ? '#38bdf8' : '#00ff55');
+        const escSpr = Math.max(1.2, distKm * 0.17);
+        lbl.scale.set(escSpr, escSpr * 0.25, 1);
+        lbl.position.set(xPos, yAnt + escSpr * 0.22, 0);
+        grupo3d.add(lbl);
+      }};
+      addTorre(x1, ySolo1, yAnt1, 0x38bdf8, st1.nome, h1);
+      addTorre(x2, ySolo2, yAnt2, 0x00ff55, st2.nome, h2);
+
+      // Feixe central (Linha de Visada)
+      const geoLos = new THREE.BufferGeometry().setFromPoints([
+        new THREE.Vector3(x1, yAnt1, 0),
+        new THREE.Vector3(x2, yAnt2, 0)
+      ]);
+      grupo3d.add(new THREE.Line(geoLos, new THREE.LineBasicMaterial({{ color: corFeixe }})));
+
+      // Elipsoides 3D da 1ª Zona de Fresnel (100% F1 externo + 60% F1 interno)
+      if (estado3d.fresnel) {{
+        const segsU = 56, segsR = 16;
+        const buildFresnelTube = (fator, hexCor, opacidade, wire) => {{
+          const vPos = [], vIdx = [];
+          for (let i = 0; i <= segsU; i++) {{
+            const t = i / segsU;
+            const d1 = t * distKm, d2 = (1 - t) * distKm;
+            const x = x1 + t * distKm;
+            const yCentro = yAnt1 + (yAnt2 - yAnt1) * t;
+            const r1Km = (i === 0 || i === segsU) ? 0.001 : ((17.32 * Math.sqrt((d1 * d2) / (freq * distKm)) * fator) / 1000.0);
+            const rY = r1Km * exag;
+            const rZ = r1Km * Math.max(exag, 3.0);
+            for (let k = 0; k <= segsR; k++) {{
+              const ang = (k / segsR) * Math.PI * 2;
+              vPos.push(x, yCentro + rY * Math.sin(ang), rZ * Math.cos(ang));
+            }}
+          }}
+          for (let i = 0; i < segsU; i++) {{
+            for (let k = 0; k < segsR; k++) {{
+              const a = i * (segsR + 1) + k, b = a + segsR + 1;
+              vIdx.push(a, b, a + 1, b, b + 1, a + 1);
+            }}
+          }}
+          const fg = new THREE.BufferGeometry();
+          fg.setAttribute('position', new THREE.Float32BufferAttribute(vPos, 3));
+          fg.setIndex(vIdx);
+          fg.computeVertexNormals();
+          return new THREE.Mesh(fg, new THREE.MeshBasicMaterial({{
+            color: hexCor, transparent: true, opacity: opacidade, wireframe: wire, side: THREE.DoubleSide, depthWrite: false
+          }}));
+        }};
+        grupo3d.add(buildFresnelTube(1.0, 0x38bdf8, 0.16, true));
+        grupo3d.add(buildFresnelTube(0.6, corFeixe, 0.28, false));
+      }}
+
+      let yCenterMin = Infinity;
+      centerLinePts.forEach(pt => {{ if (pt.y < yCenterMin) yCenterMin = pt.y; }});
+      const yMaxTopo = Math.max(yAnt1, yAnt2);
+      const midY = 0.5 * (yMaxTopo + (Number.isFinite(yCenterMin) ? yCenterMin : 0));
+      grupo3d.userData = {{ distKm, midY, halfWKm }};
+
+      // Atualiza telemetria lateral
+      const f1Max = 17.32 * Math.sqrt(distKm / (4.0 * freq));
+      const curvMax = ((distKm * 1000) ** 2) / (8 * ReEffM);
+      document.getElementById('telemetry-3d').innerHTML =
+        `<div><b>${{st1.nome}}</b> ➔ <b>${{st2.nome}}</b></div>` +
+        `<div>Distância: <b>${{distKm.toFixed(2)}} km</b> | Banda: <b>${{freq}} GHz</b> | Torres: <b>${{h1}}m / ${{h2}}m</b></div>` +
+        `<div>Abaulamento k=4/3: <b>+${{curvMax.toFixed(1)}} m</b> | Raio 0.6·F1: <b>${{(0.6 * f1Max).toFixed(1)}} m</b></div>` +
+        `<div>Status 3D: <b style="color:${{limpo ? '#00ff55' : '#ff6b6b'}};">${{limpo ? 'VISADA LIMPA (+' + piorFolga.toFixed(1) + ' m)' : 'OBSTRUÍDO (' + piorFolga.toFixed(1) + ' m)'}}</b></div>`;
+
+      if (resetCam) definirCamera3D(estado3d.preset || 'side');
     }}
 
     // SELECIONA O ENLACE DE LONGA DISTÂNCIA PARA NATAL OU CAICÓ AO ABRIR
