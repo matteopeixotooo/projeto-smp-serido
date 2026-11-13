@@ -2,10 +2,17 @@
 <html lang="pt-br">
 <head>
   <meta charset="UTF-8">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+  <meta http-equiv="Pragma" content="no-cache" />
   <title>UISP Design Center - Projeto SMP Seridó (Backhaul, Engenharia & Orçamento)</title>
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <script src="https://unpkg.com/three@0.128.0/build/three.min.js"></script>
+  <script>
+    if (typeof THREE === 'undefined') {
+      document.write('<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"><\/script>');
+    }
+  </script>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
     body { background: #0f1117; color: #e1e4ea; height: 100vh; display: flex; flex-direction: column; overflow: hidden; }
@@ -2252,20 +2259,42 @@
       if (document.getElementById('view-3d').style.display === 'block') redimensionarCena3D();
     });
 
+    let carregandoThreeCdn = false;
     function inicializarCena3D() {
       if (rend3d) return true;
       const host = document.getElementById('canvas-3d-host');
       if (typeof THREE === 'undefined') {
-        host.innerHTML = '<div style="display:flex;height:100%;align-items:center;justify-content:center;color:#fda4af;font-size:1rem;padding:24px;text-align:center;">Não foi possível carregar o motor 3D (Three.js CDN). Verifique sua conexão com a internet para visualizar a cena 3D.</div>';
+        host.innerHTML = '<div style="display:flex;height:100%;align-items:center;justify-content:center;color:#7dd3fc;font-size:1rem;padding:24px;text-align:center;">Carregando motor 3D (Three.js CDN)...</div>';
+        if (!carregandoThreeCdn) {
+          carregandoThreeCdn = true;
+          const sc = document.createElement('script');
+          sc.src = 'https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js';
+          sc.onload = () => { carregandoThreeCdn = false; if (document.getElementById('view-3d').style.display === 'block') abrirVisada3D(); };
+          sc.onerror = () => {
+            carregandoThreeCdn = false;
+            host.innerHTML = '<div style="display:flex;height:100%;align-items:center;justify-content:center;color:#fda4af;font-size:1rem;padding:24px;text-align:center;">Não foi possível carregar o motor 3D (Three.js CDN bloqueado ou offline).</div>';
+          };
+          document.head.appendChild(sc);
+        }
         return false;
       }
-      const w = host.clientWidth || window.innerWidth;
-      const h = host.clientHeight || (window.innerHeight - 50);
+      const w = Math.max(300, host.clientWidth || window.innerWidth);
+      const h = Math.max(200, host.clientHeight || (window.innerHeight - 50));
       cena3d = new THREE.Scene();
       cena3d.fog = new THREE.FogExp2(0x0b1120, 0.0022);
 
       cam3d = new THREE.PerspectiveCamera(44, w / Math.max(1, h), 0.05, 600);
-      rend3d = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+      try {
+        rend3d = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+      } catch (e1) {
+        try {
+          rend3d = new THREE.WebGLRenderer({ antialias: false, alpha: false, failIfMajorPerformanceCaveat: false });
+        } catch (e2) {
+          rend3d = null;
+          host.innerHTML = `<div style="display:flex;height:100%;align-items:center;justify-content:center;color:#fda4af;font-size:0.95rem;padding:24px;text-align:center;">WebGL indisponível neste navegador (${e2.message || 'sem aceleração gráfica'}). Ative a aceleração de hardware no Chrome/Edge para ver o relevo 3D.</div>`;
+          return false;
+        }
+      }
       rend3d.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
       rend3d.setSize(w, h);
       host.innerHTML = '';
@@ -2342,9 +2371,8 @@
 
     function abrirVisada3D() {
       alternarAba('3d');
-      if (!inicializarCena3D()) return;
 
-      // Preenche seletor com os enlaces disponíveis (Sol #1 + ativos + custom)
+      // Preenche seletor primeiro (Sol #1 + #2 + #3 + custom) antes de inicializar WebGL
       const todos = [];
       [1, 2, 3].forEach(rk => (camadasSolucao[rk] || []).forEach(p => todos.push(p)));
       linksCustom.forEach(p => todos.push(p));
@@ -2367,6 +2395,9 @@
         if (car >= 0) idxAlvo = car;
       }
       sel.value = String(idxAlvo);
+
+      if (!inicializarCena3D()) return;
+      requestAnimationFrame(() => redimensionarCena3D());
       selecionarLink3D(idxAlvo, true);
     }
 
