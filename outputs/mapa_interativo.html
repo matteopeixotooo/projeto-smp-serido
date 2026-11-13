@@ -2,7 +2,7 @@
 <html lang="pt-br">
 <head>
   <meta charset="UTF-8">
-  <title>UISP Design Center - Projeto SMP Seridó (Top 3 + Engenharia & Orçamento)</title>
+  <title>UISP Design Center - Projeto SMP Seridó (Backhaul, Engenharia & Orçamento)</title>
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <script src="https://unpkg.com/three@0.128.0/build/three.min.js"></script>
@@ -203,11 +203,11 @@
       <button class="tool-btn" id="btn-del" title="Excluir Elemento Selecionado" onclick="excluirSelecionado()">🗑️</button>
     </div>
 
-    <!-- PAINEL DE CONTROLE E NOTAS DAS 3 MELHORES SOLUÇÕES -->
+    <!-- PAINEL DE CONTROLE COM 3 MELHORES SOLUÇÕES -->
     <div id="solutions-panel">
       <div class="sol-panel-header" onclick="alternarPainelSolucoes()">
         <div class="sol-panel-title">
-          <span>🏆 Top 3 Melhores Caminhos (Relevo Real)</span>
+          <span>🏆 Os 3 Melhores Caminhos (com relevo real)</span>
         </div>
         <span id="sol-panel-toggle-icon" style="color:#9da3b4; font-size:0.84rem;">▼ Minimizar</span>
       </div>
@@ -1057,7 +1057,7 @@
     function excluirSelecionado() {
       if (elementoSelecionado) {
         if (elementoSelecionado.dados && elementoSelecionado.dados.fixo) {
-          alert("Para ocultar as rotas calculadas, use as caixas de seleção no painel 'Top 3 Melhores Caminhos' à esquerda.");
+          alert("Para ocultar as rotas calculadas, use as caixas de seleção no painel 'Melhores Caminhos Mapeados' à esquerda.");
           return;
         }
         map.removeLayer(elementoSelecionado);
