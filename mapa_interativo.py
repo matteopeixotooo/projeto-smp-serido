@@ -268,16 +268,16 @@ html_code = f"""<!DOCTYPE html>
   <div id="header">
     <div class="logo-box">
       <span class="logo-badge">UISP</span>
-      <span>Projeto 07 — SMP Seridó & Backhaul Natal</span>
+      <span>Projeto SMP Seridó & Backhaul Natal</span>
     </div>
     <div class="nav-tabs">
-      <button class="nav-tab active" id="tab-btn-map" onclick="alternarAba('map')">🗺️ Simulador & Mapa (Top 3 Rotas)</button>
-      <button class="nav-tab" id="tab-btn-calc" onclick="alternarAba('calc')">🧮 Cálculos, Chuva & Orçamento (Apresentação)</button>
-      <button class="nav-tab" id="tab-btn-3d" onclick="abrirVisada3D()">🏔️ Visada 3D (De Lado)</button>
+      <button class="nav-tab active" id="tab-btn-map" onclick="alternarAba('map')">🗺️ Simulador</button>
+      <button class="nav-tab" id="tab-btn-calc" onclick="alternarAba('calc')">🧮 Cálculos e Orçamento (Apresentação)</button>
+      <button class="nav-tab" id="tab-btn-3d" onclick="abrirVisada3D()">🏔️ Visão 3D</button>
       <button class="nav-tab" id="header-btn-cob" onclick="alternarCoberturaSMP()" title="Ativa/desativa o raio celular de 1,808 km (8,5 km² e 3 setores de 120°) nas 9 ERBs urbanas">📡 Raio ERBs (1,81 km): OFF</button>
     </div>
     <div class="header-info">
-      <span>Torres: <b>Única & Fixa ≤ 50 m</b></span>
+      <span>Torres: <b>Fixa ≤ 50 m</b></span>
       <span>DEM: <b>Copernicus 30m</b></span>
     </div>
   </div>
@@ -495,7 +495,7 @@ html_code = f"""<!DOCTYPE html>
       </div>
       <div class="hud3d-row">
         <div style="display:flex; justify-content:space-between;">
-          <span><b>Exagero Vertical (altura vs distância):</b></span>
+          <span><b>Aumento Vertical (altura x distância):</b></span>
           <b id="lbl-exag-3d" style="color:#38bdf8;">8×</b>
         </div>
         <input type="range" id="rng-exag-3d" min="1" max="20" step="1" value="8" oninput="atualizarExagero3D(this.value)" style="accent-color:#38bdf8; cursor:pointer;" />
