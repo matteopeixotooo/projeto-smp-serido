@@ -78,12 +78,12 @@ Altitude do Terreno: 162.5 m</description>
         <description>ID: ERB_CURRAIS_NOVOS_01
 Tipo: ERB_CCC
 Cidade: Currais Novos
-Altura da Torre: 25.0 m
+Altura da Torre: 45.0 m
 Altitude do Terreno: 432.5 m</description>
         <styleUrl>#estilo_ccc</styleUrl>
         <Point>
           <altitudeMode>relativeToGround</altitudeMode>
-          <coordinates>-36.49857,-6.2709,25.0</coordinates>
+          <coordinates>-36.49857,-6.2709,45.0</coordinates>
         </Point>
       </Placemark>
       <Placemark>
@@ -165,19 +165,6 @@ Altitude do Terreno: 101.2 m</description>
         </Point>
       </Placemark>
       <Placemark>
-        <name>Repetidora Cume 06 (689 m)</name>
-        <description>ID: REP_CUME_06
-Tipo: REPETIDORA
-Cidade: Repetidora Interurbana
-Altura da Torre: 20.0 m
-Altitude do Terreno: 689.2557373046875 m</description>
-        <styleUrl>#estilo_rep</styleUrl>
-        <Point>
-          <altitudeMode>relativeToGround</altitudeMode>
-          <coordinates>-36.6047,-6.3915,20.0</coordinates>
-        </Point>
-      </Placemark>
-      <Placemark>
         <name>Repetidora Cume 28 (681 m)</name>
         <description>ID: REP_CUME_28
 Tipo: REPETIDORA
@@ -204,16 +191,16 @@ Altitude do Terreno: 381.2609558105469 m</description>
         </Point>
       </Placemark>
       <Placemark>
-        <name>Repetidora Cume 69 (577 m)</name>
+        <name>Repetidora Cume 69 (666 m)</name>
         <description>ID: REP_CUME_69
 Tipo: REPETIDORA
 Cidade: Repetidora Interurbana
-Altura da Torre: 35.0 m
-Altitude do Terreno: 577.1068725585938 m</description>
+Altura da Torre: 20.0 m
+Altitude do Terreno: 666.0280151367188 m</description>
         <styleUrl>#estilo_rep</styleUrl>
         <Point>
           <altitudeMode>relativeToGround</altitudeMode>
-          <coordinates>-36.5917,-6.52181,35.0</coordinates>
+          <coordinates>-36.5982,-6.52731,20.0</coordinates>
         </Point>
       </Placemark>
       <Placemark>
@@ -230,16 +217,16 @@ Altitude do Terreno: 118.18994140625 m</description>
         </Point>
       </Placemark>
       <Placemark>
-        <name>Repetidora Cume 12 (562 m)</name>
-        <description>ID: REP_CUME_12
+        <name>Repetidora Cume 06 (689 m)</name>
+        <description>ID: REP_CUME_06
 Tipo: REPETIDORA
 Cidade: Repetidora Interurbana
-Altura da Torre: 30.0 m
-Altitude do Terreno: 561.8125610351562 m</description>
+Altura da Torre: 20.0 m
+Altitude do Terreno: 689.2557373046875 m</description>
         <styleUrl>#estilo_rep</styleUrl>
         <Point>
           <altitudeMode>relativeToGround</altitudeMode>
-          <coordinates>-36.9463,-6.2295,30.0</coordinates>
+          <coordinates>-36.6047,-6.3915,20.0</coordinates>
         </Point>
       </Placemark>
       <Placemark>
@@ -269,16 +256,16 @@ Altitude do Terreno: 567.3485107421875 m</description>
         </Point>
       </Placemark>
       <Placemark>
-        <name>Repetidora Cume 30 (636 m)</name>
-        <description>ID: REP_CUME_30
+        <name>Repetidora Cume 32 (668 m)</name>
+        <description>ID: REP_CUME_32
 Tipo: REPETIDORA
 Cidade: Repetidora Interurbana
-Altura da Torre: 35.0 m
-Altitude do Terreno: 635.8814697265625 m</description>
+Altura da Torre: 30.0 m
+Altitude do Terreno: 668.2688598632812 m</description>
         <styleUrl>#estilo_rep</styleUrl>
         <Point>
           <altitudeMode>relativeToGround</altitudeMode>
-          <coordinates>-36.3867,-6.2999,35.0</coordinates>
+          <coordinates>-36.3119,-6.2843,30.0</coordinates>
         </Point>
       </Placemark>
       <Placemark>
@@ -344,55 +331,41 @@ RSL Estimado: -45.73 dBm</description>
         <description>Distância: 3.32 km
 Antena Tx: 0.38m (Standard)
 Antena Rx: 0.38m (Standard)
-Torres (Tx / Rx): 25.0m / 25.0m
+Torres (Tx / Rx): 25.0m / 45.0m
 Fade Margin Estimada: 27.65 dB
 RSL Estimado: -46.35 dBm</description>
         <styleUrl>#linha_tronco</styleUrl>
         <LineString>
           <altitudeMode>relativeToGround</altitudeMode>
-          <coordinates>-36.52383,-6.2547,25.0 -36.49857,-6.2709,25.0</coordinates>
+          <coordinates>-36.52383,-6.2547,25.0 -36.49857,-6.2709,45.0</coordinates>
         </LineString>
       </Placemark>
       <Placemark>
-        <name>PTP: ERB Carnaúba dos Dantas - Centro &lt;-&gt; Repetidora Cume 69 (577 m)</name>
-        <description>Distância: 4.08 km
+        <name>PTP: ERB Carnaúba dos Dantas - Centro &lt;-&gt; Repetidora Cume 69 (666 m)</name>
+        <description>Distância: 3.55 km
 Antena Tx: 0.38m (Standard)
 Antena Rx: 0.38m (Standard)
-Torres (Tx / Rx): 20.0m / 35.0m
-Fade Margin Estimada: 25.86 dB
-RSL Estimado: -48.14 dBm</description>
+Torres (Tx / Rx): 20.0m / 20.0m
+Fade Margin Estimada: 27.07 dB
+RSL Estimado: -46.93 dBm</description>
         <styleUrl>#linha_local</styleUrl>
         <LineString>
           <altitudeMode>relativeToGround</altitudeMode>
-          <coordinates>-36.5915,-6.5585,20.0 -36.5917,-6.52181,35.0</coordinates>
+          <coordinates>-36.5915,-6.5585,20.0 -36.5982,-6.52731,20.0</coordinates>
         </LineString>
       </Placemark>
       <Placemark>
-        <name>PTP: Repetidora Cume 69 (577 m) &lt;-&gt; Repetidora Cume 06 (689 m)</name>
-        <description>Distância: 14.56 km
+        <name>PTP: ERB Jardim do Seridó - Centro &lt;-&gt; Repetidora Cume 69 (666 m)</name>
+        <description>Distância: 20.06 km
 Antena Tx: 0.9m (Standard)
 Antena Rx: 0.9m (Standard)
-Torres (Tx / Rx): 35.0m / 20.0m
-Fade Margin Estimada: 34.96 dB
-RSL Estimado: -38.04 dBm</description>
+Torres (Tx / Rx): 20.0m / 20.0m
+Fade Margin Estimada: 32.18 dB
+RSL Estimado: -40.82 dBm</description>
         <styleUrl>#linha_local</styleUrl>
         <LineString>
           <altitudeMode>relativeToGround</altitudeMode>
-          <coordinates>-36.5917,-6.52181,35.0 -36.6047,-6.3915,20.0</coordinates>
-        </LineString>
-      </Placemark>
-      <Placemark>
-        <name>PTP: Repetidora Cume 06 (689 m) &lt;-&gt; ERB Currais Novos - Centro (CCC - Núcleo da Rede)</name>
-        <description>Distância: 17.82 km
-Antena Tx: 0.9m (Standard)
-Antena Rx: 0.9m (Standard)
-Torres (Tx / Rx): 20.0m / 25.0m
-Fade Margin Estimada: 33.2 dB
-RSL Estimado: -39.8 dBm</description>
-        <styleUrl>#linha_tronco</styleUrl>
-        <LineString>
-          <altitudeMode>relativeToGround</altitudeMode>
-          <coordinates>-36.6047,-6.3915,20.0 -36.49857,-6.2709,25.0</coordinates>
+          <coordinates>-36.7685,-6.5899,20.0 -36.5982,-6.52731,20.0</coordinates>
         </LineString>
       </Placemark>
       <Placemark>
@@ -424,17 +397,17 @@ RSL Estimado: -41.98 dBm</description>
         </LineString>
       </Placemark>
       <Placemark>
-        <name>PTP: ERB Jardim do Seridó - Centro &lt;-&gt; Repetidora Cume 06 (689 m)</name>
-        <description>Distância: 28.53 km
+        <name>PTP: Repetidora Cume 69 (666 m) &lt;-&gt; ERB Currais Novos - Centro (CCC - Núcleo da Rede)</name>
+        <description>Distância: 30.56 km
 Antena Tx: 0.9m (Standard)
 Antena Rx: 0.9m (Standard)
-Torres (Tx / Rx): 20.0m / 20.0m
-Fade Margin Estimada: 29.12 dB
-RSL Estimado: -43.88 dBm</description>
-        <styleUrl>#linha_local</styleUrl>
+Torres (Tx / Rx): 20.0m / 45.0m
+Fade Margin Estimada: 28.52 dB
+RSL Estimado: -44.48 dBm</description>
+        <styleUrl>#linha_tronco</styleUrl>
         <LineString>
           <altitudeMode>relativeToGround</altitudeMode>
-          <coordinates>-36.7685,-6.5899,20.0 -36.6047,-6.3915,20.0</coordinates>
+          <coordinates>-36.5982,-6.52731,20.0 -36.49857,-6.2709,45.0</coordinates>
         </LineString>
       </Placemark>
       <Placemark>
@@ -442,27 +415,27 @@ RSL Estimado: -43.88 dBm</description>
         <description>Distância: 35.26 km
 Antena Tx: 0.9m (Standard)
 Antena Rx: 0.9m (Standard)
-Torres (Tx / Rx): 25.0m / 25.0m
+Torres (Tx / Rx): 25.0m / 45.0m
 Fade Margin Estimada: 27.28 dB
 RSL Estimado: -45.72 dBm</description>
         <styleUrl>#linha_tronco</styleUrl>
         <LineString>
           <altitudeMode>relativeToGround</altitudeMode>
-          <coordinates>-36.2115,-6.1327,25.0 -36.49857,-6.2709,25.0</coordinates>
+          <coordinates>-36.2115,-6.1327,25.0 -36.49857,-6.2709,45.0</coordinates>
         </LineString>
       </Placemark>
       <Placemark>
-        <name>PTP: ERB Caicó - Setor Leste &lt;-&gt; Repetidora Cume 06 (689 m)</name>
-        <description>Distância: 53.54 km
+        <name>PTP: ERB Caicó - Setor Leste &lt;-&gt; Repetidora Cume 69 (666 m)</name>
+        <description>Distância: 54.09 km
 Antena Tx: 1.2m (Standard)
 Antena Rx: 1.2m (Standard)
 Torres (Tx / Rx): 25.0m / 20.0m
-Fade Margin Estimada: 30.65 dB
-RSL Estimado: -42.35 dBm</description>
+Fade Margin Estimada: 30.56 dB
+RSL Estimado: -42.44 dBm</description>
         <styleUrl>#linha_local</styleUrl>
         <LineString>
           <altitudeMode>relativeToGround</altitudeMode>
-          <coordinates>-37.08366,-6.4646,25.0 -36.6047,-6.3915,20.0</coordinates>
+          <coordinates>-37.08366,-6.4646,25.0 -36.5982,-6.52731,20.0</coordinates>
         </LineString>
       </Placemark>
       <Placemark>

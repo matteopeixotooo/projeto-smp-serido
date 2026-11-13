@@ -12,17 +12,17 @@ O arquivo [`index.html`](./index.html) (espelhado em [`outputs/mapa_interativo.h
 
 1. **🗺️ Simulador & Mapa (Top 3 Rotas + Gaveta UISP):**
    - **Top 3 Caminhos 100% Desobstruídos (torres únicas e fixas de 20 m a 50 m, sem saltos redundantes `< 12 km` entre repetidoras):**
-     - **★ Solução #1 — Ótima Principal (Verde Neon):** **4 repetidoras** (`REP_CUME_06`, `REP_CUME_28`, `REP_CUME_46` Serra da Tapuia + `REP_CUME_69` crista norte do cânion de Carnaúba dos Dantas), **13 enlaces**, **286,40 km** totais, torres fixas de **20 m a 35 m**, folga mínima **+16,02 m** acima de 0,6·F1.
-     - **Solução #2 — Saltos ≤ 56 km (Azul Ciano):** **5 repetidoras**, **14 enlaces**, **287,04 km**, torres de **20 m a 35 m**, folga mín **+16,02 m** (divide o tronco até Natal em 11 GHz licenciado).
-     - **Solução #3 — Contingência Independente (Âmbar):** **5 repetidoras**, **14 enlaces**, **316,03 km**, torres de **20 m a 50 m**, folga mín **+16,20 m** (100% disjunta dos cumes da #1).
+     - **★ Solução #1 — Ótima Principal (Verde Neon):** **3 repetidoras** (`REP_CUME_69` no cume norte de **666 m** concentrando Carnaúba + Jardim do Seridó + Caicó, `REP_CUME_28` a 681 m e `REP_CUME_46` Serra da Tapuia a 381 m), **12 enlaces**, **276,13 km** totais, torres fixas de **20 m a 45 m**, folga mínima **+16,64 m** acima de 0,6·F1.
+     - **Solução #2 — Saltos ≤ 56 km (Azul Ciano):** **4 repetidoras**, **13 enlaces**, **276,77 km**, torres de **20 m a 45 m**, folga mín **+16,64 m** (divide o tronco até Natal em 11 GHz licenciado).
+     - **Solução #3 — Contingência Independente (Âmbar):** **5 repetidoras**, **14 enlaces**, **295,92 km**, torres de **20 m a 50 m**, folga mín **+16,05 m** (100% disjunta dos cumes da #1).
    - **📡 Cobertura Celular SMP (`R = 1,808 km`):** botão no topo para ligar/desligar o raio celular de **1,808 km** (`8,5 km²/ERB`, 3 setores de 120°) nas **9 ERBs urbanas** (Caicó 3, Currais Novos 2, Santa Cruz 2, Jardim do Seridó 1 e Carnaúba dos Dantas 1 na encosta urbana do Monte do Galo).
    - **Corte Altimétrico Lateral (Gaveta Inferior):** perfil do terreno real, abaulamento terrestre (`k = 4/3`), elipse da **1ª Zona de Fresnel (60% e 100%)**, cálculo dinâmico ao trocar altura de torre (`±5 m`) ou banda (`5 GHz ↔ 11 GHz`) e atenuação por chuva (**ITU-R P.838-3 @ 50 mm/h**).
 
 2. **🧮 Cálculos, Chuva & Orçamento (Apresentação):**
    - Memorial didático completo de **Erlang B**, **COST 231 Hata** (`R = 1,808 km`), **Interferência Co-Canal 4×3** (`S/I = 12,56 dB > 12 dB`), tabela de altura fixa única por torre, quadro de chuva ITU-R, diagrama lógico SVG e orçamento separado entre **Ativos de Telecom** e **Torres + Infraestrutura Civil** com links verificados por item:
-     - **Solução #1 CAPEX:** Ativos **R$ 206.853,64** + Torres **R$ 297.825,00** + Infra **R$ 66.785,92** = **R$ 571.464,56**
-     - **Solução #2 CAPEX:** **R$ 618.869,43**
-     - **Solução #3 CAPEX:** **R$ 710.516,29**
+     - **Solução #1 CAPEX:** Ativos **R$ 187.868,42** + Torres **R$ 284.287,50** + Infra **R$ 55.557,09** = **R$ 527.713,01**
+     - **Solução #2 CAPEX:** **R$ 575.117,88**
+     - **Solução #3 CAPEX:** **R$ 687.953,79**
 
 3. **🏔️ Visada 3D (De Lado):**
    - Visualizador **WebGL (Three.js)** integrado com malha 3D real **Copernicus 30 m (`65 × 33` por enlace)** e textura **Esri Satellite** (ou relevo hipsométrico), torres em 3D, curvatura `k=4/3` e elipsoide **Fresnel 3D**, com câmeras rápidas **`📐 De Lado`**, **`🚁 Aérea 3/4`** e **`🗼 Torre TX→RX`** + exagero vertical ajustável.

@@ -73,7 +73,7 @@
         "latitude": -6.2709,
         "longitude": -36.49857,
         "altitude_terreno_m": 432.5,
-        "altura_torre_m": 25.0,
+        "altura_torre_m": 45.0,
         "setores": 3,
         "raio_celula_km": 1.808,
         "solucoes": [
@@ -82,9 +82,9 @@
             3
         ],
         "alturas_por_solucao": {
-            "1": 25.0,
-            "2": 25.0,
-            "3": 40.0
+            "1": 45.0,
+            "2": 45.0,
+            "3": 35.0
         }
     },
     {
@@ -172,7 +172,7 @@
         "alturas_por_solucao": {
             "1": 20.0,
             "2": 20.0,
-            "3": 25.0
+            "3": 20.0
         }
     },
     {
@@ -220,26 +220,6 @@
         }
     },
     {
-        "latitude": -6.3915,
-        "longitude": -36.6047,
-        "altitude_terreno_m": 689.2557373046875,
-        "id": "REP_CUME_06",
-        "nome": "Repetidora Cume 06 (689 m)",
-        "cidade": "Repetidora Interurbana",
-        "tipo": "REPETIDORA",
-        "altura_torre_m": 20.0,
-        "enlaces_conectados": 4,
-        "rank_solucao": 1,
-        "solucoes": [
-            1,
-            2
-        ],
-        "alturas_por_solucao": {
-            "1": 20.0,
-            "2": 20.0
-        }
-    },
-    {
         "latitude": -6.1327,
         "longitude": -36.2115,
         "altitude_terreno_m": 680.7811279296875,
@@ -280,23 +260,23 @@
         }
     },
     {
-        "latitude": -6.52181,
-        "longitude": -36.5917,
-        "altitude_terreno_m": 577.1068725585938,
+        "latitude": -6.52731,
+        "longitude": -36.5982,
+        "altitude_terreno_m": 666.0280151367188,
         "id": "REP_CUME_69",
-        "nome": "Repetidora Cume 69 (577 m)",
+        "nome": "Repetidora Cume 69 (666 m)",
         "cidade": "Repetidora Interurbana",
         "tipo": "REPETIDORA",
-        "altura_torre_m": 35.0,
-        "enlaces_conectados": 2,
+        "altura_torre_m": 20.0,
+        "enlaces_conectados": 4,
         "rank_solucao": 1,
         "solucoes": [
             1,
             2
         ],
         "alturas_por_solucao": {
-            "1": 35.0,
-            "2": 35.0
+            "1": 20.0,
+            "2": 20.0
         }
     },
     {
@@ -318,21 +298,21 @@
         }
     },
     {
-        "latitude": -6.2295,
-        "longitude": -36.9463,
-        "altitude_terreno_m": 561.8125610351562,
-        "id": "REP_CUME_12",
-        "nome": "Repetidora Cume 12 (562 m)",
+        "latitude": -6.3915,
+        "longitude": -36.6047,
+        "altitude_terreno_m": 689.2557373046875,
+        "id": "REP_CUME_06",
+        "nome": "Repetidora Cume 06 (689 m)",
         "cidade": "Repetidora Interurbana",
         "tipo": "REPETIDORA",
-        "altura_torre_m": 30.0,
-        "enlaces_conectados": 2,
+        "altura_torre_m": 20.0,
+        "enlaces_conectados": 4,
         "rank_solucao": 3,
         "solucoes": [
             3
         ],
         "alturas_por_solucao": {
-            "3": 30.0
+            "3": 20.0
         }
     },
     {
@@ -344,7 +324,7 @@
         "cidade": "Repetidora Interurbana",
         "tipo": "REPETIDORA",
         "altura_torre_m": 35.0,
-        "enlaces_conectados": 3,
+        "enlaces_conectados": 2,
         "rank_solucao": 3,
         "solucoes": [
             3
@@ -372,21 +352,21 @@
         }
     },
     {
-        "latitude": -6.2999,
-        "longitude": -36.3867,
-        "altitude_terreno_m": 635.8814697265625,
-        "id": "REP_CUME_30",
-        "nome": "Repetidora Cume 30 (636 m)",
+        "latitude": -6.2843,
+        "longitude": -36.3119,
+        "altitude_terreno_m": 668.2688598632812,
+        "id": "REP_CUME_32",
+        "nome": "Repetidora Cume 32 (668 m)",
         "cidade": "Repetidora Interurbana",
         "tipo": "REPETIDORA",
-        "altura_torre_m": 35.0,
-        "enlaces_conectados": 3,
+        "altura_torre_m": 30.0,
+        "enlaces_conectados": 2,
         "rank_solucao": 3,
         "solucoes": [
             3
         ],
         "alturas_por_solucao": {
-            "3": 35.0
+            "3": 30.0
         }
     },
     {
