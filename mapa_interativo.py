@@ -317,9 +317,9 @@ html_code = f"""<!DOCTYPE html>
       </div>
       <div class="sol-panel-body" id="sol-panel-body">
         <div class="sol-bulk-actions">
-          <button class="bulk-btn primary" onclick="definirTodasSolucoes([true, false, false])">★ Só Melhor (#1)</button>
-          <button class="bulk-btn" onclick="definirTodasSolucoes([true, true, true])">👁️ Ativar Todas (3)</button>
-          <button class="bulk-btn" onclick="definirTodasSolucoes([false, false, false])">🚫 Desativar Todas</button>
+          <button class="bulk-btn primary" onclick="definirTodasSolucoes([true, false, false])">★ Melhor (#1)</button>
+          <button class="bulk-btn" onclick="definirTodasSolucoes([true, true, true])">👁️ Ativar Todos</button>
+          <button class="bulk-btn" onclick="definirTodasSolucoes([false, false, false])">🚫 Desativar</button>
         </div>
         <div id="sol-cards-container" style="display:flex; flex-direction:column; gap:8px;"></div>
       </div>
@@ -1458,10 +1458,12 @@ html_code = f"""<!DOCTYPE html>
     function calcularPerdaDifracaoITUR(terrTopo, losArr, rF1Arr) {{
       const N = terrTopo.length;
       if (N < 3) return 0.0;
-      let pIdx = -1, nuMax = -999;
+      let pIdx = -1, nuMax = -999, blockedCnt = 0;
       for (let i = 1; i < N - 1; i++) {{
         const r = Math.max(0.1, rF1Arr[i]);
-        const nu = Math.SQRT2 * ((terrTopo[i] - losArr[i]) / r);
+        const exc = terrTopo[i] - losArr[i];
+        if (exc > 0) blockedCnt++;
+        const nu = Math.SQRT2 * (exc / r);
         if (nu > nuMax) {{
           nuMax = nu;
           pIdx = i;
@@ -1470,7 +1472,7 @@ html_code = f"""<!DOCTYPE html>
       if (nuMax <= -0.78 || pIdx < 1) return 0.0;
       let perda = difracaoKnifeEdgeJ(nuMax);
 
-      // Correção Deygout para sub-obstruções antes e depois do pico principal
+      // Correção Deygout para sub-obstruções + espessura de maciço rochoso (ITU-R P.526 §4.3)
       if (nuMax > 0.0) {{
         let nuL = -999, nuR = -999;
         for (let i = 1; i < pIdx; i++) {{
@@ -1488,6 +1490,10 @@ html_code = f"""<!DOCTYPE html>
         }}
         if (nuL > 0.0) perda += difracaoKnifeEdgeJ(nuL);
         if (nuR > 0.0) perda += difracaoKnifeEdgeJ(nuR);
+        if (nuMax > 0.5) {{
+          const fracBloq = blockedCnt / Math.max(1, N - 2);
+          perda += Math.min(45.0, 12.0 + 18.0 * Math.log10(1.0 + nuMax * (1.0 + 4.0 * fracBloq)));
+        }}
       }}
       return Math.max(0.0, perda);
     }}
@@ -1627,11 +1633,13 @@ html_code = f"""<!DOCTYPE html>
         dadosF1.push(rF1);
       }}
 
-      // Perda real por difração (ITU-R P.526 Deygout) quando há obstrução/intrusão em Fresnel
+      // Perda real por difração (ITU-R P.526 Deygout + obstáculo espesso)
       const perdaDifracao = calcularPerdaDifracaoITUR(dadosTopoVeg, dadosLos, dadosF1);
+      const losBloqueada = dadosTopoVeg.some((v, idx) => idx > 0 && idx < N - 1 && v > dadosLos[idx]);
       const rsl = rslEspacoLivre - perdaDifracao;
       const fadeMargin = rsl - sens;
       const fadeChuva = fadeMargin - perdaChuva;
+      const semSinalReal = (losBloqueada && fadeMargin < -5.0) || rsl < -95.0;
 
       const wrapDif = document.getElementById('wrap-difracao-loss');
       const txtDif = document.getElementById('txt-difracao-loss');
@@ -1640,20 +1648,21 @@ html_code = f"""<!DOCTYPE html>
         txtDif.textContent = `-${{perdaDifracao.toFixed(1)}} dB`;
       }}
 
-      const rslColor = fadeMargin < 0 ? '#ff4d4d' : (fadeMargin < 8 ? '#ffab00' : '#00ff55');
+      const rslColor = (semSinalReal || fadeMargin < 0) ? '#ff4d4d' : (fadeMargin < 8 ? '#ffab00' : '#00ff55');
+      const rslTxt = semSinalReal ? '--- (Sem Sinal)' : `${{rsl.toFixed(1)}} dBm`;
       const rsl1El = document.getElementById('st1-rsl');
       const rsl2El = document.getElementById('st2-rsl');
-      rsl1El.textContent = `${{rsl.toFixed(1)}} dBm`;
-      rsl2El.textContent = `${{rsl.toFixed(1)}} dBm`;
+      rsl1El.textContent = rslTxt;
+      rsl2El.textContent = rslTxt;
       rsl1El.style.color = rslColor;
       rsl2El.style.color = rslColor;
 
       const fmEl = document.getElementById('txt-fade-margin');
-      fmEl.textContent = `${{fadeMargin.toFixed(1)}} dB / ${{fadeChuva.toFixed(1)}} dB`;
-      fmEl.style.color = fadeMargin < 0 ? '#ff4d4d' : (fadeChuva >= 4.0 ? '#00ff55' : '#ffab00');
+      fmEl.textContent = semSinalReal ? `Bloqueado (${{fadeMargin.toFixed(1)}} dB)` : `${{fadeMargin.toFixed(1)}} dB / ${{fadeChuva.toFixed(1)}} dB`;
+      fmEl.style.color = (semSinalReal || fadeMargin < 0) ? '#ff4d4d' : (fadeChuva >= 4.0 ? '#00ff55' : '#ffab00');
 
-      const pctSig = Math.max(2, Math.min(100, (rsl + 100) * 1.65));
-      const barColor = fadeMargin < 0 ? '#ef4444' : (fadeMargin < 8 ? '#f59e0b' : '#00ff55');
+      const pctSig = semSinalReal ? 0 : Math.max(2, Math.min(100, (rsl + 100) * 1.65));
+      const barColor = (semSinalReal || fadeMargin < 0) ? '#ef4444' : (fadeMargin < 8 ? '#f59e0b' : '#00ff55');
       ['st1-signal-bar', 'st2-signal-bar'].forEach(bid => {{
         const bEl = document.getElementById(bid);
         bEl.style.width = `${{pctSig}}%`;
@@ -1661,7 +1670,7 @@ html_code = f"""<!DOCTYPE html>
       }});
 
       let capacityMbps = 0;
-      if (fadeMargin > 0.0 && piorFolga > -12.0) {{
+      if (!semSinalReal && fadeMargin > 0.0 && piorFolga > -12.0) {{
         capacityMbps = Math.round(bw * 8.6 * Math.min(1.0, Math.max(0.15, fadeMargin / 26.0)));
       }}
       const capEl = document.getElementById('txt-capacity');
@@ -1671,7 +1680,9 @@ html_code = f"""<!DOCTYPE html>
       const obstruido = piorFolga < 0;
       const badgeObs = document.getElementById('badge-obstrucao');
       if (obstruido) {{
-        badgeObs.textContent = `LINK OBSTRUÍDO (${{piorFolga.toFixed(1)}} m | Difração -${{perdaDifracao.toFixed(1)}} dB)`;
+        badgeObs.textContent = semSinalReal
+          ? `LINK OBSTRUÍDO 100% (${{piorFolga.toFixed(1)}} m | Perda -${{perdaDifracao.toFixed(1)}} dB)`
+          : `LINK OBSTRUÍDO (${{piorFolga.toFixed(1)}} m | Difração -${{perdaDifracao.toFixed(1)}} dB)`;
         badgeObs.className = 'status-badge status-obstr';
         if (!d.fixo) enlaceSelecionado.setStyle({{ color: '#ff1744' }});
       }} else {{
