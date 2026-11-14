@@ -156,6 +156,8 @@
     /* TERCEIRA INTERFACE: VISADA 3D LATERAL (RELEVO + SATÉLITE + FRESNEL 3D) */
     .btn-3d-open { background: linear-gradient(135deg, #0ea5e9 0%, #2563eb 100%); border: 1px solid #38bdf8; color: #fff; font-size: 0.74rem; font-weight: 800; padding: 4px 10px; border-radius: 5px; cursor: pointer; display: inline-flex; align-items: center; gap: 5px; transition: all 0.15s; box-shadow: 0 2px 8px rgba(14,165,233,0.35); }
     .btn-3d-open:hover { filter: brightness(1.12); transform: translateY(-1px); }
+    .btn-invert-link { background: #24293d; border: 1px solid #475569; color: #e2e8f0; font-size: 0.74rem; font-weight: 700; padding: 4px 9px; border-radius: 5px; cursor: pointer; display: inline-flex; align-items: center; gap: 4px; transition: all 0.15s; }
+    .btn-invert-link:hover { background: #334155; border-color: #94a3b8; color: #fff; }
     #view-3d { flex: 1; display: none; position: relative; width: 100%; overflow: hidden; background: radial-gradient(circle at 50% 25%, #162238 0%, #090d16 100%); }
     #canvas-3d-host { width: 100%; height: 100%; cursor: grab; outline: none; }
     #canvas-3d-host:active { cursor: grabbing; }
@@ -317,6 +319,7 @@
             </div>
             <div style="display:flex; align-items:center; gap:6px; flex-wrap:wrap;">
               <div class="status-badge status-clear" id="badge-obstrucao">VISADA LIMPA</div>
+              <button class="btn-invert-link" onclick="inverterDirecaoEnlace()" title="Espelhar o gráfico de perfil (trocar estação da esquerda pela da direita: TX ↔ RX)">⇄ Inverter (TX ↔ RX)</button>
               <button class="btn-3d-open" onclick="abrirVisada3D()" title="Visualizar este enlace em 3D com relevo real, torres e elipse de Fresnel de lado">🏔️ Ver em 3D (De Lado)</button>
             </div>
           </div>
@@ -532,11 +535,21 @@
       maxZoom: 18, attribution: 'Esri Satellite'
     }).addTo(map);
 
+    const layerSateliteHibrido = L.tileLayer('https://mt{s}.google.com/vt/lyrs=y&x={x}&y={y}&z={z}', {
+      subdomains: ['0', '1', '2', '3'],
+      maxZoom: 20,
+      attribution: 'Google Hybrid'
+    });
+
     const layerTopo = L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', {
       maxZoom: 17, attribution: 'OpenTopoMap'
     });
 
-    L.control.layers({"🛰️ Satélite": layerSatelite, "🏔️ Relevo / Topo": layerTopo}, null, { position: 'topright' }).addTo(map);
+    L.control.layers({
+      "🛰️ Satélite (Limpo)": layerSatelite,
+      "🗺️ Satélite Híbrido (Estradas + Cidades)": layerSateliteHibrido,
+      "🏔️ Relevo / Topo": layerTopo
+    }, null, { position: 'topright' }).addTo(map);
 
     function getSiteIcon(tipo, fixo=true, solucoesDoNo=[1]) {
       let cor = '#00e5ff';
@@ -1095,6 +1108,20 @@
     function fecharGaveta() {
       document.getElementById('bottom-drawer').style.display = 'none';
       enlaceSelecionado = null;
+    }
+
+    function inverterDirecaoEnlace() {
+      if (!enlaceSelecionado) return;
+      const d = enlaceSelecionado.dados;
+      [d.id_origem, d.id_destino] = [d.id_destino, d.id_origem];
+      [d.origem_obj, d.destino_obj] = [d.destino_obj, d.origem_obj];
+      [d.origem, d.destino] = [d.destino, d.origem];
+      [d.h_torre_origem_m, d.h_torre_destino_m] = [d.h_torre_destino_m, d.h_torre_origem_m];
+      [d.ganho_tx_dbi, d.ganho_rx_dbi] = [d.ganho_rx_dbi, d.ganho_tx_dbi];
+      if (enlaceSelecionado.setTooltipContent) {
+        enlaceSelecionado.setTooltipContent(tooltipDoEnlace(enlaceSelecionado));
+      }
+      selecionarEnlace(enlaceSelecionado);
     }
 
     // ALTERAR ALTURA DA TORRE: ATUALIZA A TORRE ÚNICA EM TODOS OS ENLACES CONECTADOS NA SOLUÇÃO!
