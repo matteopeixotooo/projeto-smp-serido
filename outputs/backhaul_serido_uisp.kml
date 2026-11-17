@@ -35,16 +35,16 @@
     <Folder>
       <name>Sítios e Torres (ERBs / CCC / Repetidoras)</name>
       <Placemark>
-        <name>ERB Caicó - Setor Leste</name>
+        <name>ERB Caicó - Setor Sudeste</name>
         <description>ID: ERB_CAICO_01
 Tipo: ERB
 Cidade: Caicó
-Altura da Torre: 25.0 m
-Altitude do Terreno: 170.9 m</description>
+Altura da Torre: 35.0 m
+Altitude do Terreno: 164.0 m</description>
         <styleUrl>#estilo_erb</styleUrl>
         <Point>
           <altitudeMode>relativeToGround</altitudeMode>
-          <coordinates>-37.08366,-6.4646,25.0</coordinates>
+          <coordinates>-37.081,-6.466,35.0</coordinates>
         </Point>
       </Placemark>
       <Placemark>
@@ -52,68 +52,81 @@ Altitude do Terreno: 170.9 m</description>
         <description>ID: ERB_CAICO_02
 Tipo: ERB
 Cidade: Caicó
-Altura da Torre: 25.0 m
-Altitude do Terreno: 175.5 m</description>
+Altura da Torre: 30.0 m
+Altitude do Terreno: 170.0 m</description>
         <styleUrl>#estilo_erb</styleUrl>
         <Point>
           <altitudeMode>relativeToGround</altitudeMode>
-          <coordinates>-37.1067,-6.4662,25.0</coordinates>
+          <coordinates>-37.109,-6.466,30.0</coordinates>
         </Point>
       </Placemark>
       <Placemark>
-        <name>ERB Caicó - Setor Noroeste</name>
+        <name>ERB Caicó - Setor Norte</name>
         <description>ID: ERB_CAICO_03
 Tipo: ERB
 Cidade: Caicó
 Altura da Torre: 20.0 m
-Altitude do Terreno: 162.5 m</description>
+Altitude do Terreno: 173.0 m</description>
         <styleUrl>#estilo_erb</styleUrl>
         <Point>
           <altitudeMode>relativeToGround</altitudeMode>
-          <coordinates>-37.1033,-6.4448,20.0</coordinates>
+          <coordinates>-37.0945,-6.4395,20.0</coordinates>
         </Point>
       </Placemark>
       <Placemark>
-        <name>ERB Currais Novos - Centro (CCC - Núcleo da Rede)</name>
+        <name>ERB Currais Novos - Leste (CCC - Núcleo da Rede)</name>
         <description>ID: ERB_CURRAIS_NOVOS_01
 Tipo: ERB_CCC
 Cidade: Currais Novos
-Altura da Torre: 45.0 m
-Altitude do Terreno: 432.5 m</description>
+Altura da Torre: 40.0 m
+Altitude do Terreno: 346.6 m</description>
         <styleUrl>#estilo_ccc</styleUrl>
         <Point>
           <altitudeMode>relativeToGround</altitudeMode>
-          <coordinates>-36.49857,-6.2709,45.0</coordinates>
+          <coordinates>-36.506,-6.264,40.0</coordinates>
         </Point>
       </Placemark>
       <Placemark>
-        <name>ERB Currais Novos - Sítio 02</name>
+        <name>ERB Currais Novos - Noroeste (UFRN/JK)</name>
         <description>ID: ERB_CURRAIS_NOVOS_02
 Tipo: ERB
 Cidade: Currais Novos
-Altura da Torre: 25.0 m
-Altitude do Terreno: 361.1 m</description>
+Altura da Torre: 30.0 m
+Altitude do Terreno: 346.0 m</description>
         <styleUrl>#estilo_erb</styleUrl>
         <Point>
           <altitudeMode>relativeToGround</altitudeMode>
-          <coordinates>-36.52383,-6.2547,25.0</coordinates>
+          <coordinates>-36.524,-6.25,30.0</coordinates>
         </Point>
       </Placemark>
       <Placemark>
-        <name>ERB Santa Cruz - Centro</name>
+        <name>ERB Currais Novos - Sudoeste (Sílvio Bezerra)</name>
+        <description>ID: ERB_CURRAIS_NOVOS_03
+Tipo: ERB
+Cidade: Currais Novos
+Altura da Torre: 25.0 m
+Altitude do Terreno: 351.8 m</description>
+        <styleUrl>#estilo_erb</styleUrl>
+        <Point>
+          <altitudeMode>relativeToGround</altitudeMode>
+          <coordinates>-36.528,-6.278,25.0</coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>ERB Santa Cruz - Norte (Maracujá)</name>
         <description>ID: ERB_SANTA_CRUZ_01
 Tipo: ERB
 Cidade: Santa Cruz
-Altura da Torre: 20.0 m
-Altitude do Terreno: 269.9 m</description>
+Altura da Torre: 25.0 m
+Altitude do Terreno: 254.5 m</description>
         <styleUrl>#estilo_erb</styleUrl>
         <Point>
           <altitudeMode>relativeToGround</altitudeMode>
-          <coordinates>-36.02,-6.2117,20.0</coordinates>
+          <coordinates>-36.023,-6.213,25.0</coordinates>
         </Point>
       </Placemark>
       <Placemark>
-        <name>ERB Santa Cruz - Sítio 02</name>
+        <name>ERB Santa Cruz - Sudeste (Santuário)</name>
         <description>ID: ERB_SANTA_CRUZ_02
 Tipo: ERB
 Cidade: Santa Cruz
@@ -126,16 +139,29 @@ Altitude do Terreno: 322.8 m</description>
         </Point>
       </Placemark>
       <Placemark>
+        <name>ERB Santa Cruz - Oeste (IFRN/Paraíso)</name>
+        <description>ID: ERB_SANTA_CRUZ_03
+Tipo: ERB
+Cidade: Santa Cruz
+Altura da Torre: 25.0 m
+Altitude do Terreno: 242.3 m</description>
+        <styleUrl>#estilo_erb</styleUrl>
+        <Point>
+          <altitudeMode>relativeToGround</altitudeMode>
+          <coordinates>-36.035,-6.235,25.0</coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
         <name>ERB Jardim do Seridó - Centro</name>
         <description>ID: ERB_JARDIM_DO_SERIDO_01
 Tipo: ERB
 Cidade: Jardim do Seridó
-Altura da Torre: 20.0 m
-Altitude do Terreno: 246.0 m</description>
+Altura da Torre: 40.0 m
+Altitude do Terreno: 229.7 m</description>
         <styleUrl>#estilo_erb</styleUrl>
         <Point>
           <altitudeMode>relativeToGround</altitudeMode>
-          <coordinates>-36.7685,-6.5899,20.0</coordinates>
+          <coordinates>-36.773,-6.588,40.0</coordinates>
         </Point>
       </Placemark>
       <Placemark>
@@ -165,8 +191,8 @@ Altitude do Terreno: 101.2 m</description>
         </Point>
       </Placemark>
       <Placemark>
-        <name>Repetidora Cume 28 (681 m)</name>
-        <description>ID: REP_CUME_28
+        <name>Repetidora Cume 26 (681 m)</name>
+        <description>ID: REP_CUME_26
 Tipo: REPETIDORA
 Cidade: Repetidora Interurbana
 Altura da Torre: 25.0 m
@@ -174,20 +200,20 @@ Altitude do Terreno: 680.7811279296875 m</description>
         <styleUrl>#estilo_rep</styleUrl>
         <Point>
           <altitudeMode>relativeToGround</altitudeMode>
-          <coordinates>-36.2115,-6.1327,25.0</coordinates>
+          <coordinates>-36.2118,-6.1328,25.0</coordinates>
         </Point>
       </Placemark>
       <Placemark>
-        <name>Repetidora Cume 46 (381 m)</name>
-        <description>ID: REP_CUME_46
+        <name>Repetidora Cume 45 (402 m)</name>
+        <description>ID: REP_CUME_45
 Tipo: REPETIDORA
 Cidade: Repetidora Interurbana
-Altura da Torre: 20.0 m
-Altitude do Terreno: 381.2609558105469 m</description>
+Altura da Torre: 30.0 m
+Altitude do Terreno: 401.5865173339844 m</description>
         <styleUrl>#estilo_rep</styleUrl>
         <Point>
           <altitudeMode>relativeToGround</altitudeMode>
-          <coordinates>-35.8479,-6.1623,20.0</coordinates>
+          <coordinates>-35.8518,-6.1592,30.0</coordinates>
         </Point>
       </Placemark>
       <Placemark>
@@ -204,8 +230,8 @@ Altitude do Terreno: 666.0280151367188 m</description>
         </Point>
       </Placemark>
       <Placemark>
-        <name>Repetidora Cume 64 (118 m)</name>
-        <description>ID: REP_CUME_64
+        <name>Repetidora Cume 68 (118 m)</name>
+        <description>ID: REP_CUME_68
 Tipo: REPETIDORA
 Cidade: Repetidora Interurbana
 Altura da Torre: 20.0 m
@@ -213,7 +239,7 @@ Altitude do Terreno: 118.18994140625 m</description>
         <styleUrl>#estilo_rep</styleUrl>
         <Point>
           <altitudeMode>relativeToGround</altitudeMode>
-          <coordinates>-35.3867,-5.9651,20.0</coordinates>
+          <coordinates>-35.3866,-5.9652,20.0</coordinates>
         </Point>
       </Placemark>
       <Placemark>
@@ -221,123 +247,151 @@ Altitude do Terreno: 118.18994140625 m</description>
         <description>ID: REP_CUME_06
 Tipo: REPETIDORA
 Cidade: Repetidora Interurbana
-Altura da Torre: 20.0 m
+Altura da Torre: 25.0 m
 Altitude do Terreno: 689.2557373046875 m</description>
         <styleUrl>#estilo_rep</styleUrl>
         <Point>
           <altitudeMode>relativeToGround</altitudeMode>
-          <coordinates>-36.6047,-6.3915,20.0</coordinates>
+          <coordinates>-36.6046,-6.3912,25.0</coordinates>
         </Point>
       </Placemark>
       <Placemark>
-        <name>Repetidora Cume 16 (692 m)</name>
-        <description>ID: REP_CUME_16
-Tipo: REPETIDORA
-Cidade: Repetidora Interurbana
-Altura da Torre: 35.0 m
-Altitude do Terreno: 692.0980834960938 m</description>
-        <styleUrl>#estilo_rep</styleUrl>
-        <Point>
-          <altitudeMode>relativeToGround</altitudeMode>
-          <coordinates>-36.4879,-6.5159,35.0</coordinates>
-        </Point>
-      </Placemark>
-      <Placemark>
-        <name>Repetidora Cume 29 (567 m)</name>
-        <description>ID: REP_CUME_29
-Tipo: REPETIDORA
-Cidade: Repetidora Interurbana
-Altura da Torre: 25.0 m
-Altitude do Terreno: 567.3485107421875 m</description>
-        <styleUrl>#estilo_rep</styleUrl>
-        <Point>
-          <altitudeMode>relativeToGround</altitudeMode>
-          <coordinates>-36.1343,-6.2099,25.0</coordinates>
-        </Point>
-      </Placemark>
-      <Placemark>
-        <name>Repetidora Cume 32 (668 m)</name>
-        <description>ID: REP_CUME_32
-Tipo: REPETIDORA
-Cidade: Repetidora Interurbana
-Altura da Torre: 30.0 m
-Altitude do Terreno: 668.2688598632812 m</description>
-        <styleUrl>#estilo_rep</styleUrl>
-        <Point>
-          <altitudeMode>relativeToGround</altitudeMode>
-          <coordinates>-36.3119,-6.2843,30.0</coordinates>
-        </Point>
-      </Placemark>
-      <Placemark>
-        <name>Repetidora Cume 48 (372 m)</name>
-        <description>ID: REP_CUME_48
+        <name>Repetidora Cume 12 (705 m)</name>
+        <description>ID: REP_CUME_12
 Tipo: REPETIDORA
 Cidade: Repetidora Interurbana
 Altura da Torre: 20.0 m
-Altitude do Terreno: 371.946533203125 m</description>
+Altitude do Terreno: 705.425048828125 m</description>
         <styleUrl>#estilo_rep</styleUrl>
         <Point>
           <altitudeMode>relativeToGround</altitudeMode>
-          <coordinates>-35.9123,-6.1503,20.0</coordinates>
+          <coordinates>-36.4974,-6.1296,20.0</coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Repetidora Cume 14 (677 m)</name>
+        <description>ID: REP_CUME_14
+Tipo: REPETIDORA
+Cidade: Repetidora Interurbana
+Altura da Torre: 25.0 m
+Altitude do Terreno: 676.7948608398438 m</description>
+        <styleUrl>#estilo_rep</styleUrl>
+        <Point>
+          <altitudeMode>relativeToGround</altitudeMode>
+          <coordinates>-36.9046,-6.3412,25.0</coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Repetidora Cume 34 (548 m)</name>
+        <description>ID: REP_CUME_34
+Tipo: REPETIDORA
+Cidade: Repetidora Interurbana
+Altura da Torre: 45.0 m
+Altitude do Terreno: 547.5455322265625 m</description>
+        <styleUrl>#estilo_rep</styleUrl>
+        <Point>
+          <altitudeMode>relativeToGround</altitudeMode>
+          <coordinates>-36.1342,-6.212,45.0</coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Repetidora Cume 37 (482 m)</name>
+        <description>ID: REP_CUME_37
+Tipo: REPETIDORA
+Cidade: Repetidora Interurbana
+Altura da Torre: 25.0 m
+Altitude do Terreno: 481.50762939453125 m</description>
+        <styleUrl>#estilo_rep</styleUrl>
+        <Point>
+          <altitudeMode>relativeToGround</altitudeMode>
+          <coordinates>-35.9258,-6.0776,25.0</coordinates>
         </Point>
       </Placemark>
     </Folder>
     <Folder>
       <name>Enlaces PTP de Micro-ondas</name>
       <Placemark>
-        <name>PTP: ERB Caicó - Setor Sudoeste &lt;-&gt; ERB Caicó - Setor Leste</name>
-        <description>Distância: 2.55 km
+        <name>PTP: ERB Currais Novos - Noroeste (UFRN/JK) &lt;-&gt; ERB Currais Novos - Leste (CCC - Núcleo da Rede)</name>
+        <description>Distância: 2.53 km
+Antena Tx: 0.38m (Standard)
+Antena Rx: 0.38m (Standard)
+Torres (Tx / Rx): 30.0m / 40.0m
+Fade Margin Estimada: 30.01 dB
+RSL Estimado: -43.99 dBm</description>
+        <styleUrl>#linha_tronco</styleUrl>
+        <LineString>
+          <altitudeMode>relativeToGround</altitudeMode>
+          <coordinates>-36.524,-6.25,30.0 -36.506,-6.264,40.0</coordinates>
+        </LineString>
+      </Placemark>
+      <Placemark>
+        <name>PTP: ERB Santa Cruz - Oeste (IFRN/Paraíso) &lt;-&gt; ERB Santa Cruz - Norte (Maracujá)</name>
+        <description>Distância: 2.78 km
 Antena Tx: 0.38m (Standard)
 Antena Rx: 0.38m (Standard)
 Torres (Tx / Rx): 25.0m / 25.0m
-Fade Margin Estimada: 29.94 dB
-RSL Estimado: -44.06 dBm</description>
+Fade Margin Estimada: 29.19 dB
+RSL Estimado: -44.81 dBm</description>
         <styleUrl>#linha_local</styleUrl>
         <LineString>
           <altitudeMode>relativeToGround</altitudeMode>
-          <coordinates>-37.1067,-6.4662,25.0 -37.08366,-6.4646,25.0</coordinates>
+          <coordinates>-36.035,-6.235,25.0 -36.023,-6.213,25.0</coordinates>
         </LineString>
       </Placemark>
       <Placemark>
-        <name>PTP: ERB Santa Cruz - Sítio 02 &lt;-&gt; ERB Santa Cruz - Centro</name>
-        <description>Distância: 3.07 km
+        <name>PTP: ERB Santa Cruz - Sudeste (Santuário) &lt;-&gt; ERB Santa Cruz - Norte (Maracujá)</name>
+        <description>Distância: 2.94 km
 Antena Tx: 0.38m (Standard)
 Antena Rx: 0.38m (Standard)
-Torres (Tx / Rx): 30.0m / 20.0m
-Fade Margin Estimada: 28.33 dB
-RSL Estimado: -45.67 dBm</description>
+Torres (Tx / Rx): 30.0m / 25.0m
+Fade Margin Estimada: 28.7 dB
+RSL Estimado: -45.3 dBm</description>
         <styleUrl>#linha_local</styleUrl>
         <LineString>
           <altitudeMode>relativeToGround</altitudeMode>
-          <coordinates>-36.0207,-6.2393,30.0 -36.02,-6.2117,20.0</coordinates>
+          <coordinates>-36.0207,-6.2393,30.0 -36.023,-6.213,25.0</coordinates>
         </LineString>
       </Placemark>
       <Placemark>
-        <name>PTP: ERB Caicó - Setor Noroeste &lt;-&gt; ERB Caicó - Setor Leste</name>
+        <name>PTP: ERB Caicó - Setor Sudoeste &lt;-&gt; ERB Caicó - Setor Sudeste</name>
         <description>Distância: 3.09 km
 Antena Tx: 0.38m (Standard)
 Antena Rx: 0.38m (Standard)
-Torres (Tx / Rx): 20.0m / 25.0m
+Torres (Tx / Rx): 30.0m / 35.0m
 Fade Margin Estimada: 28.27 dB
 RSL Estimado: -45.73 dBm</description>
         <styleUrl>#linha_local</styleUrl>
         <LineString>
           <altitudeMode>relativeToGround</altitudeMode>
-          <coordinates>-37.1033,-6.4448,20.0 -37.08366,-6.4646,25.0</coordinates>
+          <coordinates>-37.109,-6.466,30.0 -37.081,-6.466,35.0</coordinates>
         </LineString>
       </Placemark>
       <Placemark>
-        <name>PTP: ERB Currais Novos - Sítio 02 &lt;-&gt; ERB Currais Novos - Centro (CCC - Núcleo da Rede)</name>
-        <description>Distância: 3.32 km
+        <name>PTP: ERB Currais Novos - Sudoeste (Sílvio Bezerra) &lt;-&gt; ERB Currais Novos - Noroeste (UFRN/JK)</name>
+        <description>Distância: 3.14 km
 Antena Tx: 0.38m (Standard)
 Antena Rx: 0.38m (Standard)
-Torres (Tx / Rx): 25.0m / 45.0m
-Fade Margin Estimada: 27.65 dB
-RSL Estimado: -46.35 dBm</description>
-        <styleUrl>#linha_tronco</styleUrl>
+Torres (Tx / Rx): 25.0m / 30.0m
+Fade Margin Estimada: 28.13 dB
+RSL Estimado: -45.87 dBm</description>
+        <styleUrl>#linha_local</styleUrl>
         <LineString>
           <altitudeMode>relativeToGround</altitudeMode>
-          <coordinates>-36.52383,-6.2547,25.0 -36.49857,-6.2709,45.0</coordinates>
+          <coordinates>-36.528,-6.278,25.0 -36.524,-6.25,30.0</coordinates>
+        </LineString>
+      </Placemark>
+      <Placemark>
+        <name>PTP: ERB Caicó - Setor Norte &lt;-&gt; ERB Caicó - Setor Sudeste</name>
+        <description>Distância: 3.3 km
+Antena Tx: 0.38m (Standard)
+Antena Rx: 0.38m (Standard)
+Torres (Tx / Rx): 20.0m / 35.0m
+Fade Margin Estimada: 27.7 dB
+RSL Estimado: -46.3 dBm</description>
+        <styleUrl>#linha_local</styleUrl>
+        <LineString>
+          <altitudeMode>relativeToGround</altitudeMode>
+          <coordinates>-37.0945,-6.4395,20.0 -37.081,-6.466,35.0</coordinates>
         </LineString>
       </Placemark>
       <Placemark>
@@ -356,100 +410,100 @@ RSL Estimado: -46.93 dBm</description>
       </Placemark>
       <Placemark>
         <name>PTP: ERB Jardim do Seridó - Centro &lt;-&gt; Repetidora Cume 69 (666 m)</name>
-        <description>Distância: 20.06 km
+        <description>Distância: 20.45 km
 Antena Tx: 0.9m (Standard)
 Antena Rx: 0.9m (Standard)
-Torres (Tx / Rx): 20.0m / 20.0m
-Fade Margin Estimada: 32.18 dB
-RSL Estimado: -40.82 dBm</description>
+Torres (Tx / Rx): 40.0m / 20.0m
+Fade Margin Estimada: 32.01 dB
+RSL Estimado: -40.99 dBm</description>
         <styleUrl>#linha_local</styleUrl>
         <LineString>
           <altitudeMode>relativeToGround</altitudeMode>
-          <coordinates>-36.7685,-6.5899,20.0 -36.5982,-6.52731,20.0</coordinates>
+          <coordinates>-36.773,-6.588,40.0 -36.5982,-6.52731,20.0</coordinates>
         </LineString>
       </Placemark>
       <Placemark>
-        <name>PTP: Repetidora Cume 46 (381 m) &lt;-&gt; ERB Santa Cruz - Sítio 02</name>
-        <description>Distância: 20.93 km
+        <name>PTP: Repetidora Cume 45 (402 m) &lt;-&gt; ERB Santa Cruz - Sudeste (Santuário)</name>
+        <description>Distância: 20.69 km
 Antena Tx: 0.9m (Standard)
 Antena Rx: 0.9m (Standard)
-Torres (Tx / Rx): 20.0m / 30.0m
-Fade Margin Estimada: 31.81 dB
-RSL Estimado: -41.19 dBm</description>
+Torres (Tx / Rx): 30.0m / 30.0m
+Fade Margin Estimada: 31.91 dB
+RSL Estimado: -41.09 dBm</description>
         <styleUrl>#linha_local</styleUrl>
         <LineString>
           <altitudeMode>relativeToGround</altitudeMode>
-          <coordinates>-35.8479,-6.1623,20.0 -36.0207,-6.2393,30.0</coordinates>
+          <coordinates>-35.8518,-6.1592,30.0 -36.0207,-6.2393,30.0</coordinates>
         </LineString>
       </Placemark>
       <Placemark>
-        <name>PTP: ERB Santa Cruz - Centro &lt;-&gt; Repetidora Cume 28 (681 m)</name>
-        <description>Distância: 22.92 km
+        <name>PTP: ERB Santa Cruz - Norte (Maracujá) &lt;-&gt; Repetidora Cume 26 (681 m)</name>
+        <description>Distância: 22.7 km
 Antena Tx: 0.9m (Standard)
 Antena Rx: 0.9m (Standard)
-Torres (Tx / Rx): 20.0m / 25.0m
-Fade Margin Estimada: 31.02 dB
-RSL Estimado: -41.98 dBm</description>
+Torres (Tx / Rx): 25.0m / 25.0m
+Fade Margin Estimada: 31.1 dB
+RSL Estimado: -41.9 dBm</description>
         <styleUrl>#linha_local</styleUrl>
         <LineString>
           <altitudeMode>relativeToGround</altitudeMode>
-          <coordinates>-36.02,-6.2117,20.0 -36.2115,-6.1327,25.0</coordinates>
+          <coordinates>-36.023,-6.213,25.0 -36.2118,-6.1328,25.0</coordinates>
         </LineString>
       </Placemark>
       <Placemark>
-        <name>PTP: Repetidora Cume 69 (666 m) &lt;-&gt; ERB Currais Novos - Centro (CCC - Núcleo da Rede)</name>
-        <description>Distância: 30.56 km
+        <name>PTP: Repetidora Cume 69 (666 m) &lt;-&gt; ERB Currais Novos - Leste (CCC - Núcleo da Rede)</name>
+        <description>Distância: 31.0 km
 Antena Tx: 0.9m (Standard)
 Antena Rx: 0.9m (Standard)
-Torres (Tx / Rx): 20.0m / 45.0m
-Fade Margin Estimada: 28.52 dB
-RSL Estimado: -44.48 dBm</description>
+Torres (Tx / Rx): 20.0m / 40.0m
+Fade Margin Estimada: 28.39 dB
+RSL Estimado: -44.61 dBm</description>
         <styleUrl>#linha_tronco</styleUrl>
         <LineString>
           <altitudeMode>relativeToGround</altitudeMode>
-          <coordinates>-36.5982,-6.52731,20.0 -36.49857,-6.2709,45.0</coordinates>
+          <coordinates>-36.5982,-6.52731,20.0 -36.506,-6.264,40.0</coordinates>
         </LineString>
       </Placemark>
       <Placemark>
-        <name>PTP: Repetidora Cume 28 (681 m) &lt;-&gt; ERB Currais Novos - Centro (CCC - Núcleo da Rede)</name>
-        <description>Distância: 35.26 km
+        <name>PTP: Repetidora Cume 26 (681 m) &lt;-&gt; ERB Currais Novos - Leste (CCC - Núcleo da Rede)</name>
+        <description>Distância: 35.64 km
 Antena Tx: 0.9m (Standard)
 Antena Rx: 0.9m (Standard)
-Torres (Tx / Rx): 25.0m / 45.0m
-Fade Margin Estimada: 27.28 dB
-RSL Estimado: -45.72 dBm</description>
+Torres (Tx / Rx): 25.0m / 40.0m
+Fade Margin Estimada: 27.18 dB
+RSL Estimado: -45.82 dBm</description>
         <styleUrl>#linha_tronco</styleUrl>
         <LineString>
           <altitudeMode>relativeToGround</altitudeMode>
-          <coordinates>-36.2115,-6.1327,25.0 -36.49857,-6.2709,45.0</coordinates>
+          <coordinates>-36.2118,-6.1328,25.0 -36.506,-6.264,40.0</coordinates>
         </LineString>
       </Placemark>
       <Placemark>
-        <name>PTP: ERB Caicó - Setor Leste &lt;-&gt; Repetidora Cume 69 (666 m)</name>
-        <description>Distância: 54.09 km
+        <name>PTP: ERB Caicó - Setor Sudeste &lt;-&gt; Repetidora Cume 69 (666 m)</name>
+        <description>Distância: 53.77 km
 Antena Tx: 1.2m (Standard)
 Antena Rx: 1.2m (Standard)
-Torres (Tx / Rx): 25.0m / 20.0m
-Fade Margin Estimada: 30.56 dB
-RSL Estimado: -42.44 dBm</description>
+Torres (Tx / Rx): 35.0m / 20.0m
+Fade Margin Estimada: 30.61 dB
+RSL Estimado: -42.39 dBm</description>
         <styleUrl>#linha_local</styleUrl>
         <LineString>
           <altitudeMode>relativeToGround</altitudeMode>
-          <coordinates>-37.08366,-6.4646,25.0 -36.5982,-6.52731,20.0</coordinates>
+          <coordinates>-37.081,-6.466,35.0 -36.5982,-6.52731,20.0</coordinates>
         </LineString>
       </Placemark>
       <Placemark>
-        <name>PTP: CCC Principal Natal - Candelária/BR-101 (Núcleo NTL) &lt;-&gt; Repetidora Cume 46 (381 m)</name>
-        <description>Distância: 76.73 km
+        <name>PTP: CCC Principal Natal - Candelária/BR-101 (Núcleo NTL) &lt;-&gt; Repetidora Cume 45 (402 m)</name>
+        <description>Distância: 76.95 km
 Antena Tx: 1.05m (Standard)
 Antena Rx: 1.05m (Standard)
-Torres (Tx / Rx): 20.0m / 20.0m
-Fade Margin Estimada: 26.37 dB
-RSL Estimado: -49.63 dBm</description>
+Torres (Tx / Rx): 20.0m / 30.0m
+Fade Margin Estimada: 26.35 dB
+RSL Estimado: -49.65 dBm</description>
         <styleUrl>#linha_tronco</styleUrl>
         <LineString>
           <altitudeMode>relativeToGround</altitudeMode>
-          <coordinates>-35.2348,-5.8393,20.0 -35.8479,-6.1623,20.0</coordinates>
+          <coordinates>-35.2348,-5.8393,20.0 -35.8518,-6.1592,30.0</coordinates>
         </LineString>
       </Placemark>
     </Folder>

@@ -1,99 +1,133 @@
 [
     {
         "id": "ERB_CAICO_01",
-        "nome": "ERB Caicó - Setor Leste",
+        "nome": "ERB Caicó - Setor Sudeste",
         "cidade": "Caicó",
         "tipo": "ERB",
-        "latitude": -6.4646,
-        "longitude": -37.08366,
-        "altitude_terreno_m": 172.7,
+        "latitude": -6.466,
+        "longitude": -37.081,
+        "altitude_terreno_m": 164.0,
         "altura_torre_m": 45.0,
         "setores": 3,
-        "raio_celula_km": 1.808
+        "raio_celula_km": 1.808,
+        "acesso_infra": "Rua urbana pavimentada (Nova Descoberta/Vila Altiva) + rede elétrica urbana"
     },
     {
         "id": "ERB_CAICO_02",
         "nome": "ERB Caicó - Setor Sudoeste",
         "cidade": "Caicó",
         "tipo": "ERB",
-        "latitude": -6.4662,
-        "longitude": -37.1067,
-        "altitude_terreno_m": 175.5,
+        "latitude": -6.466,
+        "longitude": -37.109,
+        "altitude_terreno_m": 166.7,
         "altura_torre_m": 45.0,
         "setores": 3,
-        "raio_celula_km": 1.808
+        "raio_celula_km": 1.808,
+        "acesso_infra": "Rua urbana pavimentada (Paulo VI) + rede elétrica urbana"
     },
     {
         "id": "ERB_CAICO_03",
-        "nome": "ERB Caicó - Setor Noroeste",
+        "nome": "ERB Caicó - Setor Norte",
         "cidade": "Caicó",
         "tipo": "ERB",
-        "latitude": -6.4448,
-        "longitude": -37.1033,
-        "altitude_terreno_m": 165.7,
+        "latitude": -6.4395,
+        "longitude": -37.0945,
+        "altitude_terreno_m": 173.0,
         "altura_torre_m": 45.0,
         "setores": 3,
-        "raio_celula_km": 1.808
+        "raio_celula_km": 1.808,
+        "acesso_infra": "Acesso urbano junto à RN-118 (Alto da Boa Vista) + rede elétrica urbana"
     },
     {
         "id": "ERB_CURRAIS_NOVOS_01",
-        "nome": "ERB Currais Novos - Centro (CCC - Núcleo da Rede)",
+        "nome": "ERB Currais Novos - Leste (CCC - Núcleo da Rede)",
         "cidade": "Currais Novos",
         "tipo": "ERB_CCC",
-        "latitude": -6.2709,
-        "longitude": -36.49857,
-        "altitude_terreno_m": 435.7,
+        "latitude": -6.264,
+        "longitude": -36.506,
+        "altitude_terreno_m": 346.6,
         "altura_torre_m": 45.0,
         "setores": 3,
-        "raio_celula_km": 1.808
+        "raio_celula_km": 1.808,
+        "acesso_infra": "Via urbana asfaltada (Paizinho Maria / acesso Mirante) + rede elétrica trifásica"
     },
     {
         "id": "ERB_CURRAIS_NOVOS_02",
-        "nome": "ERB Currais Novos - Sítio 02",
+        "nome": "ERB Currais Novos - Noroeste (UFRN/JK)",
         "cidade": "Currais Novos",
         "tipo": "ERB",
-        "latitude": -6.2547,
-        "longitude": -36.52383,
-        "altitude_terreno_m": 361.1,
+        "latitude": -6.25,
+        "longitude": -36.524,
+        "altitude_terreno_m": 343.8,
         "altura_torre_m": 45.0,
         "setores": 3,
-        "raio_celula_km": 1.808
+        "raio_celula_km": 1.808,
+        "acesso_infra": "Rua urbana pavimentada (JK / UFRN) + rede elétrica urbana"
+    },
+    {
+        "id": "ERB_CURRAIS_NOVOS_03",
+        "nome": "ERB Currais Novos - Sudoeste (Sílvio Bezerra)",
+        "cidade": "Currais Novos",
+        "tipo": "ERB",
+        "latitude": -6.278,
+        "longitude": -36.528,
+        "altitude_terreno_m": 351.6,
+        "altura_torre_m": 45.0,
+        "setores": 3,
+        "raio_celula_km": 1.808,
+        "acesso_infra": "Acesso rodoviário direto BR-427/BR-226 (Sílvio Bezerra) + rede elétrica urbana"
     },
     {
         "id": "ERB_SANTA_CRUZ_01",
-        "nome": "ERB Santa Cruz - Centro",
+        "nome": "ERB Santa Cruz - Norte (Maracujá)",
         "cidade": "Santa Cruz",
         "tipo": "ERB",
-        "latitude": -6.2117,
-        "longitude": -36.02,
-        "altitude_terreno_m": 269.9,
+        "latitude": -6.213,
+        "longitude": -36.023,
+        "altitude_terreno_m": 253.6,
         "altura_torre_m": 45.0,
         "setores": 3,
-        "raio_celula_km": 1.808
+        "raio_celula_km": 1.808,
+        "acesso_infra": "Acesso urbano junto à BR-226 (Maracujá norte) + rede elétrica urbana"
     },
     {
         "id": "ERB_SANTA_CRUZ_02",
-        "nome": "ERB Santa Cruz - Sítio 02",
+        "nome": "ERB Santa Cruz - Sudeste (Santuário)",
         "cidade": "Santa Cruz",
         "tipo": "ERB",
         "latitude": -6.2393,
         "longitude": -36.0207,
-        "altitude_terreno_m": 322.8,
+        "altitude_terreno_m": 310.8,
         "altura_torre_m": 45.0,
         "setores": 3,
-        "raio_celula_km": 1.808
+        "raio_celula_km": 1.808,
+        "acesso_infra": "Via pavimentada urbana (Morro do Santuário Sta. Rita) + rede elétrica urbana"
+    },
+    {
+        "id": "ERB_SANTA_CRUZ_03",
+        "nome": "ERB Santa Cruz - Oeste (IFRN/Paraíso)",
+        "cidade": "Santa Cruz",
+        "tipo": "ERB",
+        "latitude": -6.235,
+        "longitude": -36.035,
+        "altitude_terreno_m": 241.2,
+        "altura_torre_m": 45.0,
+        "setores": 3,
+        "raio_celula_km": 1.808,
+        "acesso_infra": "Acesso asfaltado Av. Paulo Afonso / RN-023 (IFRN/Paraíso) + rede elétrica urbana"
     },
     {
         "id": "ERB_JARDIM_DO_SERIDO_01",
         "nome": "ERB Jardim do Seridó - Centro",
         "cidade": "Jardim do Seridó",
         "tipo": "ERB",
-        "latitude": -6.5899,
-        "longitude": -36.7685,
-        "altitude_terreno_m": 246.0,
+        "latitude": -6.588,
+        "longitude": -36.773,
+        "altitude_terreno_m": 226.2,
         "altura_torre_m": 45.0,
         "setores": 3,
-        "raio_celula_km": 1.808
+        "raio_celula_km": 1.808,
+        "acesso_infra": "Centro urbano junto à BR-427 + rede elétrica urbana"
     },
     {
         "id": "ERB_CARNAUBA_DOS_DANTAS_01",
@@ -105,7 +139,8 @@
         "altitude_terreno_m": 315.9,
         "altura_torre_m": 45.0,
         "setores": 3,
-        "raio_celula_km": 1.808
+        "raio_celula_km": 1.808,
+        "acesso_infra": "Rua urbana na encosta do Monte do Galo + rede elétrica urbana"
     },
     {
         "id": "CCC_NATAL_01",
@@ -117,6 +152,7 @@
         "altitude_terreno_m": 101.2,
         "altura_torre_m": 30.0,
         "setores": 0,
-        "raio_celula_km": 0.0
+        "raio_celula_km": 0.0,
+        "acesso_infra": "Via urbana consolidada Candelária / BR-101 + rede elétrica trifásica"
     }
 ]

@@ -475,7 +475,7 @@ def _montar_solucao(g: Grafo, sitios: list[dict], nos: dict, ccc_id: str, erbs: 
     if "CCC_NATAL_01" in erbs:
         cumes_bloq_natal = meta.get("cumes_bloq", set())
         melhor_sc = None
-        for sc_id in ["ERB_SANTA_CRUZ_01", "ERB_SANTA_CRUZ_02"]:
+        for sc_id in sorted(i for i in erbs if i.startswith("ERB_SANTA_CRUZ_")):
             p_sc, c_sc = g.caminho_minimo(
                 sc_id, {"CCC_NATAL_01"},
                 peso_salto=meta.get("peso_salto", 40.0),
@@ -519,7 +519,7 @@ def _montar_solucao(g: Grafo, sitios: list[dict], nos: dict, ccc_id: str, erbs: 
         for rep_id in reps_atuais:
             deps = filhos.get(rep_id, [])
             # Tenta redirecionar cada dependente desta repetidora para outro nó já ativo na árvore (fora rep_id)
-            outros_ativos = {ccc_id} | {x for par in arestas for x in par if x != rep_id and (nos[x]["tipo"] == "REPETIDORA" or x in {"ERB_SANTA_CRUZ_01", "ERB_SANTA_CRUZ_02"})}
+            outros_ativos = {ccc_id} | {x for par in arestas for x in par if x != rep_id and (nos[x]["tipo"] == "REPETIDORA" or x.startswith("ERB_SANTA_CRUZ_"))}
             # Verifica se todos os dependentes conseguem se ligar sem precisar de rep_id (e sem criar ciclos)
             ancestrais_rep = set()
             cur = rep_id
@@ -668,7 +668,7 @@ def executar_etapa5(arquivo_sitios: str = "outputs/sites_candidatos.json"):
 
     g = Grafo(nos)
     erbs = {s["id"] for s in sitios} - {ccc["id"]}
-    transito_leste = {"ERB_SANTA_CRUZ_01", "ERB_SANTA_CRUZ_02"}
+    transito_leste = {s["id"] for s in sitios if s["cidade"] == "Santa Cruz"}
     perfis_map: dict = {}
 
     # 1) SOLUÇÃO #1 (ÓTIMA PRINCIPAL): Mínimo absoluto de repetidoras (apenas 1 indo p/ Natal!), torres <= 50 m
@@ -766,8 +766,18 @@ def executar_etapa5(arquivo_sitios: str = "outputs/sites_candidatos.json"):
         for rid in sol["ids_repetidoras"]:
             r_sol = next(s for s in sol["sitios"] if s["id"] == rid)
             if rid not in todos_dict:
-                todos_dict[rid] = dict(r_sol, solucoes=[sol["rank"]],
-                                       alturas_por_solucao={str(sol["rank"]): r_sol["altura_torre_m"]})
+                r_copy = dict(r_sol, solucoes=[sol["rank"]],
+                              alturas_por_solucao={str(sol["rank"]): r_sol["altura_torre_m"]})
+                la_r, lo_r = r_copy["latitude"], r_copy["longitude"]
+                if abs(la_r - (-6.1328)) < 0.015 and abs(lo_r - (-36.2118)) < 0.015:
+                    r_copy["acesso_infra"] = "Comunidade Serra Verde: estrada vicinal/rua rural até o sítio + kit solar off-grid"
+                elif abs(la_r - (-6.1592)) < 0.02 and abs(lo_r - (-35.8518)) < 0.02:
+                    r_copy["acesso_infra"] = "Serra da Tapuia: ~450 m de estrada rural (Faz. Olho D'água) + trilha final + kit solar off-grid"
+                elif abs(la_r - (-6.5273)) < 0.015 and abs(lo_r - (-36.5982)) < 0.015:
+                    r_copy["acesso_infra"] = "Cume Norte Carnaúba: estrada ziguezague (Açude do Piauí) até ~300 m do cume + kit solar off-grid"
+                else:
+                    r_copy["acesso_infra"] = "Topo de serra (acesso rural/trilha de serviço) + kit solar off-grid + 2 baterias"
+                todos_dict[rid] = r_copy
             else:
                 todos_dict[rid]["solucoes"].append(sol["rank"])
                 todos_dict[rid]["alturas_por_solucao"][str(sol["rank"])] = r_sol["altura_torre_m"]

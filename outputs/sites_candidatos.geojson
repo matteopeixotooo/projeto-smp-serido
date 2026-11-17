@@ -6,17 +6,17 @@
             "geometry": {
                 "type": "Point",
                 "coordinates": [
-                    -37.08366,
-                    -6.4646
+                    -37.081,
+                    -6.466
                 ]
             },
             "properties": {
                 "id": "ERB_CAICO_01",
-                "nome": "ERB Caicó - Setor Leste",
+                "nome": "ERB Caicó - Setor Sudeste",
                 "cidade": "Caicó",
                 "tipo": "ERB",
                 "altura_torre_m": 45.0,
-                "altitude_m": 172.7,
+                "altitude_m": 164.0,
                 "raio_cobertura_km": 1.808
             }
         },
@@ -25,8 +25,8 @@
             "geometry": {
                 "type": "Point",
                 "coordinates": [
-                    -37.1067,
-                    -6.4662
+                    -37.109,
+                    -6.466
                 ]
             },
             "properties": {
@@ -35,7 +35,7 @@
                 "cidade": "Caicó",
                 "tipo": "ERB",
                 "altura_torre_m": 45.0,
-                "altitude_m": 175.5,
+                "altitude_m": 166.7,
                 "raio_cobertura_km": 1.808
             }
         },
@@ -44,17 +44,17 @@
             "geometry": {
                 "type": "Point",
                 "coordinates": [
-                    -37.1033,
-                    -6.4448
+                    -37.0945,
+                    -6.4395
                 ]
             },
             "properties": {
                 "id": "ERB_CAICO_03",
-                "nome": "ERB Caicó - Setor Noroeste",
+                "nome": "ERB Caicó - Setor Norte",
                 "cidade": "Caicó",
                 "tipo": "ERB",
                 "altura_torre_m": 45.0,
-                "altitude_m": 165.7,
+                "altitude_m": 173.0,
                 "raio_cobertura_km": 1.808
             }
         },
@@ -63,17 +63,17 @@
             "geometry": {
                 "type": "Point",
                 "coordinates": [
-                    -36.49857,
-                    -6.2709
+                    -36.506,
+                    -6.264
                 ]
             },
             "properties": {
                 "id": "ERB_CURRAIS_NOVOS_01",
-                "nome": "ERB Currais Novos - Centro (CCC - Núcleo da Rede)",
+                "nome": "ERB Currais Novos - Leste (CCC - Núcleo da Rede)",
                 "cidade": "Currais Novos",
                 "tipo": "ERB_CCC",
                 "altura_torre_m": 45.0,
-                "altitude_m": 435.7,
+                "altitude_m": 346.6,
                 "raio_cobertura_km": 1.808
             }
         },
@@ -82,17 +82,17 @@
             "geometry": {
                 "type": "Point",
                 "coordinates": [
-                    -36.52383,
-                    -6.2547
+                    -36.524,
+                    -6.25
                 ]
             },
             "properties": {
                 "id": "ERB_CURRAIS_NOVOS_02",
-                "nome": "ERB Currais Novos - Sítio 02",
+                "nome": "ERB Currais Novos - Noroeste (UFRN/JK)",
                 "cidade": "Currais Novos",
                 "tipo": "ERB",
                 "altura_torre_m": 45.0,
-                "altitude_m": 361.1,
+                "altitude_m": 343.8,
                 "raio_cobertura_km": 1.808
             }
         },
@@ -101,17 +101,36 @@
             "geometry": {
                 "type": "Point",
                 "coordinates": [
-                    -36.02,
-                    -6.2117
+                    -36.528,
+                    -6.278
+                ]
+            },
+            "properties": {
+                "id": "ERB_CURRAIS_NOVOS_03",
+                "nome": "ERB Currais Novos - Sudoeste (Sílvio Bezerra)",
+                "cidade": "Currais Novos",
+                "tipo": "ERB",
+                "altura_torre_m": 45.0,
+                "altitude_m": 351.6,
+                "raio_cobertura_km": 1.808
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -36.023,
+                    -6.213
                 ]
             },
             "properties": {
                 "id": "ERB_SANTA_CRUZ_01",
-                "nome": "ERB Santa Cruz - Centro",
+                "nome": "ERB Santa Cruz - Norte (Maracujá)",
                 "cidade": "Santa Cruz",
                 "tipo": "ERB",
                 "altura_torre_m": 45.0,
-                "altitude_m": 269.9,
+                "altitude_m": 253.6,
                 "raio_cobertura_km": 1.808
             }
         },
@@ -126,11 +145,11 @@
             },
             "properties": {
                 "id": "ERB_SANTA_CRUZ_02",
-                "nome": "ERB Santa Cruz - Sítio 02",
+                "nome": "ERB Santa Cruz - Sudeste (Santuário)",
                 "cidade": "Santa Cruz",
                 "tipo": "ERB",
                 "altura_torre_m": 45.0,
-                "altitude_m": 322.8,
+                "altitude_m": 310.8,
                 "raio_cobertura_km": 1.808
             }
         },
@@ -139,8 +158,27 @@
             "geometry": {
                 "type": "Point",
                 "coordinates": [
-                    -36.7685,
-                    -6.5899
+                    -36.035,
+                    -6.235
+                ]
+            },
+            "properties": {
+                "id": "ERB_SANTA_CRUZ_03",
+                "nome": "ERB Santa Cruz - Oeste (IFRN/Paraíso)",
+                "cidade": "Santa Cruz",
+                "tipo": "ERB",
+                "altura_torre_m": 45.0,
+                "altitude_m": 241.2,
+                "raio_cobertura_km": 1.808
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -36.773,
+                    -6.588
                 ]
             },
             "properties": {
@@ -149,7 +187,7 @@
                 "cidade": "Jardim do Seridó",
                 "tipo": "ERB",
                 "altura_torre_m": 45.0,
-                "altitude_m": 246.0,
+                "altitude_m": 226.2,
                 "raio_cobertura_km": 1.808
             }
         },

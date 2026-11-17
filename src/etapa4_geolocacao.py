@@ -17,18 +17,53 @@ CENTROIDES_MUNICIPIOS = {
     "Carnaúba dos Dantas": {"lat": -6.5556, "lon": -36.5947, "alt_base_m": 308.0}
 }
 
-# Coordenadas fixadas por restrição técnica/urbana (não deslocadas pelo micro-siting)
+# Coordenadas fixadas por cobertura 100% da mancha urbana real (validadas em mapa híbrido + acesso viário)
 SITIOS_COORD_FIXA = {
-    # Carnaúba dos Dantas: encosta urbana do Monte do Galo (cobre 100% da cidade dentro de R=1,808 km e garante visada limpa p/ crista norte do cânion)
-    "ERB_CARNAUBA_DOS_DANTAS_01": (-6.55850, -36.59150),
+    "ERB_CAICO_01": (-6.46600, -37.08100),               # Sudeste: Nova Descoberta / Vila Altiva / Samanaú sul
+    "ERB_CAICO_02": (-6.46600, -37.10900),               # Sudoeste: Paulo VI / Castelo do Engady
+    "ERB_CAICO_03": (-6.43950, -37.09450),               # Norte: Alto da Boa Vista / RN-118 / Samanaú norte
+    "ERB_CURRAIS_NOVOS_01": (-6.26400, -36.50600),       # CCC Centro-Leste: Paizinho Maria / acesso Mirante do Cruzeiro
+    "ERB_CURRAIS_NOVOS_02": (-6.25000, -36.52400),       # Noroeste: JK / UFRN / Radir Pereira
+    "ERB_CURRAIS_NOVOS_03": (-6.27800, -36.52800),       # Sudoeste: Sílvio Bezerra / BR-427 / Atacadão
+    "ERB_SANTA_CRUZ_01": (-6.21300, -36.02300),          # Norte: Maracujá / BR-226
+    "ERB_SANTA_CRUZ_02": (-6.23930, -36.02070),          # Sudeste: Santuário de Santa Rita / Arraiá dos Limas
+    "ERB_SANTA_CRUZ_03": (-6.23500, -36.03500),          # Oeste: Av. Paulo Afonso / IFRN / Paraíso
+    "ERB_JARDIM_DO_SERIDO_01": (-6.58800, -36.77300),    # Centro urbano (BR-427): 100% da cidade
+    "ERB_CARNAUBA_DOS_DANTAS_01": (-6.55850, -36.59150), # Encosta urbana Monte do Galo: 100% cidade + LOS Cume 69
+}
+
+NOMES_URBANOS = {
+    "ERB_CAICO_01": "ERB Caicó - Setor Sudeste",
+    "ERB_CAICO_02": "ERB Caicó - Setor Sudoeste",
+    "ERB_CAICO_03": "ERB Caicó - Setor Norte",
+    "ERB_CURRAIS_NOVOS_01": "ERB Currais Novos - Leste (CCC - Núcleo da Rede)",
+    "ERB_CURRAIS_NOVOS_02": "ERB Currais Novos - Noroeste (UFRN/JK)",
+    "ERB_CURRAIS_NOVOS_03": "ERB Currais Novos - Sudoeste (Sílvio Bezerra)",
+    "ERB_SANTA_CRUZ_01": "ERB Santa Cruz - Norte (Maracujá)",
+    "ERB_SANTA_CRUZ_02": "ERB Santa Cruz - Sudeste (Santuário)",
+    "ERB_SANTA_CRUZ_03": "ERB Santa Cruz - Oeste (IFRN/Paraíso)",
+    "ERB_JARDIM_DO_SERIDO_01": "ERB Jardim do Seridó - Centro",
+    "ERB_CARNAUBA_DOS_DANTAS_01": "ERB Carnaúba dos Dantas - Centro",
+}
+
+# Notas de acesso viário e infraestrutura elétrica verificadas em mapa híbrido
+INFRA_ACESSO_SITIOS = {
+    "ERB_CAICO_01": "Rua urbana pavimentada (Nova Descoberta/Vila Altiva) + rede elétrica urbana",
+    "ERB_CAICO_02": "Rua urbana pavimentada (Paulo VI) + rede elétrica urbana",
+    "ERB_CAICO_03": "Acesso urbano junto à RN-118 (Alto da Boa Vista) + rede elétrica urbana",
+    "ERB_CURRAIS_NOVOS_01": "Via urbana asfaltada (Paizinho Maria / acesso Mirante) + rede elétrica trifásica",
+    "ERB_CURRAIS_NOVOS_02": "Rua urbana pavimentada (JK / UFRN) + rede elétrica urbana",
+    "ERB_CURRAIS_NOVOS_03": "Acesso rodoviário direto BR-427/BR-226 (Sílvio Bezerra) + rede elétrica urbana",
+    "ERB_SANTA_CRUZ_01": "Acesso urbano junto à BR-226 (Maracujá norte) + rede elétrica urbana",
+    "ERB_SANTA_CRUZ_02": "Via pavimentada urbana (Morro do Santuário Sta. Rita) + rede elétrica urbana",
+    "ERB_SANTA_CRUZ_03": "Acesso asfaltado Av. Paulo Afonso / RN-023 (IFRN/Paraíso) + rede elétrica urbana",
+    "ERB_JARDIM_DO_SERIDO_01": "Centro urbano junto à BR-427 + rede elétrica urbana",
+    "ERB_CARNAUBA_DOS_DANTAS_01": "Rua urbana na encosta do Monte do Galo + rede elétrica urbana",
+    "CCC_NATAL_01": "Via urbana consolidada Candelária / BR-101 + rede elétrica trifásica",
 }
 
 # Micro-ajustes base para evitar espelhos d'água (rios/açudes) e rodovias antes do micro-siting em DEM
-AJUSTES_TERRENO_FIRME = {
-    "ERB_CAICO_02": (-6.469200, -37.101200),
-    "ERB_CAICO_03": (-6.447800, -37.099800),
-    "ERB_SANTA_CRUZ_02": (-6.240300, -36.021700),
-}
+AJUSTES_TERRENO_FIRME = {}
 
 # Núcleo Principal da Rede em Natal (NTL) em cota urbana alta consolidada (Candelária / Pitimbu - BR-101)
 # Localizado fora de áreas de preservação (Parque das Dunas), com acesso viário e rede elétrica trifásica
@@ -167,7 +202,43 @@ def gerar_posicionamento_erbs(dados_cobertura: list[dict]) -> tuple[list[dict], 
                 if eh_ccc:
                     ccc_info = sitio
 
-        elif n_erbs >= 3:
+        elif n_erbs == 3 or (n_erbs >= 3 and cidade != "Caicó"):
+            # Distribuição geométrica base (substituída por SITIOS_COORD_FIXA quando validada no mapa)
+            dist_centro = raio_km * 0.75
+            angulos = [0, 120, 240]
+
+            for idx, ang in enumerate(angulos, start=1):
+                rad = math.radians(ang)
+                dx = dist_centro * math.sin(rad)
+                dy = dist_centro * math.cos(rad)
+                lat_s, lon_s = deslocamento_geografico(centro["lat"], centro["lon"], dx, dy)
+
+                id_sitio = f"ERB_{id_cidade}_{idx:02d}"
+                eh_ccc = (cidade == "Currais Novos" and idx == 1)
+                tipo_sitio = "ERB_CCC" if eh_ccc else "ERB"
+                nome_sitio = NOMES_URBANOS.get(
+                    id_sitio,
+                    (f"ERB {cidade} - Centro (CCC - Núcleo da Rede)" if eh_ccc else f"ERB {cidade} - Sítio {idx:02d}")
+                )
+
+                sitio = {
+                    "id": id_sitio,
+                    "nome": nome_sitio,
+                    "cidade": cidade,
+                    "tipo": tipo_sitio,
+                    "latitude": lat_s,
+                    "longitude": lon_s,
+                    "altitude_terreno_m": centro["alt_base_m"],
+                    "altura_torre_m": 45.0,
+                    "setores": 3,
+                    "raio_celula_km": raio_km
+                }
+                lista_sitios.append(sitio)
+
+                if eh_ccc:
+                    ccc_info = sitio
+
+        elif n_erbs >= 3 and cidade == "Caicó":
             dist_centro = raio_km * 0.65
             angulos = [90, 210, 330]
 
@@ -178,8 +249,8 @@ def gerar_posicionamento_erbs(dados_cobertura: list[dict]) -> tuple[list[dict], 
                 lat_s, lon_s = deslocamento_geografico(centro["lat"], centro["lon"], dx, dy)
 
                 id_sitio = f"ERB_{id_cidade}_{idx:02d}"
-                nomes_caico = ["Leste", "Sudoeste", "Noroeste"]
-                nome_sitio = f"ERB {cidade} - Setor {nomes_caico[idx - 1]}"
+                nomes_caico = ["Setor Sudeste", "Setor Sudoeste", "Setor Norte"]
+                nome_sitio = NOMES_URBANOS.get(id_sitio, f"ERB {cidade} - {nomes_caico[idx - 1]}")
 
                 sitio = {
                     "id": id_sitio,
@@ -204,6 +275,8 @@ def gerar_posicionamento_erbs(dados_cobertura: list[dict]) -> tuple[list[dict], 
 
     # Micro-siting real em DEM 30m: move cada ERB para a cota urbana seca mais favorável num raio <= 780 m
     otimizar_micro_sitios_dem(lista_sitios)
+    for s in lista_sitios:
+        s["acesso_infra"] = INFRA_ACESSO_SITIOS.get(s["id"], "Via urbana + rede elétrica local")
 
     return lista_sitios, ccc_info
 

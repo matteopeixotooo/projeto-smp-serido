@@ -123,6 +123,7 @@ html_code = f"""<!DOCTYPE html>
     .nav-tab:hover {{ background: #2a3046; color: #fff; }}
     .nav-tab.active {{ background: #0070f3; border-color: #3291ff; color: #fff; box-shadow: 0 0 12px rgba(0, 112, 243, 0.35); }}
     .nav-tab.cob-on {{ background: rgba(14, 165, 233, 0.22); border-color: #38bdf8; color: #7dd3fc; box-shadow: 0 0 12px rgba(56, 189, 248, 0.35); }}
+    .nav-tab.hex-on {{ background: rgba(16, 185, 129, 0.22); border-color: #34d399; color: #6ee7b7; box-shadow: 0 0 12px rgba(52, 211, 153, 0.35); }}
     .header-info {{ font-size: 0.8rem; color: #8a8f9d; display: flex; gap: 16px; align-items: center; }}
     .header-info b {{ color: #00ff55; }}
 
@@ -284,7 +285,8 @@ html_code = f"""<!DOCTYPE html>
       <button class="nav-tab active" id="tab-btn-map" onclick="alternarAba('map')">🗺️ Simulador</button>
       <button class="nav-tab" id="tab-btn-calc" onclick="alternarAba('calc')">🧮 Cálculos e Orçamento</button>
       <button class="nav-tab" id="tab-btn-3d" onclick="abrirVisada3D()">🏔️ Visão 3D</button>
-      <button class="nav-tab" id="header-btn-cob" onclick="alternarCoberturaSMP()" title="Ativa/desativa o raio celular de 1,808 km (8,5 km² e 3 setores de 120°) nas 9 ERBs urbanas">📡 Raio ERBs (1,81 km): OFF</button>
+      <button class="nav-tab" id="header-btn-cob" onclick="alternarCoberturaSMP()" title="Ativa/desativa o raio celular máximo de 1,808 km (8,5 km² e 3 setores de 120°) nas 11 ERBs urbanas">📡 Raio ERBs (1,81 km): OFF</button>
+      <button class="nav-tab" id="header-btn-hex" onclick="alternarHexagonosERB()" title="Mostra/oculta os hexágonos inscritos (R = 1,808 km) divididos em 3 setores de 120° com grupos do Cluster 4×3 (A1..D3)">⬡ Hexágonos 4×3: OFF</button>
     </div>
     <div class="header-info">
       <span>Torres: <b>Fixa ≤ 50 m</b></span>
@@ -300,6 +302,7 @@ html_code = f"""<!DOCTYPE html>
     <div id="toolbar">
       <button class="tool-btn active" id="btn-select" title="Mãozinha: Selecionar e Inspecionar" onclick="setModo('select')">🖐️</button>
       <button class="tool-btn" id="btn-cob" title="Mostrar/Ocultar Cobertura Celular 1.800 MHz (R=1,81 km / 3 Setores)" onclick="alternarCoberturaSMP()">📡</button>
+      <button class="tool-btn" id="btn-hex" title="Mostrar/Ocultar Hexágonos 4×3 (3 Setores de 120° com rótulos A1..C3)" onclick="alternarHexagonosERB()">⬡</button>
       <button class="tool-btn" id="btn-calc-shortcut" title="Abrir Aba de Cálculos & Orçamento" onclick="alternarAba('calc')">🧮</button>
       <div class="tool-sep"></div>
       <button class="tool-btn" id="btn-site" title="Adicionar Torre Celular ERB (com área R=1,81 km)" onclick="setModo('add_site')">📍</button>
@@ -576,6 +579,8 @@ html_code = f"""<!DOCTYPE html>
     let elementoSelecionado = null;
     let coberturaVisivel = false;
     let camadaCoberturaSMP = L.layerGroup();
+    let hexagonosVisiveis = false;
+    let camadaHexagonos4x3 = L.layerGroup();
 
     let sitesCustom = [];
     let linksCustom = [];
@@ -684,8 +689,9 @@ html_code = f"""<!DOCTYPE html>
       const hAtual = (ALTURAS_SOL[rkRef] && ALTURAS_SOL[rkRef][s.id]) || s.altura_torre_m;
       const grau = (GRAU_SOL[rkRef] && GRAU_SOL[rkRef][s.id]) || 1;
       const tagSols = s.tipo.includes('REPETIDORA') ? `<br>Usada na(s) Solução(ões): <b>#${{sols.join(', #')}}</b>` : '';
+      const infoAcesso = s.acesso_infra ? `<br><span style="color:#93c5fd;">🚗 Infra/Acesso: ${{s.acesso_infra}}</span>` : '';
       const cotaTerr = Number.isFinite(Number(s.altitude_terreno_m)) ? Number(s.altitude_terreno_m).toFixed(1) : s.altitude_terreno_m;
-      return `<b>${{s.nome}}</b><br>Torre fixa (Sol. #${{rkRef}}): <b>${{hAtual}} m</b> (${{grau}} enlace(s))<br>Cota terreno: ${{cotaTerr}} m${{tagSols}}`;
+      return `<b>${{s.nome}}</b><br>Torre fixa (Sol. #${{rkRef}}): <b>${{hAtual}} m</b> (${{grau}} enlace(s))<br>Cota terreno: ${{cotaTerr}} m${{tagSols}}${{infoAcesso}}`;
     }}
 
     const dictSitiosFixos = {{}};
@@ -766,6 +772,96 @@ html_code = f"""<!DOCTYPE html>
         camadaCoberturaSMP.addTo(map);
       }} else {{
         map.removeLayer(camadaCoberturaSMP);
+      }}
+    }}
+
+    // CAMADA DE HEXÁGONOS 4×3 (3 SETORES DE 120° E RÓTULOS A1..D3 POR CIDADE)
+    function construirHexagonos4x3() {{
+      camadaHexagonos4x3.clearLayers();
+      const customErbSites = sitesCustom
+        .map(mk => mk.dados)
+        .filter(s => s.tipo === 'ERB' && (s.raio_celula_km || 0) > 0);
+      const todosComArea = [...SITIOS_FIXOS.filter(s => s.raio_celula_km > 0), ...customErbSites];
+
+      const GRUPOS = [
+        {{ letra: 'A', fill: ['#0284c7', '#0ea5e9', '#38bdf8'], stroke: '#7dd3fc' }},
+        {{ letra: 'B', fill: ['#d97706', '#f59e0b', '#fbbf24'], stroke: '#fde68a' }},
+        {{ letra: 'C', fill: ['#059669', '#10b981', '#34d399'], stroke: '#6ee7b7' }},
+        {{ letra: 'D', fill: ['#7c3aed', '#8b5cf6', '#a78bfa'], stroke: '#ddd6fe' }},
+      ];
+      const contadorCidade = {{}};
+
+      const ptGeodesico = (lat, lon, rKm, azDeg) => {{
+        const rad = azDeg * Math.PI / 180.0;
+        const dLat = (rKm * Math.cos(rad)) / 111.139;
+        const dLon = (rKm * Math.sin(rad)) / (111.139 * Math.cos(lat * Math.PI / 180.0));
+        return [lat + dLat, lon + dLon];
+      }};
+
+      todosComArea.forEach(s => {{
+        const cid = s.cidade || 'Custom';
+        const idxCidade = contadorCidade[cid] || 0;
+        contadorCidade[cid] = idxCidade + 1;
+        const grp = GRUPOS[idxCidade % 4];
+        const R = s.raio_celula_km || 1.808;
+
+        // 6 vértices do hexágono inscrito (ponta em 0°, 60°, 120°, 180°, 240°, 300°)
+        const verts = [0, 60, 120, 180, 240, 300].map(a => ptGeodesico(s.latitude, s.longitude, R, a));
+        const setores = [
+          {{ poly: [[s.latitude, s.longitude], verts[0], verts[1], verts[2]], azMid: 60, num: 1 }},
+          {{ poly: [[s.latitude, s.longitude], verts[2], verts[3], verts[4]], azMid: 180, num: 2 }},
+          {{ poly: [[s.latitude, s.longitude], verts[4], verts[5], verts[0]], azMid: 300, num: 3 }},
+        ];
+
+        setores.forEach((sec, k) => {{
+          const pol = L.polygon(sec.poly, {{
+            color: grp.stroke,
+            weight: 1.5,
+            opacity: 0.9,
+            fillColor: grp.fill[k],
+            fillOpacity: 0.28
+          }}).addTo(camadaHexagonos4x3);
+          pol.bindTooltip(
+            `<b>${{s.nome}}</b><br>Cluster 4×3 — Grupo <b>${{grp.letra}}</b> • Setor <b>${{grp.letra}}${{sec.num}}</b> (120°)<br>Hexágono inscrito em R = ${{R.toFixed(3)}} km (8,5 km²)`,
+            {{ sticky: true }}
+          );
+
+          const pLbl = ptGeodesico(s.latitude, s.longitude, R * 0.46, sec.azMid);
+          L.marker(pLbl, {{
+            interactive: false,
+            icon: L.divIcon({{
+              className: 'hex-sec-lbl',
+              html: `<div style="background:rgba(13,27,42,0.86); border:1px solid ${{grp.stroke}}; color:#fff; font-size:10px; font-weight:800; padding:1px 5px; border-radius:4px; white-space:nowrap; transform:translate(-50%,-50%); box-shadow:0 1px 4px rgba(0,0,0,0.6);">${{grp.letra}}${{sec.num}}</div>`,
+              iconSize: [0, 0]
+            }})
+          }}).addTo(camadaHexagonos4x3);
+        }});
+
+        // Contorno externo forte do hexágono (8,5 km²)
+        L.polygon(verts, {{
+          color: grp.stroke,
+          weight: 2.5,
+          opacity: 0.95,
+          fill: false
+        }}).addTo(camadaHexagonos4x3);
+      }});
+    }}
+    construirHexagonos4x3();
+
+    function alternarHexagonosERB() {{
+      hexagonosVisiveis = !hexagonosVisiveis;
+      const tbBtn = document.getElementById('btn-hex');
+      if (tbBtn) tbBtn.classList.toggle('active', hexagonosVisiveis);
+      const hdrBtn = document.getElementById('header-btn-hex');
+      if (hdrBtn) {{
+        hdrBtn.classList.toggle('hex-on', hexagonosVisiveis);
+        hdrBtn.textContent = hexagonosVisiveis ? '⬡ Hexágonos 4×3: ON' : '⬡ Hexágonos 4×3: OFF';
+      }}
+      if (hexagonosVisiveis) {{
+        alternarAba('map');
+        camadaHexagonos4x3.addTo(map);
+      }} else {{
+        map.removeLayer(camadaHexagonos4x3);
       }}
     }}
 
@@ -991,7 +1087,8 @@ html_code = f"""<!DOCTYPE html>
       }}
       atualizarPopupSitioCustom(mk);
       construirCoberturaSMP();
-      if (novoTipo === 'ERB' && !coberturaVisivel) alternarCoberturaSMP();
+      construirHexagonos4x3();
+      if (novoTipo === 'ERB' && !coberturaVisivel && !hexagonosVisiveis) alternarCoberturaSMP();
 
       linksCustom.forEach(poly => {{
         if (poly.dados.origem_obj === s) poly.dados.origem = s.nome;
@@ -1049,13 +1146,15 @@ html_code = f"""<!DOCTYPE html>
           novoSite.latitude = mk.getLatLng().lat;
           novoSite.longitude = mk.getLatLng().lng;
           atualizarConexoesDoNo(mk);
-          if (novoSite.tipo === 'ERB') construirCoberturaSMP();
+          if (novoSite.tipo === 'ERB') {{ construirCoberturaSMP(); construirHexagonos4x3(); }}
         }});
         mk.on('dragend', () => {{
           novoSite.latitude = mk.getLatLng().lat;
           novoSite.longitude = mk.getLatLng().lng;
           atualizarPopupSitioCustom(mk);
           construirCoberturaSMP();
+          construirHexagonos4x3();
+          construirHexagonos4x3();
           if (enlaceSelecionado && (enlaceSelecionado.dados.origem_obj === mk.dados || enlaceSelecionado.dados.destino_obj === mk.dados)) {{
             recalcularPerfilGrafico();
           }}
@@ -1063,7 +1162,8 @@ html_code = f"""<!DOCTYPE html>
         mk.on('click', () => tratarCliqueNoNo(mk));
         sitesCustom.push(mk);
         construirCoberturaSMP();
-        if (!ehRep && !coberturaVisivel) alternarCoberturaSMP();
+        construirHexagonos4x3();
+        if (!ehRep && !coberturaVisivel && !hexagonosVisiveis) alternarCoberturaSMP();
         setModo('select');
       }}
     }});
@@ -1314,6 +1414,7 @@ html_code = f"""<!DOCTYPE html>
             }}
           }}
           construirCoberturaSMP();
+          construirHexagonos4x3();
         }}
         const idxLink = linksCustom.indexOf(elementoSelecionado);
         if (idxLink >= 0) linksCustom.splice(idxLink, 1);
@@ -2116,15 +2217,15 @@ html_code = f"""<!DOCTYPE html>
           <div class="two-col">
             <div class="formula-box">
               <b>Como escolhemos os melhores locais (sem "caixa-preta"):</b><br>
-              1. <b>Micro-Siting Urbano (±750 m):</b> Dentro da zona de cobertura de cada cidade, varremos o DEM Copernicus 30m e subimos a ERB para a cota urbana firme mais alta (ex.: em Currais Novos subiu de 342 m para <b>435,7 m</b>; em Natal usamos a cota alta urbana da <b>Candelária/BR-101 a 101,2 m</b> com acesso e energia). Em <b>Carnaúba dos Dantas</b>, a ERB urbana fica na encosta do Monte do Galo (<code>-6.55850, -36.59150</code>, 317,3 m) cobrindo 100% da cidade no raio de <b>1,808 km</b> e subindo em visada limpa de 3,55 km até o cume real norte de <b>666,0 m</b> em <b>Rep. Cume 69</b> (<code>-6.52731, -36.59820</code>), concentrando Carnaúba, Jardim do Seridó e Caicó direto até Currais Novos (eliminando repetidora extra).<br>
-              2. <b>Varredura de Serras (94.644 pontos) + Hill Climbing:</b> Achamos os melhores cumes reais e proibimos saltos &lt; 12 km entre repetidoras.<br>
-              3. <b>Altura Única por Torre:</b> Cada torre tem <b>uma única altura fixa (20 m a 45 m na Sol. #1)</b> que atende todos os enlaces ligados a ela!<br>
+              1. <b>Cobertura Urbana 100% Real (R_máx = 1,808 km):</b> Posicionamos <b>11 ERBs</b> nas 5 cidades sobre vias pavimentadas com energia (3 em Caicó, 3 em Currais Novos, 3 em Santa Cruz, 1 em Jardim e 1 em Carnaúba dos Dantas) cobrindo 100% de todos os bairros extremos — ex.: em Currais Novos o CCC urbano fica na borda leste/Paizinho Maria (<code>346,6 m</code>) e em Natal na <b>Candelária/BR-101 (101,2 m)</b>. Em <b>Carnaúba dos Dantas</b>, a ERB na encosta do Monte do Galo (<code>-6.55850, -36.59150</code>, 315,9 m) sobe em visada limpa de 3,55 km até <b>Rep. Cume 69 (666,0 m)</b>.<br>
+              2. <b>Varredura de Serras (94.644 pontos) + Hill Climbing:</b> Achamos os melhores cumes reais próximos a acessos rurais e proibimos saltos &lt; 12 km entre repetidoras.<br>
+              3. <b>Altura Única por Torre:</b> Cada torre tem <b>uma única altura fixa (20 m a ${{sol1.altura_max_torre_m || 40}} m na Sol. #1)</b> que atende todos os enlaces ligados a ela!<br>
             </div>
             <div class="formula-box">
               <b>Física da Visada (Abaulamento + Zona de Fresnel):</b><br>
-              • <b>Abaulamento da Terra (k = 4/3):</b> <code>h_curv(d) = (d₁ · d₂) / (2 · k · R_Terra)</code>. No salto de 76,7 km até Natal, a Terra "sobe" <b>+86,6 m</b> no centro (descontando a refração k=4/3)!<br>
+              • <b>Abaulamento da Terra (k = 4/3):</b> <code>h_curv(d) = (d₁ · d₂) / (2 · k · R_Terra)</code>. No salto de 77,0 km até Natal, a Terra "sobe" <b>+87,1 m</b> no centro (descontando a refração k=4/3)!<br>
               • <b>1ª Zona de Fresnel:</b> <code>R₁ = 17,32 · √((d₁ · d₂) / (f_GHz · D))</code>. Exigimos pelo menos <b>60% de F₁ livre + 16 m de folga de segurança</b> (evitando torres baixas e feixe rente ao solo/vegetação).<br>
-              • <b>Chuva Intensa (ITU-R P.838-3 @ 50 mm/h):</b> Em <code>76,7 km</code> (Rep. Cume 46 → Natal), 11 GHz perderia ~28 dB na chuva; por isso adotamos <b>5 GHz (airFiber 5XHD)</b> nesse salto longo, perdendo apenas <b>0,82 dB</b>!
+              • <b>Chuva Intensa (ITU-R P.838-3 @ 50 mm/h):</b> Em <code>76,95 km</code> (Rep. Cume 45 → Natal), 11 GHz perderia ~28 dB na chuva; por isso adotamos <b>5 GHz (airFiber 5XHD)</b> nesse salto longo, perdendo apenas <b>0,82 dB</b>!
             </div>
           </div>
 
@@ -2327,11 +2428,11 @@ html_code = f"""<!DOCTYPE html>
               <!-- Nós -->
               <rect x="12" y="22" width="148" height="46" rx="8" fill="#172033" stroke="#00e5ff" />
               <text x="86" y="42" fill="#fff" font-size="11" font-weight="bold" text-anchor="middle">Caicó (3 ERBs)</text>
-              <text x="86" y="57" fill="#7dd3fc" font-size="9.5" text-anchor="middle">54,1 km • 11FX • Torre 25m</text>
+              <text x="86" y="57" fill="#7dd3fc" font-size="9.5" text-anchor="middle">53,8 km • 11FX • Torre 35m</text>
 
               <rect x="12" y="102" width="148" height="46" rx="8" fill="#172033" stroke="#00e5ff" />
               <text x="86" y="122" fill="#fff" font-size="11" font-weight="bold" text-anchor="middle">Jardim do Seridó</text>
-              <text x="86" y="137" fill="#7dd3fc" font-size="9.5" text-anchor="middle">20,1 km • 11FX • Torre 20m</text>
+              <text x="86" y="137" fill="#7dd3fc" font-size="9.5" text-anchor="middle">20,5 km • 11FX • Torre 40m</text>
 
               <rect x="12" y="182" width="148" height="46" rx="8" fill="#172033" stroke="#00e5ff" />
               <text x="86" y="202" fill="#fff" font-size="11" font-weight="bold" text-anchor="middle">Carnaúba (Urbana)</text>
@@ -2340,31 +2441,31 @@ html_code = f"""<!DOCTYPE html>
               <rect x="282" y="96" width="144" height="58" rx="8" fill="#122b22" stroke="#00ff55" stroke-width="2" />
               <text x="354" y="117" fill="#00ff55" font-size="11" font-weight="bold" text-anchor="middle">Rep. Cume 69 (Pico)</text>
               <text x="354" y="132" fill="#cbd5e1" font-size="9.5" text-anchor="middle">666 m • Torre 20m</text>
-              <text x="354" y="145" fill="#94a3b8" font-size="9" text-anchor="middle">30,6 km • 11FX → CCC</text>
+              <text x="354" y="145" fill="#94a3b8" font-size="9" text-anchor="middle">31,0 km • 11FX → CCC</text>
 
               <rect x="500" y="96" width="150" height="58" rx="8" fill="#331520" stroke="#ff1744" stroke-width="2" />
               <text x="575" y="117" fill="#fff" font-size="11" font-weight="bold" text-anchor="middle">CCC Currais Novos</text>
-              <text x="575" y="132" fill="#fda4af" font-size="9.5" text-anchor="middle">2 ERBs • 45m / 25m</text>
-              <text x="575" y="145" fill="#cbd5e1" font-size="9" text-anchor="middle">35,3 km → Cume 28</text>
+              <text x="575" y="132" fill="#fda4af" font-size="9.5" text-anchor="middle">3 ERBs • 40 / 30 / 25m</text>
+              <text x="575" y="145" fill="#cbd5e1" font-size="9" text-anchor="middle">35,6 km → Cume 26</text>
 
               <rect x="722" y="96" width="122" height="58" rx="8" fill="#122b22" stroke="#00ff55" stroke-width="2" />
-              <text x="783" y="117" fill="#00ff55" font-size="11" font-weight="bold" text-anchor="middle">Rep. Cume 28</text>
+              <text x="783" y="117" fill="#00ff55" font-size="11" font-weight="bold" text-anchor="middle">Rep. Cume 26</text>
               <text x="783" y="132" fill="#cbd5e1" font-size="9.5" text-anchor="middle">681 m • Torre 25m</text>
-              <text x="783" y="145" fill="#94a3b8" font-size="9" text-anchor="middle">22,9 km → Sta Cruz</text>
+              <text x="783" y="145" fill="#94a3b8" font-size="9" text-anchor="middle">22,7 km → Sta Cruz</text>
 
               <rect x="897" y="96" width="118" height="58" rx="8" fill="#172033" stroke="#00e5ff" />
               <text x="956" y="117" fill="#fff" font-size="11" font-weight="bold" text-anchor="middle">Santa Cruz</text>
-              <text x="956" y="132" fill="#7dd3fc" font-size="9.5" text-anchor="middle">2 ERBs • 20m / 30m</text>
-              <text x="956" y="145" fill="#94a3b8" font-size="9" text-anchor="middle">20,9 km → Cume 46</text>
+              <text x="956" y="132" fill="#7dd3fc" font-size="9.5" text-anchor="middle">3 ERBs • 25 / 30 / 25m</text>
+              <text x="956" y="145" fill="#94a3b8" font-size="9" text-anchor="middle">20,7 km → Cume 45</text>
 
               <rect x="1050" y="34" width="98" height="54" rx="8" fill="#122b22" stroke="#00ff55" stroke-width="2" />
-              <text x="1099" y="54" fill="#00ff55" font-size="10.5" font-weight="bold" text-anchor="middle">Rep. Cume 46</text>
-              <text x="1099" y="68" fill="#cbd5e1" font-size="9" text-anchor="middle">381 m • 20m</text>
+              <text x="1099" y="54" fill="#00ff55" font-size="10.5" font-weight="bold" text-anchor="middle">Rep. Cume 45</text>
+              <text x="1099" y="68" fill="#cbd5e1" font-size="9" text-anchor="middle">402 m • 30m</text>
               <text x="1099" y="80" fill="#94a3b8" font-size="8.5" text-anchor="middle">1 salto → NTL</text>
 
               <rect x="1050" y="166" width="98" height="54" rx="8" fill="#331520" stroke="#ff1744" stroke-width="2" />
               <text x="1099" y="186" fill="#fff" font-size="10.5" font-weight="bold" text-anchor="middle">CCC Natal</text>
-              <text x="1099" y="200" fill="#fda4af" font-size="9" text-anchor="middle">76,7 km • 5XHD</text>
+              <text x="1099" y="200" fill="#fda4af" font-size="9" text-anchor="middle">77,0 km • 5XHD</text>
               <text x="1099" y="212" fill="#cbd5e1" font-size="8.5" text-anchor="middle">Torre 20m</text>
               <line x1="1099" y1="88" x2="1099" y2="164" stroke="#00ff55" stroke-width="2.5" marker-end="url(#arrow)" />
               <line x1="956" y1="96" x2="1050" y2="61" stroke="#00ff55" stroke-width="2.5" marker-end="url(#arrow)" />

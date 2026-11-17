@@ -133,14 +133,25 @@ def executar_etapa2(arquivo_etapa1: str = "outputs/demanda_capacidade.json"):
         "Jardim do Seridó": 5.2,
         "Carnaúba dos Dantas": 3.8,
     }
+    # Mínimo geométrico para cobrir 100% dos bairros extremos da mancha urbana real com R = 1,808 km
+    erbs_minimas_mapa_real = {
+        "Caicó": 3,
+        "Currais Novos": 3,
+        "Santa Cruz": 3,
+        "Jardim do Seridó": 1,
+        "Carnaúba dos Dantas": 1,
+    }
 
     resultados_finais = []
     for reg in dados_capacidade:
         cidade = reg["cidade"]
         area_urb = areas_urbanas_km2.get(cidade, 10.0)
 
-        # Quantidade de ERBs exigidas pela mancha geográfica
-        erbs_cobertura = math.ceil(area_urb / area_por_erb_km2)
+        # Quantidade de ERBs exigidas pela mancha geográfica real (área + cobertura 100% dos bairros)
+        erbs_cobertura = max(
+            math.ceil(area_urb / area_por_erb_km2),
+            erbs_minimas_mapa_real.get(cidade, 1),
+        )
         if erbs_cobertura == 0:
             erbs_cobertura = 1
 
