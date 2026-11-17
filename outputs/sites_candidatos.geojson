@@ -101,8 +101,8 @@
             "geometry": {
                 "type": "Point",
                 "coordinates": [
-                    -36.506,
-                    -6.264
+                    -36.504,
+                    -6.2605
                 ]
             },
             "properties": {
@@ -111,7 +111,7 @@
                 "cidade": "Currais Novos",
                 "tipo": "ERB_CCC",
                 "altura_torre_m": 45.0,
-                "altitude_m": 346.6,
+                "altitude_m": 349.4,
                 "raio_cobertura_km": 1.808
             }
         },
@@ -120,8 +120,8 @@
             "geometry": {
                 "type": "Point",
                 "coordinates": [
-                    -36.52905,
-                    -6.25077
+                    -36.52814,
+                    -6.24664
                 ]
             },
             "properties": {
@@ -130,7 +130,7 @@
                 "cidade": "Currais Novos",
                 "tipo": "ERB",
                 "altura_torre_m": 45.0,
-                "altitude_m": 345.2,
+                "altitude_m": 352.8,
                 "raio_cobertura_km": 1.808
             }
         },
@@ -139,8 +139,8 @@
             "geometry": {
                 "type": "Point",
                 "coordinates": [
-                    -36.52905,
-                    -6.27723
+                    -36.52814,
+                    -6.27436
                 ]
             },
             "properties": {
@@ -149,7 +149,7 @@
                 "cidade": "Currais Novos",
                 "tipo": "ERB",
                 "altura_torre_m": 45.0,
-                "altitude_m": 347.9,
+                "altitude_m": 333.0,
                 "raio_cobertura_km": 1.808
             }
         },
@@ -158,8 +158,8 @@
             "geometry": {
                 "type": "Point",
                 "coordinates": [
-                    -36.512,
-                    -6.2385
+                    -36.5095,
+                    -6.2355
                 ]
             },
             "properties": {
@@ -168,7 +168,7 @@
                 "cidade": "Currais Novos",
                 "tipo": "ERB",
                 "altura_torre_m": 45.0,
-                "altitude_m": 342.7,
+                "altitude_m": 331.7,
                 "raio_cobertura_km": 1.808
             }
         },

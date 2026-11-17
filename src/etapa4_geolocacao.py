@@ -24,10 +24,10 @@ SITIOS_COORD_FIXA = {
     "ERB_CAICO_03": (-6.44223, -37.09500),               # Norte: Alto da Boa Vista / RN-118 / Samanaú (favo 3,05 km)
     "ERB_CAICO_04": (-6.44223, -37.06738),               # Nordeste: IFRN / Aeródromo / Loteamentos Leste RN-427 (favo 3,05 km)
     "ERB_CAICO_05": (-6.48977, -37.06738),               # Sul-Sudeste: Atacadão / Mirante da Serra / Lot. Itans RN-118 (favo 3,05 km)
-    "ERB_CURRAIS_NOVOS_01": (-6.26400, -36.50600),       # CCC Centro-Leste: Paizinho Maria / Mirante (cota 346,6 m, favo 2,94 km)
-    "ERB_CURRAIS_NOVOS_02": (-6.25077, -36.52905),       # Noroeste: JK / UFRN / José Dantas (favo 2,94 km)
-    "ERB_CURRAIS_NOVOS_03": (-6.27723, -36.52905),       # Sudoeste: Sílvio Bezerra / BR-427 / Atacadão (favo 2,94 km)
-    "ERB_CURRAIS_NOVOS_04": (-6.23850, -36.51200),       # Norte: Terreno seco RN-041 / Radir Pereira / Parque Dourado North
+    "ERB_CURRAIS_NOVOS_01": (-6.26050, -36.50400),       # CCC Centro-Leste: Paizinho Maria / Mirante (cota 349,4 m, favo 3,08 km)
+    "ERB_CURRAIS_NOVOS_02": (-6.24664, -36.52814),       # Noroeste: JK / UFRN / José Dantas (favo 3,08 km)
+    "ERB_CURRAIS_NOVOS_03": (-6.27436, -36.52814),       # Sudoeste: Sílvio Bezerra / BR-427 / Atacadão (favo 3,08 km)
+    "ERB_CURRAIS_NOVOS_04": (-6.23550, -36.50950),       # Norte: Terreno seco RN-041 / Radir Pereira / Parque Dourado North
     "ERB_SANTA_CRUZ_01": (-6.21300, -36.02300),          # Norte: Maracujá / BR-226 (favo 2,94 km)
     "ERB_SANTA_CRUZ_02": (-6.23590, -36.00970),          # Leste-Sudeste: Santuário / Expansão BR-226 Leste (favo 2,94 km)
     "ERB_SANTA_CRUZ_03": (-6.23590, -36.03630),          # Oeste-Sudoeste: Av. Paulo Afonso / IFRN / Paraíso (favo 2,94 km)

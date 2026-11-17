@@ -104,12 +104,12 @@ Altitude do Terreno: 157.5 m</description>
         <description>ID: ERB_CURRAIS_NOVOS_01
 Tipo: ERB_CCC
 Cidade: Currais Novos
-Altura da Torre: 40.0 m
-Altitude do Terreno: 346.6 m</description>
+Altura da Torre: 45.0 m
+Altitude do Terreno: 349.4 m</description>
         <styleUrl>#estilo_ccc</styleUrl>
         <Point>
           <altitudeMode>relativeToGround</altitudeMode>
-          <coordinates>-36.506,-6.264,40.0</coordinates>
+          <coordinates>-36.504,-6.2605,45.0</coordinates>
         </Point>
       </Placemark>
       <Placemark>
@@ -117,12 +117,12 @@ Altitude do Terreno: 346.6 m</description>
         <description>ID: ERB_CURRAIS_NOVOS_02
 Tipo: ERB
 Cidade: Currais Novos
-Altura da Torre: 20.0 m
-Altitude do Terreno: 345.2 m</description>
+Altura da Torre: 25.0 m
+Altitude do Terreno: 354.5 m</description>
         <styleUrl>#estilo_erb</styleUrl>
         <Point>
           <altitudeMode>relativeToGround</altitudeMode>
-          <coordinates>-36.52905,-6.25077,20.0</coordinates>
+          <coordinates>-36.52814,-6.24664,25.0</coordinates>
         </Point>
       </Placemark>
       <Placemark>
@@ -130,12 +130,12 @@ Altitude do Terreno: 345.2 m</description>
         <description>ID: ERB_CURRAIS_NOVOS_03
 Tipo: ERB
 Cidade: Currais Novos
-Altura da Torre: 30.0 m
-Altitude do Terreno: 353.6 m</description>
+Altura da Torre: 40.0 m
+Altitude do Terreno: 335.9 m</description>
         <styleUrl>#estilo_erb</styleUrl>
         <Point>
           <altitudeMode>relativeToGround</altitudeMode>
-          <coordinates>-36.52905,-6.27723,30.0</coordinates>
+          <coordinates>-36.52814,-6.27436,40.0</coordinates>
         </Point>
       </Placemark>
       <Placemark>
@@ -143,12 +143,12 @@ Altitude do Terreno: 353.6 m</description>
         <description>ID: ERB_CURRAIS_NOVOS_04
 Tipo: ERB
 Cidade: Currais Novos
-Altura da Torre: 35.0 m
-Altitude do Terreno: 344.6 m</description>
+Altura da Torre: 50.0 m
+Altitude do Terreno: 333.6 m</description>
         <styleUrl>#estilo_erb</styleUrl>
         <Point>
           <altitudeMode>relativeToGround</altitudeMode>
-          <coordinates>-36.512,-6.2385,35.0</coordinates>
+          <coordinates>-36.5095,-6.2355,50.0</coordinates>
         </Point>
       </Placemark>
       <Placemark>
@@ -350,6 +350,34 @@ Altitude do Terreno: 452.02716064453125 m</description>
     <Folder>
       <name>Enlaces PTP de Micro-ondas</name>
       <Placemark>
+        <name>PTP: ERB Currais Novos - Noroeste (UFRN/JK) &lt;-&gt; ERB Currais Novos - Norte (Radir Pereira/RN-041)</name>
+        <description>Distância: 2.4 km
+Antena Tx: 0.38m (Standard)
+Antena Rx: 0.38m (Standard)
+Torres (Tx / Rx): 25.0m / 50.0m
+Fade Margin Estimada: 30.47 dB
+RSL Estimado: -43.53 dBm</description>
+        <styleUrl>#linha_local</styleUrl>
+        <LineString>
+          <altitudeMode>relativeToGround</altitudeMode>
+          <coordinates>-36.52814,-6.24664,25.0 -36.5095,-6.2355,50.0</coordinates>
+        </LineString>
+      </Placemark>
+      <Placemark>
+        <name>PTP: ERB Currais Novos - Norte (Radir Pereira/RN-041) &lt;-&gt; ERB Currais Novos - Leste (CCC - Núcleo da Rede)</name>
+        <description>Distância: 2.85 km
+Antena Tx: 0.38m (Standard)
+Antena Rx: 0.38m (Standard)
+Torres (Tx / Rx): 50.0m / 45.0m
+Fade Margin Estimada: 28.97 dB
+RSL Estimado: -45.03 dBm</description>
+        <styleUrl>#linha_tronco</styleUrl>
+        <LineString>
+          <altitudeMode>relativeToGround</altitudeMode>
+          <coordinates>-36.5095,-6.2355,50.0 -36.504,-6.2605,45.0</coordinates>
+        </LineString>
+      </Placemark>
+      <Placemark>
         <name>PTP: ERB Santa Cruz - Sudeste (Santuário/BR-226 Leste) &lt;-&gt; ERB Santa Cruz - Oeste (IFRN/Paraíso)</name>
         <description>Distância: 2.94 km
 Antena Tx: 0.38m (Standard)
@@ -375,34 +403,6 @@ RSL Estimado: -45.3 dBm</description>
         <LineString>
           <altitudeMode>relativeToGround</altitudeMode>
           <coordinates>-36.023,-6.213,50.0 -36.0363,-6.2359,25.0</coordinates>
-        </LineString>
-      </Placemark>
-      <Placemark>
-        <name>PTP: ERB Currais Novos - Sudoeste (Sílvio Bezerra) &lt;-&gt; ERB Currais Novos - Leste (CCC - Núcleo da Rede)</name>
-        <description>Distância: 2.94 km
-Antena Tx: 0.38m (Standard)
-Antena Rx: 0.38m (Standard)
-Torres (Tx / Rx): 30.0m / 40.0m
-Fade Margin Estimada: 28.7 dB
-RSL Estimado: -45.3 dBm</description>
-        <styleUrl>#linha_tronco</styleUrl>
-        <LineString>
-          <altitudeMode>relativeToGround</altitudeMode>
-          <coordinates>-36.52905,-6.27723,30.0 -36.506,-6.264,40.0</coordinates>
-        </LineString>
-      </Placemark>
-      <Placemark>
-        <name>PTP: ERB Currais Novos - Noroeste (UFRN/JK) &lt;-&gt; ERB Currais Novos - Sudoeste (Sílvio Bezerra)</name>
-        <description>Distância: 2.94 km
-Antena Tx: 0.38m (Standard)
-Antena Rx: 0.38m (Standard)
-Torres (Tx / Rx): 20.0m / 30.0m
-Fade Margin Estimada: 28.7 dB
-RSL Estimado: -45.3 dBm</description>
-        <styleUrl>#linha_local</styleUrl>
-        <LineString>
-          <altitudeMode>relativeToGround</altitudeMode>
-          <coordinates>-36.52905,-6.25077,20.0 -36.52905,-6.27723,30.0</coordinates>
         </LineString>
       </Placemark>
       <Placemark>
@@ -476,17 +476,17 @@ RSL Estimado: -46.93 dBm</description>
         </LineString>
       </Placemark>
       <Placemark>
-        <name>PTP: ERB Currais Novos - Norte (Radir Pereira/RN-041) &lt;-&gt; ERB Currais Novos - Sudoeste (Sílvio Bezerra)</name>
-        <description>Distância: 4.7 km
+        <name>PTP: ERB Currais Novos - Sudoeste (Sílvio Bezerra) &lt;-&gt; ERB Currais Novos - Norte (Radir Pereira/RN-041)</name>
+        <description>Distância: 4.79 km
 Antena Tx: 0.38m (Standard)
 Antena Rx: 0.38m (Standard)
-Torres (Tx / Rx): 35.0m / 30.0m
-Fade Margin Estimada: 24.63 dB
-RSL Estimado: -49.37 dBm</description>
+Torres (Tx / Rx): 40.0m / 50.0m
+Fade Margin Estimada: 24.46 dB
+RSL Estimado: -49.54 dBm</description>
         <styleUrl>#linha_local</styleUrl>
         <LineString>
           <altitudeMode>relativeToGround</altitudeMode>
-          <coordinates>-36.512,-6.2385,35.0 -36.52905,-6.27723,30.0</coordinates>
+          <coordinates>-36.52814,-6.27436,40.0 -36.5095,-6.2355,50.0</coordinates>
         </LineString>
       </Placemark>
       <Placemark>
@@ -533,30 +533,30 @@ RSL Estimado: -41.83 dBm</description>
       </Placemark>
       <Placemark>
         <name>PTP: Repetidora Cume 69 (666 m) &lt;-&gt; ERB Currais Novos - Leste (CCC - Núcleo da Rede)</name>
-        <description>Distância: 31.0 km
+        <description>Distância: 31.44 km
 Antena Tx: 0.9m (Standard)
 Antena Rx: 0.9m (Standard)
-Torres (Tx / Rx): 20.0m / 40.0m
-Fade Margin Estimada: 28.39 dB
-RSL Estimado: -44.61 dBm</description>
+Torres (Tx / Rx): 20.0m / 45.0m
+Fade Margin Estimada: 28.27 dB
+RSL Estimado: -44.73 dBm</description>
         <styleUrl>#linha_tronco</styleUrl>
         <LineString>
           <altitudeMode>relativeToGround</altitudeMode>
-          <coordinates>-36.5982,-6.52731,20.0 -36.506,-6.264,40.0</coordinates>
+          <coordinates>-36.5982,-6.52731,20.0 -36.504,-6.2605,45.0</coordinates>
         </LineString>
       </Placemark>
       <Placemark>
         <name>PTP: Repetidora Cume 28 (681 m) &lt;-&gt; ERB Currais Novos - Leste (CCC - Núcleo da Rede)</name>
-        <description>Distância: 35.66 km
+        <description>Distância: 35.3 km
 Antena Tx: 0.9m (Standard)
 Antena Rx: 0.9m (Standard)
-Torres (Tx / Rx): 25.0m / 40.0m
-Fade Margin Estimada: 27.18 dB
-RSL Estimado: -45.82 dBm</description>
+Torres (Tx / Rx): 25.0m / 45.0m
+Fade Margin Estimada: 27.27 dB
+RSL Estimado: -45.73 dBm</description>
         <styleUrl>#linha_tronco</styleUrl>
         <LineString>
           <altitudeMode>relativeToGround</altitudeMode>
-          <coordinates>-36.2116,-6.1328,25.0 -36.506,-6.264,40.0</coordinates>
+          <coordinates>-36.2116,-6.1328,25.0 -36.504,-6.2605,45.0</coordinates>
         </LineString>
       </Placemark>
       <Placemark>

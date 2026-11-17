@@ -119,10 +119,10 @@
         "nome": "ERB Currais Novos - Leste (CCC - Núcleo da Rede)",
         "cidade": "Currais Novos",
         "tipo": "ERB_CCC",
-        "latitude": -6.264,
-        "longitude": -36.506,
-        "altitude_terreno_m": 346.6,
-        "altura_torre_m": 40.0,
+        "latitude": -6.2605,
+        "longitude": -36.504,
+        "altitude_terreno_m": 349.4,
+        "altura_torre_m": 45.0,
         "setores": 3,
         "raio_celula_km": 1.808,
         "acesso_infra": "Via urbana asfaltada (Paizinho Maria / Mirante) + rede elétrica trifásica",
@@ -132,9 +132,9 @@
             3
         ],
         "alturas_por_solucao": {
-            "1": 40.0,
-            "2": 40.0,
-            "3": 35.0
+            "1": 45.0,
+            "2": 45.0,
+            "3": 20.0
         }
     },
     {
@@ -142,10 +142,10 @@
         "nome": "ERB Currais Novos - Noroeste (UFRN/JK)",
         "cidade": "Currais Novos",
         "tipo": "ERB",
-        "latitude": -6.25077,
-        "longitude": -36.52905,
-        "altitude_terreno_m": 345.2,
-        "altura_torre_m": 20.0,
+        "latitude": -6.24664,
+        "longitude": -36.52814,
+        "altitude_terreno_m": 354.5,
+        "altura_torre_m": 25.0,
         "setores": 3,
         "raio_celula_km": 1.808,
         "acesso_infra": "Rua urbana pavimentada (JK / UFRN) + rede elétrica urbana",
@@ -155,9 +155,9 @@
             3
         ],
         "alturas_por_solucao": {
-            "1": 20.0,
-            "2": 20.0,
-            "3": 20.0
+            "1": 25.0,
+            "2": 25.0,
+            "3": 25.0
         }
     },
     {
@@ -165,10 +165,10 @@
         "nome": "ERB Currais Novos - Sudoeste (Sílvio Bezerra)",
         "cidade": "Currais Novos",
         "tipo": "ERB",
-        "latitude": -6.27723,
-        "longitude": -36.52905,
-        "altitude_terreno_m": 353.6,
-        "altura_torre_m": 30.0,
+        "latitude": -6.27436,
+        "longitude": -36.52814,
+        "altitude_terreno_m": 335.9,
+        "altura_torre_m": 40.0,
         "setores": 3,
         "raio_celula_km": 1.808,
         "acesso_infra": "Acesso rodoviário direto BR-427/BR-226 (Sílvio Bezerra) + rede elétrica urbana",
@@ -178,9 +178,9 @@
             3
         ],
         "alturas_por_solucao": {
-            "1": 30.0,
-            "2": 30.0,
-            "3": 30.0
+            "1": 40.0,
+            "2": 40.0,
+            "3": 40.0
         }
     },
     {
@@ -188,10 +188,10 @@
         "nome": "ERB Currais Novos - Norte (Radir Pereira/RN-041)",
         "cidade": "Currais Novos",
         "tipo": "ERB",
-        "latitude": -6.2385,
-        "longitude": -36.512,
-        "altitude_terreno_m": 344.6,
-        "altura_torre_m": 35.0,
+        "latitude": -6.2355,
+        "longitude": -36.5095,
+        "altitude_terreno_m": 333.6,
+        "altura_torre_m": 50.0,
         "setores": 3,
         "raio_celula_km": 1.808,
         "acesso_infra": "Terreno firme junto à RN-041 (Radir Pereira / Norte) + rede elétrica urbana",
@@ -201,9 +201,9 @@
             3
         ],
         "alturas_por_solucao": {
-            "1": 35.0,
-            "2": 35.0,
-            "3": 35.0
+            "1": 50.0,
+            "2": 50.0,
+            "3": 50.0
         }
     },
     {

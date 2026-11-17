@@ -2221,7 +2221,7 @@ html_code = f"""<!DOCTYPE html>
           <div class="two-col">
             <div class="formula-box">
               <b>Como escolhemos os melhores locais (sem "caixa-preta"):</b><br>
-              1. <b>Cobertura Urbana 100% Real (R_máx = 1,808 km):</b> Posicionamos <b>14 ERBs</b> nas 5 cidades sobre vias pavimentadas com energia (5 em Caicó, 4 em Currais Novos, 3 em Santa Cruz, 1 em Jardim e 1 em Carnaúba dos Dantas) cobrindo 100% de todos os bairros e loteamentos — ex.: em Currais Novos o CCC urbano fica na borda leste/Paizinho Maria (<code>346,6 m</code>) e em Natal na <b>Candelária/BR-101 (101,2 m)</b>. Em <b>Carnaúba dos Dantas</b>, a ERB na encosta do Monte do Galo (<code>-6.55850, -36.59150</code>, 315,9 m) sobe em visada limpa de 3,55 km até <b>Rep. Cume 69 (666,0 m)</b>.<br>
+              1. <b>Cobertura Urbana 100% Real (R_máx = 1,808 km):</b> Posicionamos <b>14 ERBs</b> nas 5 cidades sobre vias pavimentadas com energia (5 em Caicó, 4 em Currais Novos, 3 em Santa Cruz, 1 em Jardim e 1 em Carnaúba dos Dantas) cobrindo 100% de todos os bairros e loteamentos — ex.: em Currais Novos o CCC urbano fica na borda leste/Paizinho Maria (<code>349,4 m</code>) e em Natal na <b>Candelária/BR-101 (101,2 m)</b>. Em <b>Carnaúba dos Dantas</b>, a ERB na encosta do Monte do Galo (<code>-6.55850, -36.59150</code>, 315,9 m) sobe em visada limpa de 3,55 km até <b>Rep. Cume 69 (666,0 m)</b>.<br>
               2. <b>Varredura de Serras (94.644 pontos) + Hill Climbing:</b> Achamos os melhores cumes reais próximos a acessos rurais e proibimos saltos &lt; 12 km entre repetidoras.<br>
               3. <b>Altura Única por Torre:</b> Cada torre tem <b>uma única altura fixa (20 m a ${{sol1.altura_max_torre_m || 40}} m na Sol. #1)</b> que atende todos os enlaces ligados a ela!<br>
             </div>
@@ -2445,12 +2445,12 @@ html_code = f"""<!DOCTYPE html>
               <rect x="282" y="96" width="144" height="58" rx="8" fill="#122b22" stroke="#00ff55" stroke-width="2" />
               <text x="354" y="117" fill="#00ff55" font-size="11" font-weight="bold" text-anchor="middle">Rep. Cume 69 (Pico)</text>
               <text x="354" y="132" fill="#cbd5e1" font-size="9.5" text-anchor="middle">666 m • Torre 20m</text>
-              <text x="354" y="145" fill="#94a3b8" font-size="9" text-anchor="middle">31,0 km • 11FX → CCC</text>
+              <text x="354" y="145" fill="#94a3b8" font-size="9" text-anchor="middle">31,4 km • 11FX → CCC</text>
 
               <rect x="500" y="96" width="150" height="58" rx="8" fill="#331520" stroke="#ff1744" stroke-width="2" />
               <text x="575" y="117" fill="#fff" font-size="11" font-weight="bold" text-anchor="middle">CCC Currais Novos</text>
-              <text x="575" y="132" fill="#fda4af" font-size="9.5" text-anchor="middle">4 ERBs • 20 a 40m</text>
-              <text x="575" y="145" fill="#cbd5e1" font-size="9" text-anchor="middle">35,7 km → Cume 28</text>
+              <text x="575" y="132" fill="#fda4af" font-size="9.5" text-anchor="middle">4 ERBs • 25 a 50m</text>
+              <text x="575" y="145" fill="#cbd5e1" font-size="9" text-anchor="middle">35,3 km → Cume 28</text>
 
               <rect x="722" y="96" width="122" height="58" rx="8" fill="#122b22" stroke="#00ff55" stroke-width="2" />
               <text x="783" y="117" fill="#00ff55" font-size="11" font-weight="bold" text-anchor="middle">Rep. Cume 28</text>
