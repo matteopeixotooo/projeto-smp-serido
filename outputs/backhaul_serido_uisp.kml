@@ -105,11 +105,11 @@ Altitude do Terreno: 157.5 m</description>
 Tipo: ERB_CCC
 Cidade: Currais Novos
 Altura da Torre: 45.0 m
-Altitude do Terreno: 334.7 m</description>
+Altitude do Terreno: 349.4 m</description>
         <styleUrl>#estilo_ccc</styleUrl>
         <Point>
           <altitudeMode>relativeToGround</altitudeMode>
-          <coordinates>-36.5045,-6.257,45.0</coordinates>
+          <coordinates>-36.504,-6.2605,45.0</coordinates>
         </Point>
       </Placemark>
       <Placemark>
@@ -117,12 +117,12 @@ Altitude do Terreno: 334.7 m</description>
         <description>ID: ERB_CURRAIS_NOVOS_02
 Tipo: ERB
 Cidade: Currais Novos
-Altura da Torre: 35.0 m
-Altitude do Terreno: 349.1 m</description>
+Altura da Torre: 30.0 m
+Altitude do Terreno: 352.8 m</description>
         <styleUrl>#estilo_erb</styleUrl>
         <Point>
           <altitudeMode>relativeToGround</altitudeMode>
-          <coordinates>-36.52802,-6.2435,35.0</coordinates>
+          <coordinates>-36.52752,-6.247,30.0</coordinates>
         </Point>
       </Placemark>
       <Placemark>
@@ -130,12 +130,12 @@ Altitude do Terreno: 349.1 m</description>
         <description>ID: ERB_CURRAIS_NOVOS_03
 Tipo: ERB
 Cidade: Currais Novos
-Altura da Torre: 20.0 m
-Altitude do Terreno: 336.7 m</description>
+Altura da Torre: 30.0 m
+Altitude do Terreno: 334.0 m</description>
         <styleUrl>#estilo_erb</styleUrl>
         <Point>
           <altitudeMode>relativeToGround</altitudeMode>
-          <coordinates>-36.52802,-6.2705,20.0</coordinates>
+          <coordinates>-36.52752,-6.274,30.0</coordinates>
         </Point>
       </Placemark>
       <Placemark>
@@ -256,19 +256,6 @@ Altitude do Terreno: 666.0280151367188 m</description>
         </Point>
       </Placemark>
       <Placemark>
-        <name>Repetidora Cume 07 (689 m)</name>
-        <description>ID: REP_CUME_07
-Tipo: REPETIDORA
-Cidade: Repetidora Interurbana
-Altura da Torre: 25.0 m
-Altitude do Terreno: 689.2557373046875 m</description>
-        <styleUrl>#estilo_rep</styleUrl>
-        <Point>
-          <altitudeMode>relativeToGround</altitudeMode>
-          <coordinates>-36.6048,-6.3912,25.0</coordinates>
-        </Point>
-      </Placemark>
-      <Placemark>
         <name>Repetidora Cume 47 (410 m)</name>
         <description>ID: REP_CUME_47
 Tipo: REPETIDORA
@@ -308,16 +295,29 @@ Altitude do Terreno: 624.91455078125 m</description>
         </Point>
       </Placemark>
       <Placemark>
-        <name>Repetidora Cume 21 (625 m)</name>
-        <description>ID: REP_CUME_21
+        <name>Repetidora Cume 27 (670 m)</name>
+        <description>ID: REP_CUME_27
 Tipo: REPETIDORA
 Cidade: Repetidora Interurbana
-Altura da Torre: 45.0 m
-Altitude do Terreno: 624.8470458984375 m</description>
+Altura da Torre: 30.0 m
+Altitude do Terreno: 670.1880493164062 m</description>
         <styleUrl>#estilo_rep</styleUrl>
         <Point>
           <altitudeMode>relativeToGround</altitudeMode>
-          <coordinates>-36.1168,-6.1048,45.0</coordinates>
+          <coordinates>-36.3928,-6.1376,30.0</coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Repetidora Cume 37 (549 m)</name>
+        <description>ID: REP_CUME_37
+Tipo: REPETIDORA
+Cidade: Repetidora Interurbana
+Altura da Torre: 20.0 m
+Altitude do Terreno: 548.5866088867188 m</description>
+        <styleUrl>#estilo_rep</styleUrl>
+        <Point>
+          <altitudeMode>relativeToGround</altitudeMode>
+          <coordinates>-35.9584,-6.2632,20.0</coordinates>
         </Point>
       </Placemark>
       <Placemark>
@@ -365,31 +365,31 @@ RSL Estimado: -45.3 dBm</description>
         </LineString>
       </Placemark>
       <Placemark>
-        <name>PTP: ERB Currais Novos - Noroeste (UFRN/Radir Pereira) &lt;-&gt; ERB Currais Novos - Leste (CCC - Núcleo da Rede)</name>
+        <name>PTP: ERB Currais Novos - Sudoeste (Sílvio Bezerra) &lt;-&gt; ERB Currais Novos - Leste (CCC - Núcleo da Rede)</name>
         <description>Distância: 3.0 km
 Antena Tx: 0.38m (Standard)
 Antena Rx: 0.38m (Standard)
-Torres (Tx / Rx): 35.0m / 45.0m
+Torres (Tx / Rx): 30.0m / 45.0m
 Fade Margin Estimada: 28.53 dB
 RSL Estimado: -45.47 dBm</description>
         <styleUrl>#linha_tronco</styleUrl>
         <LineString>
           <altitudeMode>relativeToGround</altitudeMode>
-          <coordinates>-36.52802,-6.2435,35.0 -36.5045,-6.257,45.0</coordinates>
+          <coordinates>-36.52752,-6.274,30.0 -36.504,-6.2605,45.0</coordinates>
         </LineString>
       </Placemark>
       <Placemark>
-        <name>PTP: ERB Currais Novos - Sudoeste (Sílvio Bezerra) &lt;-&gt; ERB Currais Novos - Noroeste (UFRN/Radir Pereira)</name>
+        <name>PTP: ERB Currais Novos - Noroeste (UFRN/Radir Pereira) &lt;-&gt; ERB Currais Novos - Sudoeste (Sílvio Bezerra)</name>
         <description>Distância: 3.0 km
 Antena Tx: 0.38m (Standard)
 Antena Rx: 0.38m (Standard)
-Torres (Tx / Rx): 20.0m / 35.0m
+Torres (Tx / Rx): 30.0m / 30.0m
 Fade Margin Estimada: 28.53 dB
 RSL Estimado: -45.47 dBm</description>
         <styleUrl>#linha_local</styleUrl>
         <LineString>
           <altitudeMode>relativeToGround</altitudeMode>
-          <coordinates>-36.52802,-6.2705,20.0 -36.52802,-6.2435,35.0</coordinates>
+          <coordinates>-36.52752,-6.247,30.0 -36.52752,-6.274,30.0</coordinates>
         </LineString>
       </Placemark>
       <Placemark>
@@ -506,16 +506,30 @@ RSL Estimado: -41.83 dBm</description>
       </Placemark>
       <Placemark>
         <name>PTP: Repetidora Cume 69 (666 m) &lt;-&gt; ERB Currais Novos - Leste (CCC - Núcleo da Rede)</name>
-        <description>Distância: 31.79 km
+        <description>Distância: 31.44 km
 Antena Tx: 0.9m (Standard)
 Antena Rx: 0.9m (Standard)
 Torres (Tx / Rx): 20.0m / 45.0m
-Fade Margin Estimada: 28.18 dB
-RSL Estimado: -44.82 dBm</description>
+Fade Margin Estimada: 28.27 dB
+RSL Estimado: -44.73 dBm</description>
         <styleUrl>#linha_tronco</styleUrl>
         <LineString>
           <altitudeMode>relativeToGround</altitudeMode>
-          <coordinates>-36.5982,-6.52731,20.0 -36.5045,-6.257,45.0</coordinates>
+          <coordinates>-36.5982,-6.52731,20.0 -36.504,-6.2605,45.0</coordinates>
+        </LineString>
+      </Placemark>
+      <Placemark>
+        <name>PTP: Repetidora Cume 28 (681 m) &lt;-&gt; ERB Currais Novos - Leste (CCC - Núcleo da Rede)</name>
+        <description>Distância: 35.3 km
+Antena Tx: 0.9m (Standard)
+Antena Rx: 0.9m (Standard)
+Torres (Tx / Rx): 25.0m / 45.0m
+Fade Margin Estimada: 27.27 dB
+RSL Estimado: -45.73 dBm</description>
+        <styleUrl>#linha_tronco</styleUrl>
+        <LineString>
+          <altitudeMode>relativeToGround</altitudeMode>
+          <coordinates>-36.2116,-6.1328,25.0 -36.504,-6.2605,45.0</coordinates>
         </LineString>
       </Placemark>
       <Placemark>
@@ -530,20 +544,6 @@ RSL Estimado: -42.39 dBm</description>
         <LineString>
           <altitudeMode>relativeToGround</altitudeMode>
           <coordinates>-37.08119,-6.466,35.0 -36.5982,-6.52731,20.0</coordinates>
-        </LineString>
-      </Placemark>
-      <Placemark>
-        <name>PTP: Repetidora Cume 28 (681 m) &lt;-&gt; Repetidora Cume 69 (666 m)</name>
-        <description>Distância: 61.24 km
-Antena Tx: 1.05m (Standard)
-Antena Rx: 1.05m (Standard)
-Torres (Tx / Rx): 25.0m / 20.0m
-Fade Margin Estimada: 28.33 dB
-RSL Estimado: -47.67 dBm</description>
-        <styleUrl>#linha_local</styleUrl>
-        <LineString>
-          <altitudeMode>relativeToGround</altitudeMode>
-          <coordinates>-36.2116,-6.1328,25.0 -36.5982,-6.52731,20.0</coordinates>
         </LineString>
       </Placemark>
       <Placemark>
