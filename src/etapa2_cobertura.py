@@ -136,7 +136,7 @@ def executar_etapa2(arquivo_etapa1: str = "outputs/demanda_capacidade.json"):
     # Mínimo geométrico para cobrir 100% dos bairros extremos da mancha urbana real com R = 1,808 km
     erbs_minimas_mapa_real = {
         "Caicó": 5,
-        "Currais Novos": 4,
+        "Currais Novos": 3,
         "Santa Cruz": 3,
         "Jardim do Seridó": 1,
         "Carnaúba dos Dantas": 1,

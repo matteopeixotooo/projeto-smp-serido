@@ -101,8 +101,8 @@
             "geometry": {
                 "type": "Point",
                 "coordinates": [
-                    -36.504,
-                    -6.2605
+                    -36.5045,
+                    -6.257
                 ]
             },
             "properties": {
@@ -111,7 +111,7 @@
                 "cidade": "Currais Novos",
                 "tipo": "ERB_CCC",
                 "altura_torre_m": 45.0,
-                "altitude_m": 349.4,
+                "altitude_m": 334.7,
                 "raio_cobertura_km": 1.808
             }
         },
@@ -120,17 +120,17 @@
             "geometry": {
                 "type": "Point",
                 "coordinates": [
-                    -36.52814,
-                    -6.24664
+                    -36.52802,
+                    -6.2435
                 ]
             },
             "properties": {
                 "id": "ERB_CURRAIS_NOVOS_02",
-                "nome": "ERB Currais Novos - Noroeste (UFRN/JK)",
+                "nome": "ERB Currais Novos - Noroeste (UFRN/Radir Pereira)",
                 "cidade": "Currais Novos",
                 "tipo": "ERB",
                 "altura_torre_m": 45.0,
-                "altitude_m": 352.8,
+                "altitude_m": 346.4,
                 "raio_cobertura_km": 1.808
             }
         },
@@ -139,8 +139,8 @@
             "geometry": {
                 "type": "Point",
                 "coordinates": [
-                    -36.52814,
-                    -6.27436
+                    -36.52802,
+                    -6.2705
                 ]
             },
             "properties": {
@@ -149,26 +149,7 @@
                 "cidade": "Currais Novos",
                 "tipo": "ERB",
                 "altura_torre_m": 45.0,
-                "altitude_m": 333.0,
-                "raio_cobertura_km": 1.808
-            }
-        },
-        {
-            "type": "Feature",
-            "geometry": {
-                "type": "Point",
-                "coordinates": [
-                    -36.5095,
-                    -6.2355
-                ]
-            },
-            "properties": {
-                "id": "ERB_CURRAIS_NOVOS_04",
-                "nome": "ERB Currais Novos - Norte (Radir Pereira/RN-041)",
-                "cidade": "Currais Novos",
-                "tipo": "ERB",
-                "altura_torre_m": 45.0,
-                "altitude_m": 331.7,
+                "altitude_m": 336.7,
                 "raio_cobertura_km": 1.808
             }
         },

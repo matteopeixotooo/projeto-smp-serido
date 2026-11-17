@@ -24,10 +24,9 @@ SITIOS_COORD_FIXA = {
     "ERB_CAICO_03": (-6.44223, -37.09500),               # Norte: Alto da Boa Vista / RN-118 / Samanaú (favo 3,05 km)
     "ERB_CAICO_04": (-6.44223, -37.06738),               # Nordeste: IFRN / Aeródromo / Loteamentos Leste RN-427 (favo 3,05 km)
     "ERB_CAICO_05": (-6.48977, -37.06738),               # Sul-Sudeste: Atacadão / Mirante da Serra / Lot. Itans RN-118 (favo 3,05 km)
-    "ERB_CURRAIS_NOVOS_01": (-6.26050, -36.50400),       # CCC Centro-Leste: Paizinho Maria / Mirante (cota 349,4 m, favo 3,08 km)
-    "ERB_CURRAIS_NOVOS_02": (-6.24664, -36.52814),       # Noroeste: JK / UFRN / José Dantas (favo 3,08 km)
-    "ERB_CURRAIS_NOVOS_03": (-6.27436, -36.52814),       # Sudoeste: Sílvio Bezerra / BR-427 / Atacadão (favo 3,08 km)
-    "ERB_CURRAIS_NOVOS_04": (-6.23550, -36.50950),       # Norte: Terreno seco RN-041 / Radir Pereira / Parque Dourado North
+    "ERB_CURRAIS_NOVOS_01": (-6.25700, -36.50450),       # CCC Leste: BR-226 / Paizinho Maria / Mirante / Borda NE (favo 3,00 km)
+    "ERB_CURRAIS_NOVOS_02": (-6.24350, -36.52802),       # Noroeste: Radir Pereira RN-041 / José Dantas / UFRN (favo 3,00 km)
+    "ERB_CURRAIS_NOVOS_03": (-6.27050, -36.52802),       # Sudoeste: Sílvio Bezerra / BR-427 / Atacadão (favo 3,00 km)
     "ERB_SANTA_CRUZ_01": (-6.21300, -36.02300),          # Norte: Maracujá / BR-226 (favo 2,94 km)
     "ERB_SANTA_CRUZ_02": (-6.23590, -36.00970),          # Leste-Sudeste: Santuário / Expansão BR-226 Leste (favo 2,94 km)
     "ERB_SANTA_CRUZ_03": (-6.23590, -36.03630),          # Oeste-Sudoeste: Av. Paulo Afonso / IFRN / Paraíso (favo 2,94 km)
@@ -42,9 +41,8 @@ NOMES_URBANOS = {
     "ERB_CAICO_04": "ERB Caicó - Setor Nordeste (IFRN/Aeródromo)",
     "ERB_CAICO_05": "ERB Caicó - Setor Sul (Itans/Mirante)",
     "ERB_CURRAIS_NOVOS_01": "ERB Currais Novos - Leste (CCC - Núcleo da Rede)",
-    "ERB_CURRAIS_NOVOS_02": "ERB Currais Novos - Noroeste (UFRN/JK)",
+    "ERB_CURRAIS_NOVOS_02": "ERB Currais Novos - Noroeste (UFRN/Radir Pereira)",
     "ERB_CURRAIS_NOVOS_03": "ERB Currais Novos - Sudoeste (Sílvio Bezerra)",
-    "ERB_CURRAIS_NOVOS_04": "ERB Currais Novos - Norte (Radir Pereira/RN-041)",
     "ERB_SANTA_CRUZ_01": "ERB Santa Cruz - Norte (Maracujá)",
     "ERB_SANTA_CRUZ_02": "ERB Santa Cruz - Sudeste (Santuário/BR-226 Leste)",
     "ERB_SANTA_CRUZ_03": "ERB Santa Cruz - Oeste (IFRN/Paraíso)",
@@ -59,10 +57,9 @@ INFRA_ACESSO_SITIOS = {
     "ERB_CAICO_03": "Acesso urbano junto à RN-118 (Alto da Boa Vista) + rede elétrica urbana",
     "ERB_CAICO_04": "Acesso asfaltado RN-427 / IFRN-Caicó (Expansão Leste) + rede elétrica urbana",
     "ERB_CAICO_05": "Margem asfaltada da RN-118 / acesso Lot. Itans e Atacadão + rede elétrica urbana",
-    "ERB_CURRAIS_NOVOS_01": "Via urbana asfaltada (Paizinho Maria / Mirante) + rede elétrica trifásica",
-    "ERB_CURRAIS_NOVOS_02": "Rua urbana pavimentada (JK / UFRN) + rede elétrica urbana",
+    "ERB_CURRAIS_NOVOS_01": "Via urbana asfaltada BR-226 (Paizinho Maria / Mirante) + rede elétrica trifásica",
+    "ERB_CURRAIS_NOVOS_02": "Acesso urbano RN-041 / UFRN (Radir Pereira / JK) + rede elétrica urbana",
     "ERB_CURRAIS_NOVOS_03": "Acesso rodoviário direto BR-427/BR-226 (Sílvio Bezerra) + rede elétrica urbana",
-    "ERB_CURRAIS_NOVOS_04": "Terreno firme junto à RN-041 (Radir Pereira / Norte) + rede elétrica urbana",
     "ERB_SANTA_CRUZ_01": "Acesso urbano junto à BR-226 (Maracujá norte) + rede elétrica urbana",
     "ERB_SANTA_CRUZ_02": "Margem urbana BR-226 Leste (Santuário / Loteamento Leste) + rede elétrica urbana",
     "ERB_SANTA_CRUZ_03": "Acesso asfaltado Av. Paulo Afonso / RN-023 (IFRN/Paraíso) + rede elétrica urbana",

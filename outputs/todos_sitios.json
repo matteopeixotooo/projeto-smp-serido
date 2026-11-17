@@ -119,13 +119,13 @@
         "nome": "ERB Currais Novos - Leste (CCC - Núcleo da Rede)",
         "cidade": "Currais Novos",
         "tipo": "ERB_CCC",
-        "latitude": -6.2605,
-        "longitude": -36.504,
-        "altitude_terreno_m": 349.4,
+        "latitude": -6.257,
+        "longitude": -36.5045,
+        "altitude_terreno_m": 334.7,
         "altura_torre_m": 45.0,
         "setores": 3,
         "raio_celula_km": 1.808,
-        "acesso_infra": "Via urbana asfaltada (Paizinho Maria / Mirante) + rede elétrica trifásica",
+        "acesso_infra": "Via urbana asfaltada BR-226 (Paizinho Maria / Mirante) + rede elétrica trifásica",
         "solucoes": [
             1,
             2,
@@ -134,30 +134,30 @@
         "alturas_por_solucao": {
             "1": 45.0,
             "2": 45.0,
-            "3": 20.0
+            "3": 25.0
         }
     },
     {
         "id": "ERB_CURRAIS_NOVOS_02",
-        "nome": "ERB Currais Novos - Noroeste (UFRN/JK)",
+        "nome": "ERB Currais Novos - Noroeste (UFRN/Radir Pereira)",
         "cidade": "Currais Novos",
         "tipo": "ERB",
-        "latitude": -6.24664,
-        "longitude": -36.52814,
-        "altitude_terreno_m": 354.5,
-        "altura_torre_m": 25.0,
+        "latitude": -6.2435,
+        "longitude": -36.52802,
+        "altitude_terreno_m": 349.1,
+        "altura_torre_m": 35.0,
         "setores": 3,
         "raio_celula_km": 1.808,
-        "acesso_infra": "Rua urbana pavimentada (JK / UFRN) + rede elétrica urbana",
+        "acesso_infra": "Acesso urbano RN-041 / UFRN (Radir Pereira / JK) + rede elétrica urbana",
         "solucoes": [
             1,
             2,
             3
         ],
         "alturas_por_solucao": {
-            "1": 25.0,
-            "2": 25.0,
-            "3": 25.0
+            "1": 35.0,
+            "2": 35.0,
+            "3": 35.0
         }
     },
     {
@@ -165,10 +165,10 @@
         "nome": "ERB Currais Novos - Sudoeste (Sílvio Bezerra)",
         "cidade": "Currais Novos",
         "tipo": "ERB",
-        "latitude": -6.27436,
-        "longitude": -36.52814,
-        "altitude_terreno_m": 335.9,
-        "altura_torre_m": 40.0,
+        "latitude": -6.2705,
+        "longitude": -36.52802,
+        "altitude_terreno_m": 336.7,
+        "altura_torre_m": 20.0,
         "setores": 3,
         "raio_celula_km": 1.808,
         "acesso_infra": "Acesso rodoviário direto BR-427/BR-226 (Sílvio Bezerra) + rede elétrica urbana",
@@ -178,32 +178,9 @@
             3
         ],
         "alturas_por_solucao": {
-            "1": 40.0,
-            "2": 40.0,
-            "3": 40.0
-        }
-    },
-    {
-        "id": "ERB_CURRAIS_NOVOS_04",
-        "nome": "ERB Currais Novos - Norte (Radir Pereira/RN-041)",
-        "cidade": "Currais Novos",
-        "tipo": "ERB",
-        "latitude": -6.2355,
-        "longitude": -36.5095,
-        "altitude_terreno_m": 333.6,
-        "altura_torre_m": 50.0,
-        "setores": 3,
-        "raio_celula_km": 1.808,
-        "acesso_infra": "Terreno firme junto à RN-041 (Radir Pereira / Norte) + rede elétrica urbana",
-        "solucoes": [
-            1,
-            2,
-            3
-        ],
-        "alturas_por_solucao": {
-            "1": 50.0,
-            "2": 50.0,
-            "3": 50.0
+            "1": 20.0,
+            "2": 20.0,
+            "3": 20.0
         }
     },
     {
@@ -294,8 +271,8 @@
         ],
         "alturas_por_solucao": {
             "1": 40.0,
-            "2": 40.0,
-            "3": 25.0
+            "2": 30.0,
+            "3": 30.0
         }
     },
     {
@@ -393,7 +370,7 @@
         "cidade": "Repetidora Interurbana",
         "tipo": "REPETIDORA",
         "altura_torre_m": 20.0,
-        "enlaces_conectados": 4,
+        "enlaces_conectados": 5,
         "rank_solucao": 1,
         "solucoes": [
             1,
@@ -404,6 +381,27 @@
             "2": 20.0
         },
         "acesso_infra": "Cume Norte Carnaúba: estrada ziguezague (Açude do Piauí) até ~300 m do cume + kit solar off-grid"
+    },
+    {
+        "latitude": -6.3912,
+        "longitude": -36.6048,
+        "altitude_terreno_m": 689.2557373046875,
+        "id": "REP_CUME_07",
+        "nome": "Repetidora Cume 07 (689 m)",
+        "cidade": "Repetidora Interurbana",
+        "tipo": "REPETIDORA",
+        "altura_torre_m": 25.0,
+        "enlaces_conectados": 4,
+        "rank_solucao": 2,
+        "solucoes": [
+            2,
+            3
+        ],
+        "alturas_por_solucao": {
+            "2": 25.0,
+            "3": 25.0
+        },
+        "acesso_infra": "Topo de serra (acesso rural/trilha de serviço) + kit solar off-grid + 2 baterias"
     },
     {
         "latitude": -6.2012,
@@ -452,51 +450,32 @@
         "cidade": "Repetidora Interurbana",
         "tipo": "REPETIDORA",
         "altura_torre_m": 30.0,
-        "enlaces_conectados": 4,
-        "rank_solucao": 3,
-        "solucoes": [
-            3
-        ],
-        "alturas_por_solucao": {
-            "3": 30.0
-        },
-        "acesso_infra": "Topo de serra (acesso rural/trilha de serviço) + kit solar off-grid + 2 baterias"
-    },
-    {
-        "latitude": -6.1376,
-        "longitude": -36.3928,
-        "altitude_terreno_m": 670.1880493164062,
-        "id": "REP_CUME_27",
-        "nome": "Repetidora Cume 27 (670 m)",
-        "cidade": "Repetidora Interurbana",
-        "tipo": "REPETIDORA",
-        "altura_torre_m": 30.0,
-        "enlaces_conectados": 3,
-        "rank_solucao": 3,
-        "solucoes": [
-            3
-        ],
-        "alturas_por_solucao": {
-            "3": 30.0
-        },
-        "acesso_infra": "Topo de serra (acesso rural/trilha de serviço) + kit solar off-grid + 2 baterias"
-    },
-    {
-        "latitude": -6.2632,
-        "longitude": -35.9584,
-        "altitude_terreno_m": 548.5866088867188,
-        "id": "REP_CUME_37",
-        "nome": "Repetidora Cume 37 (549 m)",
-        "cidade": "Repetidora Interurbana",
-        "tipo": "REPETIDORA",
-        "altura_torre_m": 20.0,
         "enlaces_conectados": 2,
         "rank_solucao": 3,
         "solucoes": [
             3
         ],
         "alturas_por_solucao": {
-            "3": 20.0
+            "3": 30.0
+        },
+        "acesso_infra": "Topo de serra (acesso rural/trilha de serviço) + kit solar off-grid + 2 baterias"
+    },
+    {
+        "latitude": -6.1048,
+        "longitude": -36.1168,
+        "altitude_terreno_m": 624.8470458984375,
+        "id": "REP_CUME_21",
+        "nome": "Repetidora Cume 21 (625 m)",
+        "cidade": "Repetidora Interurbana",
+        "tipo": "REPETIDORA",
+        "altura_torre_m": 45.0,
+        "enlaces_conectados": 2,
+        "rank_solucao": 3,
+        "solucoes": [
+            3
+        ],
+        "alturas_por_solucao": {
+            "3": 45.0
         },
         "acesso_infra": "Topo de serra (acesso rural/trilha de serviço) + kit solar off-grid + 2 baterias"
     },
