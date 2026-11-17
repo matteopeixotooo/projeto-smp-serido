@@ -749,7 +749,7 @@ html_code = f"""<!DOCTYPE html>
           interactive: false,
           icon: L.divIcon({{
             className: 'smp-radius-tag',
-            html: `<div style="background:rgba(12,18,32,0.86); border:1px solid #38bdf8; color:#7dd3fc; font-size:10px; font-weight:700; padding:1px 5px; border-radius:4px; white-space:nowrap; transform:translate(-50%,-50%);">R=${{s.raio_celula_km.toFixed(2)}} km</div>`,
+            html: `<div style="display:inline-block; width:max-content; line-height:1.25; background:rgba(12,18,32,0.88); border:1px solid #38bdf8; color:#7dd3fc; font-size:10px; font-weight:700; padding:2px 6px; border-radius:4px; white-space:nowrap; transform:translate(-50%,-50%); box-shadow:0 1px 4px rgba(0,0,0,0.6);">R=${{s.raio_celula_km.toFixed(2)}} km</div>`,
             iconSize: [0, 0]
           }})
         }}).addTo(camadaCoberturaSMP);
@@ -835,7 +835,7 @@ html_code = f"""<!DOCTYPE html>
             interactive: false,
             icon: L.divIcon({{
               className: 'hex-sec-lbl',
-              html: `<div style="background:rgba(13,27,42,0.86); border:1px solid ${{grp.stroke}}; color:#fff; font-size:10px; font-weight:800; padding:1px 5px; border-radius:4px; white-space:nowrap; transform:translate(-50%,-50%); box-shadow:0 1px 4px rgba(0,0,0,0.6);">${{grp.letra}}${{sec.num}}</div>`,
+              html: `<div style="display:inline-block; width:max-content; line-height:1.25; text-align:center; background:rgba(13,27,42,0.88); border:1px solid ${{grp.stroke}}; color:#fff; font-size:10px; font-weight:800; padding:2px 6px; border-radius:4px; white-space:nowrap; transform:translate(-50%,-50%); box-shadow:0 1px 4px rgba(0,0,0,0.6);">${{grp.letra}}${{sec.num}}</div>`,
               iconSize: [0, 0]
             }})
           }}).addTo(camadaHexagonos4x3);
