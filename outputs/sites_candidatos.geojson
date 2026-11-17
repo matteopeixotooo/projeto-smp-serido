@@ -63,6 +63,44 @@
             "geometry": {
                 "type": "Point",
                 "coordinates": [
+                    -37.06738,
+                    -6.44223
+                ]
+            },
+            "properties": {
+                "id": "ERB_CAICO_04",
+                "nome": "ERB Caicó - Setor Nordeste (IFRN/Aeródromo)",
+                "cidade": "Caicó",
+                "tipo": "ERB",
+                "altura_torre_m": 45.0,
+                "altitude_m": 175.2,
+                "raio_cobertura_km": 1.808
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -37.06738,
+                    -6.48977
+                ]
+            },
+            "properties": {
+                "id": "ERB_CAICO_05",
+                "nome": "ERB Caicó - Setor Sul (Itans/Mirante)",
+                "cidade": "Caicó",
+                "tipo": "ERB",
+                "altura_torre_m": 45.0,
+                "altitude_m": 157.5,
+                "raio_cobertura_km": 1.808
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
                     -36.506,
                     -6.264
                 ]
@@ -120,6 +158,25 @@
             "geometry": {
                 "type": "Point",
                 "coordinates": [
+                    -36.512,
+                    -6.2385
+                ]
+            },
+            "properties": {
+                "id": "ERB_CURRAIS_NOVOS_04",
+                "nome": "ERB Currais Novos - Norte (Radir Pereira/RN-041)",
+                "cidade": "Currais Novos",
+                "tipo": "ERB",
+                "altura_torre_m": 45.0,
+                "altitude_m": 342.7,
+                "raio_cobertura_km": 1.808
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
                     -36.023,
                     -6.213
                 ]
@@ -139,17 +196,17 @@
             "geometry": {
                 "type": "Point",
                 "coordinates": [
-                    -36.0207,
-                    -6.2393
+                    -36.0097,
+                    -6.2359
                 ]
             },
             "properties": {
                 "id": "ERB_SANTA_CRUZ_02",
-                "nome": "ERB Santa Cruz - Sudeste (Santuário)",
+                "nome": "ERB Santa Cruz - Sudeste (Santuário/BR-226 Leste)",
                 "cidade": "Santa Cruz",
                 "tipo": "ERB",
                 "altura_torre_m": 45.0,
-                "altitude_m": 310.8,
+                "altitude_m": 230.4,
                 "raio_cobertura_km": 1.808
             }
         },
@@ -158,8 +215,8 @@
             "geometry": {
                 "type": "Point",
                 "coordinates": [
-                    -36.0375,
-                    -6.234
+                    -36.0363,
+                    -6.2359
                 ]
             },
             "properties": {
@@ -168,7 +225,7 @@
                 "cidade": "Santa Cruz",
                 "tipo": "ERB",
                 "altura_torre_m": 45.0,
-                "altitude_m": 237.2,
+                "altitude_m": 249.4,
                 "raio_cobertura_km": 1.808
             }
         },

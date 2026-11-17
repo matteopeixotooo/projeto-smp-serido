@@ -285,7 +285,7 @@ html_code = f"""<!DOCTYPE html>
       <button class="nav-tab active" id="tab-btn-map" onclick="alternarAba('map')">🗺️ Simulador</button>
       <button class="nav-tab" id="tab-btn-calc" onclick="alternarAba('calc')">🧮 Cálculos e Orçamento</button>
       <button class="nav-tab" id="tab-btn-3d" onclick="abrirVisada3D()">🏔️ Visão 3D</button>
-      <button class="nav-tab" id="header-btn-cob" onclick="alternarCoberturaSMP()" title="Ativa/desativa o raio celular máximo de 1,808 km (8,5 km² e 3 setores de 120°) nas 11 ERBs urbanas">📡 Raio ERBs (1,81 km): OFF</button>
+      <button class="nav-tab" id="header-btn-cob" onclick="alternarCoberturaSMP()" title="Ativa/desativa o raio celular máximo de 1,808 km (8,5 km² e 3 setores de 120°) nas 14 ERBs urbanas">📡 Raio ERBs (1,81 km): OFF</button>
       <button class="nav-tab" id="header-btn-hex" onclick="alternarHexagonosERB()" title="Mostra/oculta os hexágonos inscritos (R = 1,808 km) divididos em 3 setores de 120° com grupos do Cluster 4×3 (A1..D3)">⬡ Hexágonos 4×3: OFF</button>
     </div>
     <div class="header-info">
@@ -802,7 +802,9 @@ html_code = f"""<!DOCTYPE html>
         const cid = s.cidade || 'Custom';
         const idxCidade = contadorCidade[cid] || 0;
         contadorCidade[cid] = idxCidade + 1;
-        const grp = GRUPOS[idxCidade % 4];
+        // Reuso co-canal 4x3 real sem repetir grupo em hexágonos vizinhos (ERB_CAICO_05 reusa C a D≈3,4·R de CAICO_03)
+        const idxGrupo = (s.id === 'ERB_CAICO_05') ? 2 : (idxCidade % 4);
+        const grp = GRUPOS[idxGrupo];
         const R = s.raio_celula_km || 1.808;
         // Currais Novos e Santa Cruz alinham em favo flat-top (30°); Caicó e demais em pointy-top (0°)
         const rot = (cid === 'Currais Novos' || cid === 'Santa Cruz') ? 30 : 0;
@@ -2219,7 +2221,7 @@ html_code = f"""<!DOCTYPE html>
           <div class="two-col">
             <div class="formula-box">
               <b>Como escolhemos os melhores locais (sem "caixa-preta"):</b><br>
-              1. <b>Cobertura Urbana 100% Real (R_máx = 1,808 km):</b> Posicionamos <b>11 ERBs</b> nas 5 cidades sobre vias pavimentadas com energia (3 em Caicó, 3 em Currais Novos, 3 em Santa Cruz, 1 em Jardim e 1 em Carnaúba dos Dantas) cobrindo 100% de todos os bairros extremos — ex.: em Currais Novos o CCC urbano fica na borda leste/Paizinho Maria (<code>346,6 m</code>) e em Natal na <b>Candelária/BR-101 (101,2 m)</b>. Em <b>Carnaúba dos Dantas</b>, a ERB na encosta do Monte do Galo (<code>-6.55850, -36.59150</code>, 315,9 m) sobe em visada limpa de 3,55 km até <b>Rep. Cume 69 (666,0 m)</b>.<br>
+              1. <b>Cobertura Urbana 100% Real (R_máx = 1,808 km):</b> Posicionamos <b>14 ERBs</b> nas 5 cidades sobre vias pavimentadas com energia (5 em Caicó, 4 em Currais Novos, 3 em Santa Cruz, 1 em Jardim e 1 em Carnaúba dos Dantas) cobrindo 100% de todos os bairros e loteamentos — ex.: em Currais Novos o CCC urbano fica na borda leste/Paizinho Maria (<code>346,6 m</code>) e em Natal na <b>Candelária/BR-101 (101,2 m)</b>. Em <b>Carnaúba dos Dantas</b>, a ERB na encosta do Monte do Galo (<code>-6.55850, -36.59150</code>, 315,9 m) sobe em visada limpa de 3,55 km até <b>Rep. Cume 69 (666,0 m)</b>.<br>
               2. <b>Varredura de Serras (94.644 pontos) + Hill Climbing:</b> Achamos os melhores cumes reais próximos a acessos rurais e proibimos saltos &lt; 12 km entre repetidoras.<br>
               3. <b>Altura Única por Torre:</b> Cada torre tem <b>uma única altura fixa (20 m a ${{sol1.altura_max_torre_m || 40}} m na Sol. #1)</b> que atende todos os enlaces ligados a ela!<br>
             </div>
@@ -2429,7 +2431,7 @@ html_code = f"""<!DOCTYPE html>
               <line x1="844" y1="125" x2="895" y2="125" stroke="#00ff55" stroke-width="3" marker-end="url(#arrow)" />
               <!-- Nós -->
               <rect x="12" y="22" width="148" height="46" rx="8" fill="#172033" stroke="#00e5ff" />
-              <text x="86" y="42" fill="#fff" font-size="11" font-weight="bold" text-anchor="middle">Caicó (3 ERBs)</text>
+              <text x="86" y="42" fill="#fff" font-size="11" font-weight="bold" text-anchor="middle">Caicó (5 ERBs)</text>
               <text x="86" y="57" fill="#7dd3fc" font-size="9.5" text-anchor="middle">53,8 km • 11FX • Torre 35m</text>
 
               <rect x="12" y="102" width="148" height="46" rx="8" fill="#172033" stroke="#00e5ff" />
@@ -2447,18 +2449,18 @@ html_code = f"""<!DOCTYPE html>
 
               <rect x="500" y="96" width="150" height="58" rx="8" fill="#331520" stroke="#ff1744" stroke-width="2" />
               <text x="575" y="117" fill="#fff" font-size="11" font-weight="bold" text-anchor="middle">CCC Currais Novos</text>
-              <text x="575" y="132" fill="#fda4af" font-size="9.5" text-anchor="middle">3 ERBs • 40 / 30 / 20m</text>
+              <text x="575" y="132" fill="#fda4af" font-size="9.5" text-anchor="middle">4 ERBs • 20 a 40m</text>
               <text x="575" y="145" fill="#cbd5e1" font-size="9" text-anchor="middle">35,7 km → Cume 28</text>
 
               <rect x="722" y="96" width="122" height="58" rx="8" fill="#122b22" stroke="#00ff55" stroke-width="2" />
               <text x="783" y="117" fill="#00ff55" font-size="11" font-weight="bold" text-anchor="middle">Rep. Cume 28</text>
               <text x="783" y="132" fill="#cbd5e1" font-size="9.5" text-anchor="middle">681 m • Torre 25m</text>
-              <text x="783" y="145" fill="#94a3b8" font-size="9" text-anchor="middle">22,7 km → Sta Cruz</text>
+              <text x="783" y="145" fill="#94a3b8" font-size="9" text-anchor="middle">22,5 km → Sta Cruz</text>
 
               <rect x="897" y="96" width="118" height="58" rx="8" fill="#172033" stroke="#00e5ff" />
               <text x="956" y="117" fill="#fff" font-size="11" font-weight="bold" text-anchor="middle">Santa Cruz</text>
-              <text x="956" y="132" fill="#7dd3fc" font-size="9.5" text-anchor="middle">3 ERBs • 20 / 30 / 25m</text>
-              <text x="956" y="145" fill="#94a3b8" font-size="9" text-anchor="middle">20,7 km → Cume 45</text>
+              <text x="956" y="132" fill="#7dd3fc" font-size="9.5" text-anchor="middle">3 ERBs • 50 / 30 / 25m</text>
+              <text x="956" y="145" fill="#94a3b8" font-size="9" text-anchor="middle">19,8 km → Cume 45</text>
 
               <rect x="1050" y="34" width="98" height="54" rx="8" fill="#122b22" stroke="#00ff55" stroke-width="2" />
               <text x="1099" y="54" fill="#00ff55" font-size="10.5" font-weight="bold" text-anchor="middle">Rep. Cume 45</text>

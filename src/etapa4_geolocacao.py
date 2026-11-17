@@ -19,15 +19,18 @@ CENTROIDES_MUNICIPIOS = {
 
 # Coordenadas fixadas por cobertura 100% da mancha urbana real em favo de mel exato (validadas em mapa híbrido + acesso viário)
 SITIOS_COORD_FIXA = {
-    "ERB_CAICO_01": (-6.46600, -37.08119),               # Sudeste: Nova Descoberta / Vila Altiva / Atacadão (favo 3,05 km)
+    "ERB_CAICO_01": (-6.46600, -37.08119),               # Sudeste: Nova Descoberta / Vila Altiva / Centro (favo 3,05 km)
     "ERB_CAICO_02": (-6.46600, -37.10881),               # Sudoeste: Paulo VI / Castelo do Engady (favo 3,05 km)
     "ERB_CAICO_03": (-6.44223, -37.09500),               # Norte: Alto da Boa Vista / RN-118 / Samanaú (favo 3,05 km)
-    "ERB_CURRAIS_NOVOS_01": (-6.26400, -36.50600),       # CCC Centro-Leste: Paizinho Maria / acesso Mirante (favo 2,94 km)
-    "ERB_CURRAIS_NOVOS_02": (-6.25077, -36.52905),       # Noroeste: JK / UFRN / Radir Pereira (favo 2,94 km)
+    "ERB_CAICO_04": (-6.44223, -37.06738),               # Nordeste: IFRN / Aeródromo / Loteamentos Leste RN-427 (favo 3,05 km)
+    "ERB_CAICO_05": (-6.48977, -37.06738),               # Sul-Sudeste: Atacadão / Mirante da Serra / Lot. Itans RN-118 (favo 3,05 km)
+    "ERB_CURRAIS_NOVOS_01": (-6.26400, -36.50600),       # CCC Centro-Leste: Paizinho Maria / Mirante (cota 346,6 m, favo 2,94 km)
+    "ERB_CURRAIS_NOVOS_02": (-6.25077, -36.52905),       # Noroeste: JK / UFRN / José Dantas (favo 2,94 km)
     "ERB_CURRAIS_NOVOS_03": (-6.27723, -36.52905),       # Sudoeste: Sílvio Bezerra / BR-427 / Atacadão (favo 2,94 km)
-    "ERB_SANTA_CRUZ_01": (-6.21300, -36.02300),          # Norte: Maracujá / BR-226
-    "ERB_SANTA_CRUZ_02": (-6.23930, -36.02070),          # Sudeste: Santuário de Santa Rita / Centro-Sul
-    "ERB_SANTA_CRUZ_03": (-6.23400, -36.03750),          # Oeste: Av. Paulo Afonso / IFRN / Paraíso
+    "ERB_CURRAIS_NOVOS_04": (-6.23850, -36.51200),       # Norte: Terreno seco RN-041 / Radir Pereira / Parque Dourado North
+    "ERB_SANTA_CRUZ_01": (-6.21300, -36.02300),          # Norte: Maracujá / BR-226 (favo 2,94 km)
+    "ERB_SANTA_CRUZ_02": (-6.23590, -36.00970),          # Leste-Sudeste: Santuário / Expansão BR-226 Leste (favo 2,94 km)
+    "ERB_SANTA_CRUZ_03": (-6.23590, -36.03630),          # Oeste-Sudoeste: Av. Paulo Afonso / IFRN / Paraíso (favo 2,94 km)
     "ERB_JARDIM_DO_SERIDO_01": (-6.58800, -36.77300),    # Centro urbano (BR-427): 100% da cidade
     "ERB_CARNAUBA_DOS_DANTAS_01": (-6.55850, -36.59150), # Encosta urbana Monte do Galo: 100% cidade + LOS Cume 69
 }
@@ -36,11 +39,14 @@ NOMES_URBANOS = {
     "ERB_CAICO_01": "ERB Caicó - Setor Sudeste",
     "ERB_CAICO_02": "ERB Caicó - Setor Sudoeste",
     "ERB_CAICO_03": "ERB Caicó - Setor Norte",
+    "ERB_CAICO_04": "ERB Caicó - Setor Nordeste (IFRN/Aeródromo)",
+    "ERB_CAICO_05": "ERB Caicó - Setor Sul (Itans/Mirante)",
     "ERB_CURRAIS_NOVOS_01": "ERB Currais Novos - Leste (CCC - Núcleo da Rede)",
     "ERB_CURRAIS_NOVOS_02": "ERB Currais Novos - Noroeste (UFRN/JK)",
     "ERB_CURRAIS_NOVOS_03": "ERB Currais Novos - Sudoeste (Sílvio Bezerra)",
+    "ERB_CURRAIS_NOVOS_04": "ERB Currais Novos - Norte (Radir Pereira/RN-041)",
     "ERB_SANTA_CRUZ_01": "ERB Santa Cruz - Norte (Maracujá)",
-    "ERB_SANTA_CRUZ_02": "ERB Santa Cruz - Sudeste (Santuário)",
+    "ERB_SANTA_CRUZ_02": "ERB Santa Cruz - Sudeste (Santuário/BR-226 Leste)",
     "ERB_SANTA_CRUZ_03": "ERB Santa Cruz - Oeste (IFRN/Paraíso)",
     "ERB_JARDIM_DO_SERIDO_01": "ERB Jardim do Seridó - Centro",
     "ERB_CARNAUBA_DOS_DANTAS_01": "ERB Carnaúba dos Dantas - Centro",
@@ -51,11 +57,14 @@ INFRA_ACESSO_SITIOS = {
     "ERB_CAICO_01": "Rua urbana pavimentada (Nova Descoberta/Vila Altiva) + rede elétrica urbana",
     "ERB_CAICO_02": "Rua urbana pavimentada (Paulo VI) + rede elétrica urbana",
     "ERB_CAICO_03": "Acesso urbano junto à RN-118 (Alto da Boa Vista) + rede elétrica urbana",
-    "ERB_CURRAIS_NOVOS_01": "Via urbana asfaltada (Paizinho Maria / acesso Mirante) + rede elétrica trifásica",
+    "ERB_CAICO_04": "Acesso asfaltado RN-427 / IFRN-Caicó (Expansão Leste) + rede elétrica urbana",
+    "ERB_CAICO_05": "Margem asfaltada da RN-118 / acesso Lot. Itans e Atacadão + rede elétrica urbana",
+    "ERB_CURRAIS_NOVOS_01": "Via urbana asfaltada (Paizinho Maria / Mirante) + rede elétrica trifásica",
     "ERB_CURRAIS_NOVOS_02": "Rua urbana pavimentada (JK / UFRN) + rede elétrica urbana",
     "ERB_CURRAIS_NOVOS_03": "Acesso rodoviário direto BR-427/BR-226 (Sílvio Bezerra) + rede elétrica urbana",
+    "ERB_CURRAIS_NOVOS_04": "Terreno firme junto à RN-041 (Radir Pereira / Norte) + rede elétrica urbana",
     "ERB_SANTA_CRUZ_01": "Acesso urbano junto à BR-226 (Maracujá norte) + rede elétrica urbana",
-    "ERB_SANTA_CRUZ_02": "Via pavimentada urbana (Morro do Santuário Sta. Rita) + rede elétrica urbana",
+    "ERB_SANTA_CRUZ_02": "Margem urbana BR-226 Leste (Santuário / Loteamento Leste) + rede elétrica urbana",
     "ERB_SANTA_CRUZ_03": "Acesso asfaltado Av. Paulo Afonso / RN-023 (IFRN/Paraíso) + rede elétrica urbana",
     "ERB_JARDIM_DO_SERIDO_01": "Centro urbano junto à BR-427 + rede elétrica urbana",
     "ERB_CARNAUBA_DOS_DANTAS_01": "Rua urbana na encosta do Monte do Galo + rede elétrica urbana",
@@ -202,23 +211,26 @@ def gerar_posicionamento_erbs(dados_cobertura: list[dict]) -> tuple[list[dict], 
                 if eh_ccc:
                     ccc_info = sitio
 
-        elif n_erbs == 3 or (n_erbs >= 3 and cidade != "Caicó"):
+        elif n_erbs >= 3:
             # Distribuição geométrica base (substituída por SITIOS_COORD_FIXA quando validada no mapa)
-            dist_centro = raio_km * 0.75
-            angulos = [0, 120, 240]
+            dist_centro = raio_km * (0.65 if cidade == "Caicó" else 0.75)
+            ang_offset = 90.0 if cidade == "Caicó" else 0.0
 
-            for idx, ang in enumerate(angulos, start=1):
+            for idx in range(1, n_erbs + 1):
+                ang = ang_offset + (idx - 1) * (360.0 / n_erbs)
                 rad = math.radians(ang)
                 dx = dist_centro * math.sin(rad)
                 dy = dist_centro * math.cos(rad)
                 lat_s, lon_s = deslocamento_geografico(centro["lat"], centro["lon"], dx, dy)
 
                 id_sitio = f"ERB_{id_cidade}_{idx:02d}"
+                if id_sitio in SITIOS_COORD_FIXA:
+                    lat_s, lon_s = SITIOS_COORD_FIXA[id_sitio]
                 eh_ccc = (cidade == "Currais Novos" and idx == 1)
                 tipo_sitio = "ERB_CCC" if eh_ccc else "ERB"
                 nome_sitio = NOMES_URBANOS.get(
                     id_sitio,
-                    (f"ERB {cidade} - Centro (CCC - Núcleo da Rede)" if eh_ccc else f"ERB {cidade} - Sítio {idx:02d}")
+                    (f"ERB {cidade} - Centro (CCC - Núcleo da Rede)" if eh_ccc else f"ERB {cidade} - Setor {idx:02d}")
                 )
 
                 sitio = {
@@ -237,34 +249,6 @@ def gerar_posicionamento_erbs(dados_cobertura: list[dict]) -> tuple[list[dict], 
 
                 if eh_ccc:
                     ccc_info = sitio
-
-        elif n_erbs >= 3 and cidade == "Caicó":
-            dist_centro = raio_km * 0.65
-            angulos = [90, 210, 330]
-
-            for idx, ang in enumerate(angulos, start=1):
-                rad = math.radians(ang)
-                dx = dist_centro * math.sin(rad)
-                dy = dist_centro * math.cos(rad)
-                lat_s, lon_s = deslocamento_geografico(centro["lat"], centro["lon"], dx, dy)
-
-                id_sitio = f"ERB_{id_cidade}_{idx:02d}"
-                nomes_caico = ["Setor Sudeste", "Setor Sudoeste", "Setor Norte"]
-                nome_sitio = NOMES_URBANOS.get(id_sitio, f"ERB {cidade} - {nomes_caico[idx - 1]}")
-
-                sitio = {
-                    "id": id_sitio,
-                    "nome": nome_sitio,
-                    "cidade": cidade,
-                    "tipo": "ERB",
-                    "latitude": lat_s,
-                    "longitude": lon_s,
-                    "altitude_terreno_m": centro["alt_base_m"],
-                    "altura_torre_m": 45.0,
-                    "setores": 3,
-                    "raio_celula_km": raio_km
-                }
-                lista_sitios.append(sitio)
 
     for s in lista_sitios:
         if s["id"] in AJUSTES_TERRENO_FIRME:
@@ -327,7 +311,7 @@ def executar_etapa4(arquivo_etapa2: str = "outputs/dimensionamento_cobertura.jso
     print(df_sitios[["id", "cidade", "tipo", "latitude", "longitude", "altitude_terreno_m", "altura_torre_m"]].to_string(index=False))
     print("=" * 105)
     print(f"Núcleo Regional (CCC Seridó): {ccc['nome']} ({ccc['latitude']}, {ccc['longitude']})")
-    print(f"Total de Sítios Gerados: {len(sitios)} pontos operacionais (9 ERBs + 1 CCC Natal)")
+    print(f"Total de Sítios Gerados: {len(sitios)} pontos operacionais ({len(sitios) - 1} ERBs + 1 CCC Natal)")
     print("-" * 105)
 
     os.makedirs("outputs", exist_ok=True)

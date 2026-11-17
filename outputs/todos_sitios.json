@@ -69,6 +69,52 @@
         }
     },
     {
+        "id": "ERB_CAICO_04",
+        "nome": "ERB Caicó - Setor Nordeste (IFRN/Aeródromo)",
+        "cidade": "Caicó",
+        "tipo": "ERB",
+        "latitude": -6.44223,
+        "longitude": -37.06738,
+        "altitude_terreno_m": 175.2,
+        "altura_torre_m": 25.0,
+        "setores": 3,
+        "raio_celula_km": 1.808,
+        "acesso_infra": "Acesso asfaltado RN-427 / IFRN-Caicó (Expansão Leste) + rede elétrica urbana",
+        "solucoes": [
+            1,
+            2,
+            3
+        ],
+        "alturas_por_solucao": {
+            "1": 25.0,
+            "2": 25.0,
+            "3": 25.0
+        }
+    },
+    {
+        "id": "ERB_CAICO_05",
+        "nome": "ERB Caicó - Setor Sul (Itans/Mirante)",
+        "cidade": "Caicó",
+        "tipo": "ERB",
+        "latitude": -6.48977,
+        "longitude": -37.06738,
+        "altitude_terreno_m": 157.5,
+        "altura_torre_m": 35.0,
+        "setores": 3,
+        "raio_celula_km": 1.808,
+        "acesso_infra": "Margem asfaltada da RN-118 / acesso Lot. Itans e Atacadão + rede elétrica urbana",
+        "solucoes": [
+            1,
+            2,
+            3
+        ],
+        "alturas_por_solucao": {
+            "1": 35.0,
+            "2": 35.0,
+            "3": 35.0
+        }
+    },
+    {
         "id": "ERB_CURRAIS_NOVOS_01",
         "nome": "ERB Currais Novos - Leste (CCC - Núcleo da Rede)",
         "cidade": "Currais Novos",
@@ -79,7 +125,7 @@
         "altura_torre_m": 40.0,
         "setores": 3,
         "raio_celula_km": 1.808,
-        "acesso_infra": "Via urbana asfaltada (Paizinho Maria / acesso Mirante) + rede elétrica trifásica",
+        "acesso_infra": "Via urbana asfaltada (Paizinho Maria / Mirante) + rede elétrica trifásica",
         "solucoes": [
             1,
             2,
@@ -138,6 +184,29 @@
         }
     },
     {
+        "id": "ERB_CURRAIS_NOVOS_04",
+        "nome": "ERB Currais Novos - Norte (Radir Pereira/RN-041)",
+        "cidade": "Currais Novos",
+        "tipo": "ERB",
+        "latitude": -6.2385,
+        "longitude": -36.512,
+        "altitude_terreno_m": 344.6,
+        "altura_torre_m": 35.0,
+        "setores": 3,
+        "raio_celula_km": 1.808,
+        "acesso_infra": "Terreno firme junto à RN-041 (Radir Pereira / Norte) + rede elétrica urbana",
+        "solucoes": [
+            1,
+            2,
+            3
+        ],
+        "alturas_por_solucao": {
+            "1": 35.0,
+            "2": 35.0,
+            "3": 35.0
+        }
+    },
+    {
         "id": "ERB_SANTA_CRUZ_01",
         "nome": "ERB Santa Cruz - Norte (Maracujá)",
         "cidade": "Santa Cruz",
@@ -145,7 +214,7 @@
         "latitude": -6.213,
         "longitude": -36.023,
         "altitude_terreno_m": 254.5,
-        "altura_torre_m": 20.0,
+        "altura_torre_m": 50.0,
         "setores": 3,
         "raio_celula_km": 1.808,
         "acesso_infra": "Acesso urbano junto à BR-226 (Maracujá norte) + rede elétrica urbana",
@@ -155,23 +224,23 @@
             3
         ],
         "alturas_por_solucao": {
-            "1": 20.0,
-            "2": 30.0,
-            "3": 20.0
+            "1": 50.0,
+            "2": 25.0,
+            "3": 25.0
         }
     },
     {
         "id": "ERB_SANTA_CRUZ_02",
-        "nome": "ERB Santa Cruz - Sudeste (Santuário)",
+        "nome": "ERB Santa Cruz - Sudeste (Santuário/BR-226 Leste)",
         "cidade": "Santa Cruz",
         "tipo": "ERB",
-        "latitude": -6.2393,
-        "longitude": -36.0207,
-        "altitude_terreno_m": 322.8,
+        "latitude": -6.2359,
+        "longitude": -36.0097,
+        "altitude_terreno_m": 231.6,
         "altura_torre_m": 30.0,
         "setores": 3,
         "raio_celula_km": 1.808,
-        "acesso_infra": "Via pavimentada urbana (Morro do Santuário Sta. Rita) + rede elétrica urbana",
+        "acesso_infra": "Margem urbana BR-226 Leste (Santuário / Loteamento Leste) + rede elétrica urbana",
         "solucoes": [
             1,
             2,
@@ -180,7 +249,7 @@
         "alturas_por_solucao": {
             "1": 30.0,
             "2": 30.0,
-            "3": 35.0
+            "3": 45.0
         }
     },
     {
@@ -188,9 +257,9 @@
         "nome": "ERB Santa Cruz - Oeste (IFRN/Paraíso)",
         "cidade": "Santa Cruz",
         "tipo": "ERB",
-        "latitude": -6.234,
-        "longitude": -36.0375,
-        "altitude_terreno_m": 239.4,
+        "latitude": -6.2359,
+        "longitude": -36.0363,
+        "altitude_terreno_m": 251.9,
         "altura_torre_m": 25.0,
         "setores": 3,
         "raio_celula_km": 1.808,
@@ -203,7 +272,7 @@
         "alturas_por_solucao": {
             "1": 25.0,
             "2": 25.0,
-            "3": 25.0
+            "3": 35.0
         }
     },
     {
@@ -272,7 +341,7 @@
         "alturas_por_solucao": {
             "1": 20.0,
             "2": 20.0,
-            "3": 25.0
+            "3": 20.0
         }
     },
     {
@@ -432,21 +501,21 @@
         "acesso_infra": "Topo de serra (acesso rural/trilha de serviço) + kit solar off-grid + 2 baterias"
     },
     {
-        "latitude": -6.2468,
-        "longitude": -35.7056,
-        "altitude_terreno_m": 349.8194274902344,
-        "id": "REP_CUME_44",
-        "nome": "Repetidora Cume 44 (350 m)",
+        "latitude": -6.0324,
+        "longitude": -35.944,
+        "altitude_terreno_m": 452.02716064453125,
+        "id": "REP_CUME_38",
+        "nome": "Repetidora Cume 38 (452 m)",
         "cidade": "Repetidora Interurbana",
         "tipo": "REPETIDORA",
-        "altura_torre_m": 25.0,
+        "altura_torre_m": 50.0,
         "enlaces_conectados": 2,
         "rank_solucao": 3,
         "solucoes": [
             3
         ],
         "alturas_por_solucao": {
-            "3": 25.0
+            "3": 50.0
         },
         "acesso_infra": "Topo de serra (acesso rural/trilha de serviço) + kit solar off-grid + 2 baterias"
     }

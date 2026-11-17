@@ -4,8 +4,8 @@
         "populacao_total": 61146,
         "area_urbana_km2": 22.5,
         "erbs_por_capacidade": 2,
-        "erbs_por_cobertura": 3,
-        "erbs_finais_adotadas": 3,
+        "erbs_por_cobertura": 5,
+        "erbs_finais_adotadas": 5,
         "criterio_dominante": "Cobertura (Área Urbana)",
         "raio_cobertura_km": 1.808,
         "area_erb_km2": 8.5
@@ -15,8 +15,8 @@
         "populacao_total": 41311,
         "area_urbana_km2": 14.8,
         "erbs_por_capacidade": 2,
-        "erbs_por_cobertura": 3,
-        "erbs_finais_adotadas": 3,
+        "erbs_por_cobertura": 4,
+        "erbs_finais_adotadas": 4,
         "criterio_dominante": "Cobertura (Área Urbana)",
         "raio_cobertura_km": 1.808,
         "area_erb_km2": 8.5

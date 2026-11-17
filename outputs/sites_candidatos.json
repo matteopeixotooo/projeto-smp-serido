@@ -39,6 +39,32 @@
         "acesso_infra": "Acesso urbano junto à RN-118 (Alto da Boa Vista) + rede elétrica urbana"
     },
     {
+        "id": "ERB_CAICO_04",
+        "nome": "ERB Caicó - Setor Nordeste (IFRN/Aeródromo)",
+        "cidade": "Caicó",
+        "tipo": "ERB",
+        "latitude": -6.44223,
+        "longitude": -37.06738,
+        "altitude_terreno_m": 175.2,
+        "altura_torre_m": 45.0,
+        "setores": 3,
+        "raio_celula_km": 1.808,
+        "acesso_infra": "Acesso asfaltado RN-427 / IFRN-Caicó (Expansão Leste) + rede elétrica urbana"
+    },
+    {
+        "id": "ERB_CAICO_05",
+        "nome": "ERB Caicó - Setor Sul (Itans/Mirante)",
+        "cidade": "Caicó",
+        "tipo": "ERB",
+        "latitude": -6.48977,
+        "longitude": -37.06738,
+        "altitude_terreno_m": 157.5,
+        "altura_torre_m": 45.0,
+        "setores": 3,
+        "raio_celula_km": 1.808,
+        "acesso_infra": "Margem asfaltada da RN-118 / acesso Lot. Itans e Atacadão + rede elétrica urbana"
+    },
+    {
         "id": "ERB_CURRAIS_NOVOS_01",
         "nome": "ERB Currais Novos - Leste (CCC - Núcleo da Rede)",
         "cidade": "Currais Novos",
@@ -49,7 +75,7 @@
         "altura_torre_m": 45.0,
         "setores": 3,
         "raio_celula_km": 1.808,
-        "acesso_infra": "Via urbana asfaltada (Paizinho Maria / acesso Mirante) + rede elétrica trifásica"
+        "acesso_infra": "Via urbana asfaltada (Paizinho Maria / Mirante) + rede elétrica trifásica"
     },
     {
         "id": "ERB_CURRAIS_NOVOS_02",
@@ -78,6 +104,19 @@
         "acesso_infra": "Acesso rodoviário direto BR-427/BR-226 (Sílvio Bezerra) + rede elétrica urbana"
     },
     {
+        "id": "ERB_CURRAIS_NOVOS_04",
+        "nome": "ERB Currais Novos - Norte (Radir Pereira/RN-041)",
+        "cidade": "Currais Novos",
+        "tipo": "ERB",
+        "latitude": -6.2385,
+        "longitude": -36.512,
+        "altitude_terreno_m": 342.7,
+        "altura_torre_m": 45.0,
+        "setores": 3,
+        "raio_celula_km": 1.808,
+        "acesso_infra": "Terreno firme junto à RN-041 (Radir Pereira / Norte) + rede elétrica urbana"
+    },
+    {
         "id": "ERB_SANTA_CRUZ_01",
         "nome": "ERB Santa Cruz - Norte (Maracujá)",
         "cidade": "Santa Cruz",
@@ -92,25 +131,25 @@
     },
     {
         "id": "ERB_SANTA_CRUZ_02",
-        "nome": "ERB Santa Cruz - Sudeste (Santuário)",
+        "nome": "ERB Santa Cruz - Sudeste (Santuário/BR-226 Leste)",
         "cidade": "Santa Cruz",
         "tipo": "ERB",
-        "latitude": -6.2393,
-        "longitude": -36.0207,
-        "altitude_terreno_m": 310.8,
+        "latitude": -6.2359,
+        "longitude": -36.0097,
+        "altitude_terreno_m": 230.4,
         "altura_torre_m": 45.0,
         "setores": 3,
         "raio_celula_km": 1.808,
-        "acesso_infra": "Via pavimentada urbana (Morro do Santuário Sta. Rita) + rede elétrica urbana"
+        "acesso_infra": "Margem urbana BR-226 Leste (Santuário / Loteamento Leste) + rede elétrica urbana"
     },
     {
         "id": "ERB_SANTA_CRUZ_03",
         "nome": "ERB Santa Cruz - Oeste (IFRN/Paraíso)",
         "cidade": "Santa Cruz",
         "tipo": "ERB",
-        "latitude": -6.234,
-        "longitude": -36.0375,
-        "altitude_terreno_m": 237.2,
+        "latitude": -6.2359,
+        "longitude": -36.0363,
+        "altitude_terreno_m": 249.4,
         "altura_torre_m": 45.0,
         "setores": 3,
         "raio_celula_km": 1.808,

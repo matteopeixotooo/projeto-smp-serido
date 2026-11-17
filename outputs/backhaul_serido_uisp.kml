@@ -74,6 +74,32 @@ Altitude do Terreno: 164.2 m</description>
         </Point>
       </Placemark>
       <Placemark>
+        <name>ERB Caicó - Setor Nordeste (IFRN/Aeródromo)</name>
+        <description>ID: ERB_CAICO_04
+Tipo: ERB
+Cidade: Caicó
+Altura da Torre: 25.0 m
+Altitude do Terreno: 175.2 m</description>
+        <styleUrl>#estilo_erb</styleUrl>
+        <Point>
+          <altitudeMode>relativeToGround</altitudeMode>
+          <coordinates>-37.06738,-6.44223,25.0</coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>ERB Caicó - Setor Sul (Itans/Mirante)</name>
+        <description>ID: ERB_CAICO_05
+Tipo: ERB
+Cidade: Caicó
+Altura da Torre: 35.0 m
+Altitude do Terreno: 157.5 m</description>
+        <styleUrl>#estilo_erb</styleUrl>
+        <Point>
+          <altitudeMode>relativeToGround</altitudeMode>
+          <coordinates>-37.06738,-6.48977,35.0</coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
         <name>ERB Currais Novos - Leste (CCC - Núcleo da Rede)</name>
         <description>ID: ERB_CURRAIS_NOVOS_01
 Tipo: ERB_CCC
@@ -113,29 +139,42 @@ Altitude do Terreno: 353.6 m</description>
         </Point>
       </Placemark>
       <Placemark>
+        <name>ERB Currais Novos - Norte (Radir Pereira/RN-041)</name>
+        <description>ID: ERB_CURRAIS_NOVOS_04
+Tipo: ERB
+Cidade: Currais Novos
+Altura da Torre: 35.0 m
+Altitude do Terreno: 344.6 m</description>
+        <styleUrl>#estilo_erb</styleUrl>
+        <Point>
+          <altitudeMode>relativeToGround</altitudeMode>
+          <coordinates>-36.512,-6.2385,35.0</coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
         <name>ERB Santa Cruz - Norte (Maracujá)</name>
         <description>ID: ERB_SANTA_CRUZ_01
 Tipo: ERB
 Cidade: Santa Cruz
-Altura da Torre: 20.0 m
+Altura da Torre: 50.0 m
 Altitude do Terreno: 254.5 m</description>
         <styleUrl>#estilo_erb</styleUrl>
         <Point>
           <altitudeMode>relativeToGround</altitudeMode>
-          <coordinates>-36.023,-6.213,20.0</coordinates>
+          <coordinates>-36.023,-6.213,50.0</coordinates>
         </Point>
       </Placemark>
       <Placemark>
-        <name>ERB Santa Cruz - Sudeste (Santuário)</name>
+        <name>ERB Santa Cruz - Sudeste (Santuário/BR-226 Leste)</name>
         <description>ID: ERB_SANTA_CRUZ_02
 Tipo: ERB
 Cidade: Santa Cruz
 Altura da Torre: 30.0 m
-Altitude do Terreno: 322.8 m</description>
+Altitude do Terreno: 231.6 m</description>
         <styleUrl>#estilo_erb</styleUrl>
         <Point>
           <altitudeMode>relativeToGround</altitudeMode>
-          <coordinates>-36.0207,-6.2393,30.0</coordinates>
+          <coordinates>-36.0097,-6.2359,30.0</coordinates>
         </Point>
       </Placemark>
       <Placemark>
@@ -144,11 +183,11 @@ Altitude do Terreno: 322.8 m</description>
 Tipo: ERB
 Cidade: Santa Cruz
 Altura da Torre: 25.0 m
-Altitude do Terreno: 239.4 m</description>
+Altitude do Terreno: 251.9 m</description>
         <styleUrl>#estilo_erb</styleUrl>
         <Point>
           <altitudeMode>relativeToGround</altitudeMode>
-          <coordinates>-36.0375,-6.234,25.0</coordinates>
+          <coordinates>-36.0363,-6.2359,25.0</coordinates>
         </Point>
       </Placemark>
       <Placemark>
@@ -295,47 +334,47 @@ Altitude do Terreno: 548.5866088867188 m</description>
         </Point>
       </Placemark>
       <Placemark>
-        <name>Repetidora Cume 44 (350 m)</name>
-        <description>ID: REP_CUME_44
+        <name>Repetidora Cume 38 (452 m)</name>
+        <description>ID: REP_CUME_38
 Tipo: REPETIDORA
 Cidade: Repetidora Interurbana
-Altura da Torre: 25.0 m
-Altitude do Terreno: 349.8194274902344 m</description>
+Altura da Torre: 50.0 m
+Altitude do Terreno: 452.02716064453125 m</description>
         <styleUrl>#estilo_rep</styleUrl>
         <Point>
           <altitudeMode>relativeToGround</altitudeMode>
-          <coordinates>-35.7056,-6.2468,25.0</coordinates>
+          <coordinates>-35.944,-6.0324,50.0</coordinates>
         </Point>
       </Placemark>
     </Folder>
     <Folder>
       <name>Enlaces PTP de Micro-ondas</name>
       <Placemark>
-        <name>PTP: ERB Santa Cruz - Oeste (IFRN/Paraíso) &lt;-&gt; ERB Santa Cruz - Norte (Maracujá)</name>
-        <description>Distância: 2.83 km
-Antena Tx: 0.38m (Standard)
-Antena Rx: 0.38m (Standard)
-Torres (Tx / Rx): 25.0m / 20.0m
-Fade Margin Estimada: 29.03 dB
-RSL Estimado: -44.97 dBm</description>
-        <styleUrl>#linha_local</styleUrl>
-        <LineString>
-          <altitudeMode>relativeToGround</altitudeMode>
-          <coordinates>-36.0375,-6.234,25.0 -36.023,-6.213,20.0</coordinates>
-        </LineString>
-      </Placemark>
-      <Placemark>
-        <name>PTP: ERB Santa Cruz - Sudeste (Santuário) &lt;-&gt; ERB Santa Cruz - Norte (Maracujá)</name>
+        <name>PTP: ERB Santa Cruz - Sudeste (Santuário/BR-226 Leste) &lt;-&gt; ERB Santa Cruz - Oeste (IFRN/Paraíso)</name>
         <description>Distância: 2.94 km
 Antena Tx: 0.38m (Standard)
 Antena Rx: 0.38m (Standard)
-Torres (Tx / Rx): 30.0m / 20.0m
+Torres (Tx / Rx): 30.0m / 25.0m
 Fade Margin Estimada: 28.7 dB
 RSL Estimado: -45.3 dBm</description>
         <styleUrl>#linha_local</styleUrl>
         <LineString>
           <altitudeMode>relativeToGround</altitudeMode>
-          <coordinates>-36.0207,-6.2393,30.0 -36.023,-6.213,20.0</coordinates>
+          <coordinates>-36.0097,-6.2359,30.0 -36.0363,-6.2359,25.0</coordinates>
+        </LineString>
+      </Placemark>
+      <Placemark>
+        <name>PTP: ERB Santa Cruz - Norte (Maracujá) &lt;-&gt; ERB Santa Cruz - Oeste (IFRN/Paraíso)</name>
+        <description>Distância: 2.94 km
+Antena Tx: 0.38m (Standard)
+Antena Rx: 0.38m (Standard)
+Torres (Tx / Rx): 50.0m / 25.0m
+Fade Margin Estimada: 28.7 dB
+RSL Estimado: -45.3 dBm</description>
+        <styleUrl>#linha_local</styleUrl>
+        <LineString>
+          <altitudeMode>relativeToGround</altitudeMode>
+          <coordinates>-36.023,-6.213,50.0 -36.0363,-6.2359,25.0</coordinates>
         </LineString>
       </Placemark>
       <Placemark>
@@ -381,6 +420,20 @@ RSL Estimado: -45.62 dBm</description>
         </LineString>
       </Placemark>
       <Placemark>
+        <name>PTP: ERB Caicó - Setor Sul (Itans/Mirante) &lt;-&gt; ERB Caicó - Setor Sudeste</name>
+        <description>Distância: 3.05 km
+Antena Tx: 0.38m (Standard)
+Antena Rx: 0.38m (Standard)
+Torres (Tx / Rx): 35.0m / 35.0m
+Fade Margin Estimada: 28.38 dB
+RSL Estimado: -45.62 dBm</description>
+        <styleUrl>#linha_local</styleUrl>
+        <LineString>
+          <altitudeMode>relativeToGround</altitudeMode>
+          <coordinates>-37.06738,-6.48977,35.0 -37.08119,-6.466,35.0</coordinates>
+        </LineString>
+      </Placemark>
+      <Placemark>
         <name>PTP: ERB Caicó - Setor Norte &lt;-&gt; ERB Caicó - Setor Sudeste</name>
         <description>Distância: 3.05 km
 Antena Tx: 0.38m (Standard)
@@ -392,6 +445,20 @@ RSL Estimado: -45.62 dBm</description>
         <LineString>
           <altitudeMode>relativeToGround</altitudeMode>
           <coordinates>-37.095,-6.44223,40.0 -37.08119,-6.466,35.0</coordinates>
+        </LineString>
+      </Placemark>
+      <Placemark>
+        <name>PTP: ERB Caicó - Setor Nordeste (IFRN/Aeródromo) &lt;-&gt; ERB Caicó - Setor Sudeste</name>
+        <description>Distância: 3.05 km
+Antena Tx: 0.38m (Standard)
+Antena Rx: 0.38m (Standard)
+Torres (Tx / Rx): 25.0m / 35.0m
+Fade Margin Estimada: 28.38 dB
+RSL Estimado: -45.62 dBm</description>
+        <styleUrl>#linha_local</styleUrl>
+        <LineString>
+          <altitudeMode>relativeToGround</altitudeMode>
+          <coordinates>-37.06738,-6.44223,25.0 -37.08119,-6.466,35.0</coordinates>
         </LineString>
       </Placemark>
       <Placemark>
@@ -409,6 +476,34 @@ RSL Estimado: -46.93 dBm</description>
         </LineString>
       </Placemark>
       <Placemark>
+        <name>PTP: ERB Currais Novos - Norte (Radir Pereira/RN-041) &lt;-&gt; ERB Currais Novos - Sudoeste (Sílvio Bezerra)</name>
+        <description>Distância: 4.7 km
+Antena Tx: 0.38m (Standard)
+Antena Rx: 0.38m (Standard)
+Torres (Tx / Rx): 35.0m / 30.0m
+Fade Margin Estimada: 24.63 dB
+RSL Estimado: -49.37 dBm</description>
+        <styleUrl>#linha_local</styleUrl>
+        <LineString>
+          <altitudeMode>relativeToGround</altitudeMode>
+          <coordinates>-36.512,-6.2385,35.0 -36.52905,-6.27723,30.0</coordinates>
+        </LineString>
+      </Placemark>
+      <Placemark>
+        <name>PTP: Repetidora Cume 45 (402 m) &lt;-&gt; ERB Santa Cruz - Norte (Maracujá)</name>
+        <description>Distância: 19.83 km
+Antena Tx: 0.9m (Standard)
+Antena Rx: 0.9m (Standard)
+Torres (Tx / Rx): 30.0m / 50.0m
+Fade Margin Estimada: 32.28 dB
+RSL Estimado: -40.72 dBm</description>
+        <styleUrl>#linha_local</styleUrl>
+        <LineString>
+          <altitudeMode>relativeToGround</altitudeMode>
+          <coordinates>-35.852,-6.1592,30.0 -36.023,-6.213,50.0</coordinates>
+        </LineString>
+      </Placemark>
+      <Placemark>
         <name>PTP: ERB Jardim do Seridó - Centro &lt;-&gt; Repetidora Cume 69 (666 m)</name>
         <description>Distância: 20.45 km
 Antena Tx: 0.9m (Standard)
@@ -423,31 +518,17 @@ RSL Estimado: -40.99 dBm</description>
         </LineString>
       </Placemark>
       <Placemark>
-        <name>PTP: Repetidora Cume 45 (402 m) &lt;-&gt; ERB Santa Cruz - Sudeste (Santuário)</name>
-        <description>Distância: 20.67 km
+        <name>PTP: ERB Santa Cruz - Oeste (IFRN/Paraíso) &lt;-&gt; Repetidora Cume 28 (681 m)</name>
+        <description>Distância: 22.52 km
 Antena Tx: 0.9m (Standard)
 Antena Rx: 0.9m (Standard)
-Torres (Tx / Rx): 30.0m / 30.0m
-Fade Margin Estimada: 31.92 dB
-RSL Estimado: -41.08 dBm</description>
+Torres (Tx / Rx): 25.0m / 25.0m
+Fade Margin Estimada: 31.17 dB
+RSL Estimado: -41.83 dBm</description>
         <styleUrl>#linha_local</styleUrl>
         <LineString>
           <altitudeMode>relativeToGround</altitudeMode>
-          <coordinates>-35.852,-6.1592,30.0 -36.0207,-6.2393,30.0</coordinates>
-        </LineString>
-      </Placemark>
-      <Placemark>
-        <name>PTP: ERB Santa Cruz - Norte (Maracujá) &lt;-&gt; Repetidora Cume 28 (681 m)</name>
-        <description>Distância: 22.68 km
-Antena Tx: 0.9m (Standard)
-Antena Rx: 0.9m (Standard)
-Torres (Tx / Rx): 20.0m / 25.0m
-Fade Margin Estimada: 31.11 dB
-RSL Estimado: -41.89 dBm</description>
-        <styleUrl>#linha_local</styleUrl>
-        <LineString>
-          <altitudeMode>relativeToGround</altitudeMode>
-          <coordinates>-36.023,-6.213,20.0 -36.2116,-6.1328,25.0</coordinates>
+          <coordinates>-36.0363,-6.2359,25.0 -36.2116,-6.1328,25.0</coordinates>
         </LineString>
       </Placemark>
       <Placemark>
