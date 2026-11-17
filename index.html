@@ -709,8 +709,8 @@
         const idxGrupo = (s.id === 'ERB_CAICO_05') ? 2 : (idxCidade % 4);
         const grp = GRUPOS[idxGrupo];
         const R = s.raio_celula_km || 1.808;
-        // Currais Novos e Santa Cruz alinham em favo flat-top (30°); Caicó e demais em pointy-top (0°)
-        const rot = (cid === 'Currais Novos' || cid === 'Santa Cruz') ? 30 : 0;
+        // Currais Novos alinha em favo flat-top (30°); Caicó, Santa Cruz e demais em pointy-top (0°)
+        const rot = (cid === 'Currais Novos') ? 30 : 0;
 
         // 6 vértices do hexágono inscrito em R=1,808 km
         const verts = [0, 60, 120, 180, 240, 300].map(a => ptGeodesico(s.latitude, s.longitude, R, rot + a));
