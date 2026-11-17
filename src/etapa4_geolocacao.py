@@ -17,17 +17,17 @@ CENTROIDES_MUNICIPIOS = {
     "Carnaúba dos Dantas": {"lat": -6.5556, "lon": -36.5947, "alt_base_m": 308.0}
 }
 
-# Coordenadas fixadas por cobertura 100% da mancha urbana real (validadas em mapa híbrido + acesso viário)
+# Coordenadas fixadas por cobertura 100% da mancha urbana real em favo de mel exato (validadas em mapa híbrido + acesso viário)
 SITIOS_COORD_FIXA = {
-    "ERB_CAICO_01": (-6.46600, -37.08100),               # Sudeste: Nova Descoberta / Vila Altiva / Samanaú sul
-    "ERB_CAICO_02": (-6.46600, -37.10900),               # Sudoeste: Paulo VI / Castelo do Engady
-    "ERB_CAICO_03": (-6.43950, -37.09450),               # Norte: Alto da Boa Vista / RN-118 / Samanaú norte
-    "ERB_CURRAIS_NOVOS_01": (-6.26400, -36.50600),       # CCC Centro-Leste: Paizinho Maria / acesso Mirante do Cruzeiro
-    "ERB_CURRAIS_NOVOS_02": (-6.25000, -36.52400),       # Noroeste: JK / UFRN / Radir Pereira
-    "ERB_CURRAIS_NOVOS_03": (-6.27800, -36.52800),       # Sudoeste: Sílvio Bezerra / BR-427 / Atacadão
+    "ERB_CAICO_01": (-6.46600, -37.08119),               # Sudeste: Nova Descoberta / Vila Altiva / Atacadão (favo 3,05 km)
+    "ERB_CAICO_02": (-6.46600, -37.10881),               # Sudoeste: Paulo VI / Castelo do Engady (favo 3,05 km)
+    "ERB_CAICO_03": (-6.44223, -37.09500),               # Norte: Alto da Boa Vista / RN-118 / Samanaú (favo 3,05 km)
+    "ERB_CURRAIS_NOVOS_01": (-6.26400, -36.50600),       # CCC Centro-Leste: Paizinho Maria / acesso Mirante (favo 2,94 km)
+    "ERB_CURRAIS_NOVOS_02": (-6.25077, -36.52905),       # Noroeste: JK / UFRN / Radir Pereira (favo 2,94 km)
+    "ERB_CURRAIS_NOVOS_03": (-6.27723, -36.52905),       # Sudoeste: Sílvio Bezerra / BR-427 / Atacadão (favo 2,94 km)
     "ERB_SANTA_CRUZ_01": (-6.21300, -36.02300),          # Norte: Maracujá / BR-226
-    "ERB_SANTA_CRUZ_02": (-6.23930, -36.02070),          # Sudeste: Santuário de Santa Rita / Arraiá dos Limas
-    "ERB_SANTA_CRUZ_03": (-6.23500, -36.03500),          # Oeste: Av. Paulo Afonso / IFRN / Paraíso
+    "ERB_SANTA_CRUZ_02": (-6.23930, -36.02070),          # Sudeste: Santuário de Santa Rita / Centro-Sul
+    "ERB_SANTA_CRUZ_03": (-6.23400, -36.03750),          # Oeste: Av. Paulo Afonso / IFRN / Paraíso
     "ERB_JARDIM_DO_SERIDO_01": (-6.58800, -36.77300),    # Centro urbano (BR-427): 100% da cidade
     "ERB_CARNAUBA_DOS_DANTAS_01": (-6.55850, -36.59150), # Encosta urbana Monte do Galo: 100% cidade + LOS Cume 69
 }

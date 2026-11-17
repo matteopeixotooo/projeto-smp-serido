@@ -804,13 +804,15 @@ html_code = f"""<!DOCTYPE html>
         contadorCidade[cid] = idxCidade + 1;
         const grp = GRUPOS[idxCidade % 4];
         const R = s.raio_celula_km || 1.808;
+        // Currais Novos e Santa Cruz alinham em favo flat-top (30°); Caicó e demais em pointy-top (0°)
+        const rot = (cid === 'Currais Novos' || cid === 'Santa Cruz') ? 30 : 0;
 
-        // 6 vértices do hexágono inscrito (ponta em 0°, 60°, 120°, 180°, 240°, 300°)
-        const verts = [0, 60, 120, 180, 240, 300].map(a => ptGeodesico(s.latitude, s.longitude, R, a));
+        // 6 vértices do hexágono inscrito em R=1,808 km
+        const verts = [0, 60, 120, 180, 240, 300].map(a => ptGeodesico(s.latitude, s.longitude, R, rot + a));
         const setores = [
-          {{ poly: [[s.latitude, s.longitude], verts[0], verts[1], verts[2]], azMid: 60, num: 1 }},
-          {{ poly: [[s.latitude, s.longitude], verts[2], verts[3], verts[4]], azMid: 180, num: 2 }},
-          {{ poly: [[s.latitude, s.longitude], verts[4], verts[5], verts[0]], azMid: 300, num: 3 }},
+          {{ poly: [[s.latitude, s.longitude], verts[0], verts[1], verts[2]], azMid: rot + 60, num: 1 }},
+          {{ poly: [[s.latitude, s.longitude], verts[2], verts[3], verts[4]], azMid: rot + 180, num: 2 }},
+          {{ poly: [[s.latitude, s.longitude], verts[4], verts[5], verts[0]], azMid: rot + 300, num: 3 }},
         ];
 
         setores.forEach((sec, k) => {{
@@ -2223,9 +2225,9 @@ html_code = f"""<!DOCTYPE html>
             </div>
             <div class="formula-box">
               <b>Física da Visada (Abaulamento + Zona de Fresnel):</b><br>
-              • <b>Abaulamento da Terra (k = 4/3):</b> <code>h_curv(d) = (d₁ · d₂) / (2 · k · R_Terra)</code>. No salto de 77,0 km até Natal, a Terra "sobe" <b>+87,1 m</b> no centro (descontando a refração k=4/3)!<br>
+              • <b>Abaulamento da Terra (k = 4/3):</b> <code>h_curv(d) = (d₁ · d₂) / (2 · k · R_Terra)</code>. No salto de 77,0 km até Natal, a Terra "sobe" <b>+87,2 m</b> no centro (descontando a refração k=4/3)!<br>
               • <b>1ª Zona de Fresnel:</b> <code>R₁ = 17,32 · √((d₁ · d₂) / (f_GHz · D))</code>. Exigimos pelo menos <b>60% de F₁ livre + 16 m de folga de segurança</b> (evitando torres baixas e feixe rente ao solo/vegetação).<br>
-              • <b>Chuva Intensa (ITU-R P.838-3 @ 50 mm/h):</b> Em <code>76,95 km</code> (Rep. Cume 45 → Natal), 11 GHz perderia ~28 dB na chuva; por isso adotamos <b>5 GHz (airFiber 5XHD)</b> nesse salto longo, perdendo apenas <b>0,82 dB</b>!
+              • <b>Chuva Intensa (ITU-R P.838-3 @ 50 mm/h):</b> Em <code>76,97 km</code> (Rep. Cume 45 → Natal), 11 GHz perderia ~28 dB na chuva; por isso adotamos <b>5 GHz (airFiber 5XHD)</b> nesse salto longo, perdendo apenas <b>0,82 dB</b>!
             </div>
           </div>
 
@@ -2445,17 +2447,17 @@ html_code = f"""<!DOCTYPE html>
 
               <rect x="500" y="96" width="150" height="58" rx="8" fill="#331520" stroke="#ff1744" stroke-width="2" />
               <text x="575" y="117" fill="#fff" font-size="11" font-weight="bold" text-anchor="middle">CCC Currais Novos</text>
-              <text x="575" y="132" fill="#fda4af" font-size="9.5" text-anchor="middle">3 ERBs • 40 / 30 / 25m</text>
-              <text x="575" y="145" fill="#cbd5e1" font-size="9" text-anchor="middle">35,6 km → Cume 26</text>
+              <text x="575" y="132" fill="#fda4af" font-size="9.5" text-anchor="middle">3 ERBs • 40 / 30 / 20m</text>
+              <text x="575" y="145" fill="#cbd5e1" font-size="9" text-anchor="middle">35,7 km → Cume 28</text>
 
               <rect x="722" y="96" width="122" height="58" rx="8" fill="#122b22" stroke="#00ff55" stroke-width="2" />
-              <text x="783" y="117" fill="#00ff55" font-size="11" font-weight="bold" text-anchor="middle">Rep. Cume 26</text>
+              <text x="783" y="117" fill="#00ff55" font-size="11" font-weight="bold" text-anchor="middle">Rep. Cume 28</text>
               <text x="783" y="132" fill="#cbd5e1" font-size="9.5" text-anchor="middle">681 m • Torre 25m</text>
               <text x="783" y="145" fill="#94a3b8" font-size="9" text-anchor="middle">22,7 km → Sta Cruz</text>
 
               <rect x="897" y="96" width="118" height="58" rx="8" fill="#172033" stroke="#00e5ff" />
               <text x="956" y="117" fill="#fff" font-size="11" font-weight="bold" text-anchor="middle">Santa Cruz</text>
-              <text x="956" y="132" fill="#7dd3fc" font-size="9.5" text-anchor="middle">3 ERBs • 25 / 30 / 25m</text>
+              <text x="956" y="132" fill="#7dd3fc" font-size="9.5" text-anchor="middle">3 ERBs • 20 / 30 / 25m</text>
               <text x="956" y="145" fill="#94a3b8" font-size="9" text-anchor="middle">20,7 km → Cume 45</text>
 
               <rect x="1050" y="34" width="98" height="54" rx="8" fill="#122b22" stroke="#00ff55" stroke-width="2" />

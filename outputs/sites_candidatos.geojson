@@ -6,7 +6,7 @@
             "geometry": {
                 "type": "Point",
                 "coordinates": [
-                    -37.081,
+                    -37.08119,
                     -6.466
                 ]
             },
@@ -25,7 +25,7 @@
             "geometry": {
                 "type": "Point",
                 "coordinates": [
-                    -37.109,
+                    -37.10881,
                     -6.466
                 ]
             },
@@ -44,8 +44,8 @@
             "geometry": {
                 "type": "Point",
                 "coordinates": [
-                    -37.0945,
-                    -6.4395
+                    -37.095,
+                    -6.44223
                 ]
             },
             "properties": {
@@ -54,7 +54,7 @@
                 "cidade": "Caicó",
                 "tipo": "ERB",
                 "altura_torre_m": 45.0,
-                "altitude_m": 173.0,
+                "altitude_m": 164.2,
                 "raio_cobertura_km": 1.808
             }
         },
@@ -82,8 +82,8 @@
             "geometry": {
                 "type": "Point",
                 "coordinates": [
-                    -36.524,
-                    -6.25
+                    -36.52905,
+                    -6.25077
                 ]
             },
             "properties": {
@@ -92,7 +92,7 @@
                 "cidade": "Currais Novos",
                 "tipo": "ERB",
                 "altura_torre_m": 45.0,
-                "altitude_m": 343.8,
+                "altitude_m": 345.2,
                 "raio_cobertura_km": 1.808
             }
         },
@@ -101,8 +101,8 @@
             "geometry": {
                 "type": "Point",
                 "coordinates": [
-                    -36.528,
-                    -6.278
+                    -36.52905,
+                    -6.27723
                 ]
             },
             "properties": {
@@ -111,7 +111,7 @@
                 "cidade": "Currais Novos",
                 "tipo": "ERB",
                 "altura_torre_m": 45.0,
-                "altitude_m": 351.6,
+                "altitude_m": 347.9,
                 "raio_cobertura_km": 1.808
             }
         },
@@ -158,8 +158,8 @@
             "geometry": {
                 "type": "Point",
                 "coordinates": [
-                    -36.035,
-                    -6.235
+                    -36.0375,
+                    -6.234
                 ]
             },
             "properties": {
@@ -168,7 +168,7 @@
                 "cidade": "Santa Cruz",
                 "tipo": "ERB",
                 "altura_torre_m": 45.0,
-                "altitude_m": 241.2,
+                "altitude_m": 237.2,
                 "raio_cobertura_km": 1.808
             }
         },
