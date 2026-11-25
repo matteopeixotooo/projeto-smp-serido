@@ -16,6 +16,8 @@ for p in json.load(open('outputs/perfis_enlaces.json')):
     e=np.array([z(a,b) for a,b in zip(la,lo)]); d=t*D
     los=(e[0]+p['h_tx'])+((e[-1]+p['h_rx'])-(e[0]+p['h_tx']))*t
     curv=(d*1000)*((D-d)*1000)/(2*6371000*4/3)
-    fr=0.6*17.32*np.sqrt(np.clip(d*(D-d),0,None)/(p['freq']*D))
-    f=(los-(e+curv+fr))[1:-1].min()
-    print(f"{p['origem'][:34]:34} -> {p['destino'][:30]:30} {D:6.2f} km  folga mín {f:6.1f} m  {'OK' if f>=0 else 'OBSTRUÍDO'}")
+    fr60=0.6*17.32*np.sqrt(np.clip(d*(D-d),0,None)/(p['freq']*D))
+    fr100=1.0*17.32*np.sqrt(np.clip(d*(D-d),0,None)/(p['freq']*D))
+    f60=(los-(e+curv+fr60))[1:-1].min()
+    f100=(los-(e+curv+fr100))[1:-1].min()
+    print(f"{p['origem'][:34]:34} -> {p['destino'][:30]:30} {D:6.2f} km  folga(100%F1) {f100:5.1f} m  (60%F1 {f60:5.1f} m)  {'OK' if f100>=0 else 'OBSTRUÍDO'}")

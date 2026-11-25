@@ -18,8 +18,8 @@
         ],
         "alturas_por_solucao": {
             "1": 35.0,
-            "2": 35.0,
-            "3": 35.0
+            "2": 40.0,
+            "3": 30.0
         }
     },
     {
@@ -30,7 +30,7 @@
         "latitude": -6.466,
         "longitude": -37.10881,
         "altitude_terreno_m": 170.0,
-        "altura_torre_m": 30.0,
+        "altura_torre_m": 40.0,
         "setores": 3,
         "raio_celula_km": 1.808,
         "acesso_infra": "Rua urbana pavimentada (Paulo VI) + rede elétrica urbana",
@@ -40,9 +40,9 @@
             3
         ],
         "alturas_por_solucao": {
-            "1": 30.0,
+            "1": 40.0,
             "2": 30.0,
-            "3": 30.0
+            "3": 20.0
         }
     },
     {
@@ -53,7 +53,7 @@
         "latitude": -6.44223,
         "longitude": -37.095,
         "altitude_terreno_m": 164.2,
-        "altura_torre_m": 40.0,
+        "altura_torre_m": 20.0,
         "setores": 3,
         "raio_celula_km": 1.808,
         "acesso_infra": "Acesso urbano junto à RN-118 (Alto da Boa Vista) + rede elétrica urbana",
@@ -63,7 +63,7 @@
             3
         ],
         "alturas_por_solucao": {
-            "1": 40.0,
+            "1": 20.0,
             "2": 40.0,
             "3": 40.0
         }
@@ -76,7 +76,7 @@
         "latitude": -6.44223,
         "longitude": -37.06738,
         "altitude_terreno_m": 175.2,
-        "altura_torre_m": 25.0,
+        "altura_torre_m": 30.0,
         "setores": 3,
         "raio_celula_km": 1.808,
         "acesso_infra": "Acesso asfaltado RN-427 / IFRN-Caicó (Expansão Leste) + rede elétrica urbana",
@@ -86,9 +86,9 @@
             3
         ],
         "alturas_por_solucao": {
-            "1": 25.0,
-            "2": 25.0,
-            "3": 25.0
+            "1": 30.0,
+            "2": 30.0,
+            "3": 30.0
         }
     },
     {
@@ -99,7 +99,7 @@
         "latitude": -6.48977,
         "longitude": -37.06738,
         "altitude_terreno_m": 157.5,
-        "altura_torre_m": 35.0,
+        "altura_torre_m": 25.0,
         "setores": 3,
         "raio_celula_km": 1.808,
         "acesso_infra": "Margem asfaltada da RN-118 / acesso Lot. Itans e Atacadão + rede elétrica urbana",
@@ -109,9 +109,9 @@
             3
         ],
         "alturas_por_solucao": {
-            "1": 35.0,
+            "1": 25.0,
             "2": 35.0,
-            "3": 35.0
+            "3": 60.0
         }
     },
     {
@@ -122,7 +122,7 @@
         "latitude": -6.2605,
         "longitude": -36.504,
         "altitude_terreno_m": 349.4,
-        "altura_torre_m": 45.0,
+        "altura_torre_m": 50.0,
         "setores": 3,
         "raio_celula_km": 1.808,
         "acesso_infra": "Via urbana asfaltada BR-226 (Paizinho Maria / Mirante) + rede elétrica trifásica",
@@ -132,9 +132,9 @@
             3
         ],
         "alturas_por_solucao": {
-            "1": 45.0,
-            "2": 45.0,
-            "3": 20.0
+            "1": 50.0,
+            "2": 50.0,
+            "3": 25.0
         }
     },
     {
@@ -191,7 +191,7 @@
         "latitude": -6.213,
         "longitude": -36.023,
         "altitude_terreno_m": 254.5,
-        "altura_torre_m": 50.0,
+        "altura_torre_m": 25.0,
         "setores": 3,
         "raio_celula_km": 1.808,
         "acesso_infra": "Acesso urbano junto à BR-226 (Maracujá norte) + rede elétrica urbana",
@@ -201,9 +201,9 @@
             3
         ],
         "alturas_por_solucao": {
-            "1": 50.0,
-            "2": 25.0,
-            "3": 25.0
+            "1": 25.0,
+            "2": 80.0,
+            "3": 30.0
         }
     },
     {
@@ -226,7 +226,7 @@
         "alturas_por_solucao": {
             "1": 30.0,
             "2": 30.0,
-            "3": 45.0
+            "3": 40.0
         }
     },
     {
@@ -237,7 +237,7 @@
         "latitude": -6.2359,
         "longitude": -36.0363,
         "altitude_terreno_m": 251.9,
-        "altura_torre_m": 25.0,
+        "altura_torre_m": 30.0,
         "setores": 3,
         "raio_celula_km": 1.808,
         "acesso_infra": "Acesso asfaltado Av. Paulo Afonso / RN-023 (IFRN/Paraíso) + rede elétrica urbana",
@@ -247,9 +247,9 @@
             3
         ],
         "alturas_por_solucao": {
-            "1": 25.0,
-            "2": 25.0,
-            "3": 35.0
+            "1": 30.0,
+            "2": 30.0,
+            "3": 20.0
         }
     },
     {
@@ -260,7 +260,7 @@
         "latitude": -6.588,
         "longitude": -36.773,
         "altitude_terreno_m": 229.7,
-        "altura_torre_m": 40.0,
+        "altura_torre_m": 30.0,
         "setores": 3,
         "raio_celula_km": 1.808,
         "acesso_infra": "Centro urbano junto à BR-427 + rede elétrica urbana",
@@ -270,8 +270,8 @@
             3
         ],
         "alturas_por_solucao": {
-            "1": 40.0,
-            "2": 40.0,
+            "1": 30.0,
+            "2": 30.0,
             "3": 25.0
         }
     },
@@ -283,7 +283,7 @@
         "latitude": -6.5585,
         "longitude": -36.5915,
         "altitude_terreno_m": 315.9,
-        "altura_torre_m": 20.0,
+        "altura_torre_m": 25.0,
         "setores": 3,
         "raio_celula_km": 1.808,
         "acesso_infra": "Rua urbana na encosta do Monte do Galo + rede elétrica urbana",
@@ -293,9 +293,9 @@
             3
         ],
         "alturas_por_solucao": {
-            "1": 20.0,
-            "2": 20.0,
-            "3": 25.0
+            "1": 25.0,
+            "2": 25.0,
+            "3": 30.0
         }
     },
     {
@@ -306,7 +306,7 @@
         "latitude": -5.8393,
         "longitude": -35.2348,
         "altitude_terreno_m": 101.2,
-        "altura_torre_m": 20.0,
+        "altura_torre_m": 60.0,
         "setores": 0,
         "raio_celula_km": 0.0,
         "acesso_infra": "Via urbana consolidada Candelária / BR-101 + rede elétrica trifásica",
@@ -316,20 +316,20 @@
             3
         ],
         "alturas_por_solucao": {
-            "1": 20.0,
+            "1": 60.0,
             "2": 20.0,
             "3": 20.0
         }
     },
     {
-        "latitude": -6.1328,
-        "longitude": -36.2116,
-        "altitude_terreno_m": 680.7811279296875,
         "id": "REP_CUME_28",
-        "nome": "Repetidora Cume 28 (681 m)",
+        "nome": "Repetidora Cume 28 (678 m)",
         "cidade": "Repetidora Interurbana",
         "tipo": "REPETIDORA",
-        "altura_torre_m": 25.0,
+        "latitude": -6.1328,
+        "longitude": -36.2116,
+        "altitude_terreno_m": 678.4360961914062,
+        "altura_torre_m": 30.0,
         "enlaces_conectados": 2,
         "rank_solucao": 1,
         "solucoes": [
@@ -337,163 +337,167 @@
             2
         ],
         "alturas_por_solucao": {
-            "1": 25.0,
-            "2": 25.0
+            "1": 30.0,
+            "2": 30.0
         },
         "acesso_infra": "Comunidade Serra Verde: estrada vicinal/rua rural até o sítio + kit solar off-grid"
     },
     {
-        "latitude": -6.1592,
-        "longitude": -35.852,
-        "altitude_terreno_m": 401.5865173339844,
-        "id": "REP_CUME_45",
-        "nome": "Repetidora Cume 45 (402 m)",
+        "id": "REP_ESTRADA_ACARI",
+        "nome": "Rep. Serra do Acari - Rodovia (689 m)",
         "cidade": "Repetidora Interurbana",
         "tipo": "REPETIDORA",
-        "altura_torre_m": 30.0,
+        "latitude": -6.39141,
+        "longitude": -36.60442,
+        "altitude_terreno_m": 689.2557373046875,
+        "altura_torre_m": 20.0,
+        "enlaces_conectados": 4,
+        "rank_solucao": 1,
+        "solucoes": [
+            1,
+            2
+        ],
+        "alturas_por_solucao": {
+            "1": 20.0,
+            "2": 20.0
+        },
+        "acesso_infra": "Serra do Acari: rodovia terciária/vicinal direta até o sítio + kit solar off-grid"
+    },
+    {
+        "id": "REP_ESTRADA_CARNAUBA",
+        "nome": "Rep. Serra da Rajada/Carnaúba - Rua (649 m)",
+        "cidade": "Repetidora Interurbana",
+        "tipo": "REPETIDORA",
+        "latitude": -6.51886,
+        "longitude": -36.5716,
+        "altitude_terreno_m": 649.19091796875,
+        "altura_torre_m": 50.0,
+        "enlaces_conectados": 2,
+        "rank_solucao": 1,
+        "solucoes": [
+            1,
+            2
+        ],
+        "alturas_por_solucao": {
+            "1": 50.0,
+            "2": 50.0
+        },
+        "acesso_infra": "Serra da Rajada / Carnaúba Norte: rua residencial local direta até o sítio + kit solar off-grid"
+    },
+    {
+        "id": "REP_ESTRADA_TAPUIA",
+        "nome": "Rep. Serra da Tapuia - Vicinal (381 m)",
+        "cidade": "Repetidora Interurbana",
+        "tipo": "REPETIDORA",
+        "latitude": -6.08662,
+        "longitude": -35.96669,
+        "altitude_terreno_m": 381.4282531738281,
+        "altura_torre_m": 80.0,
         "enlaces_conectados": 2,
         "rank_solucao": 1,
         "solucoes": [
             1
         ],
         "alturas_por_solucao": {
-            "1": 30.0
+            "1": 80.0
         },
-        "acesso_infra": "Serra da Tapuia: ~450 m de estrada rural (Faz. Olho D'água) + trilha final + kit solar off-grid"
+        "acesso_infra": "Serra da Tapuia (Sítio Novo): estrada vicinal carroçável direta até o sítio + kit solar off-grid"
     },
     {
-        "latitude": -6.52731,
-        "longitude": -36.5982,
-        "altitude_terreno_m": 666.0280151367188,
-        "id": "REP_CUME_69",
-        "nome": "Repetidora Cume 69 (666 m)",
+        "id": "REP_ESTRADA_MACAIBA",
+        "nome": "Rep. Macaíba / Lagoa Seca - Estrada (115 m)",
         "cidade": "Repetidora Interurbana",
         "tipo": "REPETIDORA",
-        "altura_torre_m": 20.0,
-        "enlaces_conectados": 4,
-        "rank_solucao": 1,
-        "solucoes": [
-            1,
-            2
-        ],
-        "alturas_por_solucao": {
-            "1": 20.0,
-            "2": 20.0
-        },
-        "acesso_infra": "Cume Norte Carnaúba: estrada ziguezague (Açude do Piauí) até ~300 m do cume + kit solar off-grid"
-    },
-    {
-        "latitude": -6.2012,
-        "longitude": -35.9536,
-        "altitude_terreno_m": 410.0323791503906,
-        "id": "REP_CUME_47",
-        "nome": "Repetidora Cume 47 (410 m)",
-        "cidade": "Repetidora Interurbana",
-        "tipo": "REPETIDORA",
-        "altura_torre_m": 20.0,
+        "latitude": -5.96564,
+        "longitude": -35.38682,
+        "altitude_terreno_m": 115.01915740966797,
+        "altura_torre_m": 70.0,
         "enlaces_conectados": 2,
         "rank_solucao": 2,
         "solucoes": [
-            2
-        ],
-        "alturas_por_solucao": {
-            "2": 20.0
-        },
-        "acesso_infra": "Topo de serra (acesso rural/trilha de serviço) + kit solar off-grid + 2 baterias"
-    },
-    {
-        "latitude": -5.978,
-        "longitude": -35.5492,
-        "altitude_terreno_m": 158.1268310546875,
-        "id": "REP_CUME_60",
-        "nome": "Repetidora Cume 60 (158 m)",
-        "cidade": "Repetidora Interurbana",
-        "tipo": "REPETIDORA",
-        "altura_torre_m": 20.0,
-        "enlaces_conectados": 2,
-        "rank_solucao": 2,
-        "solucoes": [
-            2
-        ],
-        "alturas_por_solucao": {
-            "2": 20.0
-        },
-        "acesso_infra": "Topo de serra (acesso rural/trilha de serviço) + kit solar off-grid + 2 baterias"
-    },
-    {
-        "latitude": -6.4128,
-        "longitude": -36.9932,
-        "altitude_terreno_m": 624.91455078125,
-        "id": "REP_CUME_03",
-        "nome": "Repetidora Cume 03 (625 m)",
-        "cidade": "Repetidora Interurbana",
-        "tipo": "REPETIDORA",
-        "altura_torre_m": 30.0,
-        "enlaces_conectados": 4,
-        "rank_solucao": 3,
-        "solucoes": [
+            2,
             3
         ],
         "alturas_por_solucao": {
-            "3": 30.0
+            "2": 70.0,
+            "3": 25.0
         },
-        "acesso_infra": "Topo de serra (acesso rural/trilha de serviço) + kit solar off-grid + 2 baterias"
+        "acesso_infra": "Lagoa Seca / Macaíba: estrada rural direta até o sítio + kit solar off-grid"
     },
     {
-        "latitude": -6.1376,
-        "longitude": -36.3928,
-        "altitude_terreno_m": 670.1880493164062,
-        "id": "REP_CUME_27",
-        "nome": "Repetidora Cume 27 (670 m)",
+        "id": "REP_ESTRADA_SNOVO",
+        "nome": "Rep. Sítio Novo - Estrada (195 m)",
         "cidade": "Repetidora Interurbana",
         "tipo": "REPETIDORA",
-        "altura_torre_m": 30.0,
+        "latitude": -6.21731,
+        "longitude": -35.79329,
+        "altitude_terreno_m": 194.51361083984375,
+        "altura_torre_m": 70.0,
+        "enlaces_conectados": 2,
+        "rank_solucao": 2,
+        "solucoes": [
+            2
+        ],
+        "alturas_por_solucao": {
+            "2": 70.0
+        },
+        "acesso_infra": "Sítio Novo: estrada rural direta até o sítio + kit solar off-grid"
+    },
+    {
+        "id": "REP_ESTRADA_BORB_N",
+        "nome": "Rep. São Tomé / Borborema - Estrada (622 m)",
+        "cidade": "Repetidora Interurbana",
+        "tipo": "REPETIDORA",
+        "latitude": -6.10424,
+        "longitude": -36.11633,
+        "altitude_terreno_m": 622.0950927734375,
+        "altura_torre_m": 75.0,
         "enlaces_conectados": 3,
         "rank_solucao": 3,
         "solucoes": [
             3
         ],
         "alturas_por_solucao": {
-            "3": 30.0
+            "3": 75.0
         },
-        "acesso_infra": "Topo de serra (acesso rural/trilha de serviço) + kit solar off-grid + 2 baterias"
+        "acesso_infra": "Borborema / São Tomé: estrada rural carroçável direta até o sítio + kit solar off-grid"
     },
     {
-        "latitude": -6.2632,
-        "longitude": -35.9584,
-        "altitude_terreno_m": 548.5866088867188,
-        "id": "REP_CUME_37",
-        "nome": "Repetidora Cume 37 (549 m)",
+        "id": "REP_ESTRADA_BORB_W",
+        "nome": "Rep. Borborema Oeste - Estrada (670 m)",
         "cidade": "Repetidora Interurbana",
         "tipo": "REPETIDORA",
-        "altura_torre_m": 20.0,
-        "enlaces_conectados": 2,
+        "latitude": -6.13766,
+        "longitude": -36.39279,
+        "altitude_terreno_m": 670.1880493164062,
+        "altura_torre_m": 65.0,
+        "enlaces_conectados": 3,
         "rank_solucao": 3,
         "solucoes": [
             3
         ],
         "alturas_por_solucao": {
-            "3": 20.0
+            "3": 65.0
         },
-        "acesso_infra": "Topo de serra (acesso rural/trilha de serviço) + kit solar off-grid + 2 baterias"
+        "acesso_infra": "Borborema Oeste: estrada rural direta até o sítio + kit solar off-grid"
     },
     {
-        "latitude": -6.0324,
-        "longitude": -35.944,
-        "altitude_terreno_m": 452.02716064453125,
-        "id": "REP_CUME_38",
-        "nome": "Repetidora Cume 38 (452 m)",
+        "id": "REP_ESTRADA_SERIDO_O",
+        "nome": "Rep. São José do Seridó - Estrada (288 m)",
         "cidade": "Repetidora Interurbana",
         "tipo": "REPETIDORA",
-        "altura_torre_m": 50.0,
-        "enlaces_conectados": 2,
+        "latitude": -6.41748,
+        "longitude": -36.87265,
+        "altitude_terreno_m": 287.5530700683594,
+        "altura_torre_m": 75.0,
+        "enlaces_conectados": 4,
         "rank_solucao": 3,
         "solucoes": [
             3
         ],
         "alturas_por_solucao": {
-            "3": 50.0
+            "3": 75.0
         },
-        "acesso_infra": "Topo de serra (acesso rural/trilha de serviço) + kit solar off-grid + 2 baterias"
+        "acesso_infra": "São José do Seridó: estrada vicinal carroçável direta até o sítio + kit solar off-grid"
     }
 ]

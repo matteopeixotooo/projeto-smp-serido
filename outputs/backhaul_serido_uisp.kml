@@ -52,12 +52,12 @@ Altitude do Terreno: 164.0 m</description>
         <description>ID: ERB_CAICO_02
 Tipo: ERB
 Cidade: Caicó
-Altura da Torre: 30.0 m
+Altura da Torre: 40.0 m
 Altitude do Terreno: 170.0 m</description>
         <styleUrl>#estilo_erb</styleUrl>
         <Point>
           <altitudeMode>relativeToGround</altitudeMode>
-          <coordinates>-37.10881,-6.466,30.0</coordinates>
+          <coordinates>-37.10881,-6.466,40.0</coordinates>
         </Point>
       </Placemark>
       <Placemark>
@@ -65,12 +65,12 @@ Altitude do Terreno: 170.0 m</description>
         <description>ID: ERB_CAICO_03
 Tipo: ERB
 Cidade: Caicó
-Altura da Torre: 40.0 m
+Altura da Torre: 20.0 m
 Altitude do Terreno: 164.2 m</description>
         <styleUrl>#estilo_erb</styleUrl>
         <Point>
           <altitudeMode>relativeToGround</altitudeMode>
-          <coordinates>-37.095,-6.44223,40.0</coordinates>
+          <coordinates>-37.095,-6.44223,20.0</coordinates>
         </Point>
       </Placemark>
       <Placemark>
@@ -78,12 +78,12 @@ Altitude do Terreno: 164.2 m</description>
         <description>ID: ERB_CAICO_04
 Tipo: ERB
 Cidade: Caicó
-Altura da Torre: 25.0 m
+Altura da Torre: 30.0 m
 Altitude do Terreno: 175.2 m</description>
         <styleUrl>#estilo_erb</styleUrl>
         <Point>
           <altitudeMode>relativeToGround</altitudeMode>
-          <coordinates>-37.06738,-6.44223,25.0</coordinates>
+          <coordinates>-37.06738,-6.44223,30.0</coordinates>
         </Point>
       </Placemark>
       <Placemark>
@@ -91,12 +91,12 @@ Altitude do Terreno: 175.2 m</description>
         <description>ID: ERB_CAICO_05
 Tipo: ERB
 Cidade: Caicó
-Altura da Torre: 35.0 m
+Altura da Torre: 25.0 m
 Altitude do Terreno: 157.5 m</description>
         <styleUrl>#estilo_erb</styleUrl>
         <Point>
           <altitudeMode>relativeToGround</altitudeMode>
-          <coordinates>-37.06738,-6.48977,35.0</coordinates>
+          <coordinates>-37.06738,-6.48977,25.0</coordinates>
         </Point>
       </Placemark>
       <Placemark>
@@ -104,12 +104,12 @@ Altitude do Terreno: 157.5 m</description>
         <description>ID: ERB_CURRAIS_NOVOS_01
 Tipo: ERB_CCC
 Cidade: Currais Novos
-Altura da Torre: 45.0 m
+Altura da Torre: 50.0 m
 Altitude do Terreno: 349.4 m</description>
         <styleUrl>#estilo_ccc</styleUrl>
         <Point>
           <altitudeMode>relativeToGround</altitudeMode>
-          <coordinates>-36.504,-6.2605,45.0</coordinates>
+          <coordinates>-36.504,-6.2605,50.0</coordinates>
         </Point>
       </Placemark>
       <Placemark>
@@ -143,12 +143,12 @@ Altitude do Terreno: 334.0 m</description>
         <description>ID: ERB_SANTA_CRUZ_01
 Tipo: ERB
 Cidade: Santa Cruz
-Altura da Torre: 50.0 m
+Altura da Torre: 25.0 m
 Altitude do Terreno: 254.5 m</description>
         <styleUrl>#estilo_erb</styleUrl>
         <Point>
           <altitudeMode>relativeToGround</altitudeMode>
-          <coordinates>-36.023,-6.213,50.0</coordinates>
+          <coordinates>-36.023,-6.213,25.0</coordinates>
         </Point>
       </Placemark>
       <Placemark>
@@ -169,12 +169,12 @@ Altitude do Terreno: 231.6 m</description>
         <description>ID: ERB_SANTA_CRUZ_03
 Tipo: ERB
 Cidade: Santa Cruz
-Altura da Torre: 25.0 m
+Altura da Torre: 30.0 m
 Altitude do Terreno: 251.9 m</description>
         <styleUrl>#estilo_erb</styleUrl>
         <Point>
           <altitudeMode>relativeToGround</altitudeMode>
-          <coordinates>-36.0363,-6.2359,25.0</coordinates>
+          <coordinates>-36.0363,-6.2359,30.0</coordinates>
         </Point>
       </Placemark>
       <Placemark>
@@ -182,12 +182,12 @@ Altitude do Terreno: 251.9 m</description>
         <description>ID: ERB_JARDIM_DO_SERIDO_01
 Tipo: ERB
 Cidade: Jardim do Seridó
-Altura da Torre: 40.0 m
+Altura da Torre: 30.0 m
 Altitude do Terreno: 229.7 m</description>
         <styleUrl>#estilo_erb</styleUrl>
         <Point>
           <altitudeMode>relativeToGround</altitudeMode>
-          <coordinates>-36.773,-6.588,40.0</coordinates>
+          <coordinates>-36.773,-6.588,30.0</coordinates>
         </Point>
       </Placemark>
       <Placemark>
@@ -195,12 +195,12 @@ Altitude do Terreno: 229.7 m</description>
         <description>ID: ERB_CARNAUBA_DOS_DANTAS_01
 Tipo: ERB
 Cidade: Carnaúba dos Dantas
-Altura da Torre: 20.0 m
+Altura da Torre: 25.0 m
 Altitude do Terreno: 315.9 m</description>
         <styleUrl>#estilo_erb</styleUrl>
         <Point>
           <altitudeMode>relativeToGround</altitudeMode>
-          <coordinates>-36.5915,-6.5585,20.0</coordinates>
+          <coordinates>-36.5915,-6.5585,25.0</coordinates>
         </Point>
       </Placemark>
       <Placemark>
@@ -208,129 +208,129 @@ Altitude do Terreno: 315.9 m</description>
         <description>ID: CCC_NATAL_01
 Tipo: CCC_NATAL
 Cidade: Natal
-Altura da Torre: 20.0 m
+Altura da Torre: 60.0 m
 Altitude do Terreno: 101.2 m</description>
         <styleUrl>#estilo_ccc</styleUrl>
         <Point>
           <altitudeMode>relativeToGround</altitudeMode>
-          <coordinates>-35.2348,-5.8393,20.0</coordinates>
+          <coordinates>-35.2348,-5.8393,60.0</coordinates>
         </Point>
       </Placemark>
       <Placemark>
-        <name>Repetidora Cume 28 (681 m)</name>
+        <name>Repetidora Cume 28 (678 m)</name>
         <description>ID: REP_CUME_28
 Tipo: REPETIDORA
 Cidade: Repetidora Interurbana
-Altura da Torre: 25.0 m
-Altitude do Terreno: 680.7811279296875 m</description>
-        <styleUrl>#estilo_rep</styleUrl>
-        <Point>
-          <altitudeMode>relativeToGround</altitudeMode>
-          <coordinates>-36.2116,-6.1328,25.0</coordinates>
-        </Point>
-      </Placemark>
-      <Placemark>
-        <name>Repetidora Cume 45 (402 m)</name>
-        <description>ID: REP_CUME_45
-Tipo: REPETIDORA
-Cidade: Repetidora Interurbana
 Altura da Torre: 30.0 m
-Altitude do Terreno: 401.5865173339844 m</description>
+Altitude do Terreno: 678.4360961914062 m</description>
         <styleUrl>#estilo_rep</styleUrl>
         <Point>
           <altitudeMode>relativeToGround</altitudeMode>
-          <coordinates>-35.852,-6.1592,30.0</coordinates>
+          <coordinates>-36.2116,-6.1328,30.0</coordinates>
         </Point>
       </Placemark>
       <Placemark>
-        <name>Repetidora Cume 69 (666 m)</name>
-        <description>ID: REP_CUME_69
+        <name>Rep. Serra do Acari - Rodovia (689 m)</name>
+        <description>ID: REP_ESTRADA_ACARI
 Tipo: REPETIDORA
 Cidade: Repetidora Interurbana
 Altura da Torre: 20.0 m
-Altitude do Terreno: 666.0280151367188 m</description>
+Altitude do Terreno: 689.2557373046875 m</description>
         <styleUrl>#estilo_rep</styleUrl>
         <Point>
           <altitudeMode>relativeToGround</altitudeMode>
-          <coordinates>-36.5982,-6.52731,20.0</coordinates>
+          <coordinates>-36.60442,-6.39141,20.0</coordinates>
         </Point>
       </Placemark>
       <Placemark>
-        <name>Repetidora Cume 47 (410 m)</name>
-        <description>ID: REP_CUME_47
+        <name>Rep. Serra da Rajada/Carnaúba - Rua (649 m)</name>
+        <description>ID: REP_ESTRADA_CARNAUBA
 Tipo: REPETIDORA
 Cidade: Repetidora Interurbana
-Altura da Torre: 20.0 m
-Altitude do Terreno: 410.0323791503906 m</description>
+Altura da Torre: 50.0 m
+Altitude do Terreno: 649.19091796875 m</description>
         <styleUrl>#estilo_rep</styleUrl>
         <Point>
           <altitudeMode>relativeToGround</altitudeMode>
-          <coordinates>-35.9536,-6.2012,20.0</coordinates>
+          <coordinates>-36.5716,-6.51886,50.0</coordinates>
         </Point>
       </Placemark>
       <Placemark>
-        <name>Repetidora Cume 60 (158 m)</name>
-        <description>ID: REP_CUME_60
+        <name>Rep. Serra da Tapuia - Vicinal (381 m)</name>
+        <description>ID: REP_ESTRADA_TAPUIA
 Tipo: REPETIDORA
 Cidade: Repetidora Interurbana
-Altura da Torre: 20.0 m
-Altitude do Terreno: 158.1268310546875 m</description>
+Altura da Torre: 80.0 m
+Altitude do Terreno: 381.4282531738281 m</description>
         <styleUrl>#estilo_rep</styleUrl>
         <Point>
           <altitudeMode>relativeToGround</altitudeMode>
-          <coordinates>-35.5492,-5.978,20.0</coordinates>
+          <coordinates>-35.96669,-6.08662,80.0</coordinates>
         </Point>
       </Placemark>
       <Placemark>
-        <name>Repetidora Cume 03 (625 m)</name>
-        <description>ID: REP_CUME_03
+        <name>Rep. Macaíba / Lagoa Seca - Estrada (115 m)</name>
+        <description>ID: REP_ESTRADA_MACAIBA
 Tipo: REPETIDORA
 Cidade: Repetidora Interurbana
-Altura da Torre: 30.0 m
-Altitude do Terreno: 624.91455078125 m</description>
+Altura da Torre: 70.0 m
+Altitude do Terreno: 115.01915740966797 m</description>
         <styleUrl>#estilo_rep</styleUrl>
         <Point>
           <altitudeMode>relativeToGround</altitudeMode>
-          <coordinates>-36.9932,-6.4128,30.0</coordinates>
+          <coordinates>-35.38682,-5.96564,70.0</coordinates>
         </Point>
       </Placemark>
       <Placemark>
-        <name>Repetidora Cume 27 (670 m)</name>
-        <description>ID: REP_CUME_27
+        <name>Rep. Sítio Novo - Estrada (195 m)</name>
+        <description>ID: REP_ESTRADA_SNOVO
 Tipo: REPETIDORA
 Cidade: Repetidora Interurbana
-Altura da Torre: 30.0 m
+Altura da Torre: 70.0 m
+Altitude do Terreno: 194.51361083984375 m</description>
+        <styleUrl>#estilo_rep</styleUrl>
+        <Point>
+          <altitudeMode>relativeToGround</altitudeMode>
+          <coordinates>-35.79329,-6.21731,70.0</coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Rep. São Tomé / Borborema - Estrada (622 m)</name>
+        <description>ID: REP_ESTRADA_BORB_N
+Tipo: REPETIDORA
+Cidade: Repetidora Interurbana
+Altura da Torre: 75.0 m
+Altitude do Terreno: 622.0950927734375 m</description>
+        <styleUrl>#estilo_rep</styleUrl>
+        <Point>
+          <altitudeMode>relativeToGround</altitudeMode>
+          <coordinates>-36.11633,-6.10424,75.0</coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Rep. Borborema Oeste - Estrada (670 m)</name>
+        <description>ID: REP_ESTRADA_BORB_W
+Tipo: REPETIDORA
+Cidade: Repetidora Interurbana
+Altura da Torre: 65.0 m
 Altitude do Terreno: 670.1880493164062 m</description>
         <styleUrl>#estilo_rep</styleUrl>
         <Point>
           <altitudeMode>relativeToGround</altitudeMode>
-          <coordinates>-36.3928,-6.1376,30.0</coordinates>
+          <coordinates>-36.39279,-6.13766,65.0</coordinates>
         </Point>
       </Placemark>
       <Placemark>
-        <name>Repetidora Cume 37 (549 m)</name>
-        <description>ID: REP_CUME_37
+        <name>Rep. São José do Seridó - Estrada (288 m)</name>
+        <description>ID: REP_ESTRADA_SERIDO_O
 Tipo: REPETIDORA
 Cidade: Repetidora Interurbana
-Altura da Torre: 20.0 m
-Altitude do Terreno: 548.5866088867188 m</description>
+Altura da Torre: 75.0 m
+Altitude do Terreno: 287.5530700683594 m</description>
         <styleUrl>#estilo_rep</styleUrl>
         <Point>
           <altitudeMode>relativeToGround</altitudeMode>
-          <coordinates>-35.9584,-6.2632,20.0</coordinates>
-        </Point>
-      </Placemark>
-      <Placemark>
-        <name>Repetidora Cume 38 (452 m)</name>
-        <description>ID: REP_CUME_38
-Tipo: REPETIDORA
-Cidade: Repetidora Interurbana
-Altura da Torre: 50.0 m
-Altitude do Terreno: 452.02716064453125 m</description>
-        <styleUrl>#estilo_rep</styleUrl>
-        <Point>
-          <altitudeMode>relativeToGround</altitudeMode>
-          <coordinates>-35.944,-6.0324,50.0</coordinates>
+          <coordinates>-36.87265,-6.41748,75.0</coordinates>
         </Point>
       </Placemark>
     </Folder>
@@ -341,13 +341,13 @@ Altitude do Terreno: 452.02716064453125 m</description>
         <description>Distância: 2.94 km
 Antena Tx: 0.38m (Standard)
 Antena Rx: 0.38m (Standard)
-Torres (Tx / Rx): 30.0m / 25.0m
+Torres (Tx / Rx): 30.0m / 30.0m
 Fade Margin Estimada: 28.7 dB
 RSL Estimado: -45.3 dBm</description>
         <styleUrl>#linha_local</styleUrl>
         <LineString>
           <altitudeMode>relativeToGround</altitudeMode>
-          <coordinates>-36.0097,-6.2359,30.0 -36.0363,-6.2359,25.0</coordinates>
+          <coordinates>-36.0097,-6.2359,30.0 -36.0363,-6.2359,30.0</coordinates>
         </LineString>
       </Placemark>
       <Placemark>
@@ -355,13 +355,13 @@ RSL Estimado: -45.3 dBm</description>
         <description>Distância: 2.94 km
 Antena Tx: 0.38m (Standard)
 Antena Rx: 0.38m (Standard)
-Torres (Tx / Rx): 50.0m / 25.0m
+Torres (Tx / Rx): 25.0m / 30.0m
 Fade Margin Estimada: 28.7 dB
 RSL Estimado: -45.3 dBm</description>
         <styleUrl>#linha_local</styleUrl>
         <LineString>
           <altitudeMode>relativeToGround</altitudeMode>
-          <coordinates>-36.023,-6.213,50.0 -36.0363,-6.2359,25.0</coordinates>
+          <coordinates>-36.023,-6.213,25.0 -36.0363,-6.2359,30.0</coordinates>
         </LineString>
       </Placemark>
       <Placemark>
@@ -369,13 +369,13 @@ RSL Estimado: -45.3 dBm</description>
         <description>Distância: 3.0 km
 Antena Tx: 0.38m (Standard)
 Antena Rx: 0.38m (Standard)
-Torres (Tx / Rx): 30.0m / 45.0m
+Torres (Tx / Rx): 30.0m / 50.0m
 Fade Margin Estimada: 28.53 dB
 RSL Estimado: -45.47 dBm</description>
         <styleUrl>#linha_tronco</styleUrl>
         <LineString>
           <altitudeMode>relativeToGround</altitudeMode>
-          <coordinates>-36.52752,-6.274,30.0 -36.504,-6.2605,45.0</coordinates>
+          <coordinates>-36.52752,-6.274,30.0 -36.504,-6.2605,50.0</coordinates>
         </LineString>
       </Placemark>
       <Placemark>
@@ -393,171 +393,185 @@ RSL Estimado: -45.47 dBm</description>
         </LineString>
       </Placemark>
       <Placemark>
-        <name>PTP: ERB Caicó - Setor Sudoeste &lt;-&gt; ERB Caicó - Setor Sudeste</name>
+        <name>PTP: ERB Caicó - Setor Sudeste &lt;-&gt; ERB Caicó - Setor Sudoeste</name>
         <description>Distância: 3.05 km
 Antena Tx: 0.38m (Standard)
 Antena Rx: 0.38m (Standard)
-Torres (Tx / Rx): 30.0m / 35.0m
+Torres (Tx / Rx): 35.0m / 40.0m
 Fade Margin Estimada: 28.38 dB
 RSL Estimado: -45.62 dBm</description>
         <styleUrl>#linha_local</styleUrl>
         <LineString>
           <altitudeMode>relativeToGround</altitudeMode>
-          <coordinates>-37.10881,-6.466,30.0 -37.08119,-6.466,35.0</coordinates>
+          <coordinates>-37.08119,-6.466,35.0 -37.10881,-6.466,40.0</coordinates>
         </LineString>
       </Placemark>
       <Placemark>
-        <name>PTP: ERB Caicó - Setor Sul (Itans/Mirante) &lt;-&gt; ERB Caicó - Setor Sudeste</name>
+        <name>PTP: ERB Caicó - Setor Norte &lt;-&gt; ERB Caicó - Setor Sudoeste</name>
         <description>Distância: 3.05 km
 Antena Tx: 0.38m (Standard)
 Antena Rx: 0.38m (Standard)
-Torres (Tx / Rx): 35.0m / 35.0m
+Torres (Tx / Rx): 20.0m / 40.0m
 Fade Margin Estimada: 28.38 dB
 RSL Estimado: -45.62 dBm</description>
         <styleUrl>#linha_local</styleUrl>
         <LineString>
           <altitudeMode>relativeToGround</altitudeMode>
-          <coordinates>-37.06738,-6.48977,35.0 -37.08119,-6.466,35.0</coordinates>
+          <coordinates>-37.095,-6.44223,20.0 -37.10881,-6.466,40.0</coordinates>
         </LineString>
       </Placemark>
       <Placemark>
-        <name>PTP: ERB Caicó - Setor Nordeste (IFRN/Aeródromo) &lt;-&gt; ERB Caicó - Setor Sudeste</name>
-        <description>Distância: 3.05 km
+        <name>PTP: ERB Carnaúba dos Dantas - Centro &lt;-&gt; Rep. Serra da Rajada/Carnaúba - Rua (649 m)</name>
+        <description>Distância: 4.93 km
 Antena Tx: 0.38m (Standard)
 Antena Rx: 0.38m (Standard)
-Torres (Tx / Rx): 25.0m / 35.0m
-Fade Margin Estimada: 28.38 dB
-RSL Estimado: -45.62 dBm</description>
+Torres (Tx / Rx): 25.0m / 50.0m
+Fade Margin Estimada: 24.21 dB
+RSL Estimado: -49.79 dBm</description>
+        <styleUrl>#linha_tronco</styleUrl>
+        <LineString>
+          <altitudeMode>relativeToGround</altitudeMode>
+          <coordinates>-36.5915,-6.5585,25.0 -36.5716,-6.51886,50.0</coordinates>
+        </LineString>
+      </Placemark>
+      <Placemark>
+        <name>PTP: ERB Caicó - Setor Sul (Itans/Mirante) &lt;-&gt; ERB Caicó - Setor Sudoeste</name>
+        <description>Distância: 5.29 km
+Antena Tx: 0.38m (Standard)
+Antena Rx: 0.65m (Standard)
+Torres (Tx / Rx): 25.0m / 40.0m
+Fade Margin Estimada: 30.6 dB
+RSL Estimado: -43.4 dBm</description>
         <styleUrl>#linha_local</styleUrl>
         <LineString>
           <altitudeMode>relativeToGround</altitudeMode>
-          <coordinates>-37.06738,-6.44223,25.0 -37.08119,-6.466,35.0</coordinates>
+          <coordinates>-37.06738,-6.48977,25.0 -37.10881,-6.466,40.0</coordinates>
         </LineString>
       </Placemark>
       <Placemark>
-        <name>PTP: ERB Caicó - Setor Norte &lt;-&gt; ERB Caicó - Setor Sudeste</name>
-        <description>Distância: 3.05 km
+        <name>PTP: ERB Caicó - Setor Nordeste (IFRN/Aeródromo) &lt;-&gt; ERB Caicó - Setor Sudoeste</name>
+        <description>Distância: 5.29 km
 Antena Tx: 0.38m (Standard)
-Antena Rx: 0.38m (Standard)
-Torres (Tx / Rx): 40.0m / 35.0m
-Fade Margin Estimada: 28.38 dB
-RSL Estimado: -45.62 dBm</description>
+Antena Rx: 0.65m (Standard)
+Torres (Tx / Rx): 30.0m / 40.0m
+Fade Margin Estimada: 30.6 dB
+RSL Estimado: -43.4 dBm</description>
         <styleUrl>#linha_local</styleUrl>
         <LineString>
           <altitudeMode>relativeToGround</altitudeMode>
-          <coordinates>-37.095,-6.44223,40.0 -37.08119,-6.466,35.0</coordinates>
+          <coordinates>-37.06738,-6.44223,30.0 -37.10881,-6.466,40.0</coordinates>
         </LineString>
       </Placemark>
       <Placemark>
-        <name>PTP: ERB Carnaúba dos Dantas - Centro &lt;-&gt; Repetidora Cume 69 (666 m)</name>
-        <description>Distância: 3.55 km
-Antena Tx: 0.38m (Standard)
-Antena Rx: 0.38m (Standard)
-Torres (Tx / Rx): 20.0m / 20.0m
-Fade Margin Estimada: 27.07 dB
-RSL Estimado: -46.93 dBm</description>
-        <styleUrl>#linha_local</styleUrl>
-        <LineString>
-          <altitudeMode>relativeToGround</altitudeMode>
-          <coordinates>-36.5915,-6.5585,20.0 -36.5982,-6.52731,20.0</coordinates>
-        </LineString>
-      </Placemark>
-      <Placemark>
-        <name>PTP: Repetidora Cume 45 (402 m) &lt;-&gt; ERB Santa Cruz - Norte (Maracujá)</name>
-        <description>Distância: 19.83 km
+        <name>PTP: Rep. Serra da Rajada/Carnaúba - Rua (649 m) &lt;-&gt; Rep. Serra do Acari - Rodovia (689 m)</name>
+        <description>Distância: 14.63 km
 Antena Tx: 0.9m (Standard)
 Antena Rx: 0.9m (Standard)
-Torres (Tx / Rx): 30.0m / 50.0m
-Fade Margin Estimada: 32.28 dB
-RSL Estimado: -40.72 dBm</description>
-        <styleUrl>#linha_local</styleUrl>
+Torres (Tx / Rx): 50.0m / 20.0m
+Fade Margin Estimada: 34.92 dB
+RSL Estimado: -38.08 dBm</description>
+        <styleUrl>#linha_tronco</styleUrl>
         <LineString>
           <altitudeMode>relativeToGround</altitudeMode>
-          <coordinates>-35.852,-6.1592,30.0 -36.023,-6.213,50.0</coordinates>
+          <coordinates>-36.5716,-6.51886,50.0 -36.60442,-6.39141,20.0</coordinates>
         </LineString>
       </Placemark>
       <Placemark>
-        <name>PTP: ERB Jardim do Seridó - Centro &lt;-&gt; Repetidora Cume 69 (666 m)</name>
-        <description>Distância: 20.45 km
+        <name>PTP: Rep. Serra da Tapuia - Vicinal (381 m) &lt;-&gt; ERB Santa Cruz - Oeste (IFRN/Paraíso)</name>
+        <description>Distância: 18.3 km
 Antena Tx: 0.9m (Standard)
 Antena Rx: 0.9m (Standard)
-Torres (Tx / Rx): 40.0m / 20.0m
-Fade Margin Estimada: 32.01 dB
-RSL Estimado: -40.99 dBm</description>
-        <styleUrl>#linha_local</styleUrl>
+Torres (Tx / Rx): 80.0m / 30.0m
+Fade Margin Estimada: 32.97 dB
+RSL Estimado: -40.03 dBm</description>
+        <styleUrl>#linha_tronco</styleUrl>
         <LineString>
           <altitudeMode>relativeToGround</altitudeMode>
-          <coordinates>-36.773,-6.588,40.0 -36.5982,-6.52731,20.0</coordinates>
+          <coordinates>-35.96669,-6.08662,80.0 -36.0363,-6.2359,30.0</coordinates>
         </LineString>
       </Placemark>
       <Placemark>
-        <name>PTP: ERB Santa Cruz - Oeste (IFRN/Paraíso) &lt;-&gt; Repetidora Cume 28 (681 m)</name>
+        <name>PTP: Rep. Serra do Acari - Rodovia (689 m) &lt;-&gt; ERB Currais Novos - Leste (CCC - Núcleo da Rede)</name>
+        <description>Distância: 18.3 km
+Antena Tx: 0.9m (Standard)
+Antena Rx: 0.9m (Standard)
+Torres (Tx / Rx): 20.0m / 50.0m
+Fade Margin Estimada: 32.97 dB
+RSL Estimado: -40.03 dBm</description>
+        <styleUrl>#linha_tronco</styleUrl>
+        <LineString>
+          <altitudeMode>relativeToGround</altitudeMode>
+          <coordinates>-36.60442,-6.39141,20.0 -36.504,-6.2605,50.0</coordinates>
+        </LineString>
+      </Placemark>
+      <Placemark>
+        <name>PTP: ERB Santa Cruz - Oeste (IFRN/Paraíso) &lt;-&gt; Repetidora Cume 28 (678 m)</name>
         <description>Distância: 22.52 km
 Antena Tx: 0.9m (Standard)
 Antena Rx: 0.9m (Standard)
-Torres (Tx / Rx): 25.0m / 25.0m
+Torres (Tx / Rx): 30.0m / 30.0m
 Fade Margin Estimada: 31.17 dB
 RSL Estimado: -41.83 dBm</description>
         <styleUrl>#linha_local</styleUrl>
         <LineString>
           <altitudeMode>relativeToGround</altitudeMode>
-          <coordinates>-36.0363,-6.2359,25.0 -36.2116,-6.1328,25.0</coordinates>
+          <coordinates>-36.0363,-6.2359,30.0 -36.2116,-6.1328,30.0</coordinates>
         </LineString>
       </Placemark>
       <Placemark>
-        <name>PTP: Repetidora Cume 69 (666 m) &lt;-&gt; ERB Currais Novos - Leste (CCC - Núcleo da Rede)</name>
-        <description>Distância: 31.44 km
+        <name>PTP: ERB Jardim do Seridó - Centro &lt;-&gt; Rep. Serra do Acari - Rodovia (689 m)</name>
+        <description>Distância: 28.72 km
 Antena Tx: 0.9m (Standard)
 Antena Rx: 0.9m (Standard)
-Torres (Tx / Rx): 20.0m / 45.0m
-Fade Margin Estimada: 28.27 dB
-RSL Estimado: -44.73 dBm</description>
+Torres (Tx / Rx): 30.0m / 20.0m
+Fade Margin Estimada: 29.06 dB
+RSL Estimado: -43.94 dBm</description>
         <styleUrl>#linha_tronco</styleUrl>
         <LineString>
           <altitudeMode>relativeToGround</altitudeMode>
-          <coordinates>-36.5982,-6.52731,20.0 -36.504,-6.2605,45.0</coordinates>
+          <coordinates>-36.773,-6.588,30.0 -36.60442,-6.39141,20.0</coordinates>
         </LineString>
       </Placemark>
       <Placemark>
-        <name>PTP: Repetidora Cume 28 (681 m) &lt;-&gt; ERB Currais Novos - Leste (CCC - Núcleo da Rede)</name>
+        <name>PTP: Repetidora Cume 28 (678 m) &lt;-&gt; ERB Currais Novos - Leste (CCC - Núcleo da Rede)</name>
         <description>Distância: 35.3 km
 Antena Tx: 0.9m (Standard)
 Antena Rx: 0.9m (Standard)
-Torres (Tx / Rx): 25.0m / 45.0m
+Torres (Tx / Rx): 30.0m / 50.0m
 Fade Margin Estimada: 27.27 dB
 RSL Estimado: -45.73 dBm</description>
         <styleUrl>#linha_tronco</styleUrl>
         <LineString>
           <altitudeMode>relativeToGround</altitudeMode>
-          <coordinates>-36.2116,-6.1328,25.0 -36.504,-6.2605,45.0</coordinates>
+          <coordinates>-36.2116,-6.1328,30.0 -36.504,-6.2605,50.0</coordinates>
         </LineString>
       </Placemark>
       <Placemark>
-        <name>PTP: ERB Caicó - Setor Sudeste &lt;-&gt; Repetidora Cume 69 (666 m)</name>
-        <description>Distância: 53.79 km
+        <name>PTP: ERB Caicó - Setor Sudoeste &lt;-&gt; Rep. Serra do Acari - Rodovia (689 m)</name>
+        <description>Distância: 56.35 km
 Antena Tx: 1.2m (Standard)
 Antena Rx: 1.2m (Standard)
-Torres (Tx / Rx): 35.0m / 20.0m
-Fade Margin Estimada: 30.61 dB
-RSL Estimado: -42.39 dBm</description>
-        <styleUrl>#linha_local</styleUrl>
-        <LineString>
-          <altitudeMode>relativeToGround</altitudeMode>
-          <coordinates>-37.08119,-6.466,35.0 -36.5982,-6.52731,20.0</coordinates>
-        </LineString>
-      </Placemark>
-      <Placemark>
-        <name>PTP: CCC Principal Natal - Candelária/BR-101 (Núcleo NTL) &lt;-&gt; Repetidora Cume 45 (402 m)</name>
-        <description>Distância: 76.97 km
-Antena Tx: 1.05m (Standard)
-Antena Rx: 1.05m (Standard)
-Torres (Tx / Rx): 20.0m / 30.0m
-Fade Margin Estimada: 26.34 dB
-RSL Estimado: -49.66 dBm</description>
+Torres (Tx / Rx): 40.0m / 20.0m
+Fade Margin Estimada: 30.2 dB
+RSL Estimado: -42.8 dBm</description>
         <styleUrl>#linha_tronco</styleUrl>
         <LineString>
           <altitudeMode>relativeToGround</altitudeMode>
-          <coordinates>-35.2348,-5.8393,20.0 -35.852,-6.1592,30.0</coordinates>
+          <coordinates>-37.10881,-6.466,40.0 -36.60442,-6.39141,20.0</coordinates>
+        </LineString>
+      </Placemark>
+      <Placemark>
+        <name>PTP: CCC Principal Natal - Candelária/BR-101 (Núcleo NTL) &lt;-&gt; Rep. Serra da Tapuia - Vicinal (381 m)</name>
+        <description>Distância: 85.49 km
+Antena Tx: 1.05m (Standard)
+Antena Rx: 1.05m (Standard)
+Torres (Tx / Rx): 60.0m / 80.0m
+Fade Margin Estimada: 25.43 dB
+RSL Estimado: -50.57 dBm</description>
+        <styleUrl>#linha_tronco</styleUrl>
+        <LineString>
+          <altitudeMode>relativeToGround</altitudeMode>
+          <coordinates>-35.2348,-5.8393,60.0 -35.96669,-6.08662,80.0</coordinates>
         </LineString>
       </Placemark>
     </Folder>

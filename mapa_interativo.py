@@ -289,7 +289,7 @@ html_code = f"""<!DOCTYPE html>
       <button class="nav-tab" id="header-btn-hex" onclick="alternarHexagonosERB()" title="Mostra/oculta os hexágonos inscritos (R = 1,808 km) divididos em 3 setores de 120° com grupos do Cluster 4×3 (A1..D3)">⬡ Hexágonos 4×3: OFF</button>
     </div>
     <div class="header-info">
-      <span>Torres: <b>Fixa ≤ 50 m</b></span>
+      <span>Torres: <b>Fixa ≤ 80 m</b></span>
       <span>DEM: <b>Copernicus 30m</b></span>
     </div>
   </div>
@@ -2166,8 +2166,8 @@ html_code = f"""<!DOCTYPE html>
           </div>
           <div class="kpi-card highlight">
             <div class="kpi-label">Solução #1 — Torres Fixas</div>
-            <div class="kpi-value">Máx ${{sol1.altura_max_torre_m || 30}} m (≤ 50 m)</div>
-            <div class="kpi-sub">${{sol1.num_repetidoras}} repetidoras (só 1 p/ Natal!)</div>
+            <div class="kpi-value">Máx ${{sol1.altura_max_torre_m || 80}} m (≤ 100 m)</div>
+            <div class="kpi-sub">${{sol1.num_repetidoras}} repetidoras em vias reais (só 1 p/ Natal!)</div>
           </div>
           <div class="kpi-card highlight">
             <div class="kpi-label">Só Ativos Rádio+Antena (#1)</div>
@@ -2217,19 +2217,19 @@ html_code = f"""<!DOCTYPE html>
 
         <!-- ETAPA 4 & 5: POSICIONAMENTO E ALTURAS ÚNICAS -->
         <div class="section-card">
-          <div class="section-title">3️⃣ Etapas 4 e 5 — Escolha dos Locais, Abaulamento (k=4/3), Fresnel e Altura Fixa Única das Torres <span class="section-tag">Torres ≤ 50 m • Sem Saltos Redundantes</span></div>
+          <div class="section-title">3️⃣ Etapas 4 e 5 — Escolha dos Locais, Abaulamento (k=4/3), Fresnel e Altura Fixa Única das Torres <span class="section-tag">Torres ≤ 80 m (Norma ≤ 100 m) • Acesso Viário Direto</span></div>
           <div class="two-col">
             <div class="formula-box">
               <b>Como escolhemos os melhores locais (sem "caixa-preta"):</b><br>
-              1. <b>Cobertura Urbana 100% Real (R_máx = 1,808 km):</b> Posicionamos <b>13 ERBs</b> nas 5 cidades sobre vias pavimentadas com energia (5 em Caicó, 3 em Currais Novos, 3 em Santa Cruz, 1 em Jardim e 1 em Carnaúba dos Dantas) cobrindo 100% de todos os bairros e loteamentos — ex.: em Currais Novos o CCC urbano fica na borda leste/Paizinho Maria (<code>349,4 m</code>) e em Natal na <b>Candelária/BR-101 (101,2 m)</b>. Em <b>Carnaúba dos Dantas</b>, a ERB na encosta do Monte do Galo (<code>-6.55850, -36.59150</code>, 315,9 m) sobe em visada limpa de 3,55 km até <b>Rep. Cume 69 (666,0 m)</b>.<br>
-              2. <b>Varredura de Serras (94.644 pontos) + Hill Climbing:</b> Achamos os melhores cumes reais próximos a acessos rurais e proibimos saltos &lt; 12 km entre repetidoras.<br>
-              3. <b>Altura Única por Torre:</b> Cada torre tem <b>uma única altura fixa (20 m a ${{sol1.altura_max_torre_m || 40}} m na Sol. #1)</b> que atende todos os enlaces ligados a ela!<br>
+              1. <b>Cobertura Urbana 100% Real (R_máx = 1,808 km):</b> Posicionamos <b>13 ERBs</b> nas 5 cidades sobre vias pavimentadas com energia (5 em Caicó, 3 em Currais Novos, 3 em Santa Cruz, 1 em Jardim e 1 em Carnaúba dos Dantas) cobrindo 100% de todos os bairros e loteamentos — ex.: em Currais Novos o CCC urbano fica na borda leste/Paizinho Maria (<code>349,4 m</code>) e em Natal na <b>Candelária/BR-101 (101,2 m)</b>. Em <b>Carnaúba dos Dantas</b>, a ERB na encosta do Monte do Galo (<code>-6.55850, -36.59150</code>, 315,9 m) sobe em visada limpa de 4,93 km até a <b>Rep. Serra da Rajada/Carnaúba - Estrada (649,2 m)</b>, em rua residencial.<br>
+              2. <b>Seleção de Sítios com Acesso Viário Real (OSM + DEM 30 m):</b> Todas as repetidoras das 3 soluções ficam diretamente em vias carroçáveis verificadas (mantendo <b>Rep. Cume 28</b> na Comunidade Serra Verde e alocando os demais nós em ruas/estradas reais como Serra da Rajada/Carnaúba, Serra do Acari e Serra da Tapuia), proibindo saltos &lt; 12 km entre repetidoras.<br>
+              3. <b>Altura Única por Torre:</b> Cada torre tem <b>uma única altura fixa (20 m a ${{sol1.altura_max_torre_m || 80}} m na Sol. #1, dentro do limite de 100 m)</b> que atende todos os enlaces ligados a ela!<br>
             </div>
             <div class="formula-box">
               <b>Física da Visada (Abaulamento + Zona de Fresnel):</b><br>
-              • <b>Abaulamento da Terra (k = 4/3):</b> <code>h_curv(d) = (d₁ · d₂) / (2 · k · R_Terra)</code>. No salto de 77,0 km até Natal, a Terra "sobe" <b>+87,2 m</b> no centro (descontando a refração k=4/3)!<br>
-              • <b>1ª Zona de Fresnel:</b> <code>R₁ = 17,32 · √((d₁ · d₂) / (f_GHz · D))</code>. Exigimos pelo menos <b>60% de F₁ livre + 16 m de folga de segurança</b> (evitando torres baixas e feixe rente ao solo/vegetação).<br>
-              • <b>Chuva Intensa (ITU-R P.838-3 @ 50 mm/h):</b> Em <code>76,97 km</code> (Rep. Cume 45 → Natal), 11 GHz perderia ~28 dB na chuva; por isso adotamos <b>5 GHz (airFiber 5XHD)</b> nesse salto longo, perdendo apenas <b>0,82 dB</b>!
+              • <b>Abaulamento da Terra (k = 4/3):</b> <code>h_curv(d) = (d₁ · d₂) / (2 · k · R_Terra)</code>. No salto de 85,49 km até Natal, a Terra "sobe" <b>+107,6 m</b> no centro (descontando a refração k=4/3)!<br>
+              • <b>1ª Zona de Fresnel:</b> <code>R₁ = 17,32 · √((d₁ · d₂) / (f_GHz · D))</code>. Exigimos <b>100% de F₁ livre + 16 m de folga de segurança</b> sobre o DEM 30 m (mantendo tanto 60% quanto 100% da elipse de Fresnel livres acima do solo e da vegetação).<br>
+              • <b>Chuva Intensa (ITU-R P.838-3 @ 50 mm/h):</b> Em <code>85,49 km</code> (Rep. Serra da Tapuia - Estrada → Natal), 11 GHz perderia ~29 dB na chuva; por isso adotamos <b>5 GHz (airFiber 5XHD)</b> nesse salto longo, perdendo apenas <b>0,84 dB</b>!
             </div>
           </div>
 
@@ -2292,7 +2292,7 @@ html_code = f"""<!DOCTYPE html>
                 <div class="split-pill"><span>🏗️ Torres + Civil</span><b style="color:#cbd5e1;">${{formatarBRL(civilTotal3)}}</b></div>
               </div>
               <div style="font-size:0.78rem; color:#9fb0c9; line-height:1.48;">
-                • <b>Torres (≤ 50 m):</b> ${{formatarBRL(sol3.orcamento?.custo_torres_brl)}}<br>
+                • <b>Torres (≤ ${{sol3.altura_max_torre_m || 50}} m):</b> ${{formatarBRL(sol3.orcamento?.custo_torres_brl)}}<br>
                 • <b>Civil/Energia (${{sol3.num_repetidoras}} repetidoras):</b> ${{formatarBRL(sol3.orcamento?.custo_infra_sitios_brl)}}<br>
                 • Rota reserva usando 100% outros cumes caso haja bloqueio fundiário nos da #1.
               </div>
@@ -2414,65 +2414,81 @@ html_code = f"""<!DOCTYPE html>
             </table>
           </div>
 
-          <h4 style="color:#cbd5e1; margin-top:6px; font-size:0.9rem;">🔀 Diagrama Lógico da Rede (Solução #1 — Fluxo do Seridó até Natal)</h4>
+          <h4 style="color:#cbd5e1; margin-top:6px; font-size:0.9rem;">🔀 Diagrama Lógico da Rede (Solução #1 — Fluxo do Seridó até Natal com Acesso Viário)</h4>
           <div class="diagram-box">
-            <svg viewBox="0 0 1160 250" width="100%" height="230" style="min-width:940px;">
+            <svg viewBox="0 0 1180 260" width="100%" height="240" style="min-width:940px;">
               <defs>
                 <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
                   <path d="M 0 1 L 10 5 L 0 9 z" fill="#00ff55" />
                 </marker>
               </defs>
               <!-- Linhas lógicas -->
-              <line x1="160" y1="45" x2="280" y2="112" stroke="#00ff55" stroke-width="2.5" marker-end="url(#arrow)" />
-              <line x1="160" y1="125" x2="280" y2="125" stroke="#00ff55" stroke-width="2.5" marker-end="url(#arrow)" />
-              <line x1="160" y1="205" x2="280" y2="138" stroke="#00ff55" stroke-width="2.5" marker-end="url(#arrow)" />
-              <line x1="426" y1="125" x2="498" y2="125" stroke="#00ff55" stroke-width="3" marker-end="url(#arrow)" />
-              <line x1="650" y1="125" x2="720" y2="125" stroke="#00ff55" stroke-width="3" marker-end="url(#arrow)" />
-              <line x1="844" y1="125" x2="895" y2="125" stroke="#00ff55" stroke-width="3" marker-end="url(#arrow)" />
-              <!-- Nós -->
-              <rect x="12" y="22" width="148" height="46" rx="8" fill="#172033" stroke="#00e5ff" />
-              <text x="86" y="42" fill="#fff" font-size="11" font-weight="bold" text-anchor="middle">Caicó (5 ERBs)</text>
-              <text x="86" y="57" fill="#7dd3fc" font-size="9.5" text-anchor="middle">53,8 km • 11FX • Torre 35m</text>
+              <line x1="164" y1="52" x2="298" y2="112" stroke="#00ff55" stroke-width="2.4" marker-end="url(#arrow)" />
+              <line x1="164" y1="125" x2="298" y2="125" stroke="#00ff55" stroke-width="2.4" marker-end="url(#arrow)" />
+              <line x1="164" y1="216" x2="164" y2="216" stroke="#00ff55" stroke-width="2" />
+              <line x1="164" y1="218" x2="220" y2="218" stroke="#00ff55" stroke-width="2.4" marker-end="url(#arrow)" />
+              <line x1="378" y1="192" x2="378" y2="156" stroke="#00ff55" stroke-width="2.4" marker-end="url(#arrow)" />
+              <line x1="454" y1="125" x2="508" y2="125" stroke="#00ff55" stroke-width="3" marker-end="url(#arrow)" />
+              <line x1="654" y1="125" x2="716" y2="125" stroke="#00ff55" stroke-width="3" marker-end="url(#arrow)" />
+              <line x1="848" y1="125" x2="906" y2="125" stroke="#00ff55" stroke-width="3" marker-end="url(#arrow)" />
+              <line x1="1030" y1="125" x2="1086" y2="84" stroke="#00ff55" stroke-width="2.6" marker-end="url(#arrow)" />
+              <line x1="1125" y1="90" x2="1125" y2="162" stroke="#00ff55" stroke-width="2.6" marker-end="url(#arrow)" />
 
-              <rect x="12" y="102" width="148" height="46" rx="8" fill="#172033" stroke="#00e5ff" />
-              <text x="86" y="122" fill="#fff" font-size="11" font-weight="bold" text-anchor="middle">Jardim do Seridó</text>
-              <text x="86" y="137" fill="#7dd3fc" font-size="9.5" text-anchor="middle">20,5 km • 11FX • Torre 40m</text>
+              <!-- Caicó -->
+              <rect x="12" y="24" width="150" height="52" rx="8" fill="#172033" stroke="#00e5ff" />
+              <text x="87" y="44" fill="#fff" font-size="11" font-weight="bold" text-anchor="middle">Caicó (5 ERBs)</text>
+              <text x="87" y="59" fill="#7dd3fc" font-size="9.5" text-anchor="middle">56,35 km • 11FX • SO 40m</text>
 
-              <rect x="12" y="182" width="148" height="46" rx="8" fill="#172033" stroke="#00e5ff" />
-              <text x="86" y="202" fill="#fff" font-size="11" font-weight="bold" text-anchor="middle">Carnaúba (Urbana)</text>
-              <text x="86" y="217" fill="#7dd3fc" font-size="9.5" text-anchor="middle">3,55 km • 5XHD • Torre 20m</text>
+              <!-- Jardim -->
+              <rect x="12" y="99" width="150" height="52" rx="8" fill="#172033" stroke="#00e5ff" />
+              <text x="87" y="119" fill="#fff" font-size="11" font-weight="bold" text-anchor="middle">Jardim do Seridó</text>
+              <text x="87" y="134" fill="#7dd3fc" font-size="9.5" text-anchor="middle">28,72 km • 11FX • Torre 30m</text>
 
-              <rect x="282" y="96" width="144" height="58" rx="8" fill="#122b22" stroke="#00ff55" stroke-width="2" />
-              <text x="354" y="117" fill="#00ff55" font-size="11" font-weight="bold" text-anchor="middle">Rep. Cume 69 (Pico)</text>
-              <text x="354" y="132" fill="#cbd5e1" font-size="9.5" text-anchor="middle">666 m • Torre 20m</text>
-              <text x="354" y="145" fill="#94a3b8" font-size="9" text-anchor="middle">31,4 km • 11FX → CCC</text>
+              <!-- Carnaúba -->
+              <rect x="12" y="192" width="150" height="52" rx="8" fill="#172033" stroke="#00e5ff" />
+              <text x="87" y="212" fill="#fff" font-size="11" font-weight="bold" text-anchor="middle">Carnaúba (Urbana)</text>
+              <text x="87" y="227" fill="#7dd3fc" font-size="9.5" text-anchor="middle">4,93 km • 5XHD • Torre 25m</text>
 
-              <rect x="500" y="96" width="150" height="58" rx="8" fill="#331520" stroke="#ff1744" stroke-width="2" />
-              <text x="575" y="117" fill="#fff" font-size="11" font-weight="bold" text-anchor="middle">CCC Currais Novos</text>
-              <text x="575" y="132" fill="#fda4af" font-size="9.5" text-anchor="middle">3 ERBs • 45 / 30 / 30m</text>
-              <text x="575" y="145" fill="#cbd5e1" font-size="9" text-anchor="middle">35,3 km → Cume 28</text>
+              <!-- Rep Carnaúba -->
+              <rect x="222" y="192" width="176" height="52" rx="8" fill="#122b22" stroke="#00ff55" stroke-width="2" />
+              <text x="310" y="212" fill="#00ff55" font-size="10.2" font-weight="bold" text-anchor="middle">Rep. Carnaúba (Rua)</text>
+              <text x="310" y="227" fill="#cbd5e1" font-size="9.2" text-anchor="middle">649 m • 50m | 14,63 km → Acari</text>
 
-              <rect x="722" y="96" width="122" height="58" rx="8" fill="#122b22" stroke="#00ff55" stroke-width="2" />
-              <text x="783" y="117" fill="#00ff55" font-size="11" font-weight="bold" text-anchor="middle">Rep. Cume 28</text>
-              <text x="783" y="132" fill="#cbd5e1" font-size="9.5" text-anchor="middle">681 m • Torre 25m</text>
-              <text x="783" y="145" fill="#94a3b8" font-size="9" text-anchor="middle">22,5 km → Sta Cruz</text>
+              <!-- Rep Acari -->
+              <rect x="300" y="96" width="152" height="58" rx="8" fill="#122b22" stroke="#00ff55" stroke-width="2" />
+              <text x="376" y="116" fill="#00ff55" font-size="10.5" font-weight="bold" text-anchor="middle">Rep. Acari (Rodovia)</text>
+              <text x="376" y="131" fill="#cbd5e1" font-size="9.5" text-anchor="middle">689 m • Torre 20m</text>
+              <text x="376" y="144" fill="#94a3b8" font-size="8.8" text-anchor="middle">18,30 km • 11FX → CCC</text>
 
-              <rect x="897" y="96" width="118" height="58" rx="8" fill="#172033" stroke="#00e5ff" />
-              <text x="956" y="117" fill="#fff" font-size="11" font-weight="bold" text-anchor="middle">Santa Cruz</text>
-              <text x="956" y="132" fill="#7dd3fc" font-size="9.5" text-anchor="middle">3 ERBs • 50 / 30 / 25m</text>
-              <text x="956" y="145" fill="#94a3b8" font-size="9" text-anchor="middle">19,8 km → Cume 45</text>
+              <!-- CCC Currais Novos -->
+              <rect x="510" y="96" width="144" height="58" rx="8" fill="#331520" stroke="#ff1744" stroke-width="2" />
+              <text x="582" y="116" fill="#fff" font-size="10.5" font-weight="bold" text-anchor="middle">CCC Currais Novos</text>
+              <text x="582" y="131" fill="#fda4af" font-size="9.5" text-anchor="middle">3 ERBs • 50 / 30 / 30m</text>
+              <text x="582" y="144" fill="#cbd5e1" font-size="8.8" text-anchor="middle">35,30 km → Cume 28</text>
 
-              <rect x="1050" y="34" width="98" height="54" rx="8" fill="#122b22" stroke="#00ff55" stroke-width="2" />
-              <text x="1099" y="54" fill="#00ff55" font-size="10.5" font-weight="bold" text-anchor="middle">Rep. Cume 45</text>
-              <text x="1099" y="68" fill="#cbd5e1" font-size="9" text-anchor="middle">402 m • 30m</text>
-              <text x="1099" y="80" fill="#94a3b8" font-size="8.5" text-anchor="middle">1 salto → NTL</text>
+              <!-- Rep Cume 28 -->
+              <rect x="718" y="96" width="130" height="58" rx="8" fill="#122b22" stroke="#00ff55" stroke-width="2" />
+              <text x="783" y="116" fill="#00ff55" font-size="10.5" font-weight="bold" text-anchor="middle">Rep. Cume 28</text>
+              <text x="783" y="131" fill="#cbd5e1" font-size="9.2" text-anchor="middle">678 m • Serra Verde • 30m</text>
+              <text x="783" y="144" fill="#94a3b8" font-size="8.8" text-anchor="middle">22,52 km → Sta Cruz</text>
 
-              <rect x="1050" y="166" width="98" height="54" rx="8" fill="#331520" stroke="#ff1744" stroke-width="2" />
-              <text x="1099" y="186" fill="#fff" font-size="10.5" font-weight="bold" text-anchor="middle">CCC Natal</text>
-              <text x="1099" y="200" fill="#fda4af" font-size="9" text-anchor="middle">77,0 km • 5XHD</text>
-              <text x="1099" y="212" fill="#cbd5e1" font-size="8.5" text-anchor="middle">Torre 20m</text>
-              <line x1="1099" y1="88" x2="1099" y2="164" stroke="#00ff55" stroke-width="2.5" marker-end="url(#arrow)" />
-              <line x1="956" y1="96" x2="1050" y2="61" stroke="#00ff55" stroke-width="2.5" marker-end="url(#arrow)" />
+              <!-- Santa Cruz -->
+              <rect x="908" y="96" width="122" height="58" rx="8" fill="#172033" stroke="#00e5ff" />
+              <text x="969" y="116" fill="#fff" font-size="11" font-weight="bold" text-anchor="middle">Santa Cruz</text>
+              <text x="969" y="131" fill="#7dd3fc" font-size="9.2" text-anchor="middle">3 ERBs • 30 / 30 / 25m</text>
+              <text x="969" y="144" fill="#94a3b8" font-size="8.8" text-anchor="middle">18,30 km → Tapuia</text>
+
+              <!-- Rep Tapuia -->
+              <rect x="1044" y="30" width="130" height="58" rx="8" fill="#122b22" stroke="#00ff55" stroke-width="2" />
+              <text x="1109" y="50" fill="#00ff55" font-size="10.2" font-weight="bold" text-anchor="middle">Rep. Tapuia (Vicinal)</text>
+              <text x="1109" y="65" fill="#cbd5e1" font-size="9.2" text-anchor="middle">381 m • Torre 80m</text>
+              <text x="1109" y="78" fill="#94a3b8" font-size="8.8" text-anchor="middle">1 salto → Natal</text>
+
+              <!-- CCC Natal -->
+              <rect x="1044" y="164" width="130" height="58" rx="8" fill="#331520" stroke="#ff1744" stroke-width="2" />
+              <text x="1109" y="184" fill="#fff" font-size="11" font-weight="bold" text-anchor="middle">CCC Natal</text>
+              <text x="1109" y="199" fill="#fda4af" font-size="9.5" text-anchor="middle">85,49 km • 5XHD</text>
+              <text x="1109" y="212" fill="#cbd5e1" font-size="9" text-anchor="middle">Torre 60m</text>
             </svg>
           </div>
         </div>
